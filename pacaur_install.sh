@@ -1,16 +1,5 @@
 #!/bin/sh
 
-# If you are new to arch, I encourage you to at least read and understand what
-# this script does befor blindley running it.
-# That's why I didn't make a one-liner out of it so you have an easier time
-# reading and understanding it :)
-#
-# This scripts purpose is purly to save you a few seconds on your new installation.
-#
-# Enjoy your time on an awesome system. Arch FTW!
-
-# Run the following from a terminal to install pacaur:
-# $ curl -s https://gist.githubusercontent.com/Tadly/0e65d30f279a34c33e9b/raw/pacaur_install.sh | bash
 
 # Make sure our shiny new arch is up-to-date
 echo "Checking for system updates..."
