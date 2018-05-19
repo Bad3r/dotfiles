@@ -35,3 +35,7 @@ colors() {
 
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
+# Ruby exports
+
+export GEM_Home=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
