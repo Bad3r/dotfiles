@@ -20,8 +20,7 @@ antigen update
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle https://github.com/zsh-users/zsh-autosuggestions --branch=master
 antigen bundle djui/alias-tips
-antigen bundle https://github.com/oldratlee/hacker-quotes.git --branch=master
-antigen bundle joel-porquet/zsh-dircolors-solarized.git
+#antigen bundle joel-porquet/zsh-dircolors-solarized.git
 antigen apply
 #----------------------------- 
 # Variables
@@ -50,6 +49,11 @@ alias i3conf="$EDITOR ~/.i3/config"
 alias pyh="cd ~/Dropbox/CS1-python/HomeWork/"
 alias pyl="cd ~/Dropbox/CS1-python/Labs/"
 alias ghc="ghc -dynamic"
+alias csdw="rsync -razhv --delete-after rit:~/Courses/ ~/Dropbox/RIT/Courses"
+alias csup="rsync -razhv --delete-after  ~/Dropbox/RIT/Courses/ rit:~/Courses/"
+alias cs="cd ~/Dropbox/RIT/Courses/CS243"
+alias gccrit="gcc -ggdb -std=c99 -Wall -Wextra -pedantic -c"
+alias wifi="nmcli dev wifi" 
 #------------------------------
 #color man pages             
 #------------------------------
