@@ -41,8 +41,8 @@ alias spm="sudo pacman"
 alias ls="ls --color=auto -Fa"
 alias ll="ls --color=auto -lhaF"
 alias zshrc="$EDITOR ~/.zshrc"
-alias xresources= "nvim ~/.Xresources"
-alias vi'=vim' # quick opening files with vim
+alias xresources= "$EDITOR ~/.Xresources"
+alias vi="$EDITOR" # quick opening files with vim
 alias fetch="neofetch"
 alias colors="~/dotfiles/colors.sh"
 alias i3conf="$EDITOR ~/.i3/config"
@@ -60,7 +60,9 @@ alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias grep="grep --color=always"
 alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
-
+# terminal hex editor
+alias hex="hyx"
+alias gita="pacman -Qm > ~/dotfiles/packmanlist.txt && git add ."
 #------------------------------
 #color man pages             
 #------------------------------
