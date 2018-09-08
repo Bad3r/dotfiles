@@ -38,13 +38,13 @@ fpath=( "$HOME/.zfunctions" $fpath )
 # Alias stuff
 #------------------------------
 alias spm="sudo pacman"
-alias ls="ls --color -Fa"
-alias ll="ls --color -lha"
+alias ls="ls --color=auto -Fa"
+alias ll="ls --color=auto -lhaF"
 alias zshrc="$EDITOR ~/.zshrc"
 alias xresources= "nvim ~/.Xresources"
 alias vi'=vim' # quick opening files with vim
 alias fetch="neofetch"
-alias colors="./colors.sh"
+alias colors="~/dotfiles/colors.sh"
 alias i3conf="$EDITOR ~/.i3/config"
 alias pyh="cd ~/Dropbox/CS1-python/HomeWork/"
 alias pyl="cd ~/Dropbox/CS1-python/Labs/"
@@ -53,7 +53,14 @@ alias csdw="rsync -razhv --delete-after rit:~/Courses/ ~/Dropbox/RIT/Courses"
 alias csup="rsync -razhv --delete-after  ~/Dropbox/RIT/Courses/ rit:~/Courses/"
 alias cs="cd ~/Dropbox/RIT/Courses/CS243"
 alias gccrit="gcc -ggdb -std=c99 -Wall -Wextra -pedantic -c"
-alias wifi="nmcli dev wifi" 
+alias wifi="nmcli dev wifi"
+# upload files to netcat-based command line pastebin.
+alias tb="nc termbin.com 9999"
+alias dir="dir --color=auto"
+alias vdir="vdir --color=auto"
+alias grep="grep --color=always"
+alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
+
 #------------------------------
 #color man pages             
 #------------------------------
