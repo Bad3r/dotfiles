@@ -27,6 +27,8 @@ antigen apply
 #------------------------------
 export BROWSER="firefox"
 export EDITOR="vim"
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 bindkey -e # for emacs
 fpath=( "$HOME/.zfunctions" $fpath )
 
@@ -63,6 +65,8 @@ alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && 
 # terminal hex editor
 alias hex="hyx"
 alias gita="pacman -Qm > ~/dotfiles/packmanlist.txt && git add ."
+
+
 #------------------------------
 #color man pages             
 #------------------------------
