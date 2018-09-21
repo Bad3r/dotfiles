@@ -6,6 +6,7 @@ ln -sf ~/dotfiles/.Xresources ~/.Xresources
 
 ln -sf  ~/dotfiles/.config/i3/compton.conf ~/.config/i3/compton.conf
 ln -sf  ~/dotfiles/.config/i3/config ~/.config/i3/config
+ln -sf  ~/dotfiles/.config/i3/config ~/.config/i3/lock.sh
 
 ln -sf  ~/dotfiles/.config/polybar/config ~/.config/polybar/config
 ln -sf  ~/dotfiles/.config/polybar/launch.sh ~/.config/polybar/launch.sh

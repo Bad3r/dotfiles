@@ -212,3 +212,10 @@ mode "$mode_system" {
 
 bindsym $mod+Alt_R mode "$mode_system"
 
+# using xss-lock to auto lock the system on lid close
+exec --no-startup-id xss-lock -- ~/.config/i3/lock.sh
+
+
+# lock screen using DPMS to disable the screen triggering xss-lock
+bindsym ctrl+$mod+l exec --no-startup-id sleep 1 && xset dpms force suspend
+
