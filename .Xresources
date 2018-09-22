@@ -1,6 +1,6 @@
 *.font: xft:Overpass Mono:size=14
 
-Xft.dpi:                        110
+Xft.dpi:                        120
 Xft.antialias:                  1
 Xft.autohint:                   0
 Xft.hinting:                    1

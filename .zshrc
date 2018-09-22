@@ -11,7 +11,7 @@ autoload -Uz compinit
 compinit
 
 #------------------------------
-#antigen             
+#antigen
 #------------------------------
 # antigen bundle github-user/repo --branch=develop
 source /usr/share/zsh/share/antigen.zsh
@@ -27,7 +27,10 @@ antigen apply
 #------------------------------
 export BROWSER="firefox"
 export EDITOR="vim"
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=1.5
+export GDK_SCALE=1.5
+export GDK_DPI_SCALE=1.5
+export ELM_SCALE=1.5
 
 bindkey -e # for emacs
 fpath=( "$HOME/.zfunctions" $fpath )
