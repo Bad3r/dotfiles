@@ -58,56 +58,7 @@ export ELM_SCALE=1.5			# Change elements scaling, default = 1.
 bindkey -v				# Tells the shell to understand vi commands.
 
 
-# Aliases :
-
-alias spm="sudo pacman"
-alias ls="ls --color=auto -Fa"
-alias ll="ls --color=auto -lhaF"
-alias zshrc="$EDITOR ~/.zshrc"
-alias xresources= "$EDITOR ~/.Xresources"
-alias vi="$EDITOR" # quick opening files with vim
-alias fetch="neofetch"
-alias colors="~/dotfiles/colors.sh"
-alias i3conf="$EDITOR ~/.i3/config"
-alias pyh="cd ~/Dropbox/CS1-python/HomeWork/"
-alias pyl="cd ~/Dropbox/CS1-python/Labs/"
-alias ghc="ghc -dynamic"
-alias csdw="rsync -razhv --delete-after rit:~/Courses/ ~/Dropbox/RIT/Courses"
-alias csup="rsync -razhv --delete-after  ~/Dropbox/RIT/Courses/ rit:~/Courses/"
-alias cs="cd ~/Dropbox/RIT/Courses/CS243"
-alias gccrit="gcc -ggdb -std=c99 -Wall -Wextra -pedantic -c"
-alias wifi="nmcli dev wifi"
-# upload files to netcat-based command line pastebin.
-alias tb="nc termbin.com 9999"
-alias dir="dir --color=auto"
-alias vdir="vdir --color=auto"
-alias grep="grep --color=always"
-alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
-# terminal hex editor
-alias hex="hyx"
-alias gita="pacman -Qm > ~/dotfiles/packmanlist.txt && git add ."
-alias cp="cp -i"
-alias mv="mv -i"
-
-
 # Color man pages :
-if [[ "$OSTYPE" = solaris* ]]
-then
-	if [[ ! -x "$HOME/bin/nroff" ]]
-	then
-		mkdir -p "$HOME/bin"
-		cat > "$HOME/bin/nroff" <<EOF
-#!/bin/sh
-if [ -n "\$_NROFF_U" -a "\$1,\$2,\$3" = "-u0,-Tlp,-man" ]; then
-	shift
-	exec /usr/bin/nroff -u\$_NROFF_U "\$@"
-fi
-#-- Some other invocation of nroff
-exec /usr/bin/nroff "\$@"
-EOF
-		chmod +x "$HOME/bin/nroff"
-	fi
-fi
 
 man() {
 	env \
@@ -124,3 +75,8 @@ man() {
 			man "$@"
 }
 
+# Source files :
+
+if [ -f $HOME/.alias.zsh ]; then
+	source $HOME/.alias.zsh
+fi
