@@ -6,7 +6,8 @@ ln -sf ~/dotfiles/.bashrc ~/.bashrc
 
 # zsh config
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
-ln -sf $DOTFILES/.alias.zsh $HOME/
+ln -sf $DOTFILES/bin/alias.zsh $HOME/bin/
+ln -sf $DOTFILES/bin/antigen.zsh $HOME/bin/
 
 # Xresources config
 ln -sf ~/dotfiles/.Xresources ~/.Xresources
