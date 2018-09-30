@@ -38,10 +38,10 @@ compinit
 export BROWSER="firefox"		# Set Firefox as default browser.
 export EDITOR="vim"			# Set Vim as default editor.
 export DOTFILES="$HOME/dotfiles"	# Git repo for my dotfiles.
-export QT_AUTO_SCREEN_SCALE_FACTOR=1.5	# Change QT apps scaling, default = 1.
-export GDK_SCALE=1.5			# Change GTK apps scaling, default = 1.
-export GDK_DPI_SCALE=1.5		# Change GTK apps DPI scaling, default = 1.
-export ELM_SCALE=1.5			# Change elements scaling, default = 1.
+export QT_AUTO_SCREEN_SCALE_FACTOR=2	# Change QT apps scaling, default = 1.
+export GDK_SCALE=2			# Change GTK apps scaling, default = 1.
+export GDK_DPI_SCALE=2			# Change GTK apps DPI scaling, default = 1.
+export ELM_SCALE=2			# Change elements scaling, default = 1.
 bindkey -v				# Tells the shell to understand vi commands.
 
 
@@ -63,6 +63,7 @@ man() {
 }
 
 # Source files :
+
 
 if [ -f $HOME/bin/alias.zsh ]; then
 	source $HOME/bin/alias.zsh
