@@ -43,3 +43,11 @@ ln -sf ~/dontfiles/.gtkrc-2.0 ~/.gtkrc-2.0
 # set color scheme using pywal
 ln -sf ~/dotfiles/Pictures/Wal/bg1.jpg ~/Pictures/Wal/bg1.jpg
 wal -i ~/Pictures/Wal/bg1.jpg
+
+# vim and  nvim config and plugins
+ln -sf ~/dontfiles/.vim ~/.vim
+ln -sf ~/dontfiles/.vimrc ~/.vimrc
+ln -sf ~/dontfiles/.config/nvim ~/.config/nvim
+
+
+

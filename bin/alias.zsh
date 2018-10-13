@@ -11,7 +11,9 @@ alias spm="sudo pacman"
 alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
 alias wifi="nmcli dev wifi"
 alias gita="pacman -Qm > ~/dotfiles/packmanlist.txt && git add ."
-
+alias mnt="udiskie-mount -a" # auto mount external drives using udiskie.
+alias todo="todolist"
+alias todol="todolist list"
 
 # Change defaults :
 
