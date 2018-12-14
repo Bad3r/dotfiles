@@ -23,11 +23,12 @@ alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias grep="grep --color=always"
 alias vi="$EDITOR"
+alias vo="urxvt -b 0 -e nvim &"
 alias ghc="ghc -dynamic"
 alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
 alias cp="cp -i"
 alias mv="mv -i"
-
+alias yeet="curl parrot.live"
 
 # Fast access to files and scripts :
 
