@@ -3,6 +3,8 @@
 
 # bash config
 ln -sf ~/dotfiles/.bashrc ~/.bashrc
+ln -sf ~/dotfiles/.bash_profile ~/.bash_profile
+ln -sf ~/dotfiles/.bash_logout ~/.bash_logout
 
 # zsh config
 ln -sf ~/dotfiles/.zshrc ~/.zshrc

@@ -1,0 +1,1 @@
+/home/bd3r/.space-vim/init.vim

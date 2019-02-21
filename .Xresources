@@ -1,4 +1,11 @@
-*.font: xft:Overpass Mono:size=14
+
+! General
+URxvt.font:                         xft:Overpass Mono:size=14
+*.saveLines:                    8192
+*.scrollBar:                    false
+*.cursorUnderline:              true
+*.cursorBlink:                  true
+*.dynamicColors:                on
 
 Xft.dpi:                        120
 Xft.antialias:                  1
@@ -8,6 +15,7 @@ Xft.hintstyle:                  hintslight
 Xft.lcdfilter:                  lcdlight
 Xft.rgba:                       rgb
 
+! URXVT
 URxvt*termName:                 rxvt-256color
 URxvt.depth:                    32
 URxvt*lineSpace:                1
@@ -15,9 +23,8 @@ URxvt.letterSpace:              -1
 URxvt.iso14755:                 false
 URxvt.iso14755_52:              false
 URxvt*geometry:                 65x17
-URxvt.scrollBar:                false
 URxvt*loginShell:               true
 URxvt.internalBorder:           25
-URxvt.perl-ext:	 		default,matcher
+URxvt.perl-ext:	                default,matcher
 URxvt.url-launcher:             firefox
-URxvt.matcher.button: 		1
+URxvt.matcher.button: 		    1

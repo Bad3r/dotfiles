@@ -39,3 +39,9 @@ colors() {
 
 export GEM_Home=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
+
+
+# Auto start dropbox
+ps ax | grep -q 'dropbox[d]' || ~/.dropbox-dist/dropboxd
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
