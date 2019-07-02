@@ -1,22 +1,41 @@
-# Filename: .zshrc
-# Description:
-# 		my persoal zshell configurations
+#!/bin/zsh
 
+# catch non-zsh and non-interactive shells
+[[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
 # History :
 
 HISTFILE=$HOME/.zsh_history    	# Where to store zsh commands.
-HISTSIZE=1024		            # Large history list.
-SAVEHIST=1024			        # Large history list.
-setopt append_history			# Append.
-setopt inc_append_history		# Write to history file immediately.
-setopt hist_ignore_all_dups		# Ignore duplicates.
-unsetopt hist_ignore_space		# Ignore space prefixed commands.
-setopt hist_reduce_blanks		# Trim blanks.
-setopt hist_verify			    # Show command with history expansion.
-setopt share_history			# Share history between sessions.
-setopt bang_hist			    # !keyword.
+HISTSIZE=1024		                # Large history list.
+SAVEHIST=1024			              # Large history list.
+setopt append_history		       	# Append.
+setopt inc_append_history	     	# Write to history file immediately.
+setopt hist_ignore_all_dups	  	# Ignore duplicates.
+unsetopt hist_ignore_space	  	# Ignore space prefixed commands.
+setopt hist_reduce_blanks		    # Trim blanks.
+setopt hist_verify			        # Show command with history expansion.
+setopt share_history		      	# Share history between sessions.
+setopt bang_hist			          # !keyword.
 
+# set some defaults
+export MANWIDTH=90
+
+# path to the framework root directory
+SIMPL_ZSH_DIR=$HOME/.zsh
+
+# add ~/bin to the path if not already, the -U flag means 'unique'
+typeset -U path=($HOME/bin "${path[@]:#}")
+
+# used internally by zsh for loading themes and completions
+typeset -U fpath=("$SIMPL_ZSH_DIR/"{completion,themes} $fpath)
+
+# initialize the prompt
+autoload -U promptinit && promptinit
+
+# source shell configuration files
+for f in "$SIMPL_ZSH_DIR"/{settings,plugins}/*?.zsh; do
+    . "$f" 2>/dev/null
+done
 
 # Miscellaneous :
 
@@ -26,41 +45,13 @@ setopt chase_links			    # Resolve symbolic links.
 setopt noclobber			    # Prevents accidantally overwriting a file. !<
 setopt correct				    # Try to correct spelling of commands.
 
-
-# Completion :
-
-autoload -Uz compinit
-compinit
-
-
 # Variables
 
 export BROWSER="firefox"		        # Set Firefox as default browser.
 export EDITOR="nvim"			        # Set NeoVim as default editor.
 export DOTFILES="$HOME/dotfiles"	    # Git repo for my dotfiles.
-export QT_AUTO_SCREEN_SCALE_FACTOR=2	# Change QT apps scaling, default = 1.
-export GDK_SCALE=2			            # Change GTK apps scaling, default = 1.
-export GDK_DPI_SCALE=2			        # Change GTK apps DPI scaling, default = 1.
-export ELM_SCALE=2			            # Change elements scaling, default = 1.
 bindkey -v				                # Tells the shell to understand vi commands.
 
-
-# Color man pages :
-
-man() {
-	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-		LESS_TERMCAP_md=$(printf "\e[1;35m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[4;36m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[3;34m") \
-		PAGER="${commands[less]:-$PAGER}" \
-		_NROFF_U=1 \
-		PATH="$HOME/bin:$PATH" \
-			man "$@"
-}
 
 # Source files :
 
@@ -69,14 +60,29 @@ if [ -f $HOME/bin/alias.zsh ]; then
 	source $HOME/bin/alias.zsh
 fi
 
-if [ -f $HOME/bin/antigen.zsh ]; then
-	source $HOME/bin/antigen.zsh
-fi
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Ruby exports
 
 export GEM_HOME=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
+
+
+
+# uncomment these lines to disable the multi-line prompt
+# add user@host, and remove the unicode line-wrap characters
+
+# PROMPT_LNBR1=''
+# PROMPT_MULTILINE=''
+# PROMPT_USERFMT='%n%f@%F{red}%m'
+# PROMPT_ECODE="%(?,,%F{red}%? )"
+
+# load the prompt last
+fpath=("$HOME/dotfiles/.zfunctions" $fpath)
+autoload -U promptinit; promptinit
+prompt pure
+
+# system info and AL ascii art
+fetch
+
+# added by travis gem
+[ -f /home/bdr/.travis/travis.sh ] && source /home/bdr/.travis/travis.sh

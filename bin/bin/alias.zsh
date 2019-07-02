@@ -29,8 +29,9 @@ alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
 alias cp="cp -i"
 alias mv="mv -i"
 alias yeet="curl parrot.live"
-alias tod="todoist --force-device-scale-factor=1.5"
-
+alias todoist="todoist --force-device-scale-factor=1.5  </dev/null &>/dev/null &; disown && exit"
+alias boostnote="boostnote --force-device-scale-factor=1.5  </dev/null &>/dev/null &; disown && exit"
+alias code="code --force-device-scale-factor=1.25"
 # Fast access to files and scripts :
 
 alias zshrc="$EDITOR ~/.zshrc"
@@ -47,7 +48,7 @@ alias cs="cd ~/Dropbox/RIT/Courses/CS243"
 alias tb="nc termbin.com 9999"			# Upload files to netcat-based pastebin. 
 alias hex="hyx"					# CLI hex editor
 alias fetch="neofetch"				# Show system information.
-
+alias mouse="xinput disable 11 && xinput enable 11"
 
 # Git :
 
@@ -72,6 +73,6 @@ alias gs='git status'
 alias gsh='git show'
 alias gsroot='cd $(git rev-parse --show-superproject-working-tree)'
 alias gst='git stash'
-
+alias grv="grv"
 
 

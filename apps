@@ -1,0 +1,7 @@
+ghostwriter
+vcode
+etcher
+raven (RSS reader)
+rambox
+
+└> % yay -Syu aur/raven-reader-bin aur/electron-windows95-bin aur/simplenote-electron-bin aur/rambox-bin
