@@ -4,6 +4,8 @@
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
+autoload -Uz compinit && compinit
+
 # History :
 
 HISTFILE=$HOME/.zsh_history    	            # Where to store zsh commands.
@@ -39,7 +41,6 @@ bindkey -v				                    # Tells the shell to understand vi commands.
 typeset -U path=($HOME/bin "${path[@]:#}")  # add ~/bin to pah
 
 
-autoload -Uz compinit && compinit
 
 # Source Files
 
@@ -53,8 +54,21 @@ if [ -f $ZSH_DIR/functions.zsh ]; then
 	source $ZSH_DIR/functions.zsh
 fi
 
+# check if antibody is installed
+if (( $+commands[antibody] )); then
+    source <(antibody init)
+	antibody bundle < $ZSH_DIR/plugins.zsh
+fi
+
+
+# Pure prompt
+fpath+=$ZSH_DIR/pure
+autoload -U promptinit; promptinit
+prompt pure
+
 
 # Ruby exports
 
 export GEM_HOME=$HOME/gems
 export PATH=$HOME/gems/bin:$PATH
+
