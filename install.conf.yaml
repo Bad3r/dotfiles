@@ -16,18 +16,9 @@
         create: false
         relink: false
         force: false
-    ~/.config/zsh/aliases.zsh:
-        path: zsh/aliases.zsh
-        create: true
-        relink: false
-        force: false
-    ~/.config/zsh/functions.zsh:
-        path: zsh/functions.zsh
-        create: true
-        relink: false
-        force: false
-    ~/.config/zsh/plugins.zsh:
-        path: zsh/plugins.zsh
+    ~/.config/zsh/:
+        glob: true
+        path: zsh/*
         create: true
         relink: false
         force: false
