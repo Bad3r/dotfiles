@@ -24,9 +24,9 @@ setopt bang_hist                            # !keyword.
 
 export BROWSER="firefox"		            # Set Firefox as default browser
 export EDITOR="nvim"			            # Set NeoVim as default editor
-export DOTFILES="$HOME/dotfiles"	        # Git repo for my dotfiles
+export DOTFILES="$HOME/.dotfiles"	        # Git repo for my dotfiles
 export MANWIDTH=90
-ZSH_DIR=$HOME/.config/zsh
+ZSH_DIR=$DOTFILES/zsh
 
 # Miscellaneous :
 
