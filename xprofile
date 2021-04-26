@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# sourced at boot by ~/.xinitrc and most display managers
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$HOME/.local/bin:$PATH"
+
+#nm-applet &
+#volumeicon &
+#xfce4-power-manager &
+#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+#gnome-keyring-daemon --start --components=pkcs11 &
+# xset dpms 600 900 1200
+# xset r rate 350 60
+
+[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"

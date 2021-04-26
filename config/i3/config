@@ -42,6 +42,7 @@
 #                       - Telegram                                            #
 #                       - Signal                                              #
 #                       - Scot                                                #
+#                          - $HOME/scripts/scot.sh                            #
 #                       - i3lock-fancy                                        #
 #                       - pm-utils                                            #
 #                                                                             #
@@ -405,6 +406,7 @@ bindsym        $mod+shift+p exec --no-startup-id "sh -c '$HOME/scripts/scot.sh'"
 #                                                                             #
 # exec           --no-startup-id   xfsettingsd
 # exec           --no-startup-id   xfce4-power-manager
+exec           --no-startup-id   "sh -c '$HOME/scripts/fehbg.sh'"
 #                                                                             #
 # ------------------------------ run on reload ------------------------------ #
 #                                                                             #

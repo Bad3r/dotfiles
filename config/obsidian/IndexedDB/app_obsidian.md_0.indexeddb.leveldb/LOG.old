@@ -1,0 +1,6 @@
+2021/04/25-14:12:44.264 136ea5 Reusing MANIFEST /home/bdr/.config/obsidian/IndexedDB/app_obsidian.md_0.indexeddb.leveldb/MANIFEST-000001
+2021/04/25-14:12:44.264 136ea5 Recovering log #3
+2021/04/25-14:12:44.303 136ea5 Reusing old log /home/bdr/.config/obsidian/IndexedDB/app_obsidian.md_0.indexeddb.leveldb/000003.log 
+2021/04/25-14:12:44.765 136ea3 Level-0 table #5: started
+2021/04/25-14:12:44.785 136ea3 Level-0 table #5: 1232433 bytes OK
+2021/04/25-14:12:44.794 136ea3 Delete type=0 #3

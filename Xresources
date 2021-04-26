@@ -1,39 +1,22 @@
-! colors
-*.foreground:   #f2f2f4
-*.background:   #22272a
-*.cursorColor:  #f2f2f4
-
-! black
-*.color0:       #22272d
-*.color8:       #6A777E
-
-! red
-*.color1:       #ef4b4b
-*.color9:       #ef4b4b
-
-! green
-*.color2:       #2CC46E
-*.color10:      #2CC46E
-
-! yellow
-*.color3:       #ECC46F
-*.color11:      #ECC46F
-
-! blue
-*.color4:       #6f97ec
-*.color12:      #6f97ec
-
-! magenta
-*.color5:       #fa5477
-*.color13:      #fa5477
-
-! cyan
-*.color6:       #71c6ff
-*.color14:      #71c6ff
-
-! white
-*.color7:       #6A777E
-*.color15:      #f2f2f4
+! Dracula Xresources palette
+*.foreground: #F8F8F2
+*.background: #282A36
+*.color0:     #000000
+*.color8:     #4D4D4D
+*.color1:     #FF5555
+*.color9:     #FF6E67
+*.color2:     #50FA7B
+*.color10:    #5AF78E
+*.color3:     #F1FA8C
+*.color11:    #F4F99D
+*.color4:     #BD93F9
+*.color12:    #CAA9FA
+*.color5:     #FF79C6
+*.color13:    #FF92D0
+*.color6:     #8BE9FD
+*.color14:    #9AEDFE
+*.color7:     #BFBFBF
+*.color15:    #E6E6E6
 
 ! Rofi
 rofi.font: monospace 12
@@ -63,7 +46,7 @@ URxvt*saveline: 15000
 URxvt*termName: rxvt-256color
 URxvt*iso14755: false
 URxvt*depth: 32
-URxvt*background: [95]#1C2023
+! URxvt*background: [95]#1C2023
 URxvt*scrollBar: false
 URxvt*scrollBar_right: false
 URxvt*internalBorder: 0

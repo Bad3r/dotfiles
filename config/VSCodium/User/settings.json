@@ -1,0 +1,55 @@
+{
+    "sync.gist": "10976146fa48cd88e352bd8fd25e2aed",
+    "sync.autoUpload": true,
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "todo-tree.tree.showScanModeButton": false,
+    "cSpell.userWords": [
+        "Bader",
+        "Swiper",
+        "awadh",
+        "deserialization",
+        "flexbox",
+        "icmp",
+        "infile",
+        "minmax",
+        "numpy",
+        "usermod"
+    ],
+    "workbench.colorTheme": "Dracula",
+    "[dockerfile]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "explorer.confirmDelete": false,
+    "python.defaultInterpreterPath": "/usr/bin/python",
+    "python.pythonPath": "C:\\Python39\\python.exe",
+    "todo-tree.general.debug": true,
+    "explorer.confirmDragAndDrop": false,
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "editor.rulers": [72, 79],
+    "workbench.iconTheme": "helium-icon-theme",
+    "workbench.productIconTheme": "fluent-icons",
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]"
+    ],
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+    "workbench.editorAssociations": [],
+    "editor.codeLensFontFamily": "Cozette",
+    "editor.fontFamily": "'Fira Code'",
+    "editor.fontLigatures": true,
+    "cSpell.enableFiletypes": [
+        "csv"
+    ],
+    "html.format.wrapLineLength": 79,
+    "comment-divider.languagesMap": {
+        "Plain Text":   ["#", "#"]
+    },
+    "comment-divider.length": 79
+}

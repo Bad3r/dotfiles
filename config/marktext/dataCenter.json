@@ -1,0 +1,14 @@
+{
+	"imageFolderPath": "/home/bdr/.config/marktext/images/",
+	"screenshotFolderPath": "/home/bdr/.config/marktext/screenshot/",
+	"webImages": [],
+	"cloudImages": [],
+	"currentUploader": "none",
+	"imageBed": {
+		"github": {
+			"owner": "",
+			"repo": "",
+			"branch": ""
+		}
+	}
+}
