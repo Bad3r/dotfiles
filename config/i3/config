@@ -216,7 +216,7 @@ bindsym             $mod+0             workspace $ws10
 # ------------------------- Container/Window Control ------------------------ #
 # --------------------------------------------------------------------------- #
 #                                                                             #
-default_orientation     vertical
+default_orientation     horizontal
 popup_during_fullscreen smart
 #                                                                             #
 # ------------------- move focused container to workspace ------------------- #
