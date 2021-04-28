@@ -41,12 +41,14 @@
 #                       - Discord                                             #
 #                       - Telegram                                            #
 #                       - Signal                                              #
-#                       - Scot                                                #
-#                          - $HOME/scripts/scot.sh                            #
-#                       - i3lock-fancy                                        #
+#                       - i3lock-blur                                         #
 #                       - pm-utils                                            #
+#                       - Scripts:                                            #
+#                             - Scot                                          #
+#                                   - $HOME/scripts/scot.sh                   #     
+#                             - feh                                           #
+#                                   - $HOME/scripts/fehbg.sh                  #
 #                                                                             #
-
 #       ** Last Updated:                                                      #
 #                       - 04/2021                                             #
 #                                                                             #

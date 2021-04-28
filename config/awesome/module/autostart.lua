@@ -1,27 +1,28 @@
-local awful = require("awful")
-local filesystem = require("gears.filesystem")
-local naughty = require("naughty")
-local config_dir = filesystem.get_configuration_dir()
+local awful         = require("awful")
+local filesystem    = require("gears.filesystem")
+local naughty       = require("naughty")
+local config_dir    = filesystem.get_configuration_dir()
 
-local startup_apps = {
+local startup_apps  = {
     -- picom-git
-	"picom -b --experimental-backends --config " .. config_dir .. "configurations/picom.conf",
+    "picom -b --experimental-backends --config " .. config_dir ..
+        "configurations/picom.conf",
     -- redshift
-	-- "redshift -t 5700:3400 -l 26.1445:91.7362",
-	-- USB auto mount
-	"udiskie",
-	-- Keyring
---	"eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)",
-	-- display brightness
-	"xbacklight -set 40",
+    -- "redshift -t 5700:3400 -l 26.1445:91.7362",
+    -- USB auto mount
+    "udiskie",
+    -- Keyring
+    --  "eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)",
+    -- display brightness
+    -- "xbacklight -set 40",
 }
 
 
-local spawn_once = function (cmd)
-	local findme = cmd
-    local firstspace = cmd:find(" ")
+local spawn_once    = function (cmd)
+    local findme        = cmd
+    local firstspace    = cmd:find(" ")
     if firstspace then
-        findme = cmd:sub(0, firstspace - 1)
+        findme          = cmd:sub(0, firstspace - 1)
     end
     awful.spawn.easy_async_with_shell(
         string.format('pgrep -u $USER -x %s > /dev/null || (%s)', findme, cmd),
@@ -30,17 +31,17 @@ local spawn_once = function (cmd)
                 return
             end
             naughty.notification({
-                app_name = 'Startup Applications',
-                title = "Error starting application",
-                message = "Error while starting " .. cmd,
-                timeout = 10,
-                icon = config_dir .. "themes/codedark/icons/error.svg",
+                app_name    = 'Startup Applications',
+                title       = "Error starting application",
+                message     = "Error while starting " .. cmd,
+                timeout     = 10,
+                icon        = config_dir .. "themes/codedark/icons/error.svg",
             })
         end
     )
 end
 
 for _, app in ipairs(startup_apps) do
-	spawn_once(app)
+    spawn_once(app)
 end
 
