@@ -3,7 +3,7 @@ local wibox = require('wibox')
 local gears = require('gears')
 local dpi = require('beautiful').xresources.apply_dpi
 local clickable_container = require("widgets.clickable-container")
-local widget_icon_dir = "/home/devops/.configuration/awesome/themes/codedark/icons/"
+local widget_icon_dir = "/home/devops/.config/awesome/themes/codedark/icons/"
 
 local widget = wibox.widget {
 	{

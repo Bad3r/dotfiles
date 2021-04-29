@@ -16,7 +16,7 @@ local wibox                     = require("wibox")
 --                                                                           --
 local beautiful                 = require("beautiful")
 --                                                                           --
--- -------------------------- Notificatioazn library ------------------------- --
+-- -------------------------- Notification library ------------------------- --
 --                                                                           --
 local naughty                   = require("naughty")
 --                                                                           --
@@ -24,9 +24,10 @@ local naughty                   = require("naughty")
 --                                                                           --
 require("awful.hotkeys_popup.keys")
 --                                                                           --
--- ------------------------------- Set Shell ------------------------------- --
+-- ------------------------------- Set shell ------------------------------- --
 --                                                                           --
 awful.util.shell                = 'sh'
+
 
 local has_fdo, freedesktop      = pcall(require, "freedesktop")
 --                                                                           --
@@ -40,7 +41,7 @@ local has_fdo, freedesktop      = pcall(require, "freedesktop")
 -- another config (This code will only ever execute for the fallback config) --
 if awesome.startup_errors then
     naughty.notify(
-        {   preset              = naughty.configuration.presets.critical,
+        {   preset              = naughty.config.presets.critical,
             title               = "Oops, there were errors during startup!",
             text                = awesome.startup_errors})
 end
@@ -54,7 +55,7 @@ do
         if in_error then return end
         in_error                = true
         naughty.notify(
-            {   preset          = naughty.configuration.presets.critical,
+            {   preset          = naughty.config.presets.critical,
                 title           = "Oops, an error happened!",
                 text            = tostring(err)})
         in_error                = false
@@ -70,7 +71,7 @@ end
 -- --------------------------------- Theme --------------------------------- --
 --                                                                           --
 beautiful.init( 
-    gears.filesystem.get_configuration_dir() .. "/themes/default/theme.lua"
+    gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua"
 )
 --                                                                           --
 -- ------------------------------ Set Defaults ----------------------------- --
@@ -107,39 +108,39 @@ awful.layout.layouts            = {
 local function set_wallpaper(s)
     if beautiful.wallpaper then
         local wallpaper         = beautiful.wallpaper
+    -- If wallpaper is a function, call it with the screen 
         if type(wallpaper)      == "function" then
             wallpaper           = wallpaper(s)
         end
         gears.wallpaper.maximized(wallpaper, s, true)
     end
 end
-
--- ----------- Re-set wallpaper when a screen's geometry changes ----------- --
+-- Re-set wallpaper when a screen's geometry changes
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
-
+    --  Wallpaper
     set_wallpaper(s)
-    -- Create a promptbox for each screen 
+    --  Create a promptbox for each screen 
     s.mypromptbox               = awful.widget.prompt()
-    -- Create the wibox 
+    -- Create the wibox
     s.mywibox                   = awful.wibar(
         {   position            = beautiful.wibar_position,
             screen              = s,
             height              = beautiful.wibar_height})
-    -- Add widgets to the wibox 
+    -- Add widgets to the wibox
     s.mywibox:setup {
         layout                  = wibox.layout.align.horizontal,
         {
-    -- Left widgets 
+        -- Left widgets
             layout              = wibox.layout.fixed.horizontal,
             require("widgets.panel.menu"),
             require("widgets.panel.taglist")(s),
             s.mypromptbox,
         },
-    -- Middle widget
+        -- Middle widget 
         require("widgets.panel.tasklist")(s),
-    -- Right widgets 
+        -- Right widgets
         {
             layout              = wibox.layout.fixed.horizontal,
             require("widgets.panel.systray"),
@@ -178,8 +179,8 @@ root.buttons(gears.table.join(
 --                                                                           --
 -- ------------------------------ Key bindings ----------------------------- --
 --                                                                           --
-globalkeys = require("configuration.keybindings.global")
-clientkeys = require("configuration.keybindings.client")
+globalkeys = require("config.keybindings.global")
+clientkeys = require("config.keybindings.client")
 -- ---------------------- Bind all key numbers to tags --------------------- --
 for i = 1, 9 do
     globalkeys = gears.table.join(globalkeys,
@@ -259,7 +260,7 @@ root.keys(globalkeys)
 --                                                                           --
 -- --------------------------------- Rules --------------------------------- --
 --                                                                           --
-require("configuration.rules")
+require("config.rules")
 require("module.signals")
 require("widgets.exit-screen")
 require("module.notification")
