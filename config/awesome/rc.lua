@@ -69,7 +69,7 @@ end
 -- --------------------------------- Theme --------------------------------- --
 --                                                                           --
 beautiful.init( 
-    gears.filesystem.get_configuration_dir() .. "/themes/default/theme.lua"
+    gears.filesystem.get_configuration_dir() .. "themes/default/theme.lua"
 )
 --                                                                           --
 -- ------------------------------ Set Defaults ----------------------------- --
@@ -179,8 +179,8 @@ root.buttons(gears.table.join(
 --                                                                           --
 -- ------------------------------ Key bindings ----------------------------- --
 --                                                                           --
-globalkeys = require("configurations.keybindings.global")
-clientkeys = require("configurations.keybindings.client")
+globalkeys = require("config.keybindings.global")
+clientkeys = require("config.keybindings.client")
 -- ---------------------- Bind all key numbers to tags --------------------- --
 for i = 1, 9 do
     globalkeys = gears.table.join(globalkeys,
@@ -260,7 +260,7 @@ root.keys(globalkeys)
 --                                                                           --
 -- --------------------------------- Rules --------------------------------- --
 --                                                                           --
-require("configurations.rules")
+require("config.rules")
 require("module.signals")
 require("widgets.exit-screen")
 require("module.notification")

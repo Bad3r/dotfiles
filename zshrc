@@ -9,8 +9,8 @@ autoload -Uz compinit && compinit
 # History :
 
 HISTFILE=$HOME/.zsh_history    	            # Where to store zsh commands.
-HISTSIZE=1024		                        # Large history list.
-SAVEHIST=1024			                    # Large history list.
+HISTSIZE=100000		                        # Large history list.
+SAVEHIST=100000			                    # Large history list.
 setopt append_history		                # Append.
 setopt inc_append_history	                # Write to history file immediately.
 setopt hist_ignore_all_dups	  	            # Ignore duplicates.
@@ -22,12 +22,16 @@ setopt bang_hist                            # !keyword.
 
 # set some defaults
 
+# Locale
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
 # Variables
 
 export BROWSER="firefox"		            # Set Firefox as default browser
 export EDITOR="nvim"			            # Set NeoVim as default editor
 export DOTFILES="$HOME/.dotfiles"	        # Git repo for my dotfiles
-export MANWIDTH=90
+export MANWIDTH=80
 ZSH_DIR=$HOME/.config/zsh
 
 # Miscellaneous :
@@ -39,7 +43,7 @@ setopt noclobber			                # Prevents accidantally overwriting a file. !
 setopt correct				                # Try to correct spelling of commands.
 bindkey -v				                    # Tells the shell to understand vi commands.
 typeset -U path=($HOME/bin "${path[@]:#}")  # add ~/bin to pah
-
+REPORTTIME=5
 
 
 # Source Files

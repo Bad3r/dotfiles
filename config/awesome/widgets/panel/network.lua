@@ -1,4 +1,4 @@
-local setting = require("configurations.settings")
+local setting = require("config.settings")
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")

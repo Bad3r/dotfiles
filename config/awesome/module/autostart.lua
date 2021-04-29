@@ -6,7 +6,7 @@ local config_dir    = filesystem.get_configuration_dir()
 local startup_apps  = {
     -- picom-git
     "picom -b --experimental-backends --config " .. config_dir ..
-        "configurations/picom.conf",
+        "config/picom.conf",
     -- redshift
     -- "redshift -t 5700:3400 -l 26.1445:91.7362",
     -- USB auto mount
