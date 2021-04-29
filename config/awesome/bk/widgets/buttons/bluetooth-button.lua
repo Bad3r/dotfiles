@@ -3,8 +3,8 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local default_apps = require("configuration.default-apps")
-local settings = require("configuration.settings")
+local default_apps = require("config.default-apps")
+local settings = require("config.settings")
 
 local widget_icon = wibox.widget{
 	id = "icon",

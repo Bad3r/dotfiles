@@ -54,5 +54,6 @@
     "comment-divider.languagesMap": {
         "Plain Text":   ["#", "#"]
     },
-    "comment-divider.length": 79
+    "comment-divider.length": 79,
+    "editor.semanticHighlighting.enabled": true
 }

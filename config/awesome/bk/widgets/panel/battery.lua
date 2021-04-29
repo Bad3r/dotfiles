@@ -24,7 +24,7 @@ local function worker(user_args)
         naughty.notify{
             title = "Battery Widget",
             text = "Folder with icons doesn't exist: " .. path_to_icons,
-            preset = naughty.configuration.presets.critical
+            preset = naughty.config.presets.critical
         }
     end
 
