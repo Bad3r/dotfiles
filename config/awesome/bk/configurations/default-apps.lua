@@ -12,7 +12,7 @@ default_apps.network_manager    = "kitty -e nmtui"
 default_apps.filemanager        = "nautilus"
 default_apps.app_menu           = "rofi -dpi " .. screen.primary.dpi ..
                                     " -show drun -theme " .. config_dir ..
-                                    "configurations/rofi.rasi -icon-theme " ..
-                                    beautiful.icon_theme
+                                    "config/rofi.rasi"
+                                    
 
 return default_apps

@@ -3,7 +3,7 @@ local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local default_apps = require("configurations.default-apps")
+local default_apps = require("config.default-apps")
 
 
 local widget_menu = wibox.widget{

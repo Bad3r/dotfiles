@@ -1,8 +1,8 @@
 #!/bin/sh
-
 # sourced at boot by ~/.xinitrc and most display managers
 
-export XDG_CONFIG_HOME="$HOME/.config"
+
+# Include ~/.local/bin into PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 #nm-applet &
@@ -13,4 +13,14 @@ export PATH="$HOME/.local/bin:$PATH"
 # xset dpms 600 900 1200
 # xset r rate 350 60
 
-[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
+# Set defaults
+export VISUAL="nvim"
+export EDITOR="nvim"
+export BROWSER="firefox"
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export TERM="xterm-kitty"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Set Java Environment
+archlinux-java set java-15-openjdk
+export _JAVA_AWT_WM_NONREPARENTING=1

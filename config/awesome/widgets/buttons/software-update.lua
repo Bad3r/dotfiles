@@ -1,7 +1,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local create_button = require("widgets.buttons.create-button")
-local default_apps = require("configurations.default-apps")
+local default_apps = require("config.default-apps")
 
 local software_update = create_button.circle_big(beautiful.icon_update_none, nil, function ()
 	awful.spawn.with_shell(default_apps.software_updater)

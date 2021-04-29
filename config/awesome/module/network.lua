@@ -1,5 +1,5 @@
 local naughty   = require("naughty")
-local setting   = require("configurations.settings")
+local setting   = require("config.settings")
 local awful     = require("awful")
 local network   = {}
 
