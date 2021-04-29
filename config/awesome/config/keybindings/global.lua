@@ -2,7 +2,7 @@ local gears         = require("gears");
 local awful         = require("awful");
 local beautiful     = require("beautiful")
 local hotkeys_popup = require("awful.hotkeys_popup")
-local default_apps  = require("configurations.default-apps")
+local default_apps  = require("config.default-apps")
 require('awful.autofocus')
 
 --[[
