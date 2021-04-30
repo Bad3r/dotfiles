@@ -2,7 +2,7 @@ local awful = require('awful')
 local gears = require('gears')
 local beautiful = require('beautiful')
 local icons = require('theme.icons')
-local apps = require('configuration.apps')
+local apps = require('config.apps')
 
 local tags = {
     {

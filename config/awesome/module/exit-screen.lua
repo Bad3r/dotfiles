@@ -5,10 +5,10 @@ local beautiful = require('beautiful')
 local filesystem = gears.filesystem
 local dpi = beautiful.xresources.apply_dpi
 local icons = require('theme.icons')
-local apps = require('configuration.apps')
+local apps = require('config.apps')
 local clickable_container = require('widget.clickable-container')
 local config_dir = filesystem.get_configuration_dir()
-local widget_icon_dir = config_dir .. 'configuration/user-profile/'
+local widget_icon_dir = config_dir .. 'config/user-profile/'
 
 local msg_table = {
     'See you later, alligator!',

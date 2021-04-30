@@ -2,8 +2,8 @@ local awful             = require('awful')
 local gears             = require('gears')
 local ruled             = require('ruled')
 local beautiful         = require('beautiful')
-local client_keys       = require('configuration.client.keys')
-local client_buttons	= require('configuration.client.buttons')
+local client_keys       = require('config.client.keys')
+local client_buttons	= require('config.client.buttons')
 
 ruled.client.connect_signal(
     'request::rules',

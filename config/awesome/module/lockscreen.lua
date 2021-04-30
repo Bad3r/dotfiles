@@ -6,9 +6,9 @@ local beautiful = require('beautiful')
 local filesystem = gears.filesystem
 local config_dir = filesystem.get_configuration_dir()
 local dpi = beautiful.xresources.apply_dpi
-local apps = require('configuration.apps')
-local widget_icon_dir = config_dir .. 'configuration/user-profile/'
-local config = require('configuration.config')
+local apps = require('config.apps')
+local widget_icon_dir = config_dir .. 'config/user-profile/'
+local config = require('config.config')
 
 -- Add paths to package.cpath
 package.cpath = package.cpath .. ';' .. config_dir .. '/library/?.so;' .. '/usr/lib/lua-pam/?.so;'

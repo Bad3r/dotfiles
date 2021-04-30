@@ -36,7 +36,7 @@ return {
 
         screen_recorder     = {
             -- Default record dimension
-            resolution      = '1366x768',
+            resolution      = '1920x1080',
             -- X,Y coordinate
             offset          = '0,0',
             -- Enable audio by default
@@ -87,7 +87,7 @@ return {
             -- Default password if there's no PAM integration
             fallback_password       = 'toor',
             -- Capture intruder using webcam
-            capture_intruder        = true,
+            capture_intruder        = flase,
             -- Intruder image save location
             --  (Will create directory if it doesn't exist)
             face_capture_dir        = '$(xdg-user-dir PICTURES)/Intruders/',
