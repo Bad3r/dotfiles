@@ -1,2 +1,2 @@
-require('configuration.client.rules')
-require('configuration.client.signals')
+require('config.client.rules')
+require('config.client.signals')

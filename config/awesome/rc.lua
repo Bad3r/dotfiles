@@ -39,10 +39,10 @@ require('layout')
 -- --------------------------------- Config -------------------------------- --
 --                                                                           --
 --                                                                           --
-require('configuration.client')
-require('configuration.root')
-require('configuration.tags')
-root.keys(require('configuration.keys.global'))
+require('config.client')
+require('config.root')
+require('config.tags')
+root.keys(require('config.keys.global'))
 --                                                                           --
 --                                                                           --
 -- -------------------------------- Modules -------------------------------- --
@@ -60,10 +60,33 @@ require('module.lockscreen')
 require('module.dynamic-wallpaper')
 --                                                                           --
 --                                                                           --
--- ------------------------------- Variables ------------------------------- --
+-- ----------------------------- Error Handling ---------------------------- --
 --                                                                           --
 --                                                                           --
-WHOAMI='Bader'
+if awesome.startup_errors then
+    naughty.notify({
+        preset  = naughty.config.presets.critical,
+        title   = "Oops, there were errors during startup!",
+        text    = awesome.startup_errors
+    })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error  = false
+    awesome.connect_signal("debug::error", function(err)
+        if in_error then
+            return
+        end
+        in_error    = true
+        naughty.notify({
+                preset  = naughty.config.presets.critical,
+                title   = "Oops, an error happened!",
+                text    = tostring(err)
+            })
+        in_error    = false
+    end)
+end
 
 --                                                                           --
 --                                                                           --
@@ -71,24 +94,24 @@ WHOAMI='Bader'
 --                                                                           --
 --                                                                           --
 screen.connect_signal(
-	'request::wallpaper',
-	function(s)
-		-- If wallpaper is a function, call it with the screen
-		if beautiful.wallpaper then
-			if type(beautiful.wallpaper) == 'string' then
+    'request::wallpaper',
+    function(s)
+        -- If wallpaper is a function, call it with the screen
+        if beautiful.wallpaper then
+            if type(beautiful.wallpaper) == 'string' then
 
-				-- Check if beautiful.wallpaper is color/image
-				if beautiful.wallpaper:sub(1, #'#') == '#' then
-					-- If beautiful.wallpaper is color
-					gears.wallpaper.set(beautiful.wallpaper)
+                -- Check if beautiful.wallpaper is color/image
+                if beautiful.wallpaper:sub(1, #'#') == '#' then
+                    -- If beautiful.wallpaper is color
+                    gears.wallpaper.set(beautiful.wallpaper)
 
-				elseif beautiful.wallpaper:sub(1, #'/') == '/' then
-					-- If beautiful.wallpaper is path/image
-					gears.wallpaper.maximized(beautiful.wallpaper, s)
-				end
-			else
-				beautiful.wallpaper(s)
-			end
-		end
-	end
+                elseif beautiful.wallpaper:sub(1, #'/') == '/' then
+                    -- If beautiful.wallpaper is path/image
+                    gears.wallpaper.maximized(beautiful.wallpaper, s,true)
+                end
+            else
+                beautiful.wallpaper(s)
+            end
+        end
+    end
 )

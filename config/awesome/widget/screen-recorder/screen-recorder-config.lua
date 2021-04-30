@@ -1,5 +1,5 @@
 local user_preferences = {}
-local config = require('configuration.config')
+local config = require('config.config')
 
 -- Screen	WIDTHxHEIGHT
 user_preferences.user_resolution = config.widget.screen_recorder.resolution or '1366x768'

@@ -7,8 +7,8 @@ require('awful.autofocus')
 -- ------------------------------- Modifiers ------------------------------- --
 --                                                                           --
 --                                                                           --
-local Mod           = require('configuration.keys.mod').mod_key
-local Alt           = require('configuration.keys.mod').alt_key
+local Mod           = require('config.keys.mod').mod_key
+local Alt           = require('config.keys.mod').alt_key
 local Shift         = 'Shift'
 local Ctrl          = 'Control'
 --                                                                           --

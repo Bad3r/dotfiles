@@ -4,14 +4,14 @@ local beautiful     = require('beautiful')
 require('awful.autofocus')
 
 local hotkeys_popup = require('awful.hotkeys_popup').widget
-local apps          = require('configuration.apps')
+local apps          = require('config.apps')
 --                                                                           --
 --                                                                           --
 -- ------------------------------- Modifiers ------------------------------- --
 --                                                                           --
 --                                                                           --
-local Mod           = require('configuration.keys.mod').mod_key
-local Alt           = require('configuration.keys.mod').alt_key
+local Mod           = require('config.keys.mod').mod_key
+local Alt           = require('config.keys.mod').alt_key
 local Shift         = 'Shift'
 local Ctrl          = 'Control'
 --                                                                           --

@@ -1,5 +1,5 @@
 local awful = require('awful')
-local Mod = require('configuration.keys.mod').mod_key
+local Mod = require('config.keys.mod').mod_key
 
 return awful.util.table.join(
 	awful.button(
