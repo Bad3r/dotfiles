@@ -16,8 +16,14 @@
         "infile",
         "minmax",
         "numpy",
+        "picom",
+        "pinentry",
         "popup",
-        "usermod"
+        "usermod",
+        "vscodium",
+        "xfsettingsd",
+        "xrdb",
+        "xresources"
     ],
     "workbench.colorTheme": "Dracula",
     "[dockerfile]": {

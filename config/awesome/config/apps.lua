@@ -39,13 +39,13 @@ return {
         rofi_global         = 'rofi -dpi ' .. screen.primary.dpi .. 
                                ' -show "Global Search" -modi "Global Search":'
                                .. config_dir .. 
-                               '/config/rofi/global/rofi-spotlight.sh'
+                               'config/rofi/global/rofi-spotlight.sh'
                                .. ' -theme ' .. config_dir ..
-                               '/config/rofi/global/rofi.rasi',
+                               'config/rofi/global/rofi.rasi',
         -- Default app menu
         rofi_appmenu        = 'rofi -dpi ' .. screen.primary.dpi ..
-                               ' -show drun -theme ' .. config_dir ..
-                               '/config/rofi/appmenu/rofi.rasi',
+                               '-modi drun -show drun -theme ' ..
+                               config_dir ..'config/rofi/appmenu/rofi.rasi',
         -- Default system monitoring tool
         sysmonitor          = 'kitty -e gotop'
 
@@ -55,7 +55,7 @@ return {
     run_on_start_up = {
         -- Compositor
         'picom -b --experimental-backends --dbus --config ' ..
-        config_dir .. '/config/picom.conf',
+        config_dir .. 'config/picom.conf',
         -- Blueman applet
         'blueman-applet',
         -- Music server
