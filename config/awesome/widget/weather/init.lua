@@ -7,7 +7,7 @@ local dpi = beautiful.xresources.apply_dpi
 local config_dir = gears.filesystem.get_configuration_dir()
 local widget_icon_dir = config_dir .. 'widget/weather/icons/'
 local clickable_container = require('widget.clickable-container')
-local json = require('library.json')
+local json = require('lib.json')
 
 local config = require('config.config')
 local secrets = {
