@@ -369,13 +369,7 @@ bindsym             $Mod+Shift+minus         gaps    outer current minus 5
 bindsym             $Mod+Control+plus        gaps    inner all     plus  5
 bindsym             $Mod+Control+minus       gaps    inner all     minus 5
 bindsym             $Mod+Control+Shift+plus  gaps    outer all     plus  5
-bindsym             $Mod+Control+Shift+minus gaps    outer all     minus 5
-#                                                                             #
-# -------------------------------- i3-radius -------------------------------- #
-#                                                                             #
-#smart_borders       on                              
-#smart_borders       no_gaps                         
-#border_radius       4                               
+bindsym             $Mod+Control+Shift+minus gaps    outer all     minus 5                          
 #                                                                             #
 #                                                                             #
 # --------------------------------------------------------------------------- #
