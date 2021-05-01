@@ -102,6 +102,9 @@ local update_user_name = function()
             stdout              = stdout:gsub('%\n','')
             local first_name    = stdout:match('(.*)@') or
                                    stdout:match('(.-)%s')
+            if first_name == nil then
+                first_name      = stdout
+            end
             first_name          = first_name:sub(1, 1):upper() ..
                                    first_name:sub(2)
             profile_name:set_markup(stdout)
