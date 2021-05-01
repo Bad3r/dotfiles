@@ -373,9 +373,9 @@ bindsym             $Mod+Control+Shift+minus gaps    outer all     minus 5
 #                                                                             #
 # -------------------------------- i3-radius -------------------------------- #
 #                                                                             #
-smart_borders       on                              
-smart_borders       no_gaps                         
-border_radius       4                               
+#smart_borders       on                              
+#smart_borders       no_gaps                         
+#border_radius       4                               
 #                                                                             #
 #                                                                             #
 # --------------------------------------------------------------------------- #
@@ -408,9 +408,10 @@ bindsym        $mod+shift+p exec --no-startup-id "sh -c '$HOME/scripts/scot.sh'"
 #                                                                             #
 # --------------------------------- run once -------------------------------- #
 #                                                                             #
-# exec           --no-startup-id   xfsettingsd
-# exec           --no-startup-id   xfce4-power-manager
+exec           --no-startup-id   xfsettingsd
+exec           --no-startup-id   xfce4-power-manager
 exec           --no-startup-id   "sh -c '$HOME/scripts/fehbg.sh'"
+exec           --no-startup-id   picom
 #                                                                             #
 # ------------------------------ run on reload ------------------------------ #
 #                                                                             #
