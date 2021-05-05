@@ -1,6 +1,27 @@
 
 #!/bin/zsh
 
+: <<'BDR'
+
+                                    /   \                                      
+                            )      ((   ))     (                               
+                           /|\      ))_((     /|\                              
+       (@)                / | \    (/\|/\)   / | \                 (@)         
+       |-|---------------/--|-voV---\`|'/--Vov-|--\----------------|-|         
+       |-|                    '^`   (o o)  '^`                     | |         
+       | |                          `\Y/'                          |-|         
+       |-|                                                         | |         
+       | |               File...:    $HOME/.zshrc                  |-|         
+       |-|               twitter:    @0xBader                      | |         
+       | |               website:    SecBytes.net                  |-|         
+       | |_________________________________________________________| |         
+       |-|/`       l   /\ /         ( (       \ /\   l           `\|-|         
+       (@)         l /   V           \ \       V   \ l             (@)         
+                   l/                _) )_          \I                         
+                                     `\ /' 
+
+BDR
+
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
@@ -82,19 +103,19 @@ export LC_ALL="en_US.UTF-8"
 ZSH_DIR="$(xdg-user-dir)/.config/zsh"
 
 # Source Alisas file (if it exists)
-if [ -f $ZSH_DIR/aliases.zsh ]; then
-    source $ZSH_DIR/aliases.zsh
+if [ -f "$ZSH_DIR"/aliases.zsh ]; then
+    source "$ZSH_DIR"/aliases.zsh
 fi
 
 # Source ZSH Functions file (if it exists)
-if [ -f $ZSH_DIR/functions.zsh ]; then
-    source $ZSH_DIR/functions.zsh
+if [ -f "$ZSH_DIR"/functions.zsh ]; then
+    source "$ZSH_DIR"/functions.zsh
 fi
 
 # check if antibody is installed
 if (( $+commands[antibody] )); then
-  source <(antibody init)
-    antibody bundle < $ZSH_DIR/plugins.zsh
+    source <(antibody init)
+    antibody bundle < "$ZSH_DIR"/plugins.zsh
 fi
 
 # --------------------------------------------------------------------------- #
@@ -109,3 +130,4 @@ eval "$(zoxide init zsh)"
 
 autoload -U promptinit; promptinit
 prompt pure
+

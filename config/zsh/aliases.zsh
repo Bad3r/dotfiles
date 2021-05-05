@@ -1,22 +1,23 @@
-: <<'///'
-                             /   \
- _                   )      ((   ))     (
-(@)                 /|\      ))_((     /|\
-|-|                / | \    (/\|/\)   / | \                 (@) 
-| | --------------/--|-voV---\`|'/--Vov-|--\----------------|-|
-|-|                    '^`   (o o)  '^`                     | |
-| |                          `\Y/'                          |-|
-|-|                                                         | |
-| |                 ~/.dotfiles/zsh/aliases.zsh             |-|
-|-|                         @0xBad3r                        | |
-| |                       SecBytes.net                      |-|
-|_|_________________________________________________________| |
-(@)         l   /\ /         ( (       \ /\   l           `\|-|
-            l /   V           \ \       V   \ l             (@)
-            l/                _) )_          \I
-                              `\ /'
+: <<'BDR'
 
-///
+                                    /   \                                      
+                            )      ((   ))     (                               
+                           /|\      ))_((     /|\                              
+       (@)                / | \    (/\|/\)   / | \                 (@)         
+       |-|---------------/--|-voV---\`|'/--Vov-|--\----------------|-|         
+       |-|                    '^`   (o o)  '^`                     | |         
+       | |                          `\Y/'                          |-|         
+       |-|                                                         | |         
+       | |               File...:    .config/zsh/aliases.zsh       |-|         
+       |-|               twitter:    @0xBader                      | |         
+       | |               website:    SecBytes.net                  |-|         
+       | |_________________________________________________________| |         
+       |-|/`       l   /\ /         ( (       \ /\   l           `\|-|         
+       (@)         l /   V           \ \       V   \ l             (@)         
+                   l/                _) )_          \I                         
+                                     `\ /' 
+
+BDR
 
 
 
@@ -29,8 +30,8 @@ alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && 
 # ---------------------------------------- #
 # --------------- BlackArch -------------- #
 # ---------------------------------------- #
-
-alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"  # Fzf & ripgrep https://github.com/BurntSushi/ripgrep
+# Fzf & ripgrep https://github.com/BurntSushi/ripgrep
+alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"
 
 
 
@@ -38,24 +39,31 @@ alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"  #
 # ------------ Change Defaults ----------- #
 # ---------------------------------------- #
 
-alias grep="grep --color=always"
-alias \$=''                                                # undoller ❯ $ cmd --> ❯ cmd
-alias vi="$EDITOR"
-alias vim="$EDITOR"
+alias -g grep="grep --color=always"
+# undoller ❯ $ cmd --> ❯ cmd
+alias -g \$=''
+alias -g vi="$EDITOR"
+alias -g vim="$EDITOR"
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias ghc="ghc -dynamic"
 alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
-alias cp="cp -i"
-alias mv="mv -i"
-alias -g code="code-oss"                                   # Replace MS code with open source
-alias -g vscode="code-oss"
+alias -g cp="cp -i"
+alias -g mv="mv -i"
+alias -g ip='ip -color=auto'
+alias dmesg='dmesg --color=always'
 
-if (( $+commands[bat] )); then                             # Replace cat with bat https://github.com/sharkdp/bat
+alias -g code="vscodium"
+alias -g vscode="vscodium"
+
+# Replace cat with bat https://github.com/sharkdp/bat
+if (( $+commands[bat] )); then                             
     alias -g cat="bat"
 fi
 
-if (( $+commands[exa] )); then                             # Replace ls with exa https://github.com/ogham/exa
+
+# Replace ls with exa https://github.com/ogham/exa
+if (( $+commands[exa] )); then
     alias -g la="exa -alh --git"
     alias -g ll="exa -lhaF --git"
     alias -g ls="exa"
@@ -67,7 +75,7 @@ fi
 # Fast access to files and scripts
 
 alias -g zshrc="$EDITOR ~/.zshrc"
-alias -g xresources= "$EDITOR ~/.Xresources"
+alias -g xresources="$EDITOR ~/.Xresources"
 alias -g i3conf="$EDITOR ~/.i3/config"
 
 
@@ -139,3 +147,5 @@ alias ipwlan='ip a show wlan0'
 alias ipia='ip a show wgpia0'
 alias iptun='ip a show tun0'
 alias wtfip='curlie wtfismyip.com/json'
+alias cls="clear"
+alias cl="clear"

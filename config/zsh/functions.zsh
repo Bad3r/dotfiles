@@ -1,26 +1,27 @@
-: <<'///'
-                             /   \
- _                   )      ((   ))     (
-(@)                 /|\      ))_((     /|\
-|-|                / | \    (/\|/\)   / | \                 (@) 
-| | --------------/--|-voV---\`|'/--Vov-|--\----------------|-|
-|-|                    '^`   (o o)  '^`                     | |
-| |                          `\Y/'                          |-|
-|-|                                                         | |
-| |                ~/.dotfiles/zsh/functions.zsh            |-|
-|-|                         @0xBad3r                        | |
-| |                       SecBytes.net                      |-|
-|_|_________________________________________________________| |
-(@)         l   /\ /         ( (       \ /\   l           `\|-|
-            l /   V           \ \       V   \ l             (@)
-            l/                _) )_          \I
-                              `\ /'
+: <<'BDR'
 
-///
+                                    /   \                                      
+                            )      ((   ))     (                               
+                           /|\      ))_((     /|\                              
+       (@)                / | \    (/\|/\)   / | \                 (@)         
+       |-|---------------/--|-voV---\`|'/--Vov-|--\----------------|-|         
+       |-|                    '^`   (o o)  '^`                     | |         
+       | |                          `\Y/'                          |-|         
+       |-|                                                         | |         
+       | |               File...:    .config/zsh/functions.zsh     |-|         
+       |-|               twitter:    @0xBader                      | |         
+       | |               website:    SecBytes.net                  |-|         
+       | |_________________________________________________________| |         
+       |-|/`       l   /\ /         ( (       \ /\   l           `\|-|         
+       (@)         l /   V           \ \       V   \ l             (@)         
+                   l/                _) )_          \I                         
+                                     `\ /' 
+
+BDR
 
 
 # --------------------------------------------------------------------------- #
-#                                expand aliases                               #
+#                                expand aliases                                
 # --------------------------------------------------------------------------- #
 
 globalias() {
@@ -47,7 +48,7 @@ mdv () {
 }
 
 # --------------------------------------------------------------------------- #
-#                                     SUDO                                    #
+#                                     SUDO                                     
 # --------------------------------------------------------------------------- #
 # Toggles "sudo" before the current/previous command by pressing:
 # [ESC][ESC]
@@ -74,51 +75,37 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#                              Colored man pages                              #
+#                              Colored man pages                               
 # --------------------------------------------------------------------------- #
+# 
+# termcap
+# ks       make the keypad send commands
+# ke       make the keypad send digits
+# vb       emit visual bell
+# mb       start blink
+# md       start bold
+# me       turn off bold, blink and underline
+# so       start standout (reverse video)
+# se       stop standout
+# us       start underline
+# ue       stop underline
 
-# if [[ "$OSTYPE" = solaris* ]]
-# then
-# 	if [[ ! -x "$HOME/bin/nroff" ]]
-# 	then
-# 		mkdir -p "$HOME/bin"
-# 		cat > "$HOME/bin/nroff" <<EOF
-# #!/bin/sh
-# if [ -n "\$_NROFF_U" -a "\$1,\$2,\$3" = "-u0,-Tlp,-man" ]; then
-# 	shift
-# 	exec /usr/bin/nroff -u\$_NROFF_U "\$@"
-# fi
-# #-- Some other invocation of nroff
-# exec /usr/bin/nroff "\$@"
-# EOF
-# 		chmod +x "$HOME/bin/nroff"
-# 	fi
-# fi
-
-# function colored() {
-# 	env \
-# 		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-# 		LESS_TERMCAP_md=$(printf "\e[1;31m") \
-# 		LESS_TERMCAP_me=$(printf "\e[0m") \
-# 		LESS_TERMCAP_se=$(printf "\e[0m") \
-# 		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-# 		LESS_TERMCAP_ue=$(printf "\e[0m") \
-# 		LESS_TERMCAP_us=$(printf "\e[1;32m") \
-# 		PAGER="${commands[less]:-$PAGER}" \
-# 		_NROFF_U=1 \
-# 		PATH="$HOME/bin:$PATH" \
-# 			"$@"
-# }
-
-# function man() {
-# 	colored man "$@"
-# }
-
+function man() {
+	env \
+		LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
+		LESS_TERMCAP_me=$(tput sgr0) \
+		LESS_TERMCAP_mb=$(tput blink) \
+		LESS_TERMCAP_us=$(tput setaf 2) \
+		LESS_TERMCAP_ue=$(tput sgr0) \
+		LESS_TERMCAP_so=$(tput smso) \
+		LESS_TERMCAP_se=$(tput rmso) \
+		PAGER="${commands[less]:-$PAGER}" \
+		man "$@"
+}
 
 # --------------------------------------------------------------------------- #
-#                               Extract Archives                              #
+#                               Extract Archives                               
 # --------------------------------------------------------------------------- #
-
 alias x=extract
 
 extract() {
@@ -178,8 +165,8 @@ extract() {
 			(*.lz4) lz4 -d "$1" ;;
 			(*.lzma) unlzma "$1" ;;
 			(*.z) uncompress "$1" ;;
-			(*.zip|*.war|*.jar|*.sublime-package|*.ipa|*.ipsw|*.xpi|
-                *.apk|*.aar|*.whl) unzip "$1" -d $extract_dir ;;
+			(*.zip|*.war|*.jar|*.sublime-package|*.ipa|*.ipsw|
+                *.xpi|*.apk|*.aar|*.whl) unzip "$1" -d $extract_dir ;;
 			(*.rar) unrar x -ad "$1" ;;
 			(*.rpm) mkdir "$extract_dir" && cd "$extract_dir" &&
                 rpm2cpio "../$1" | cpio --quiet -id && cd .. ;;
@@ -206,10 +193,32 @@ extract() {
 	done
 }
 
-
+# --------------------------------------------------------------------------- #
+#                                  tty Colors                                  
+# --------------------------------------------------------------------------- #
+# Dracula theme
+printf %b '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
+printf %b '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
+printf %b '\e]P0282a36'    # redefine 'black'          as 'dracula-bg'
+printf %b '\e]P86272a4'    # redefine 'bright-black'   as 'dracula-comment'
+printf %b '\e]P1ff5555'    # redefine 'red'            as 'dracula-red'
+printf %b '\e]P9ff7777'    # redefine 'bright-red'     as '#ff7777'
+printf %b '\e]P250fa7b'    # redefine 'green'          as 'dracula-green'
+printf %b '\e]PA70fa9b'    # redefine 'bright-green'   as '#70fa9b'
+printf %b '\e]P3f1fa8c'    # redefine 'brown'          as 'dracula-yellow'
+printf %b '\e]PBffb86c'    # redefine 'bright-brown'   as 'dracula-orange'
+printf %b '\e]P4bd93f9'    # redefine 'blue'           as 'dracula-purple'
+printf %b '\e]PCcfa9ff'    # redefine 'bright-blue'    as '#cfa9ff'
+printf %b '\e]P5ff79c6'    # redefine 'magenta'        as 'dracula-pink'
+printf %b '\e]PDff88e8'    # redefine 'bright-magenta' as '#ff88e8'
+printf %b '\e]P68be9fd'    # redefine 'cyan'           as 'dracula-cyan'
+printf %b '\e]PE97e2ff'    # redefine 'bright-cyan'    as '#97e2ff'
+printf %b '\e]P7f8f8f2'    # redefine 'white'          as 'dracula-fg'
+printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
+clear
 
 # --------------------------------------------------------------------------- #
-#                                    Zoxide                                   #
+#                                    Zoxide                                    
 # --------------------------------------------------------------------------- #
 
 # Utility functions for zoxide
@@ -347,3 +356,6 @@ function jri() {
 # configuration file (usually ~/.zshrc):
 #
 # eval "$(zoxide init zsh)"
+
+
+
