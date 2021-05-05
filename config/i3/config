@@ -43,11 +43,9 @@
 #                       - Signal                                              #
 #                       - i3lock-blur                                         #
 #                       - pm-utils                                            #
-#                       - Scripts:                                            #
-#                             - Scot                                          #
-#                                   - $HOME/scripts/scot.sh                   #     
-#                             - feh                                           #
-#                                   - $HOME/scripts/fehbg.sh                  #
+#                       - hsetroot                                            #
+#                       - xclip                                               #
+#                       - maim                                                #
 #                                                                             #
 #       ** Last Updated:                                                      #
 #                       - 04/2021                                             #
@@ -57,6 +55,7 @@
 # --------------------------------------------------------------------------- #
 #                                                                             #
 #                                                                             #
+set         $wallpaper           "$HOME/Pictures/arch_dracula.png"
 # ---------------- Set modifier: super key (Mod4), Alt (Mod1) --------------- #
 #                                                                             #
 set         $mod                 Mod4
@@ -171,11 +170,11 @@ focus_on_window_activation             focus
 # ------------------- Define names for default workspaces ------------------- #
 #                                                                             #
 #                <ws number>:<ws name>:<Font Awesome unicode glyph>           #
-set                  $ws1              "1:" 
-set                  $ws2              "2:"
-set                  $ws3              "3:"
-set                  $ws4              "4:"
-set                  $ws5              "5:"
+set                  $ws1              "1" 
+set                  $ws2              "2"
+set                  $ws3              "3"
+set                  $ws4              "4"
+set                  $ws5              "5"
 set                  $ws6              "6" 
 set                  $ws7              "7" 
 set                  $ws8              "8" 
@@ -284,8 +283,8 @@ bindsym              $mod+t            split       toggle
 #                                                                             #
 # --------- change container layout (stacked, tabbed, toggle split) --------- #
 #                                                                             #
-bindsym              $mod+Shift+t      layout      stacking  
-bindsym              $mod+Shift+s      layout      tabbed    
+bindsym              $mod+Shift+s      layout      stacking  
+bindsym              $mod+Shift+t      layout      tabbed    
 bindsym              $mod+Shift+x      layout      toggle   split
 #                                                                             #
 # -------------------- Layout toggle (keycode 23 == Tab) -------------------- #
@@ -347,8 +346,10 @@ bindsym              $mod+r                  mode    "resize"
 #                                                                             #
 # ----------------------------------- gaps ---------------------------------- #
 #                                                                             #
-gaps                 inner                   8
+gaps                 inner                   0
 gaps                 outer                   0
+gaps                 top                     0
+gaps                 bottom                  0
 #                                                                             #
 # -------------------------- changing border style -------------------------- #
 #                                                                             #
@@ -374,13 +375,11 @@ bindsym             $Mod+Control+Shift+minus gaps    outer all     minus 5
 # --------------------------------------------------------------------------- #
 #                                                                             #
 #                                                                             #
+
 bar {                                         
-   status_command i3status
-   mode           hide
-   height         30
-   colors {
-     background #242424
-   }
+    font           pango:Hack, FontAwesome 12
+    position       top
+    status_command i3status-rs
 }
 #                                                                             #
 #                                                                             #
@@ -390,7 +389,9 @@ bar {
 #                                                                             #
 #                                                                             #
 # -------------------------------- Screenshot ------------------------------- #
-bindsym        $mod+shift+p exec --no-startup-id "sh -c '$HOME/scripts/scot.sh'"
+set            $xclip_cmd     "xclip -selection clipboard -t image/png -i"
+bindsym        $mod+s          exec maim -s -u |$xclip_cmd
+
 #                                                                             #
 # --------------------------------------------------------------------------- #
 # -------------------------------- Autostart -------------------------------- #
@@ -401,13 +402,11 @@ bindsym        $mod+shift+p exec --no-startup-id "sh -c '$HOME/scripts/scot.sh'"
 #                                                                             #
 exec           --no-startup-id   xfsettingsd
 exec           --no-startup-id   xfce4-power-manager
-exec           --no-startup-id   "$HOME/scripts/fehbg.sh"
 exec           --no-startup-id   picom --experimental-backends
+#exec           --no-startup-id   
 #                                                                             #
 # ------------------------------ run on reload ------------------------------ #
-#                                                                             #
-exec_always    --no-startup-id   xrdb        -load       "$HOME/.Xresources"
-exec_always    --no-startup-id   nitrogen    --restore
+exec_always    --no-startup-id   hsetroot    -extend     $wallpaper
 #                                                                             #
 # ---------------- assign applications to specific workspace ---------------- #
 #                                                                             #

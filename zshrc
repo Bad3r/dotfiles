@@ -6,73 +6,106 @@
 
 autoload -Uz compinit && compinit
 
-# History :
+# --------------------------------------------------------------------------- #
+#                                   History                                   #
+# --------------------------------------------------------------------------- #
 
-HISTFILE=$HOME/.zsh_history    	            # Where to store zsh commands.
-HISTSIZE=100000		                        # Large history list.
-SAVEHIST=100000			                    # Large history list.
-setopt append_history		                # Append.
-setopt inc_append_history	                # Write to history file immediately.
-setopt hist_ignore_all_dups	  	            # Ignore duplicates.
-unsetopt hist_ignore_space	  	            # Ignore space prefixed commands.
-setopt hist_reduce_blanks	                # Trim blanks.
-setopt hist_verify                          # Show command with history expansion.
-setopt share_history                        # Share history between sessions.
-setopt bang_hist                            # !keyword.
+# Where to store zsh commands
+HISTFILE=$HOME/.zsh_history
+# Large history list
+HISTSIZE=100000
+SAVEHIST=100000
+# Append history
+setopt append_history
+# Write to history file immediately
+setopt inc_append_history
+# Ignore duplicate commands
+setopt hist_ignore_all_dups
+# Ignore space prefixed commands
+unsetopt hist_ignore_space
+# Trim blanks
+setopt hist_reduce_blanks
+# Show command with history expansion
+setopt hist_verify
+# Share history between sessions
+setopt share_history
+# !keyword to search history
+setopt bang_hist
 
-# set some defaults
 
-# Locale
+# --------------------------------------------------------------------------- #
+#                                Miscellaneous                                #
+# --------------------------------------------------------------------------- #
+
+# Set Default Browser
+export BROWSER="firefox"
+# Set NeoVim as default editor
+export EDITOR="nvim"
+# Git repo for my dotfiles
+export DOTFILES="$HOME/git/dotfiles"
+
+# Man page max width
+export MANWIDTH=80
+
+# If command is a path, cd into it
+setopt auto_cd
+# remove trailing slash when tab-completing
+setopt auto_remove_slash
+# Resolve symbolic links
+setopt chase_links
+# Prevents accidantally overwriting a file
+# use !< to force writing to the file
+setopt noclobber
+# Try to correct spelling of commands
+setopt correct
+# Tells the shell to understand vi keybind 
+bindkey -v
+
+REPORTTIME=5
+# typeset -U path=($HOME/bin "${path[@]:#}")  # add ~/bin to pah
+
+# Ruby Gems
+GEM_HOME="$(xdg-user-dir)/gems"
+
+# --------------------------------------------------------------------------- #
+#                                    Locale                                   #
+# --------------------------------------------------------------------------- #
+
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-# Variables
 
-export BROWSER="firefox"		            # Set Firefox as default browser
-export EDITOR="nvim"			            # Set NeoVim as default editor
-export DOTFILES="$HOME/.dotfiles"	        # Git repo for my dotfiles
-export MANWIDTH=80
-ZSH_DIR=$HOME/.config/zsh
+# --------------------------------------------------------------------------- #
+#                                 Source Files                                #
+# --------------------------------------------------------------------------- #
 
-# Miscellaneous :
-
-setopt auto_cd				                # If command is a path, cd into it.
-setopt auto_remove_slash		            # remove trailing slash when tab-completing.
-setopt chase_links			                # Resolve symbolic links.
-setopt noclobber			                # Prevents accidantally overwriting a file. !<
-setopt correct				                # Try to correct spelling of commands.
-bindkey -v				                    # Tells the shell to understand vi commands.
-typeset -U path=($HOME/bin "${path[@]:#}")  # add ~/bin to pah
-REPORTTIME=5
-
-
-# Source Files
+ZSH_DIR="$(xdg-user-dir)/.config/zsh"
 
 # Source Alisas file (if it exists)
 if [ -f $ZSH_DIR/aliases.zsh ]; then
-	source $ZSH_DIR/aliases.zsh
+    source $ZSH_DIR/aliases.zsh
 fi
 
 # Source ZSH Functions file (if it exists)
 if [ -f $ZSH_DIR/functions.zsh ]; then
-	source $ZSH_DIR/functions.zsh
+    source $ZSH_DIR/functions.zsh
 fi
 
 # check if antibody is installed
 if (( $+commands[antibody] )); then
-    source <(antibody init)
-	antibody bundle < $ZSH_DIR/plugins.zsh
+  source <(antibody init)
+    antibody bundle < $ZSH_DIR/plugins.zsh
 fi
 
+# --------------------------------------------------------------------------- #
+#                             Plugin Configuration                            #
+# --------------------------------------------------------------------------- #
 
-# Pure prompt
-fpath+=$ZSH_DIR/pure
+# ---------------------------------- Zoxide --------------------------------- #
+
+eval "$(zoxide init zsh)"
+
+# ------------------------------- Pure prompt ------------------------------- #
+
 autoload -U promptinit; promptinit
 prompt pure
-
-
-# Ruby exports
-
-export GEM_HOME=$HOME/gems
-export PATH=$HOME/gems/bin:$PATH
-
