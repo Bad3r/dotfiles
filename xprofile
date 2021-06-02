@@ -20,7 +20,9 @@ export BROWSER="firefox"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export TERM="xterm-kitty"
 export XDG_CONFIG_HOME="$HOME/.config"
-
+export PATH="$PATH:$HOME/go/bin"
+export GOPATH=$HOME/go
 # Set Java Environment
 archlinux-java set java-15-openjdk
 export _JAVA_AWT_WM_NONREPARENTING=1
+

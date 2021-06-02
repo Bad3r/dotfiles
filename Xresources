@@ -1,34 +1,54 @@
-! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-*.color0:     #000000
-*.color8:     #4D4D4D
-*.color1:     #FF5555
-*.color9:     #FF6E67
-*.color2:     #50FA7B
-*.color10:    #5AF78E
-*.color3:     #F1FA8C
-*.color11:    #F4F99D
-*.color4:     #BD93F9
-*.color12:    #CAA9FA
-*.color5:     #FF79C6
-*.color13:    #FF92D0
-*.color6:     #8BE9FD
-*.color14:    #9AEDFE
-*.color7:     #BFBFBF
-*.color15:    #E6E6E6
+#define nord0 #2E3440
+#define nord1 #3B4252
+#define nord2 #434C5E
+#define nord3 #4C566A
+#define nord4 #D8DEE9
+#define nord5 #E5E9F0
+#define nord6 #ECEFF4
+#define nord7 #8FBCBB
+#define nord8 #88C0D0
+#define nord9 #81A1C1
+#define nord10 #5E81AC
+#define nord11 #BF616A
+#define nord12 #D08770
+#define nord13 #EBCB8B
+#define nord14 #A3BE8C
+#define nord15 #B48EAD
+
+*.foreground:   nord4
+*.background:   nord0
+*.cursorColor:  nord4
+*fading: 35
+*fadeColor: nord3
+
+*.color0: nord1
+*.color1: nord11
+*.color2: nord14
+*.color3: nord13
+*.color4: nord9
+*.color5: nord15
+*.color6: nord8
+*.color7: nord5
+*.color8: nord3
+*.color9: nord11
+*.color10: nord14
+*.color11: nord13
+*.color12: nord9
+*.color13: nord15
+*.color14: nord7
+*.color15: nord6
 
 ! Rofi
-rofi.font: monospace 12
+rofi.font: Hack 12
 rofi.padding: 20
 rofi.line-padding: 2
 rofi.color-enabled: true
 rofi.hide-scrollbar: true
 rofi.separator-style: solid
-rofi.color-window: #1c2023, #919ba0, #1c2023
-rofi.color-normal: #1c2023, #919ba0, #1c2023, #a4a4a4, #1c2023
-rofi.color-urgent: argb:00000000, #f43753, argb:00000000, argb:00000000, #e29a49
-rofi.color-active: argb:00000000, #49bbfb, argb:00000000, argb:00000000, #e29a49
+!rofi.color-window: #1c2023, #919ba0, #1c2023
+!rofi.color-normal: #1c2023, #919ba0, #1c2023, #a4a4a4, #1c2023
+!rofi.color-urgent: argb:00000000, #f43753, argb:00000000, argb:00000000, #e29a49
+!rofi.color-active: argb:00000000, #49bbfb, argb:00000000, argb:00000000, #e29a49
 rofi.kb-cancel: Escape,Alt+F1
 
 ! xterm

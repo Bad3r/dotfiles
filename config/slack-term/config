@@ -1,0 +1,73 @@
+{
+    "slack_token": "0x00",
+
+    "sidebar_width": 2,
+
+    "notify": "all",
+
+    "emoji": true,
+
+    "key_map": {
+        "command": {
+            "i": "mode-insert",
+            "/": "mode-search",
+            "K": "channel-up",
+            "J": "channel-down",
+            "g": "channel-top",
+            "G": "channel-bottom",
+      	    "c-k": "thread-up",
+	          "c-J": "thread-down",
+            "<previous>": "chat-up",
+            "j": "chat-up",
+            "<next>": "chat-down",
+            "k": "chat-down",
+            "n": "channel-search-next",
+            "N": "channel-search-previous",
+            "'": "channel-jump",
+            "q": "quit",
+            "<f1>": "help"
+        },
+        "insert": {
+            "<left>": "cursor-left",
+            "<right>": "cursor-right",
+            "<enter>": "send",
+            "<escape>": "mode-command",
+            "<backspace>": "backspace",
+            "C-8": "backspace",
+            "<delete>": "delete",
+            "<space>": "space"
+        },
+        "search": {
+            "<left>": "cursor-left",
+            "<right>": "cursor-right",
+            "<escape>": "clear-input",
+            "<enter>": "clear-input",
+            "<backspace>": "backspace",
+            "C-8": "backspace",
+            "<delete>": "delete",
+            "<space>": "space"
+        }
+    },
+
+    "theme": {
+        "view": {
+            "fg": "white",
+            "bg": "black",
+            "border_fg": "blue",
+            "border_bg": "black",
+            "label_fg": "white",
+            "label_bg": "black"
+        },
+        "channel": {
+            "prefix": "fg-red,fg-bold",
+            "icon": "fg-bold",
+            "text": "fg-bold"
+        },
+        "message": {
+            "time_format": "15:04",
+            "name": "colorize,fg-blue,fg-bold",
+            "time": "colorize,fg-white,fg-bold",
+            "text": "white,fg-bold"
+        }
+    }
+}

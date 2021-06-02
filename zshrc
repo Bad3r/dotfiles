@@ -36,6 +36,8 @@ HISTFILE=$HOME/.zsh_history
 # Large history list
 HISTSIZE=100000
 SAVEHIST=100000
+# History timestamp
+export HIST_STAMPS="yyyy-mm-dd"
 # Append history
 setopt append_history
 # Write to history file immediately
@@ -59,7 +61,7 @@ setopt bang_hist
 # --------------------------------------------------------------------------- #
 
 # Set Default Browser
-export BROWSER="firefox"
+export BROWSER="firefox-nightly"
 # Set NeoVim as default editor
 export EDITOR="nvim"
 # Git repo for my dotfiles
@@ -87,6 +89,9 @@ REPORTTIME=5
 
 # Ruby Gems
 GEM_HOME="$(xdg-user-dir)/gems"
+
+# Skim/sk https://github.com/lotabout/skim
+SKIM_DEFAULT_COMMAND="fd --type f"
 
 # --------------------------------------------------------------------------- #
 #                                    Locale                                   #
@@ -130,4 +135,5 @@ eval "$(zoxide init zsh)"
 
 autoload -U promptinit; promptinit
 prompt pure
+
 

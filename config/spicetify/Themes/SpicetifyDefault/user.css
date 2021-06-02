@@ -1,10 +1,5 @@
 :root {
-	--bar-height: 60px;
-}
-
-* {
-	font-family: "Helvetica Neue" !important;
-	font-weight: 400;
+	--bar-height: 120px;
 }
 
 /*Round corner cover image*/
@@ -13,14 +8,15 @@
 .card-image-content-wrapper,
 .Card:not(.Card--artist) .Card__image,
 .Card:not(.Card--artist) .Card__image-wrapper {
-	border-radius: 0px !important;
+	border-radius: 10px !important;
 	overflow: hidden !important
 }
 
 /*Hide some annoying elements like profile name and pic, upgrade button and device connect bar at bottom, new playlist button*/
+.profile.content-top-bar__profile-link,
 .upgrade-button,
 .view-player .remote-playback-bar,
-.NewPlaylistButton {
+.LeftSidebarNewPlaylistButton__button {
 	display: none !important;
 }
 
@@ -33,14 +29,14 @@
 
 /*Thinner scrollbar*/
 ::-webkit-scrollbar {
-	height: 6px !important;
-	width: 6px !important;
+	height: 0px !important;
+	width: 0px !important;
 	background-color: transparent;
 }
 
 /*Round corner scrollbar*/
 ::-webkit-scrollbar-thumb {
-	border-radius: 0px !important;
+	border-radius: 3px !important;
 }
 
 /*Hide top and bottom buttons of scrollbar */
@@ -102,7 +98,7 @@
 }
 
 .glue-page-header__content .glue-page-header__image-inner {
-	border-radius: 0px;
+	border-radius: 10px;
 	box-shadow: unset !important;
 }
 
@@ -121,7 +117,7 @@
 .SearchInput__input {
 	color: var(--modspotify_secondary_fg);
 	background-color: rgba(var(--modspotify_rgb_scrollbar_fg_and_selected_row_bg), 0.5) !important;
-	border-radius: 0px !important;
+	border-radius: 4px !important;
 	padding-left: 34px;
 }
 
@@ -178,7 +174,7 @@ Hide the song duration and elapsed text. I dont know where to put those so I jus
 /* Add round corner for Gerne and Mood cards */
 .gc-image-container,
 .gc-image {
-	border-radius: 0px !important;
+	border-radius: 10px !important;
 }
 
 /*
@@ -187,7 +183,7 @@ Collage of 3 album covers is usually seen in Browse and Chart.
 .card-puff__image-wrapper,
 .card-puff__info-container,
 .card-puff__card-image {
-	border-radius: 0px !important;
+	border-radius: 10px !important;
 }
 
 .card-puff__image-wrapper {
@@ -211,7 +207,7 @@ Collage of 3 album covers is usually seen in Browse and Chart.
 .card-puff__title {
 	padding: 5px 10px 5px 10px !important;
 	background-color: var(--modspotify_main_bg) !important;
-	border-radius: 0px;
+	border-radius: 4px;
 	border: 2px solid var(--modspotify_main_fg);
 }
 
@@ -289,7 +285,7 @@ Change text color in playlist
 .card-type-collection-album .card-info-title,
 .card-type-episode .card-info-title {
   	font-size: 15px;
-  	font-weight: 600 !important;
+  	font-weight: 900 !important;
 	text-align: center !important;
 	width: 100% !important;
 }
@@ -333,13 +329,39 @@ Change text color in playlist
 
 /* Spice up Fullscreen mode */
 #view-player .album-art .album-art__image {
-	border-radius: 0px !important;
+	border-radius: 30px !important;
 	box-shadow: 0 10px 70px rgba(var(--modspotify_rgb_cover_overlay_and_shadow),.5) !important;
 }
 
 #view-player .album-art .album-art__image .card-image-content-wrapper,
 #view-player .album-art .album-art__image .card-image-content-wrapper .card-image {
-	border-radius: 0px !important;
+	border-radius: 30px !important;
+}
+
+#video-player .album-art__foreground {
+	flex-direction: row;
+	text-align: left;	
+}
+
+#video-player .album-art__background {
+	background-color: initial;
+}
+
+#video-player .album-art__track-details {
+	padding-left: 50px;
+	line-height: initial;
+}
+
+#video-player .album-art__track-title {
+	font-size: 84px;
+	margin-top: 0;
+	line-height: initial;
+}
+
+#video-player .album-art__artist-name {
+	font-size: 54px;
+	margin-top: 0;
+	line-height: initial;
 }
 
 /* Daily mixes */
@@ -381,28 +403,20 @@ and add little glowing effect
 	position: absolute !important;
 	width: calc(100% - 160px) !important;
 	margin-left: 80px !important;
-	border-radius: 0 0 0px 0px !important;
+	border-radius: 0 0 10px 10px !important;
 }
 
 /* Small cover Big cover mechanism */
-.now-playing.cover-size-transition.active.image-expanded .cover-image {
-    width: 10px !important;
-	height: 10px !important;
+.now-playing.cover-size-transition.active.image-expanded #now-playing-image-small {
+    display: none;
 }
-.now-playing.cover-size-transition.active.image-expanded .caption {
-	padding-left: 0px !important;
+
+.now-playing.cover-size-transition.active.image-expanded .cover-image-link-wrapper {
+	flex: 0 1 10px;
 }
+
 #view-now-playing a.image {
 	overflow: visible !important;
-}
-
-#view-now-playing.expanded {
-	width: 200px;
-	height: 200px;
-}
-
-#now-playing-image-large .cover-image {
-	height: 200px !important;
 }
 
 /* Profile arrow in top left */
@@ -412,6 +426,7 @@ and add little glowing effect
 	-webkit-app-region: no-drag !important;
 }
 
+/* [WINDOWS] Change Profile menu horizontal position */
 body.body-container--windows .content-top-bar__profile-menu-button .dropdown {
 	right: 190px !important;
 }
@@ -423,7 +438,7 @@ body:not(.body-container--windows) .content-top-bar__profile-menu-button .dropdo
 /* Small tooltip */
 #tooltip {
 	box-shadow: 0 0 10px rgba(0,0,0,0.2) !important;
-	border-radius: 0px !important;
+	border-radius: 5px !important;
 	border: 2px solid var(--modspotify_main_fg);
 	padding: 10px 10px;
 }
@@ -469,7 +484,7 @@ body:not(.body-container--windows) .content-top-bar__profile-menu-button .dropdo
 
 .Button--style-green,
 .button.button-green, .button.button-white {
-	border-radius: 25px;
+	border-radius: 4px;
 	color: var(--modspotify_main_bg) !important;
 }
 
@@ -481,7 +496,7 @@ body:not(.body-container--windows) .content-top-bar__profile-menu-button .dropdo
 	background-color: var(--modspotify_main_bg);
 	padding: 5px 20px;
 	border: 5px solid var(--modspotify_main_fg) !important;
-	border-radius: 0px;
+	border-radius: 6px;
 	box-shadow: 0 4px 12px 0 rgba(var(--modspotify_rgb_cover_overlay_and_shadow),.2);
 	text-transform: uppercase;
 }
@@ -522,6 +537,12 @@ span.glue-page-header__title-text {
 	overflow: unset;
 }
 
+.view-player .cover-image-container {
+	position: fixed !important;
+	left: 0;
+	bottom: 0;
+}
+
 .view-player .now-playing .cover-image-link,
 .view-player .now-playing .cover-image-link figure {
 	width: var(--bar-height);
@@ -529,11 +550,8 @@ span.glue-page-header__title-text {
 }
 
 #now-playing-image-small .cover-image {
-	position: fixed !important;
     width: var(--bar-height);
     height: var(--bar-height);
-    left: 0;
-    bottom: 0;
 }
 
 .view-player .now-playing .cover-image-link-wrapper {
@@ -568,9 +586,9 @@ span.glue-page-header__title-text {
 }
 
 .progress-container .inner {
-	border-radius: 0 0px 0px 0 !important;
+	border-radius: 0 2px 2px 0 !important;
 	background-color: var(--modspotify_main_fg) !important;
-	box-shadow: 0 0px 0px 0 var(--modspotify_main_fg);
+	box-shadow: 0 2px 2px 0 var(--modspotify_main_fg);
 }
 
 .glue-page-header__p2s-details,
@@ -581,7 +599,7 @@ span.glue-page-header__title-text {
 .context-menu {
 	border: 2px solid var(--modspotify_main_fg);
 	box-shadow: 0 4px 12px 0 rgba(var(--modspotify_rgb_cover_overlay_and_shadow),.2);
-	border-radius: 0px !important;
+	border-radius: 7px !important;
 	overflow: hidden;
 }
 
