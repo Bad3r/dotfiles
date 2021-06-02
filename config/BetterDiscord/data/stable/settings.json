@@ -3,8 +3,8 @@
         "emotes": true,
         "publicServers": true,
         "voiceDisconnect": false,
-        "classNormalizer": false,
-        "showToasts": true
+        "showToasts": true,
+        "mediaKeys": false
     },
     "appearance": {
         "twentyFourHour": false,
@@ -25,10 +25,14 @@
     },
     "developer": {
         "debuggerHotkey": false,
-        "reactDevTools": false
+        "reactDevTools": false,
+        "inspectElement": false,
+        "devToolsWarning": false,
+        "debugLogs": false
     },
     "window": {
         "transparency": false,
+        "removeMinimumSize": false,
         "frame": false
     }
 }

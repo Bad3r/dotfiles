@@ -6,7 +6,14 @@
     "todo-tree.tree.showScanModeButton": false,
     "cSpell.userWords": [
         "Bader",
+        "Chell",
+        "Glasswire",
+        "Netlimiter",
+        "Privatezilla",
+        "Privazer",
         "Swiper",
+        "Traceroute",
+        "Ublock",
         "awadh",
         "backends",
         "deserialization",
@@ -17,16 +24,20 @@
         "infile",
         "minmax",
         "numpy",
+        "pango",
         "picom",
         "pinentry",
         "popup",
+        "redteam",
+        "statusline",
         "usermod",
         "vscodium",
+        "whois",
         "xfsettingsd",
         "xrdb",
         "xresources"
     ],
-    "workbench.colorTheme": "Dracula",
+    "workbench.colorTheme": "Nord",
     "[dockerfile]": {
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
@@ -51,7 +62,7 @@
     ],
     "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
     "workbench.editorAssociations": [],
-    "editor.codeLensFontFamily": "Cozette",
+    "editor.codeLensFontFamily": "Inter",
     "editor.fontFamily": "'Fira Code'",
     "editor.fontLigatures": true,
     "cSpell.enableFiletypes": [
@@ -62,5 +73,11 @@
         "Plain Text":   ["#", "#"]
     },
     "comment-divider.length": 79,
-    "editor.semanticHighlighting.enabled": true
+    "editor.semanticHighlighting.enabled": true,
+    "window.menuBarVisibility": "compact",
+    "window.zoomLevel": -1,
+    "editor.fontSize": 16,
+    "editor.inlineHints.fontFamily": " 'Fira Code'",
+    "scm.inputFontSize": 14,
+    "markdown.preview.fontSize": 16
 }

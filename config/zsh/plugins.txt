@@ -1,0 +1,6 @@
+https://github.com/sindresorhus/pure
+https://github.com/zdharma/fast-syntax-highlighting
+https://github.com/zsh-users/zsh-autosuggestions   --branch=master
+https://github.com/Aloxaf/fzf-tab
+https://github.com/wfxr/forgit
+https://github.com/evanthegrayt/vagrant-box-wrapper

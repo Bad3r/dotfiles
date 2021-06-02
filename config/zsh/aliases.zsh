@@ -25,8 +25,14 @@ BDR
 # -------------- Arch Linux -------------- #
 # ---------------------------------------- #
 
-alias spm="sudo pacman"
+alias spm="sudo pacman --color=always -S"
+alias pacman="sudo pacman --color=always -S"
+alias yya="yay"
+alias up="yay -Syu"
+alias upc="yay -Syu --noconfirm"
 alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
+# Search AUR packages using Paru and fzf
+alias search_aur="paru -Sl | awk '{print \$2(\$4==\"\" ? \"\" : \" *\")}' | sk --multi --preview 'paru -Si {1}' | cut -d \" \" -f 1 | xargs -ro paru -S"
 # ---------------------------------------- #
 # --------------- BlackArch -------------- #
 # ---------------------------------------- #
@@ -53,8 +59,6 @@ alias -g mv="mv -i"
 alias -g ip='ip -color=auto'
 alias dmesg='dmesg --color=always'
 
-alias -g code="vscodium"
-alias -g vscode="vscodium"
 
 # Replace cat with bat https://github.com/sharkdp/bat
 if (( $+commands[bat] )); then                             
