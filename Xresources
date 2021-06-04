@@ -84,3 +84,9 @@ URxvt.tabbed.tabbar-bg: 16
 URxvt.tabbed.tab-fg: 15
 URxvt.tabbed.tab-bg: 4
 URxvt*buffered: false
+
+XTerm*eightBitInput: false
+
+XTerm*modifyCursorKeys: 1
+
+XTerm*modifyFunctionKeys: 1
