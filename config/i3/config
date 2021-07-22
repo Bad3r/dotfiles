@@ -108,6 +108,7 @@ bindsym     $mod+Shift+f      exec  dolphin
 # -------------------------------- Start rofi ------------------------------- #
 #                                                                             #
 bindsym     $mod+d            exec  --no-startup-id rofi_run -d
+bindsym     $mod+b            exec  --no-startup-id rofimoji
 #                                                                             #
 #                                                                             #
 # ------------------------------ logout script ------------------------------ #

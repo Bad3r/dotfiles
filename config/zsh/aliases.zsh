@@ -26,13 +26,13 @@ BDR
 # ---------------------------------------- #
 
 alias spm="sudo pacman --color=always -S"
-alias pacman="sudo pacman --color=always -S"
 alias yya="yay"
 alias up="yay -Syu"
 alias upc="yay -Syu --noconfirm"
 alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
 # Search AUR packages using Paru and fzf
 alias search_aur="paru -Sl | awk '{print \$2(\$4==\"\" ? \"\" : \" *\")}' | sk --multi --preview 'paru -Si {1}' | cut -d \" \" -f 1 | xargs -ro paru -S"
+alias chx="sudo chmod +x"
 # ---------------------------------------- #
 # --------------- BlackArch -------------- #
 # ---------------------------------------- #
@@ -47,22 +47,25 @@ alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"
 
 alias -g grep="grep --color=always"
 # undoller ❯ $ cmd --> ❯ cmd
-alias -g \$=''
-alias -g vi="$EDITOR"
-alias -g vim="$EDITOR"
+alias \$=''
+alias vi="$EDITOR"
+alias vim="$EDITOR"
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias ghc="ghc -dynamic"
 alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
-alias -g cp="cp -i"
-alias -g mv="mv -i"
-alias -g ip='ip -color=auto'
+alias mv="mv -iv"
+alias ip='ip -color=auto'
 alias dmesg='dmesg --color=always'
-
-
+alias mkdir='mkdir -vp'
+alias rm='rm -v'
+# Change layout of lsblk to include FSTYPE and remove MAJ:MIN, RM, and RO collumns.
+alias lsblk='lsblk -o NAME,FSTYPE,SIZE,TYPE,MOUNTPOINT'
+alias nmap='sudo -E nmap'
+alias emacs='emacs -nw'
 # Replace cat with bat https://github.com/sharkdp/bat
 if (( $+commands[bat] )); then                             
-    alias -g cat="bat"
+    alias -g cat="bat --paging=never"
 fi
 
 
