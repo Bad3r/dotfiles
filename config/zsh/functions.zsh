@@ -20,6 +20,29 @@
 BDR
 
 
+# rsync
+
+cp() {
+    rsync -avPHAXS "$@"
+}
+compdef _files cpv
+# https://man.archlinux.org/man/rsync.1
+# -a archive mode
+# -v increase verbosity
+# -P same as --partial --progress (progress bar)
+       # keep partially transferred files
+       # show progress during transfer
+# -H preserve hard links
+# -A preserve ACLs (implies -p)
+# -X preserve extended attributes
+# -S handle sparse files efficiently
+
+# Search ArchWiki
+# Allows for spaces
+wiki() {
+    search_term="${${*}// /+}"
+    lynx https://wiki.archlinux.org/index.php\?search\=${search_term}
+}
 # --------------------------------------------------------------------------- #
 #                                expand aliases                                
 # --------------------------------------------------------------------------- #
@@ -75,7 +98,7 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#                              Colored man pages                               
+#                               man pages                               
 # --------------------------------------------------------------------------- #
 # 
 # termcap
@@ -90,18 +113,20 @@ bindkey -M vicmd '\e\e' sudo-command-line
 # us       start underline
 # ue       stop underline
 
-function man() {
-	env \
-		LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
-		LESS_TERMCAP_me=$(tput sgr0) \
-		LESS_TERMCAP_mb=$(tput blink) \
-		LESS_TERMCAP_us=$(tput setaf 2) \
-		LESS_TERMCAP_ue=$(tput sgr0) \
-		LESS_TERMCAP_so=$(tput smso) \
-		LESS_TERMCAP_se=$(tput rmso) \
-		PAGER="${commands[less]:-$PAGER}" \
-		man "$@"
-}
+#function man() {
+#	env \
+#		LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
+#		LESS_TERMCAP_me=$(tput sgr0) \
+#		LESS_TERMCAP_mb=$(tput blink) \
+#		LESS_TERMCAP_us=$(tput setaf 2) \
+#		LESS_TERMCAP_ue=$(tput sgr0) \
+#		LESS_TERMCAP_so=$(tput smso) \
+#		LESS_TERMCAP_se=$(tput rmso) \
+#		PAGER="${commands[less]:-$PAGER}" \
+#		man "$@"
+#}
+
+
 
 # --------------------------------------------------------------------------- #
 #                               Extract Archives                               
@@ -216,6 +241,7 @@ printf %b '\e]PE97e2ff'    # redefine 'bright-cyan'    as '#97e2ff'
 printf %b '\e]P7f8f8f2'    # redefine 'white'          as 'dracula-fg'
 printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
 clear
+
 
 # --------------------------------------------------------------------------- #
 #                                    Zoxide                                    
@@ -356,6 +382,4 @@ function jri() {
 # configuration file (usually ~/.zshrc):
 #
 # eval "$(zoxide init zsh)"
-
-
 
