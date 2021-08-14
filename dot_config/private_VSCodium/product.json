@@ -1,0 +1,15 @@
+{
+  "extensionsGallery": {
+    "serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",
+    "cacheUrl": "https://vscode.blob.core.windows.net/gallery/index",
+    "itemUrl": "https://marketplace.visualstudio.com/items",
+    "controlUrl": "",
+    "recommendationsUrl": ""
+  }
+
+  "extensionAllowedProposedApi": {
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "ms-vscode-remote.remote-wsl",
+    "GitHub.vscode-pull-request-github"
+  }
+}
