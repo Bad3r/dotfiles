@@ -20,8 +20,8 @@
 BDR
 
 
-# rsync
 
+# rsync
 cp() {
     rsync -avPHAXS "$@"
 }
@@ -268,7 +268,7 @@ function __zoxide_hook() {
 }
 
 # Initialize hook
-[[ -n "${precmd_functions[(r)__zoxide_hook]}" ]] || {
+[[ -n '${precmd_functions[(r)__zoxide_hook]}' ]] || {
     precmd_functions+=(__zoxide_hook)
 }
 
@@ -382,4 +382,3 @@ function jri() {
 # configuration file (usually ~/.zshrc):
 #
 # eval "$(zoxide init zsh)"
-

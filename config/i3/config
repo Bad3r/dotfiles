@@ -38,10 +38,10 @@
 # --------------------------------------------------------------------------- #
 #                                                                             #
 #                                                                             #
-set   $wallpaper  "$HOME/Pictures/nord-mount-2.jpg"
+# set   $wallpaper  "$HOME/Pictures/nord-mount-2.jpg"
 # ---------------- Set modifier: super key (Mod4), Alt (Mod1) --------------- #
 #                                                                             #
-set   $mod  Mod4
+set   $Mod  Mod4
 #                                                                             #
 # ---- Set font for window titles and i3Bar (unless specified in bar {}) ---- #
 #                                                                             #
@@ -78,11 +78,11 @@ bindsym XF86MonBrightnessDown    exec --no-startup-id xbacklight -dec 10
 #                                                                             #
 # ---------------------- reload the configuration file ---------------------- #
 #                                                                             #
-bindsym     $mod+Shift+c      reload    
+bindsym     $Mod+Shift+c      reload    
 #                                                                             #
 # ------------ restart i3 inplace (preserves your layout/session) ----------- #
 #                                                                             #
-bindsym     $mod+Shift+r      restart
+bindsym     $Mod+Shift+r      restart
 #                                                                             #
 # ------------------------------ direction keys ----------------------------- #
 #                                                                             #
@@ -92,12 +92,14 @@ set   $down       j
 set   $up         k
 set   $right      l
 #                                                                             #
-# ----------------------------- Start a terminal ---------------------------- #
+# ----------------------------------- Core ---------------------------------- #
 #                                                                             #
-bindsym     $mod+Return       exec  kitty --title ❯_
-#                                                                             #
-# ---------------------------- Start FileManager ---------------------------- #
-bindsym     $mod+Shift+f      exec  dolphin
+bindsym $Mod+w          exec --no-startup-id exo-open --launch WebBrowser
+# bindsym $Mod+Shift+f    exec --no-startup-id exo-open --launch FileManager
+# bindsym $Mod+t          exec --no-startup-id exo-open --launch TerminalEmulator
+bindsym $Mod+Return     exec --no-startup-id exo-open --launch TerminalEmulator
+bindsym Control+Shift+t exec --no-startup-id exo-open --launch TerminalEmulator
+
 #                                                                             #
 #                                                                             #
 # --------------------------------------------------------------------------- #
@@ -107,8 +109,8 @@ bindsym     $mod+Shift+f      exec  dolphin
 #                                                                             #
 # -------------------------------- Start rofi ------------------------------- #
 #                                                                             #
-bindsym     $mod+d            exec  --no-startup-id rofi_run -d
-bindsym     $mod+b            exec  --no-startup-id rofimoji
+bindsym     $Mod+d            exec  --no-startup-id rofi_run -d
+bindsym     $Mod+b            exec  --no-startup-id rofimoji
 #                                                                             #
 #                                                                             #
 # ------------------------------ logout script ------------------------------ #
@@ -117,7 +119,7 @@ bindsym     $Mod+x            exec  --no-startup-id rofi_run -l
 #                                                                             #
 # ---------------------------------- sleep ---------------------------------- #
 #                                                                             #
-bindsym     $mod+Shift+e      exec  --no-startup-id systemctl suspend
+bindsym     $Mod+Shift+e      exec  --no-startup-id systemctl suspend
 #                                                                             #
 #                                                                             #
 # --------------------------------------------------------------------------- #
@@ -167,16 +169,16 @@ bindsym     Mod1+2      workspace   next
 #                                                                             #
 # --------------------------- switch to workspace --------------------------- #
 #                                                                             #
-bindsym     $mod+1      workspace   $ws1
-bindsym     $mod+2      workspace   $ws2
-bindsym     $mod+3      workspace   $ws3
-bindsym     $mod+4      workspace   $ws4
-bindsym     $mod+5      workspace   $ws5
-bindsym     $mod+6      workspace   $ws6
-bindsym     $mod+7      workspace   $ws7
-bindsym     $mod+8      workspace   $ws8
-bindsym     $mod+9      workspace   $ws9
-bindsym     $mod+0      workspace   $ws10
+bindsym     $Mod+1      workspace   $ws1
+bindsym     $Mod+2      workspace   $ws2
+bindsym     $Mod+3      workspace   $ws3
+bindsym     $Mod+4      workspace   $ws4
+bindsym     $Mod+5      workspace   $ws5
+bindsym     $Mod+6      workspace   $ws6
+bindsym     $Mod+7      workspace   $ws7
+bindsym     $Mod+8      workspace   $ws8
+bindsym     $Mod+9      workspace   $ws9
+bindsym     $Mod+0      workspace   $ws10
 #                                                                             #
 #                                                                             #
 # --------------------------------------------------------------------------- #
@@ -187,72 +189,72 @@ default_orientation     horizontal
 popup_during_fullscreen smart
 # ------------------- move focused container to workspace ------------------- #
 #                                                                             #
-bindsym     $mod+Shift+1      move container to workspace $ws1
-bindsym     $mod+Shift+2      move container to workspace $ws2
-bindsym     $mod+Shift+3      move container to workspace $ws3
-bindsym     $mod+Shift+4      move container to workspace $ws4
-bindsym     $mod+Shift+5      move container to workspace $ws5
-bindsym     $mod+Shift+6      move container to workspace $ws6
-bindsym     $mod+Shift+7      move container to workspace $ws7
-bindsym     $mod+Shift+8      move container to workspace $ws8
-bindsym     $mod+Shift+9      move container to workspace $ws9
-bindsym     $mod+Shift+0      move container to workspace $ws10
+bindsym     $Mod+Shift+1      move container to workspace $ws1
+bindsym     $Mod+Shift+2      move container to workspace $ws2
+bindsym     $Mod+Shift+3      move container to workspace $ws3
+bindsym     $Mod+Shift+4      move container to workspace $ws4
+bindsym     $Mod+Shift+5      move container to workspace $ws5
+bindsym     $Mod+Shift+6      move container to workspace $ws6
+bindsym     $Mod+Shift+7      move container to workspace $ws7
+bindsym     $Mod+Shift+8      move container to workspace $ws8
+bindsym     $Mod+Shift+9      move container to workspace $ws9
+bindsym     $Mod+Shift+0      move container to workspace $ws10
 #                                                                             #
 # --------------------------- kill focused window --------------------------- #
 #                                                                             #
-bindsym     $mod+Shift+Q      kill      
+bindsym     $Mod+Shift+Q      kill      
 #                                                                             #
-# ----------------- Use Mouse+$mod to drag floating windows ----------------- #
+# ----------------- Use Mouse+$Mod to drag floating windows ----------------- #
 #                                                                             #
 floating_modifier    Mod1                      
 #                                                                             #
 # --------------------------- Change window focus --------------------------- #
 #                                                                             #
-bindsym     $mod+$up          focus       up
-bindsym     $mod+$down        focus       down
-bindsym     $mod+$left        focus       left
-bindsym     $mod+$right       focus       right
+bindsym     $Mod+$up          focus       up
+bindsym     $Mod+$down        focus       down
+bindsym     $Mod+$left        focus       left
+bindsym     $Mod+$right       focus       right
 #                                                                             #
 # -------------------------------- Arrow Keys ------------------------------- #
-bindsym     $mod+Up           focus       up
-bindsym     $mod+Down         focus       down
-bindsym     $mod+Left         focus       left
-bindsym     $mod+Right        focus       right
+bindsym     $Mod+Up           focus       up
+bindsym     $Mod+Down         focus       down
+bindsym     $Mod+Left         focus       left
+bindsym     $Mod+Right        focus       right
 #                                                                             #
 # --------------------------- move focused window --------------------------- #
 #                                                                             #
-bindsym     $mod+Shift+$up    move        up  
-bindsym     $mod+Shift+$down  move        down
-bindsym     $mod+Shift+$left  move        left
-bindsym     $mod+Shift+$right move        right
+bindsym     $Mod+Shift+$up    move        up  
+bindsym     $Mod+Shift+$down  move        down
+bindsym     $Mod+Shift+$left  move        left
+bindsym     $Mod+Shift+$right move        right
 #                                                                             #
 # -------------------------------- Arrow Keys ------------------------------- #
-bindsym     $mod+Shift+Up     move        up  
-bindsym     $mod+Shift+Down   move        down
-bindsym     $mod+Shift+Left   move        left
-bindsym     $mod+Shift+Right  move        right
+bindsym     $Mod+Shift+Up     move        up  
+bindsym     $Mod+Shift+Down   move        down
+bindsym     $Mod+Shift+Left   move        left
+bindsym     $Mod+Shift+Right  move        right
 #                                                                             #
 # ------------- enter fullscreen mode for the focused container ------------- #
 #                                                                             #
-bindsym              $mod+f            fullscreen  toggle
+bindsym              $Mod+f            fullscreen  toggle
 #                                                                             #
 # --------------------- split in horizontal orientation --------------------- #
 #                                                                             #
-bindsym              $mod+semicolon    split       horizontal
+bindsym              $Mod+semicolon    split       horizontal
 #                                                                             #
 # ---------------------- split in vertical orientation ---------------------- #
 #                                                                             #
-bindsym              $mod+v            split       vertical
+bindsym              $Mod+v            split       vertical
 #                                                                             #
 # ------------------------------- Toggle split ------------------------------ #
 #                                                                             #
-bindsym              $mod+t            split       toggle
+bindsym              $Mod+t            split       toggle
 #                                                                             #
 # --------- change container layout (stacked, tabbed, toggle split) --------- #
 #                                                                             #
-bindsym              $mod+Shift+s      layout      stacking  
-bindsym              $mod+Shift+t      layout      tabbed    
-bindsym              $mod+Shift+x      layout      toggle   split
+bindsym              $Mod+Shift+s      layout      stacking  
+bindsym              $Mod+Shift+t      layout      tabbed    
+bindsym              $Mod+Shift+x      layout      toggle   split
 #                                                                             #
 # -------------------- Layout toggle (keycode 23 == Tab) -------------------- #
 #                                                                             #
@@ -262,18 +264,18 @@ bindcode             $Mod+23           layout      toggle   splitv   splith
 #                                                                             #
 # ------------------------- toggle tiling / floating ------------------------ #
 #                                                                             #
-bindsym              $mod+space        floating    toggle    
+bindsym              $Mod+space        floating    toggle    
 #                                                                             #
 # -------------- change focus between tiling / floating windows ------------- #
 #                                                                             #
-bindsym              $mod+Shift+space  focus       mode_toggle
+bindsym              $Mod+Shift+space  focus       mode_toggle
 #                                                                             #
 # ------------------------ focus the parent container ----------------------- #
-bindsym              $mod+p            focus       parent    
+bindsym              $Mod+p            focus       parent    
 #                                                                             #
 # ------------------------ focus the child container ------------------------ #
 #                                                                             #
-bindsym              $mod+c            focus       child
+bindsym              $Mod+c            focus       child
 #                                                                             #
 # -------------------------------- Scratchpad ------------------------------- #
 #                                                                             #
@@ -308,12 +310,12 @@ mode "resize" {
       bindsym        Down        resize      grow     height  10 px or 10 ppt   
       bindsym        Left        resize      shrink   width   10 px or 10 ppt   
       bindsym        Right       resize      grow     width   10 px or 10 ppt   
-# ---------------- back to normal: Enter or Escape or $mod+r ---------------- #
+# ---------------- back to normal: Enter or Escape or $Mod+r ---------------- #
       bindsym        Return                  mode    "default"           
       bindsym        Escape                  mode    "default"           
-      bindsym        $mod+r                  mode    "default"           
+      bindsym        $Mod+r                  mode    "default"           
 }
-bindsym              $mod+r                  mode    "resize"            
+bindsym              $Mod+r                  mode    "resize"            
 #                                                                             #
 # ----------------------------------- gaps ---------------------------------- #
 #                                                                             #
@@ -368,6 +370,7 @@ bar {
             inactive_workspace      #282A36 #282A36 #BFBFBF
             urgent_workspace        #44475A #FF5555 #F8F8F2
       }
+        
 }
 
 
@@ -380,7 +383,7 @@ bar {
 #                                                                             #
 # -------------------------------- Screenshot ------------------------------- #
 set            $xclip_cmd     "xclip -selection clipboard -t image/png -i"
-bindsym        $mod+s          exec maim -s -u |$xclip_cmd
+bindsym        $Mod+s          exec maim -s -u |$xclip_cmd
 
 #                                                                             #
 # --------------------------------------------------------------------------- #
@@ -458,32 +461,32 @@ client.background       #242424
 # --------------------------------------------------------------------------- #
 # --------------------------------------------------------------------------- #
 
-set $mode_gaps Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, \
+set $Mode_gaps Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, \
                                                 (r)ight, (b)ottom, (l)eft
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_horiz Horizontal Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_verti Vertical Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_top Top Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_right Right Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_bottom Bottom Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_left Left Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
+set $Mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_horiz Horizontal Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_verti Vertical Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_top Top Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_right Right Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_bottom Bottom Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $Mode_gaps_left Left Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $Mod+Shift+g mode "$Mode_gaps"
 
-mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym h      mode "$mode_gaps_horiz"
-        bindsym v      mode "$mode_gaps_verti"
-        bindsym t      mode "$mode_gaps_top"
-        bindsym r      mode "$mode_gaps_right"
-        bindsym b      mode "$mode_gaps_bottom"
-        bindsym l      mode "$mode_gaps_left"
-        bindsym Return mode "$mode_gaps"
+mode "$Mode_gaps" {
+        bindsym o      mode "$Mode_gaps_outer"
+        bindsym i      mode "$Mode_gaps_inner"
+        bindsym h      mode "$Mode_gaps_horiz"
+        bindsym v      mode "$Mode_gaps_verti"
+        bindsym t      mode "$Mode_gaps_top"
+        bindsym r      mode "$Mode_gaps_right"
+        bindsym b      mode "$Mode_gaps_bottom"
+        bindsym l      mode "$Mode_gaps_left"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
 
-mode "$mode_gaps_outer" {
+mode "$Mode_gaps_outer" {
         bindsym plus  gaps outer current plus 5
         bindsym minus gaps outer current minus 5
         bindsym 0     gaps outer current set 0
@@ -492,10 +495,10 @@ mode "$mode_gaps_outer" {
         bindsym Shift+minus gaps outer all minus 5
         bindsym Shift+0     gaps outer all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_inner" {
+mode "$Mode_gaps_inner" {
         bindsym plus  gaps inner current plus 5
         bindsym minus gaps inner current minus 5
         bindsym 0     gaps inner current set 0
@@ -504,10 +507,10 @@ mode "$mode_gaps_inner" {
         bindsym Shift+minus gaps inner all minus 5
         bindsym Shift+0     gaps inner all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_horiz" {
+mode "$Mode_gaps_horiz" {
         bindsym plus  gaps horizontal current plus 5
         bindsym minus gaps horizontal current minus 5
         bindsym 0     gaps horizontal current set 0
@@ -516,10 +519,10 @@ mode "$mode_gaps_horiz" {
         bindsym Shift+minus gaps horizontal all minus 5
         bindsym Shift+0     gaps horizontal all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_verti" {
+mode "$Mode_gaps_verti" {
         bindsym plus  gaps vertical current plus 5
         bindsym minus gaps vertical current minus 5
         bindsym 0     gaps vertical current set 0
@@ -528,10 +531,10 @@ mode "$mode_gaps_verti" {
         bindsym Shift+minus gaps vertical all minus 5
         bindsym Shift+0     gaps vertical all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_top" {
+mode "$Mode_gaps_top" {
         bindsym plus  gaps top current plus 5
         bindsym minus gaps top current minus 5
         bindsym 0     gaps top current set 0
@@ -540,10 +543,10 @@ mode "$mode_gaps_top" {
         bindsym Shift+minus gaps top all minus 5
         bindsym Shift+0     gaps top all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_right" {
+mode "$Mode_gaps_right" {
         bindsym plus  gaps right current plus 5
         bindsym minus gaps right current minus 5
         bindsym 0     gaps right current set 0
@@ -552,10 +555,10 @@ mode "$mode_gaps_right" {
         bindsym Shift+minus gaps right all minus 5
         bindsym Shift+0     gaps right all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_bottom" {
+mode "$Mode_gaps_bottom" {
         bindsym plus  gaps bottom current plus 5
         bindsym minus gaps bottom current minus 5
         bindsym 0     gaps bottom current set 0
@@ -564,10 +567,10 @@ mode "$mode_gaps_bottom" {
         bindsym Shift+minus gaps bottom all minus 5
         bindsym Shift+0     gaps bottom all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
-mode "$mode_gaps_left" {
+mode "$Mode_gaps_left" {
         bindsym plus  gaps left current plus 5
         bindsym minus gaps left current minus 5
         bindsym 0     gaps left current set 0
@@ -576,7 +579,7 @@ mode "$mode_gaps_left" {
         bindsym Shift+minus gaps left all minus 5
         bindsym Shift+0     gaps left all set 0
 
-        bindsym Return mode "$mode_gaps"
+        bindsym Return mode "$Mode_gaps"
         bindsym Escape mode "default"
 }
 
@@ -605,3 +608,16 @@ mode "$mode_gaps_left" {
 #                                                            move down 450px
 #no_focus   [class="plasmashell" window_type="notification"]
 #                                                                             #
+
+
+############    application settings   ############
+
+# assign applications to specific workspace
+assign [class="(?i)(?:firefox)"] → 1
+assign [class="(?i)(?:geany)"]   → 2
+assign [class="(?i)(?:thunar)"]  → 3
+
+# focus, floating, & sticky
+for_window [class="(?i)(?:qt5ct|pinentry)"]          floating enable, focus
+for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
+for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
