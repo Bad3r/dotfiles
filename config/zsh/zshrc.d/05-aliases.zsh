@@ -27,12 +27,17 @@ BDR
 
 alias spm="sudo pacman --color=always -S"
 alias yya="yay"
+alias yy="yay"
+alias ya="yay"
 alias up="yay -Syu"
 alias upc="yay -Syu --noconfirm"
+alias yayskip='yay -S --mflags --skipinteg'
 alias packey="sudo pacman-key --init && sudo pacman-key --populate archlinux && sudo pacman-key --refresh-keys && sudo pacman -Syy"
 # Search AUR packages using Paru and fzf
 alias search_aur="paru -Sl | awk '{print \$2(\$4==\"\" ? \"\" : \" *\")}' | sk --multi --preview 'paru -Si {1}' | cut -d \" \" -f 1 | xargs -ro paru -S"
 alias chx="sudo chmod +x"
+alias conf='chezmoi edit --apply'
+
 # ---------------------------------------- #
 # --------------- BlackArch -------------- #
 # ---------------------------------------- #
@@ -44,7 +49,6 @@ alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"
 # ---------------------------------------- #
 # ------------ Change Defaults ----------- #
 # ---------------------------------------- #
-
 alias -g grep="grep --color=always"
 # undoller ❯ $ cmd --> ❯ cmd
 alias \$=''
@@ -65,18 +69,16 @@ alias nmap='sudo -E nmap'
 alias emacs='emacs -nw'
 # Replace cat with bat https://github.com/sharkdp/bat
 if (( $+commands[bat] )); then                             
-    alias -g cat="bat --paging=never"
+    alias -g ct="bat --paging=never"
 fi
 
 
 # Replace ls with exa https://github.com/ogham/exa
 if (( $+commands[exa] )); then
-    alias -g la="exa -alh --git"
+    alias -g la="exa -alhg --git"
     alias -g ll="exa -lhaF --git"
-    alias -g ls="exa"
-
+    alias -g ls="exa --icons"
     alias -g tree="exa --tree --level=1"
-
 fi
 
 # Fast access to files and scripts
@@ -154,5 +156,16 @@ alias ipwlan='ip a show wlan0'
 alias ipia='ip a show wgpia0'
 alias iptun='ip a show tun0'
 alias wtfip='curlie wtfismyip.com/json'
-alias cls="clear"
+alias cls="clear; exa -lhaF --git"
 alias cl="clear"
+alias c="clear"
+alias clr="clear"
+alias todol="todoist --namespace --project-namespace list | fzf --preview 'todoist show {1}' | cut -d ' ' -f 1 | tr '\n' ' '"
+alias vs='vscodium'
+alias vialias="$EDITOR ~/.config/zsh/zshrc.d/05-aliases.zsh"
+alias :q='exit'
+alias psf="ps -ef | grep --color=always"
+alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs tldr"
+alias sx='nsxiv'
+alias sxiv="nsxiv"
+

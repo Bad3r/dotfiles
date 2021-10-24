@@ -5,6 +5,7 @@ Operation=Remove
 Type=Package
 Target=nvidia
 Target=linux
+Target=linux-zen
 # Change the linux part above and in the Exec line if a different kernel is used
 
 [Action]

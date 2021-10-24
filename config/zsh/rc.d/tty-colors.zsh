@@ -1,0 +1,21 @@
+# Nord TTY theme
+printf %b '\e[40m' '\e[8]'
+printf %b '\e[37m' '\e[8]'
+printf %b '\e]P02E3440'
+printf %b '\e]P1BF616A'
+printf %b '\e]P2A3BE8C'
+printf %b '\e]P3EBCB8B'
+printf %b '\e]P481A1C1'
+printf %b '\e]P5B48EAD'
+printf %b '\e]P688C0D0'
+printf %b '\e]P7E5E9F0'
+printf %b '\e]P84C566A'
+printf %b '\e]P9BF616A' 
+printf %b '\e]PAA3BE8C'
+printf %b '\e]PBEBCB8B'
+printf %b '\e]PCB48EAD'
+printf %b '\e]PD8FBCBB'
+printf %b '\e]PEECEFF4'
+printf %b '\e]PFffffff'
+clear
+
