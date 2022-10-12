@@ -104,16 +104,6 @@ function ja() {
     __zoxide_za "$@"
 }
 
-__zoxide_unset 'jq'
-function jq() {
-    __zoxide_zq "$@"
-}
-
-__zoxide_unset 'jqi'
-function jqi() {
-    __zoxide_zqi "$@"
-}
-
 __zoxide_unset 'jr'
 function jr() {
     __zoxide_zr "$@"
@@ -123,5 +113,3 @@ __zoxide_unset 'jri'
 function jri() {
     __zoxide_zri "$@"
 }
-
-echo "yes"

@@ -1,0 +1,12 @@
+[Unit]
+Description=LanguageTool server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=java -cp /opt/LanguageTool-5.5/languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin "*"
+
+[Install]
+WantedBy=multi-user.target
