@@ -23,20 +23,20 @@ BDR
 
 # rsync
 cp() {
-    rsync -avPHAXS "$@"
+    rsync -avPHAXSl "$@"
 }
 compdef _files cpv
 # https://man.archlinux.org/man/rsync.1
-# -a archive mode
-# -v increase verbosity
-# -P same as --partial --progress (progress bar)
-       # keep partially transferred files
-       # show progress during transfer
-# -H preserve hard links
-# -A preserve ACLs (implies -p)
-# -X preserve extended attributes
-# -S handle sparse files efficiently
-
+# -a                            archive mode
+# -v                            increase verbosity
+# -P                            same as --partial --progress (progress bar)
+#                                   - keep partially transferred files
+#                                   - show progress during transfer
+# -H                            preserve hard links
+# -A                            preserve ACLs (implies -p)
+# -X                            preserve extended attributes
+# -S                            handle sparse files efficiently
+# --links, -l              copy symlinks as symlinks
 # Search ArchWiki
 # Allows for spaces
 wiki() {
@@ -113,18 +113,18 @@ bindkey -M vicmd '\e\e' sudo-command-line
 # us       start underline
 # ue       stop underline
 
-#function man() {
-#	env \
-#		LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
-#		LESS_TERMCAP_me=$(tput sgr0) \
-#		LESS_TERMCAP_mb=$(tput blink) \
-#		LESS_TERMCAP_us=$(tput setaf 2) \
-#		LESS_TERMCAP_ue=$(tput sgr0) \
-#		LESS_TERMCAP_so=$(tput smso) \
-#		LESS_TERMCAP_se=$(tput rmso) \
-#		PAGER="${commands[less]:-$PAGER}" \
-#		man "$@"
-#}
+# function lessman() {
+# 	env \
+# 		LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
+# 		LESS_TERMCAP_me=$(tput sgr0) \
+# 		LESS_TERMCAP_mb=$(tput blink) \
+# 		LESS_TERMCAP_us=$(tput setaf 2) \
+# 		LESS_TERMCAP_ue=$(tput sgr0) \
+# 		LESS_TERMCAP_so=$(tput smso; tput setaf 3) # yellow \
+# 		LESS_TERMCAP_se=$(tput rmso) \
+# 		PAGER="${commands[less]:-$PAGER}" \
+# 		man "$@"
+# }
 
 
 
@@ -217,31 +217,6 @@ extract() {
 		shift
 	done
 }
-
-# --------------------------------------------------------------------------- #
-#                                  tty Colors                                  
-# --------------------------------------------------------------------------- #
-# Dracula theme
-printf %b '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
-printf %b '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
-printf %b '\e]P0282a36'    # redefine 'black'          as 'dracula-bg'
-printf %b '\e]P86272a4'    # redefine 'bright-black'   as 'dracula-comment'
-printf %b '\e]P1ff5555'    # redefine 'red'            as 'dracula-red'
-printf %b '\e]P9ff7777'    # redefine 'bright-red'     as '#ff7777'
-printf %b '\e]P250fa7b'    # redefine 'green'          as 'dracula-green'
-printf %b '\e]PA70fa9b'    # redefine 'bright-green'   as '#70fa9b'
-printf %b '\e]P3f1fa8c'    # redefine 'brown'          as 'dracula-yellow'
-printf %b '\e]PBffb86c'    # redefine 'bright-brown'   as 'dracula-orange'
-printf %b '\e]P4bd93f9'    # redefine 'blue'           as 'dracula-purple'
-printf %b '\e]PCcfa9ff'    # redefine 'bright-blue'    as '#cfa9ff'
-printf %b '\e]P5ff79c6'    # redefine 'magenta'        as 'dracula-pink'
-printf %b '\e]PDff88e8'    # redefine 'bright-magenta' as '#ff88e8'
-printf %b '\e]P68be9fd'    # redefine 'cyan'           as 'dracula-cyan'
-printf %b '\e]PE97e2ff'    # redefine 'bright-cyan'    as '#97e2ff'
-printf %b '\e]P7f8f8f2'    # redefine 'white'          as 'dracula-fg'
-printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
-clear
-
 
 # --------------------------------------------------------------------------- #
 #                                    Zoxide                                    
@@ -357,15 +332,7 @@ function ja() {
     __zoxide_za "$@"
 }
 
-__zoxide_unset 'jq'
-function jq() {
-    __zoxide_zq "$@"
-}
 
-__zoxide_unset 'jqi'
-function jqi() {
-    __zoxide_zqi "$@"
-}
 
 __zoxide_unset 'jr'
 function jr() {
@@ -382,3 +349,25 @@ function jri() {
 # configuration file (usually ~/.zshrc):
 #
 # eval "$(zoxide init zsh)"
+#
+function run(){
+  "$@" &>/dev/null &; disown
+  exit 0
+}
+
+
+
+function vshell {
+    # USAGE
+    # vshell <SN> <TOKEN>
+    # OR
+    # vshell <TOKEN> <SN>
+    if [[ "$1" = *"-"* ]]; then
+        devID="$1"
+        devSN="$2"
+    else
+        devID="$2"
+        devSN="$1"
+    fi
+    vtoolbox device.shell -c $devID -a $devSN
+}

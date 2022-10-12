@@ -47,7 +47,7 @@ check_internet()
   tool='curl'
   tool_opts='-s --connect-timeout 8'
 
-  if ! $tool $tool_opts https://www.microsoft.com/ > /dev/null 2>&1; then
+  if ! $tool $tool_opts https://example.com/ > /dev/null 2>&1; then
     err "You don't have an Internet connection!"
   fi
 
@@ -58,27 +58,34 @@ check_internet()
 fetch_keyring()
 {
   curl -s -O \
-  'https://www.blackarch.org/keyring/blackarch-keyring.pkg.tar.xz{,.sig}'
+  'https://www.blackarch.org/keyring/blackarch-keyring.pkg.tar.xz'
+
+  curl -s -O \
+  'https://www.blackarch.org/keyring/blackarch-keyring.pkg.tar.xz.sig'
 }
 
 # verify the keyring signature
 # note: this is pointless if you do not verify the key fingerprint
 verify_keyring()
 {
-  if ! gpg --keyserver pgp.mit.edu \
+  if ! gpg --keyserver keyserver.ubuntu.com \
      --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 > /dev/null 2>&1
   then
     if ! gpg --keyserver hkps://keyserver.ubuntu.com:443 \
        --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 > /dev/null 2>&1
     then
-      err "could not verify the key. Please check: https://blackarch.org/faq.html"
+      if ! gpg --keyserver hkp://pgp.mit.edu:80 \
+         --recv-keys 4345771566D76038C7FEB43863EC0ADBEA87E4E3 > /dev/null 2>&1
+      then
+        err "could not verify the key. Please check: https://blackarch.org/faq.html"
+      fi
     fi
   fi
 
   if ! gpg --keyserver-options no-auto-key-retrieve \
     --with-fingerprint blackarch-keyring.pkg.tar.xz.sig > /dev/null 2>&1
   then
-    err "invalid keyring signature. please stop by irc.freenode.net/blackarch"
+    err "invalid keyring signature. please stop by irc.blackarch.org:1337/blackarch"
   fi
 }
 

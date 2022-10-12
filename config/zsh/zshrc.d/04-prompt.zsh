@@ -1,5 +1,5 @@
 
-autoload -U promptinit
-promptinit
-prompt pure
+# autoload -U promptinit
+# promptinit
+# prompt pure
 # prompt spaceship

@@ -50,3 +50,20 @@ if [ -d "${ZDOTDIR}"/func.d ]; then
     source $file
   done
 fi
+
+
+## auto root ##
+
+#autoRootTempFileDir="/dev/shm"
+
+#source /opt/auto-root/auto-root.bash
+#startAutoRootSession
+#trap 'previous_command=$this_command; this_command=$BASH_COMMAND' DEBUG
+#trap 'stopAutoRootSession' EXIT
+#PROMPT_COMMAND=autoRootEvaluate
+
+## end auto root ##
+
+# autoload -U promptinit
+# promptinit
+eval "$(starship init zsh)"
