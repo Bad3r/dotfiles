@@ -4,5 +4,7 @@
 #       When this file exists it will always be read.
 #
 
-ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}"/zsh
-source "${ZDOTDIR}"/env.d/.zshenv
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
+ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+source "${ZDOTDIR}/env.d/.zshenv"
