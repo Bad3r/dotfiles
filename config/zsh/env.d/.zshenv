@@ -24,8 +24,6 @@ path=(
         "$(xdg-user-dir)/go/bin" 
         # Rust Cargo bins
         "$(xdg-user-dir)/.cargo/bin"
-        # distrobox
-        
         "$path[@]")
 export PATH
 
@@ -34,21 +32,22 @@ export PATH
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-# Default Apps
+# Defaults
 export TERM="xterm-kitty"
-export TERMINAL=$TERM
+export COLORTERM="truecolor"
+export TERMINAL="kitty"
 export VISUAL="nvim"
 export EDITOR=$VISUAL
 export BROWSER="nbrowser"
 export READER="zathura"
 export IMAGE="sxiv"
-export COLORTERM="truecolor"
 export OPENER="xdg-open"
 export PAGER="bat"
-export WM="i3wm"
+export WM="i3"
 
 # GPG
 export GPG_TTY=$(tty)
+
 # Git repo for my dotfiles
 export DOTFILES="$(xdg-user-dir)/dotfiles"
 
@@ -65,9 +64,9 @@ export GOBIN="$(xdg-user-dir)/go/bin"
 export GOPATH="$(xdg-user-dir)/go"
 
 # QT
-export QT_SELECT=5
+export QT_SELECT=6
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_QPA_PLATFORMTHEME="qt6ct"
 export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/qt/plugins"
 
 # Ruby
@@ -87,3 +86,6 @@ export MOZ_WEBRENDER=1
 # PKG: nordic-darker-theme-git
 export THEME_FONT_FACE="MonoLisa"
 export THEME_FONT_SIZE=11
+
+# Paru
+export PARU_CONF="$XDG_CONFIG_HOME/paru/paru.conf"

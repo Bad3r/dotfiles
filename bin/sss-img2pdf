@@ -1,0 +1,37 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage: sss-img2pdf [-g] <FILENAME>" >&2
+  echo "Convert an image to a compressed letter-sized pdf." >&2
+  echo "  -g   Convert in grayscale" >&2
+  exit 1
+}
+
+# Parse the options
+grayscale=""
+while getopts "g" OPTION; do
+  case ${OPTION} in
+    g) grayscale=(-colorspace gray) 
+       ;;
+    ?) usage 
+       ;;
+  esac
+done
+
+# Remove the options while leaving the remaining arguments.
+shift "$(( OPTIND - 1 ))"
+
+if (("${#}" < 1 )); then
+  usage
+fi
+
+# get root of FILENAME (cut off .extension) so we can use that as root of output file; add .pdf
+output_file="${1%.*}.pdf"
+
+# do the actual conversion, using convert and gs
+convert "$1" "${grayscale[@]}" temporary.pdf
+
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sPAPERSIZE=letter -dPDFFitPage -dPDFSETTINGS=/ebook -sOutputFile="${output_file}" temporary.pdf
+
+# clean up
+rm temporary.pdf

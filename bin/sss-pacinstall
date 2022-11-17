@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [[ -n "$1" ]]; then
+    sudo pacman -S "$@" && exit
+else
+	echo -e '\e[1;37m[PACMAN] \e[1;32mInstall new packages (TAB to select, ENTER to install, PREVIEW-WINDOW: ?- toggle, shift+up/down- movement)\e[0m';\
+	# apk list | sed 's/-[0-9].*//' |\
+	pacman -Ssq |\
+ 	fzf -e --multi --preview='pacman -Si {1}' --reverse --info=inline --height='80%' \
+ 		--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008' \
+ 		--prompt='> ' --pointer='▶' --marker='✓' \
+ 		--bind '?:toggle-preview' \
+ 		--bind 'shift-up:preview-up' \
+ 		--bind 'shift-down:preview-down' \
+ 		--bind 'ctrl-a:select-all' |\
+		xargs -ro sudo pacman -S
+fi

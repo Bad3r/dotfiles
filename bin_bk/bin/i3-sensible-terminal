@@ -1,0 +1,38 @@
+#!/bin/sh
+# patch for /usr/bin/i3-sensible-terminal
+
+terms=(
+	"$TERMINAL"
+	"st"
+	"alacritty"
+	"kitty"
+	"urxvt"
+	"rxvt"
+	"xfce4-terminal"
+	"terminator"
+	"termit"
+	"Eterm"
+	"aterm"
+	"uxterm"
+	"roxterm"
+	"lxterminal"
+	"terminology"
+	"qterminal"
+	"lilyterm"
+	"tilix"
+	"terminix"
+	"konsole"
+	"guake"
+	"tilda"
+	"hyper"
+	"mate-terminal"
+	"gnome-terminal"
+	"gnome-console"
+	"xterm"
+)
+
+
+for t in "${terms[@]}"; do
+	command -v "$t" > /dev/null 2>&1 && exec "$t" "$@"
+done
+
