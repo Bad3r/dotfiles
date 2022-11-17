@@ -1,32 +1,58 @@
-: <<'BDR'
 
-                                    /   \                                      
-                            )      ((   ))     (                               
-                           /|\      ))_((     /|\                              
-       (@)                / | \    (/\|/\)   / | \                 (@)         
-       |-|---------------/--|-voV---\`|'/--Vov-|--\----------------|-|         
-       |-|                    '^`   (o o)  '^`                     | |         
-       | |                          `\Y/'                          |-|         
-       |-|                                                         | |         
-       | |               File...:    .config/zsh/functions.zsh     |-|         
-       |-|               twitter:    @0xBader                      | |         
-       | |               website:    SecBytes.net                  |-|         
-       | |_________________________________________________________| |         
-       |-|/`       l   /\ /         ( (       \ /\   l           `\|-|         
-       (@)         l /   V           \ \       V   \ l             (@)         
-                   l/                _) )_          \I                         
-                                     `\ /' 
+#---------------------------------------------------------------------------
+# *                            Copy
+#---------------------------------------------------------------------------
 
-BDR
+# cpypath()
+# desc: copies the path of given directory or file to the system clipboard
+#          Copy current directory if no parameter
+# dep: xsel
+function cpypath {
+  # If no argument passed, use current directory
+  local file="${1:-.}"
 
+  # If argument is not an absolute path, prepend $PWD
+  [[ $file = /* ]] || file="$PWD/$file"
 
+  # Copy the absolute path without resolving symlinks
+  # If clipcopy fails, exit the function with an error
+  print -n "${file:a}" | xsel --clipboard || return 1
 
-# rsync
+  echo ${(%):-"%B${file:a}%b copied to clipboard."}
+}
+
+# cp()
+# desc: copy files using rsync
 cp() {
-    rsync -avPHAXSl "$@"
+    rsync -av -HAX -hhh --progress "$@"
+}
+compdef _files cp
+
+# cpv()
+# desc: copy files using rsync with verbose output format
+cpv() {
+    rsync -av -HAX -hhh --out-format="[%t] %o: '%n', size %'''b, Last Modified: %M" "$@"
+    # Format String
+    # Example: 
+    # [2022/10/17 12:24:40] send: 'Monokai Extended.tmTheme', Size:  49.15K, Last Modified: 2022/10/17-11:59:25
+    # [%t] %o %n %'''b, Last Modified: %M
+    #   - %t     : date and time stamp
+    #   - %o     : operation type
+    #   - %n     : filename
+    #                 NOTE: consider replacing with %f for filepath
+    #   - %'''b: file size in KiB/MiB (1024)
+    #   - %M     : last modified date 
 }
 compdef _files cpv
+
 # https://man.archlinux.org/man/rsync.1
+
+# From man rsync: 
+# -a, --archive archive mode; equals -rlptgoD (no -H,-A,-X)
+# -H preserves hard-links, -A preserves ACLs, and -X preserves extended attributes.
+# When I use rsync interactively I also use the vP options for added verbosity
+# (pointless to use in a cron job unless you are logging and are interested in the information)
+
 # -a                            archive mode
 # -v                            increase verbosity
 # -P                            same as --partial --progress (progress bar)
@@ -37,14 +63,40 @@ compdef _files cpv
 # -X                            preserve extended attributes
 # -S                            handle sparse files efficiently
 # --links, -l              copy symlinks as symlinks
-# Search ArchWiki
+# --group, -g              preserve group
+# --backup, -b            make backups (see --suffix & --backup-dir)
+#
+# --rsh=COMMAND, -e
+#                               This option allows you to choose  an  alternative  remote  shell
+#                               program  to  use  for communication between the local and remote
+#                               copies of rsync.  Typically, rsync is configured to use  ssh  by
+#                               default, but you may prefer to use rsh on a local network.
+#
+# --suffix=SUFFIX        backup suffix (default ~ w/o --backup-dir)
+# -hhh: outputs numbers in human-readable format, in units of 1024 (K, M, G, T).
+
+
+#### Search ArchWiki
 # Allows for spaces
 wiki() {
     search_term="${${*}// /+}"
-    lynx https://wiki.archlinux.org/index.php\?search\=${search_term}
+    lynx "https://wiki.archlinux.org/index.php\?search\=${search_term}"
 }
+
+
+#### d()
+# Select a directory from a list of previously visited directorys (current session)
+#  Recommended Options (set in *ops.zsh)
+# setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
+PS3="❯ "
+d() {
+    local dir
+    select dir in $dirstack; break
+    test "x$dir" != x && cd "$dir" || exit
+}
+
 # --------------------------------------------------------------------------- #
-#                                expand aliases                                
+#*                                expand aliases                                
 # --------------------------------------------------------------------------- #
 
 globalias() {
@@ -70,8 +122,9 @@ mdv () {
   pandoc $1 | lynx -stdin
 }
 
+
 # --------------------------------------------------------------------------- #
-#                                     SUDO                                     
+#*                                     SUDO                                     
 # --------------------------------------------------------------------------- #
 # Toggles "sudo" before the current/previous command by pressing:
 # [ESC][ESC]
@@ -98,7 +151,7 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#                               man pages                               
+#*                               man pages                               
 # --------------------------------------------------------------------------- #
 # 
 # termcap
@@ -129,7 +182,7 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#                               Extract Archives                               
+#*                               Extract Archives                               
 # --------------------------------------------------------------------------- #
 alias x=extract
 
@@ -218,8 +271,154 @@ extract() {
 	done
 }
 
+#---------------------------------------------------------------------------
+# *                            Return zsh Statistics
+#---------------------------------------------------------------------------
+
+function zsh_stats() {
+  fc -l 1 \
+    | awk '{ CMD[$2]++; count++; } END { for (a in CMD) print CMD[a] " " CMD[a]*100/count "% " a }' \
+    | grep -v "./" | sort -nr | head -n 20 | column -c3 -s " " -t | nl
+}
+
+#---------------------------------------------------------------------------
+# *                            URL Encoding & Decoding
+#---------------------------------------------------------------------------
+
+# Required for $langinfo
+zmodload zsh/langinfo
+
+# URL-encode a string
+#
+# Encodes a string using RFC 2396 URL-encoding (%-escaped).
+# See: https://www.ietf.org/rfc/rfc2396.txt
+#
+# By default, reserved characters and unreserved "mark" characters are
+# not escaped by this function. This allows the common usage of passing
+# an entire URL in, and encoding just special characters in it, with
+# the expectation that reserved and mark characters are used appropriately.
+# The -r and -m options turn on escaping of the reserved and mark characters,
+# respectively, which allows arbitrary strings to be fully escaped for
+# embedding inside URLs, where reserved characters might be misinterpreted.
+#
+# Prints the encoded string on stdout.
+# Returns nonzero if encoding failed.
+#
+# Usage:
+#  urlencode [-r] [-m] [-P] <string> [<string> ...]
+#
+#    -r causes reserved characters (;/?:@&=+$,) to be escaped
+#
+#    -m causes "mark" characters (_.!~*''()-) to be escaped
+#
+#    -P causes spaces to be encoded as '%20' instead of '+'
+function urlencode() {
+  emulate -L zsh
+  local -a opts
+  zparseopts -D -E -a opts r m P
+
+  local in_str="$@"
+  local url_str=""
+  local spaces_as_plus
+  if [[ -z $opts[(r)-P] ]]; then spaces_as_plus=1; fi
+  local str="$in_str"
+
+  # URLs must use UTF-8 encoding; convert str to UTF-8 if required
+  local encoding=$langinfo[CODESET]
+  local safe_encodings
+  safe_encodings=(UTF-8 utf8 US-ASCII)
+  if [[ -z ${safe_encodings[(r)$encoding]} ]]; then
+    str=$(echo -E "$str" | iconv -f $encoding -t UTF-8)
+    if [[ $? != 0 ]]; then
+      echo "Error converting string from $encoding to UTF-8" >&2
+      return 1
+    fi
+  fi
+
+  # Use LC_CTYPE=C to process text byte-by-byte
+  local i byte ord LC_ALL=C
+  export LC_ALL
+  local reserved=';/?:@&=+$,'
+  local mark='_.!~*''()-'
+  local dont_escape="[A-Za-z0-9"
+  if [[ -z $opts[(r)-r] ]]; then
+    dont_escape+=$reserved
+  fi
+  # $mark must be last because of the "-"
+  if [[ -z $opts[(r)-m] ]]; then
+    dont_escape+=$mark
+  fi
+  dont_escape+="]"
+
+  # Implemented to use a single printf call and avoid subshells in the loop,
+  # for performance (primarily on Windows).
+  local url_str=""
+  for (( i = 1; i <= ${#str}; ++i )); do
+    byte="$str[i]"
+    if [[ "$byte" =~ "$dont_escape" ]]; then
+      url_str+="$byte"
+    else
+      if [[ "$byte" == " " && -n $spaces_as_plus ]]; then
+        url_str+="+"
+      else
+        ord=$(( [##16] #byte ))
+        url_str+="%$ord"
+      fi
+    fi
+  done
+  echo -E "$url_str"
+}
+
+
+# URL-decode a string
+#
+# Decodes a RFC 2396 URL-encoded (%-escaped) string.
+# This decodes the '+' and '%' escapes in the input string, and leaves
+# other characters unchanged. Does not enforce that the input is a
+# valid URL-encoded string. This is a convenience to allow callers to
+# pass in a full URL or similar strings and decode them for human
+# presentation.
+#
+# Outputs the encoded string on stdout.
+# Returns nonzero if encoding failed.
+#
+# Usage:
+#   urldecode <urlstring>  - prints decoded string followed by a newline
+function urldecode {
+  emulate -L zsh
+  local encoded_url=$1
+
+  # Work bytewise, since URLs escape UTF-8 octets
+  local caller_encoding=$langinfo[CODESET]
+  local LC_ALL=C
+  export LC_ALL
+
+  # Change + back to ' '
+  local tmp=${encoded_url:gs/+/ /}
+  # Protect other escapes to pass through the printf unchanged
+  tmp=${tmp:gs/\\/\\\\/}
+  # Handle %-escapes by turning them into `\xXX` printf escapes
+  tmp=${tmp:gs/%/\\x/}
+  local decoded="$(printf -- "$tmp")"
+
+  # Now we have a UTF-8 encoded string in the variable. We need to re-encode
+  # it if caller is in a non-UTF-8 locale.
+  local -a safe_encodings
+  safe_encodings=(UTF-8 utf8 US-ASCII)
+  if [[ -z ${safe_encodings[(r)$caller_encoding]} ]]; then
+    decoded=$(echo -E "$decoded" | iconv -f UTF-8 -t $caller_encoding)
+    if [[ $? != 0 ]]; then
+      echo "Error converting string from UTF-8 to $caller_encoding" >&2
+      return 1
+    fi
+  fi
+
+  echo -E "$decoded"
+}
+
+
 # --------------------------------------------------------------------------- #
-#                                    Zoxide                                    
+#*                                    Zoxide                                    
 # --------------------------------------------------------------------------- #
 
 # Utility functions for zoxide

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [[ -n "$1" ]]; then
+    yay -Rns $@ && exit
+else
+echo -e '\e[1;37m[PACMAN] \e[1;35mRemove packages (TAB to select, ENTER to remove, PREVIEW_WINDOW: ?- toggle, shift+up/down- movement)\e[0m';\
+yay -Qq |\
+ fzf -e --multi --preview='yay -Qi {1}' --reverse --info=inline --height='80%' \
+ --color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008' \
+ --prompt='> ' --pointer='▶' --marker='✓' \
+ --bind '?:toggle-preview' \
+ --bind 'shift-up:preview-up' \
+ --bind 'shift-down:preview-down' \
+ --bind 'ctrl-a:select-all' |\
+ xargs -ro yay -Rns
+fi

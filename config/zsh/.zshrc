@@ -1,38 +1,26 @@
 
 #!/bin/zsh
 
-: <<'BDR'
-
-                                    /   \                                      
-                            )      ((   ))     (                               
-                           /|\      ))_((     /|\                              
-       (@)                / | \    (/\|/\)   / | \                 (@)         
-       |-|---------------/--|-voV---\`|'/--Vov-|--\----------------|-|         
-       |-|                    '^`   (o o)  '^`                     | |         
-       | |                          `\Y/'                          |-|         
-       |-|                                                         | |         
-       | |               File...:    $HOME/.zshrc                  |-|         
-       |-|               twitter:    @0xBader                      | |         
-       | |               website:    SecBytes.net                  |-|         
-       | |_________________________________________________________| |         
-       |-|/`       l   /\ /         ( (       \ /\   l           `\|-|         
-       (@)         l /   V           \ \       V   \ l             (@)         
-                   l/                _) )_          \I                         
-                                     `\ /' 
-
-BDR
-
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
+
 #
-
-# --------------------------------------------------------------------------- #
-#                                 Source Files                                #
-# --------------------------------------------------------------------------- #
-
+# :§:§ Source Files §:§: #
+#
+# 
+#---------------------------------------------------------------------------
+# *                            :§:§: Source Files :§:§:
+#---------------------------------------------------------------------------
 # Load all files from "${ZDOTDIR}"/zshrc.d directory
 if [ -d "${ZDOTDIR}"/zshrc.d ]; then
   for file in "${ZDOTDIR}"/zshrc.d/*.zsh; do
+    source $file
+  done
+fi
+
+# Load all files from "${ZDOTDIR}"/alias.d directory
+if [ -d "${ZDOTDIR}"/alias.d ]; then
+  for file in "${ZDOTDIR}"/alias.d/*.zsh; do
     source $file
   done
 fi
@@ -52,18 +40,17 @@ if [ -d "${ZDOTDIR}"/func.d ]; then
 fi
 
 
-## auto root ##
-
-#autoRootTempFileDir="/dev/shm"
-
-#source /opt/auto-root/auto-root.bash
-#startAutoRootSession
-#trap 'previous_command=$this_command; this_command=$BASH_COMMAND' DEBUG
-#trap 'stopAutoRootSession' EXIT
-#PROMPT_COMMAND=autoRootEvaluate
-
-## end auto root ##
-
+#---------------------------------------------------------------------------
+# *                            :§:§: Prompt :§:§:
+#---------------------------------------------------------------------------
 # autoload -U promptinit
 # promptinit
 eval "$(starship init zsh)"
+
+# Set window
+function set_win_title(){
+    echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
+}
+precmd_functions+=(set_win_title)
+
+
