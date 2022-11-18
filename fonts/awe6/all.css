@@ -27010,31 +27010,31 @@
     font-weight: 100
 }
 @font-face {
-    font-family: "Font Awesome 5 Brands";
+    font-family: "awe5 Brands";
     font-display: block;
     font-weight: 400;
     src: url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-brands-400.woff2') format("woff2"), url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-brands-400.ttf') format("truetype")
 }
 @font-face {
-    font-family: "Font Awesome 5 Pro";
+    font-family: "awe5 Pro";
     font-display: block;
     font-weight: 900;
     src: url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-solid-900.woff2') format("woff2"), url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-solid-900.ttf') format("truetype")
 }
 @font-face {
-    font-family: "Font Awesome 5 Pro";
+    font-family: "awe5 Pro";
     font-display: block;
     font-weight: 400;
     src: url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-regular-400.woff2') format("woff2"), url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-regular-400.ttf') format("truetype")
 }
 @font-face {
-    font-family: "Font Awesome 5 Pro";
+    font-family: "awe5 Pro";
     font-display: block;
     font-weight: 300;
     src: url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-light-300.woff2') format("woff2"), url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-light-300.ttf') format("truetype")
 }
 @font-face {
-    font-family: "Font Awesome 5 Duotone";
+    font-family: "awe5 Duotone";
     font-display: block;
     font-weight: 900;
     src: url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-duotone-900.woff2') format("woff2"), url('https://raw.githack.com/Bad3r/dotfiles/master/fonts/awe6/fa-duotone-900.ttf') format("truetype")
