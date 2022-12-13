@@ -90,6 +90,8 @@ alias k-img="kitty +kitten icat"
 alias k-grep-url="kitty +kitten hyperlinked_grep -f"
 alias input="sudo input-remapper-service & input-remapper-control --command autoload"
 
+# sys maintaince 
+alias tg="topgrade"
 
 # net
 alias tb="nc termbin.com 9999"                             # Upload files to netcat-based pastebin. 
