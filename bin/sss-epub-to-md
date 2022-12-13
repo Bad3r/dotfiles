@@ -1,0 +1,36 @@
+#! /bin/env python
+
+# sss-epub-to-md
+# A simple script to convert epub files to markdown
+
+import ebooklib
+import sys
+import os
+
+# Check that the required number of arguments were passed
+if len(sys.argv) != 3:
+    print("Usage: sss-epub-to-md [input_file] [output_file]")
+    sys.exit(1)
+
+# Check that the input file exists and is a valid epub file
+if not os.path.isfile(sys.argv[1]) or not sys.argv[1].endswith('.epub'):
+    print("Error: input file must be a valid epub file")
+    sys.exit(1)
+
+# Parse the epub file
+book = ebooklib.epub.read_epub(sys.argv[1])
+
+# Create an empty string to store the markdown output
+output = ""
+
+# Loop through each item in the epub file
+for item in book.get_items():
+    # If the item is a chapter, convert it to markdown and append it to the output
+    if item.get_type() == ebooklib.ITEM_DOCUMENT:
+        output += ebooklib.markdownify(item.get_content())
+
+# Write the output to the specified file
+with open(sys.argv[2], 'w') as f:
+    f.write(output)
+
+print("Epub file successfully converted to markdown")
