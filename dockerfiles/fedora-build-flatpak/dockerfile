@@ -1,0 +1,18 @@
+# Dockerfile
+FROM fedora:latest
+
+RUN dnf update -y && \
+    dnf upgrade -y && \
+    dnf install -y npm python pip git && \
+    dnf clean all
+
+RUN npm install --global yarn && \
+    pip install pipx
+
+RUN git clone https://github.com/flatpak/flatpak-builder-tools && \
+    cd flatpak-builder-tools/node/ && \
+    pipx install .
+
+VOLUME /ls-flatpak
+
+CMD ["/bin/bash"]

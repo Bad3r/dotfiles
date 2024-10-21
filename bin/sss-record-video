@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# This script uses ffmpeg to record the screen and save it as an MP4 video file.
+# It requires an Nvidia graphics card with NVENC support, X11.
+#
+
+# URL where the video will be uploaded
+URL="https://cdn.unsigned.sh"
+
+# Get the absolute path of the script and the path of the "dict" directory
+dir=$(readlink -f "$0")
+dict="$(dirname "$dir")/dict"
+
+# Shuffle the adjective, noun, and verb lists and extract the first element
+adj=$(shuf "$dict"/eng-adjectives.txt | head -n 1)
+noun1=$(shuf "$dict"/eng-nouns.txt | head -n 1)
+verb=$(shuf "$dict"/eng-verbs.txt | head -n 1)
+noun2=$(shuf "$dict"/eng-nouns.txt | head -n 1)
+
+# Construct filename for recorded video
+file="${adj}-${verb}-${noun1}-${noun2}.mp4"
+echo "$file"
+
+# Define function to handle SIGINT signal
+handle_sigint() {
+    printf "\n:: Recording stopped by user.\n"
+    
+    printf ":: Would you like to upload the video to R2? (y/n) "
+    read upload
+    
+    if [ "$upload" = "y" ]; then
+        printf ":: Uploading to R2..\n"
+        rclone copy --quiet --stats-one-line "$file" r2:r2b
+
+        printf "%s/%s" "$URL" "$file" | xsel --clipboard
+
+        printf ":: Link Copied to clipboard\n"
+        printf "%s/%s\n" "$URL" "$file"
+    fi
+    
+    exit 0
+}
+
+# Catch SIGINT signal and run handle_sigint function
+trap handle_sigint INT
+
+printf ":: Started Recording..\n"
+screenkey --bg-color='#002b36' --font-color='#9ab2bb' --font='MonoLisa' --opacity=1 -g $(slop -n -f '%g') &
+geometry=$(slop -f '-video_size %wx%h -i +%x,%y')
+# This command uses ffmpeg to record the screen and encode the video using NVIDIA NVENC.
+# It sets the logging level to "quiet" and the output statistics to "stats".
+# The input buffer size is set to 2140 MB, and the frame rate is set to 25.
+# The video is captured using the x11grab format, with the window size specified by the "$geometry" variable.
+# The video is encoded using the h264_nvenc codec with a bitrate of 80 Mbps.
+# The probesize is set to 128 MB, and the keyframe interval is set to 50 frames.
+# The output file name is specified by the "$file" variable.
+# If the command fails, an error message is printed and the script exits with a status of 1.
+if ! ffmpeg -loglevel quiet -stats -rtbufsize 2140M -f x11grab -framerate 25 $geometry \
+  -c:v h264_nvenc -b:v 80M -probesize 128M -g 50 -vf "pad=iw+6:ih+6:3:3:color=#586e75" "$file"; then
+    printf "Error: ffmpeg command failed.\n"
+    exit 1
+fi
+
+exit 0

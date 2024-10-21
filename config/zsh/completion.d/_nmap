@@ -1,0 +1,235 @@
+#autoload
+#compdef nmap
+
+_nmap() {
+  local curcontext="$curcontext" state line ret=1
+  local -A opt_args
+
+  # Function to retrieve NSE script names and categories without caching
+  _nmap_scripts() {
+    local -a scripts
+    # Add script categories
+    scripts=(
+      "all:Category"
+      "auth:Category"
+      "broadcast:Category"
+      "brute:Category"
+      "default:Category"
+      "discovery:Category"
+      "dos:Category"
+      "exploit:Category"
+      "external:Category"
+      "fuzzer:Category"
+      "intrusive:Category"
+      "malware:Category"
+      "safe:Category"
+      "version:Category"
+      "vuln:Category"
+    )
+    # Parse script names and descriptions without caching
+    nmap --script-help all 2>/dev/null | awk '
+    BEGIN { RS = "\n\n+"; FS = "\n" }
+    {
+      # Skip the "Starting Nmap..." line
+      if ($1 ~ /^Starting Nmap /) next
+
+      script_name = ""
+      description = ""
+      for (i = 1; i <= NF; i++) {
+        line = $i
+        if (script_name == "" && line ~ /^[a-zA-Z0-9_.-]+$/) {
+          script_name = line
+          continue
+        }
+        if (line ~ /^Categories:/) continue
+        if (line ~ /^https?:\/\//) continue
+        if (line ~ /^\s*$/) continue
+        if (description == "") {
+          description = line
+        } else {
+          description = description " " line
+        }
+      }
+      if (script_name != "" && description != "") {
+        gsub(/\r/, "", description)
+        print script_name ":" description
+      }
+    }' | while IFS=: read -r name desc; do
+      scripts+=("$name":"$desc")
+    done
+
+    _describe -t scripts 'Nmap scripts' scripts
+  }
+
+  # Combined options array
+  local -a options
+  options=(
+    # TARGET SPECIFICATION
+    '-iL+[Input targets from file]:file:_files'
+    '--input-file=[Input targets from file]:file:_files'
+    '--iR=[Choose random targets]:number of hosts'
+    '--exclude=[Exclude hosts/networks]:hosts/networks:_hosts -n'
+    '--excludefile=[Exclude list from file]:file:_files'
+
+    # HOST DISCOVERY
+    '-sL[List Scan - list targets to scan]'
+    '-sn[No port scan (host discovery only)]'
+    '-Pn[Treat all hosts as online -- skip host discovery]'
+    '-PS+[TCP SYN Ping]:ports:_ports'
+    '-PA+[TCP ACK Ping]:ports:_ports'
+    '-PU+[UDP Ping]:ports:_ports'
+    '-PY+[SCTP INIT Ping]:ports:_ports'
+    '-PE[ICMP Echo Ping]'
+    '-PP[ICMP Timestamp Ping]'
+    '-PM[ICMP Netmask Ping]'
+    '-PO+[IP Protocol Ping]:protocols:_protocols'
+    '-PR[ARP Ping]'
+    '--disable-arp-ping[Disable ARP or ND Ping]'
+    '--traceroute[Trace path to host]'
+    '-n[Never do DNS resolution]'
+    '--system-dns[Use system DNS resolver]'
+    '--dns-servers=[Specify DNS servers]:DNS servers:_hosts -n'
+
+    # PORT SCANNING TECHNIQUES
+    '-sS[TCP SYN scan]'
+    '-sT[TCP connect scan]'
+    '-sU[UDP scan]'
+    '-sY[SCTP INIT scan]'
+    '-sN[TCP Null scan]'
+    '-sF[TCP FIN scan]'
+    '-sX[TCP Xmas scan]'
+    '-sA[TCP ACK scan]'
+    '-sW[TCP Window scan]'
+    '-sM[TCP Maimon scan]'
+    '-sZ[SCTP COOKIE ECHO scan]'
+    '-sI+[Idle scan]:zombie host:_hosts -n'
+    '-sO[IP protocol scan]'
+    '-b+[FTP bounce scan]:FTP relay host:_hosts -n'
+    '--scanflags=[Customize TCP scan flags]:flags'
+
+    # PORT SPECIFICATION AND SCAN ORDER
+    '-p+[Only scan specified ports]:ports:_ports'
+    '--exclude-ports=[Exclude specified ports from scanning]:ports:_ports'
+    '-F[Fast (limited port) scan]'
+    '-r[Don’t randomize ports]'
+    '--top-ports=[Scan the n most common ports]:number of ports'
+    '--port-ratio=[Scan ports with ratio greater than]:ratio'
+
+    # SERVICE AND VERSION DETECTION
+    '-sV[Version detection]'
+    '--allports[Do not exclude any ports from version detection]'
+    '--version-intensity=[Set version scan intensity (0-9)]:level'
+    '--version-light[Enable light mode for version scanning]'
+    '--version-all[Try every single probe]'
+    '--version-trace[Trace version scan activity]'
+
+    # OS DETECTION
+    '-O[Enable OS detection]'
+    '--osscan-limit[Limit OS detection to promising targets]'
+    '--osscan-guess[Guess OS detection results]'
+    '--fuzzy[Guess OS detection results]'
+    '--max-os-tries=[Set maximum number of OS detection tries]:tries'
+
+    # NMAP SCRIPTING ENGINE (NSE)
+    '-sC[Scan with default NSE scripts]'
+    '--script=[Specify NSE scripts to run]:script name or category:->nse_scripts'
+    '--script-args=[Provide arguments to NSE scripts]:args'
+    '--script-args-file=[Load NSE script args from file]:file:_files'
+    '--script-help=[Show help about scripts]:script name or category:->nse_scripts'
+    '--script-trace[Trace NSE script execution]'
+    '--script-updatedb[Update the script database]'
+
+    # TIMING AND PERFORMANCE
+    '--min-hostgroup=[Set minimum hostgroup size]:size'
+    '--max-hostgroup=[Set maximum hostgroup size]:size'
+    '--min-parallelism=[Set minimum parallelism]:number'
+    '--max-parallelism=[Set maximum parallelism]:number'
+    '--min-rtt-timeout=[Set minimum probe timeout]:time in ms'
+    '--max-rtt-timeout=[Set maximum probe timeout]:time in ms'
+    '--initial-rtt-timeout=[Set initial probe timeout]:time in ms'
+    '--max-retries=[Set maximum number of retries]:retries'
+    '--host-timeout=[Give up on slow hosts]:time'
+    '--script-timeout=[Set script execution timeout]:time in s'
+    '--scan-delay=[Set minimum time between probes]:time in ms'
+    '--max-scan-delay=[Set maximum time between probes]:time in ms'
+    '--min-rate=[Set minimum scan rate]:packets per second'
+    '--max-rate=[Set maximum scan rate]:packets per second'
+    '--defeat-rst-ratelimit[Ignore TCP RST rate limiting]'
+    '--defeat-icmp-ratelimit[Ignore ICMP unreachable rate limiting in UDP scans]'
+    '--nsock-engine=[Specify nsock IO engine]:engine:(epoll kqueue poll select)'
+    '-T+[Set timing template]:template:(0\:Paranoid 1\:Sneaky 2\:Polite 3\:Normal 4\:Aggressive 5\:Insane)'
+
+    # FIREWALL/IDS EVASION AND SPOOFING
+    '-f[Fragment packets]'
+    '--mtu=[Set maximum transmission unit]:MTU'
+    '--data=[Append custom binary data]:data'
+    '--data-string=[Append custom string data]:string'
+    '--data-length=[Append random data]:length'
+    '--ip-options=[Send packets with specified IP options]:options'
+    '-D+[Cloak a scan with decoys]:decoy hosts:_hosts -n'
+    '-S+[Spoof source address]:address:_hosts -n'
+    '-e+[Use specified interface]:interface:_net_interfaces'
+    '-g+[Use specified source port]:port'
+    '--source-port=[Use specified source port]:port'
+    '--spoof-mac=[Spoof MAC address]:MAC address or prefix'
+    '--proxies=[Relay connections through proxies]:proxy chain'
+    '--badsum[Send packets with incorrect checksums]'
+    '--adler32[Use Adler32 for SCTP checksums]'
+
+    # OUTPUT
+    '-oN+[Normal output]:output file:_files'
+    '--normal=[Normal output]:output file:_files'
+    '-oX+[XML output]:output file:_files'
+    '--xml=[XML output]:output file:_files'
+    '-oS+[Script kiddie output]:output file:_files'
+    '--scriptkiddie=[Script kiddie output]:output file:_files'
+    '-oG+[Grepable output]:output file:_files'
+    '--grepable=[Grepable output]:output file:_files'
+    '-oA+[Output in all formats]:basename'
+    '--allformats=[Output in all formats]:basename'
+    '-v+[Increase verbosity level]'
+    '-d+[Increase debugging level]'
+    '--reason[Display reason for host and port state]'
+    '--stats-every=[Print periodic timing stats]:time interval'
+    '--packet-trace[Trace packets sent and received]'
+    '--open[Show only open ports]'
+    '--iflist[List interfaces and routes]'
+    '--append-output[Append to output files]'
+    '--resume=[Resume aborted scan]:file:_files'
+    '--stylesheet=[XSL stylesheet for XML output]:file:_files'
+    '--webxml[Link to stylesheet on Nmap.Org]'
+    '--no-stylesheet[Omit XSL stylesheet declaration]'
+
+    # MISCELLANEOUS OPTIONS
+    '-6[Enable IPv6 scanning]'
+    '-A[Aggressive scan options]'
+    '--datadir=[Specify custom data directory]:directory:_directories'
+    '--servicedb=[Specify custom services file]:file:_files'
+    '--versiondb=[Specify custom version probe file]:file:_files'
+    '--send-eth[Send using raw ethernet frames]'
+    '--send-ip[Send at raw IP level]'
+    '--privileged[Assume fully privileged user]'
+    '--unprivileged[Assume unprivileged user]'
+    '--release-memory[Release memory before quitting]'
+    '-V[Display version information]'
+    '--version[Display version information]'
+    '-h[Display help information]'
+    '--help[Display help information]'
+  )
+
+  # Start completion
+  _arguments -C \
+    $options \
+    '*::host:->host' && ret=0
+
+  case $state in
+    nse_scripts)
+      _nmap_scripts && ret=0
+      ;;
+    host)
+      _hosts -n && ret=0
+      ;;
+  esac
+
+  return ret
+}

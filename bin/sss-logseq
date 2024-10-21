@@ -1,8 +1,0 @@
-#!/bin/env sh
-
-/usr/bin/git-auto -d /home/chell/git/Pandora -pr &
-_PID=$!
-
-/usr/bin/logseq --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations
-
-kill $_PID

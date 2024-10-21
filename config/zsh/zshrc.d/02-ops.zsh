@@ -4,7 +4,7 @@
 # Auto correct mistakes
 setopt correct
 
-# Extended globbing. Allows using regular expressions with *  
+# Extended globbing. Allows using regular expressions with *
 setopt extendedglob
 
 # Case insensitive globbing
@@ -52,7 +52,8 @@ setopt chase_links
 setopt noclobber
 
 # Try to correct spelling of commands
-setopt correct
+setopt correctall
 
 # Report command stats if time is >
 REPORTTIME=5
+
