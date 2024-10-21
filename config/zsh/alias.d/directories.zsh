@@ -1,4 +1,3 @@
-
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
@@ -12,7 +11,7 @@ alias mktempdir="mktemp --directory"
 
 # List directory contents
 # Replace ls with exa if available https://github.com/ogham/exa
-if (( $+commands[exa] )); then
+if (($+commands[exa])); then
     alias la="exa -hagl --git --icons"
     alias ll="exa -haglF --git --icons"
     alias ls="exa --icons"

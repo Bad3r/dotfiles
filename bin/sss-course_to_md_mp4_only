@@ -1,0 +1,51 @@
+#!/bin/env python3
+
+import argparse
+import os
+import sys
+
+
+
+def generate_markdown(root_path):
+    # Ensure root_path is an absolute path
+    root_path = os.path.abspath(root_path)
+    # markdown = "# " + os.path.basename(root_path) + "\n"
+    markdown = ""
+
+    for root, dirs, files in sorted(os.walk(root_path)):
+        # Sort directories and files to ensure consistent order
+        dirs.sort()
+        files.sort()
+
+        depth = root[len(root_path):].count(os.sep)
+        indent = "  " * depth
+        if root != root_path:  # Avoid adding the root directory itself
+            dir_name = os.path.basename(root)
+            markdown += f"{indent}- ## TODO {dir_name}\n"
+
+        mp4_files = [file for file in files if file.endswith('.mp4')]
+        for file in sorted(mp4_files):  # Sort the mp4 files to ensure they are listed in alphabetical order
+            file_path = os.path.join(root, file)  # Create actual file path
+            markdown += f"{indent}  - #### TODO {os.path.splitext(file)[0]}\n"
+            markdown += f"{indent}    - ![{file}]({file_path})\n"
+
+    return markdown
+
+
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <folder_path>")
+        sys.exit(1)
+
+
+    parser = argparse.ArgumentParser(description='Generate markdown file for mp4 files in a directory.')
+    parser.add_argument('folder_path', type=str, help='Path to the folder containing mp4 files')
+    args = parser.parse_args()
+
+    root_path = args.folder_path
+    markdown_output = generate_markdown(root_path)
+
+    print(markdown_output)
+

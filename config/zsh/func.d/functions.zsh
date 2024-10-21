@@ -20,11 +20,99 @@ function cpypath {
 
   echo ${(%):-"%B${file:a}%b copied to clipboard."}
 }
+# 'cp'()
+# desc: copy files using rsync
+cp() {
+  rsync -lav -HAX -hhh --progress "$@"
+}
+compdef _files cp
+
+# cpv()
+# desc: copy files using rsync with verbose output format
+cpv() {
+  rsync -av -HAX -hhh --out-format="[%t] %o: '%n', size %'''b, Last Modified: %M" "$@"
+  # Format String
+  # Example:
+  # [2022/10/17 12:24:40] send: 'Monokai Extended.tmTheme', Size:  49.15K, Last Modified: 2022/10/17-11:59:25
+  # [%t] %o %n %'''b, Last Modified: %M
+  #   - %t     : date and time stamp
+  #   - %o     : operation type
+  #   - %n     : filename
+  #                 NOTE: consider replacing with %f for filepath
+  #   - %'''b: file size in KiB/MiB (1024)
+  #   - %M     : last modified date
+}
+compdef _files cpv
+
+#---------------------------------------------------------------------------
+# *                            Move
+#---------------------------------------------------------------------------
+
+mv() {
+    if (( $# == 1 )); then
+        command mv -vi "$1" .
+    else
+        command mv -vi "$@"
+    fi
+}
+
+
+# https://man.archlinux.org/man/rsync.1
+
+# From man rsync:
+# -a, --archive archive mode; equals -rlptgoD (no -H,-A,-X)
+# -H preserves hard-links, -A preserves ACLs, and -X preserves extended attributes.
+# When I use rsync interactively I also use the vP options for added verbosity
+# (pointless to use in a cron job unless you are logging and are interested in the information)
+
+# -a                            archive mode
+# -v                            increase verbosity
+# -P                            same as --partial --progress (progress bar)
+#                                   - keep partially transferred files
+#                                   - show progress during transfer
+# -H                            preserve hard links
+# -A                            preserve ACLs (implies -p)
+# -X                            preserve extended attributes
+# -S                            handle sparse files efficiently
+# --links, -l              copy symlinks as symlinks
+# --group, -g              preserve group
+# --backup, -b            make backups (see --suffix & --backup-dir)
+#
+# --rsh=COMMAND, -e
+#                               This option allows you to choose  an  alternative  remote  shell
+#                               program  to  use  for communication between the local and remote
+#                               copies of rsync.  Typically, rsync is configured to use  ssh  by
+#                               default, but you may prefer to use rsh on a local network.
+#
+# --suffix=SUFFIX        backup suffix (default ~ w/o --backup-dir)
+# -hhh: outputs numbers in human-readable format, in units of 1024 (K, M, G, T).
+
+
+#### Search ArchWiki
+# Allows for spaces
+wiki() {
+  search_term="${${*}// /+}"
+  lynx "https://wiki.archlinux.org/index.php\?search\=${search_term}"
+}
+
+
+#### d()
+# Select a directory from a list of previously visited directories (current session)
+#  Recommended Options (set in *ops.zsh)
+# setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
+PS3="❯ "
+
+d() {
+  local dir
+  select dir in $dirstack; do
+    test "x$dir" != x && cd "$dir" || exit
+  done
+}
 
 # cp()
 # desc: copy files using rsync
 cp() {
-    rsync -av -HAX -hhh --progress "$@"
+    rsync -HAX -hhh --progress "$@"
 }
 compdef _files cp
 
@@ -33,7 +121,7 @@ compdef _files cp
 cpv() {
     rsync -av -HAX -hhh --out-format="[%t] %o: '%n', size %'''b, Last Modified: %M" "$@"
     # Format String
-    # Example: 
+    # Example:
     # [2022/10/17 12:24:40] send: 'Monokai Extended.tmTheme', Size:  49.15K, Last Modified: 2022/10/17-11:59:25
     # [%t] %o %n %'''b, Last Modified: %M
     #   - %t     : date and time stamp
@@ -41,13 +129,13 @@ cpv() {
     #   - %n     : filename
     #                 NOTE: consider replacing with %f for filepath
     #   - %'''b: file size in KiB/MiB (1024)
-    #   - %M     : last modified date 
+    #   - %M     : last modified date
 }
 compdef _files cpv
 
 # https://man.archlinux.org/man/rsync.1
 
-# From man rsync: 
+# From man rsync:
 # -a, --archive archive mode; equals -rlptgoD (no -H,-A,-X)
 # -H preserves hard-links, -A preserves ACLs, and -X preserves extended attributes.
 # When I use rsync interactively I also use the vP options for added verbosity
@@ -89,6 +177,7 @@ wiki() {
 #  Recommended Options (set in *ops.zsh)
 # setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
 PS3="❯ "
+
 d() {
     local dir
     select dir in $dirstack; break
@@ -96,7 +185,7 @@ d() {
 }
 
 # --------------------------------------------------------------------------- #
-#*                                expand aliases                                
+#*                                expand aliases
 # --------------------------------------------------------------------------- #
 
 globalias() {
@@ -118,18 +207,18 @@ bindkey -M viins "^ " magic-space
 bindkey -M isearch " " magic-space
 
 # Read markdown files in the terminal
-mdv () {                                   
+mdv () {
   pandoc $1 | lynx -stdin
 }
 
 
 # --------------------------------------------------------------------------- #
-#*                                     SUDO                                     
+#*                                     SUDO
 # --------------------------------------------------------------------------- #
 # Toggles "sudo" before the current/previous command by pressing:
 # [ESC][ESC]
 
-sudo-command-line() {                      
+sudo-command-line() {
     [[ -z $BUFFER ]] && zle up-history
     if [[ $BUFFER == sudo\ * ]]; then
         LBUFFER="${LBUFFER#sudo }"
@@ -151,9 +240,9 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#*                               man pages                               
+#*                               man pages
 # --------------------------------------------------------------------------- #
-# 
+#
 # termcap
 # ks       make the keypad send commands
 # ke       make the keypad send digits
@@ -182,7 +271,7 @@ bindkey -M vicmd '\e\e' sudo-command-line
 
 
 # --------------------------------------------------------------------------- #
-#*                               Extract Archives                               
+#*                               Extract Archives
 # --------------------------------------------------------------------------- #
 alias x=extract
 
@@ -418,7 +507,7 @@ function urldecode {
 
 
 # --------------------------------------------------------------------------- #
-#*                                    Zoxide                                    
+#*                                    Zoxide
 # --------------------------------------------------------------------------- #
 
 # Utility functions for zoxide
@@ -467,7 +556,7 @@ function __zoxide_z() {
         __zoxide_cd "$1"
     else
         local __zoxide_result
-        __zoxide_result="$(zoxide query -- "$@")" && 
+        __zoxide_result="$(zoxide query -- "$@")" &&
             __zoxide_cd "$__zoxide_result"
     fi
 }
@@ -569,4 +658,112 @@ function vshell {
         devSN="$1"
     fi
     vtoolbox device.shell -c $devID -a $devSN
+}
+
+# Fancy Ctrl+z
+# https://github.com/mdumitru/fancy-ctrl-z
+# Use CTRL+z to background and bringback Vim
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line -w
+  else
+    zle push-input -w
+    zle clear-screen -w
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+# Centos Paste Service (https://paste.centos.org)
+function pasteit() {
+  local file_path=$1
+  local private=1
+  local author_name="Bad3r"
+  local syntax_highlighting="text"
+  local response=""
+  local paste_id=""
+
+  # Parse command-line arguments
+  if [[ $# -gt 1 ]]; then
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        -p|--public)
+          private=0
+          shift ;;
+        -a|--author)
+          author_name=$2
+          shift 2 ;;
+        -l|--lang)
+          if [[ $2 =~ ^(text|html5|css|javascript|php|python|ruby|lua|bash|erlang|go|c|cpp|diff|latex|sql|xml|0|4cs|6502acme|6502kickass|6502tasm|68000devpac|abap|actionscript|actionscript3|ada|aimms|algol68|apache|applescript|apt_sources|arm|asm|asymptote|asp|autoconf|autohotkey|autoit|avisynth|awk|bascomavr|basic4gl|bbcode|bf|bibtex|blitzbasic|bnf|boo|c_loadrunner|c_mac|c_winapi|caddcl|cadlisp|cfdg|cfm|chaiscript|chapel|cil|clojure|cmake|cobol|coffeescript|cpp-winapi|csharp|cuesheet|d|dart|dcs|dcl|dcpu16|delphi|div|dos|dot|e|ecmascript|eiffel|email|epc|euphoria|ezt|f1|falcon|fo|fortran|freebasic|freeswitch|fsharp|gambas|gdb|genero|genie|gettext|glsl|gml|gnuplot|groovy|gwbasic|haskell|haxe|hicest|hq9plus|html4strict|icon|idl|ini|inno|intercal|io|ispfpanel|j|java|java5|jcl|jquery|klonec|klonecpp|kotlin|lb|ldif|lisp|llvm|locobasic|logcat|logtalk|lolcode|lotusformulas|lotusscript|lscript|lsl2|m68k|magiksf|make|mapbasic|matlab|mirc|mmix|modula2|modula3|mpasm|mxml|mysql|nagios|netrexx|newlisp|nginx|nimrod|nsis|oberon2|objc|objeck|ocaml|octave|oobas|oorexx|oracle11|oracle8|oxygene|oz|parasail|parigp|pascal|pcre|per|perl|perl6|pf|pic16|pike|pixelbender|pli|plsql|postgresql|postscript|povray|powerbuilder|powershell|proftpd|progress|prolog|properties|providex|purebasic|pys60|q|qbasic|qml|racket|rails|rbs|rebol|reg|rexx|robots|rpmspec|rsplus|rust|sas|scala|scheme|scilab|scl|sdlbasic|smalltalk|smarty|spark|sparql|standardml|stonescript|systemverilog|tcl|teraterm|thinbasic|tsql|typoscript|unicon|uscript|upc|urbi|vala|vb|vbnet|vbscript|vedit|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xbasic|xorg_conf|xpp|yaml|z80|zxbasic)$ ]]; then
+                syntax_highlighting=$2
+          else
+            echo "Error: Unsupported language. Possible values: text, html5, css, javascript, php, python, ruby, lua, bash, erlang, go, c, cpp, diff, latex, sql, xml, 0, 4cs, 6502acme, 6502kickass, 6502tasm, 68000devpac, abap, actionscript, actionscript3, ada, aimms, algol68, apache, applescript, apt_sources, arm, asm, asymptote, asp, autoconf, autohotkey, autoit, avisynth, awk, bascomavr, basic4gl, bbcode, bf, bibtex, blitzbasic, bnf, boo, c_loadrunner, c_mac, c_winapi, caddcl, cadlisp, cfdg, cfm, chaiscript, chapel, cil, clojure, cmake, cobol, coffeescript, cpp-winapi, csharp, cuesheet, d, dart, dcs, dcl, dcpu16, delphi, div, dos, dot, e, ecmascript, eiffel, email, epc, euphoria, ezt, f1, falcon, fo, fortran, freebasic, freeswitch, fsharp, gambas, gdb, genero, genie, gettext, glsl, gml, gnuplot, groovy, gwbasic, haskell, haxe, hicest, hq9plus, html4strict, icon, idl, ini, inno, intercal, io, ispfpanel, j, java, java5, jcl, jquery, klonec, klonecpp, kotlin, lb, ldif, lisp, llvm, locobasic, logcat, logtalk, lolcode, lotusformulas, lotusscript, lscript, lsl2, m68k, magiksf, make, mapbasic, matlab, mirc, mmix, modula2, modula3, mpasm, mxml, mysql, nagios, netrexx, newlisp, nginx, nimrod, nsis, oberon2, objc, objeck, ocaml, octave, oobas, oorexx, oracle11, oracle8, oxygene, oz, parasail, parigp, pascal, pcre, per, perl, perl6, pf, pic16, pike, pixelbender, pli, plsql, postgresql, postscript, povray, powerbuilder, powershell, proftpd, progress, prolog, properties, providex, purebasic, pys60, q, qbasic, qml, racket, rails, rbs, rebol, reg, rexx, robots, rpmspec, rsplus, rust, sas, scala, scheme, scilab, scl, sdlbasic, smalltalk, smarty, spark, sparql, standardml, stonescript, systemverilog, tcl, teraterm, thinbasic, tsql, typoscript, unicon, uscript, upc, urbi, vala, vb, vbnet, vbscript, vedit, verilog, vhdl, vim, visualfoxpro, visualprolog, whitespace, whois, winbatch, xbasic, xorg_conf, xpp, yaml, z80, zxbasic"
+            return 1
+          fi
+          shift 2 ;;
+        *)
+          echo "Unknown option: $1"
+          return 1 ;;
+      esac
+    done
+  fi
+
+  local api_url="https://paste.opensuse.org/api/create"
+
+  response=$(curl -s -d "private=${private}" -d "name=${author_name}" --data-urlencode -d "${syntax_highlighting}=@${file_path}" ${api_url})
+
+  paste_id=$(echo ${"response"} | sed -n 's/.*https:\/\/paste.centos.org\/view\/\(.*\)/\1/p')
+
+  if [[ -n $paste_id ]]; then
+    echo "File uploaded successfully. Paste URL: https://paste.centos.org/view/${paste_id}"
+  else
+    echo "Failed to upload file. Error: ${response}"
+  fi
+}
+
+
+# Pacman
+
+search_aur() {
+    paru -Sl | awk '{print $2($4=="" ? "" : " *")}' | \
+    sk --multi --preview 'paru -Si {1}' | \
+    cut -d " " -f 1 | xargs -ro paru -S
+}
+
+ba_search() {
+    pacman -Sgg | rg blackarch | cut -d ' ' -f2 | sort -u | fzf
+}
+
+# Reinitialize Pacman keys
+packey() {
+    local repos_to_check=(alhp cachyos blackarch)
+    local active_repos=(archlinux)  # archlinux is always included
+
+    # Check which repos are active in pacman.conf
+    for repo in "${repos_to_check[@]}"; do
+        case $repo in
+            alhp)
+                if grep -q "^\[core-x86-64-v3\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            cachyos)
+                if grep -q "^\[cachyos-" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            blackarch)
+                if grep -q "^\[blackarch\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+        esac
+    done
+
+    echo "${active_repos[@]}"
+
+    sudo rm -rf /etc/pacman.d/gnupg && \
+    sudo pacman-key --init && \
+    sudo pacman-key --populate ${active_repos[@]}
 }

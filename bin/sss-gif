@@ -1,0 +1,21 @@
+#!/bin/env bash
+
+timestamp=$(date +%Y_%m-%d_%H_%M_%S)
+vid="vid_$timestamp.mp4"
+
+ffmpeg -rtbufsize 2000M -f x11grab -framerate 15 \
+$(xwininfo | gawk 'match($0, /-geometry ([0-9]+x[0-9]+).([0-9]+).([0-9]+)/, a) \
+ { print "-video_size " a[1] " -i +" a[2] "," a[3] }') \
+ -c:v h264_nvenc -b:v 14M -probesize 64M -g 50 $vid
+
+gif="$timestamp.gif"
+convert -set delay 10 "$vid" "$gif"
+
+print ":: Uploading to R2.."
+rclone copy "$gif" r2:r2b -vv
+
+printf "%s" "https://cdn.hacklog.sh/$gif" | xsel --clipboard
+
+printf "%s\n" "https://cdn.hacklog.sh/$gif" 
+
+rm "$vid" "$gif"

@@ -1,106 +1,396 @@
+##########################################
+# Package Management
+##########################################
 
-# ---------------------------------------- #
-# -------------- Arch Linux -------------- #
-# ---------------------------------------- #
-
+# Pacman install with colored output
 alias spm="sudo pacman --color=always -S"
+
+# Yay aliases for AUR helper
 alias yya="yay"
-alias yy="yay"
 alias ya="yay"
+
+# Update packages
 alias up="yay -Syu"
+
+# Update without confirmation
 alias upc="yay -Syu --noconfirm"
-alias yayskip='yay -S --mflags --skipinteg'
-alias packey="sudo rm -rf /etc/pacman.d/gnupg && sudo pacman-key --init && sudo pacman-key --populate archlinux"
-# Search AUR packages using Paru and fzf
-alias search_aur="paru -Sl | awk '{print \$2(\$4==\"\" ? \"\" : \" *\")}' | sk --multi --preview 'paru -Si {1}' | cut -d \" \" -f 1 | xargs -ro paru -S"
-alias chx="sudo chmod +x"
-alias yeet='paru -Rns'
 
-# ---------------------------------------- #
-# --------------- BlackArch -------------- #
-# ---------------------------------------- #
-# Fzf & ripgrep https://github.com/BurntSushi/ripgrep
-alias -g ba_search="pacman -Sgg |rg blackarch |cut -d ' ' -f2 |sort -u | fzf"
+# Install skipping integrity checks
+alias yayskip="yay -S --mflags --skipinteg"
 
+# Topgrade: Upgrade all software
+alias tg="topgrade"
+alias gt="topgrade"
 
+##########################################
+# File Management
+##########################################
 
-# ---------------------------------------- #
-# ------------ Change Defaults ----------- #
-# ---------------------------------------- #
+# Change permissions to 755 with sudo
+alias chx="sudo chmod 755"
 
-# undoller ❯ $ cmd --> ❯ cmd
-alias \$=''
+# Remove files with verbose output
+alias rmv="rm -v"
+
+# Force remove directories recursively
+alias rmdf="rm -rfv"
+
+# List block devices with detailed info
+alias lsblk="lsblk -o NAME,FSTYPE,SIZE,TYPE,UUID,MOUNTPOINT"
+
+# Show top 11 largest directories/files
+alias ducks="du -cms * | sort -rn | head -11"
+
+# Share content via termbin.com
+alias tb="nc termbin.com 9999"
+
+##########################################
+# Compilation
+##########################################
+
+# GHC with dynamic linking
+alias ghc="ghc -dynamic"
+
+# GCC with debugging and strict standards
+alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
+
+##########################################
+# Networking
+##########################################
+
+# Ping with count of 5
+alias ping="ping -c 5"
+
+# Curl with silent, follow redirects, compressed
+alias curl="curl -sJL --compressed"
+
+# Wget with continue, content disposition, and progress
+alias wget="wget -c --content-disposition --show-progress"
+
+# Nmap with sudo and environment preservation
+alias nmap="sudo -E nmap"
+
+# Colorized IP command output
+alias ip="ip -color=auto"
+# Show all IP addresses
+alias ipa="ip a"
+# Ethernet interface
+alias ipeth="ip a show enp0s31f6"
+# WLAN interface
+alias ipwlan="ip a show wlan0"
+# Tunnel interface
+alias iptun="ip a show tun0"
+
+# Get external IP in JSON format
+alias wtfip="curlie wtfismyip.com/json"
+
+# List available Wi-Fi networks
+alias wifi="nmcli dev wifi"
+
+# List open network ports
+alias ports="lsof -ni | grep -i"
+
+##########################################
+# Text Editors
+##########################################
+
+# Aliases for default editor
 alias vi="$EDITOR"
 alias vim="$EDITOR"
-alias ghc="ghc -dynamic"
-alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
-alias mv="mv -iv"
-alias ip='ip -color=auto'
-alias dmesg='dmesg --color=always'
-alias rm='rm -v'
-# Change layout of lsblk to include FSTYPE,UUID and remove MAJ:MIN, RM, and RO collumns.
-alias lsblk='lsblk -o NAME,FSTYPE,SIZE,TYPE,UUID,MOUNTPOINT'
-alias nmap='sudo -E nmap'
-alias emacs='emacs -nw'
 
-#  bat https://github.com/sharkdp/bat
-if (( $+commands[bat] )); then                             
-    alias catt="bat -pp"
-fi
+# Emacs in terminal mode
+alias emacs="emacs -nw"
+alias e="emacs -nw"
 
+# Helix editor (https://helix-editor.com)
+alias hx="helix"
 
-# Fast access to files and scripts
+# Visual Studio Code
+alias vs="code"
+alias vscode="vs"
+alias vs.="vs ."
+alias v.="vs ."
 
-alias -g zshrc="$EDITOR ~/.zshrc"
-alias -g xresources="$EDITOR ~/.Xresources"
-alias -g i3conf="$EDITOR ~/.i3/config"
+##########################################
+# Configuration Files
+##########################################
 
+# Edit aliases file
+alias vialias="$EDITOR ~/.config/zsh/zshrc.d/05-aliases.zsh"
 
+# Edit Zsh configuration
+alias zshrc="$EDITOR ~/.zshrc"
 
+# Edit X resources
+alias xresources="$EDITOR ~/.Xresources"
 
-# ---------------------------------------- #
-# ------------- Miscellaneous ------------ #
-# ---------------------------------------- #
+# Edit i3 window manager config
+alias i3conf="$EDITOR ~/.i3/config"
 
-## super user alias
-alias _='sudo '
-alias -g copy="xclip -o | xclip -selection clipboard -i"   # Copy selection https://wiki.archlinux.org/index.php/Copying_text_from_a_terminal
-alias cpy="xsel --clipboard"
-alias -g paste="xclip -o -sel clip"                        # paste: to terminal, file: paste > <file>
-alias hex="hyx"                                            # CLI hex editor
-alias fetch="fastfetch"                                    # Show system information.
+##########################################
+# System Information
+##########################################
+
+# Use fastfetch for system info
+alias fetch="fastfetch"
 alias neofetch="fastfetch"
-alias ducks='du -cms * | sort -rn | head -11'              # list the largest 10 files in a dir replace m with k for kb
+
+##########################################
+# Terminal Utilities
+##########################################
+
+# Shortcut for sudo
+alias _="sudo "
+alias suod="sudo"
+
+# cd shortcut
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Clear shell variable named $
+alias undoller="\$=''"
+
+# Clear screen and display directory tree
 alias cls="clear; tree"
+
+# Clear screen shortcuts
 alias cl="clear"
 alias c="clear"
 alias clr="clear"
-alias todol="todoist --namespace --project-namespace list | fzf --preview 'todoist show {1}' | cut -d ' ' -f 1 | tr '\n' ' '"
-alias vs='vscodium'
-alias vialias="$EDITOR ~/.config/zsh/zshrc.d/05-aliases.zsh"
-alias :q='exit'
-alias q='exit'
-alias psf="ps -ef | grep --color=always"
+
+# tldr with fzf preview
 alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs tldr"
-alias sx='nsxiv'
+
+# Hex viewer
+alias hex="hyx"
+
+# Display animated parrot
+alias yeet="curl parrot.live"
+
+# Exit shell
+alias :q="exit"
+alias q="exit"
+
+# Grep processes with color
+alias psf="ps -ef | grep --color=always"
+
+# Human-readable disk usage with total
+alias du="du -h -c"
+
+# Upload content to ix.io
+alias ixio="\curl -F 'f:1=<-' ix.io"
+
+# Ripgrep with hidden files and ignoring VCS
+alias rg="rg --hidden --ignore-vcs --require-git --glob \"!.git\""
+
+##########################################
+# Command Replacements
+##########################################
+
+# Use eva as bc if eva is installed
+if (( ${+commands[eva]} )); then
+    alias bc="eva"
+fi
+
+# Replace 'ls' & 'tree' with 'exa'
+if command -v exa >/dev/null 2>&1; then
+    alias ls="exa --group-directories-first -a --icons"
+    alias ll="exa --group-directories-first -haglF --git --icons"
+    alias tree="exa --tree --level=2"
+fi
+
+
+##########################################
+# GUI Applications
+##########################################
+
+# Zathura PDF reader (https://pwmt.org/projects/zathura/)
+alias zt="zathura"
+alias za="zathura"
+
+##########################################
+# Systemd Management
+##########################################
+
+# Systemctl with sudo
+alias sd="sudo systemctl"
+
+# Service status
+alias sds="systemctl status"
+
+# Service status with sudo
+alias scs="sudo systemctl status"
+
+# Restart service
+alias sr="sudo systemctl restart"
+
+# List services
+alias sl="sudo systemctl list-units --type=service"
+alias sll="sudo systemctl list-units --type=service --all"
+alias slll="sudo systemctl list-units --type=service --all --full"
+
+# User-level systemctl
+alias scu="systemctl --user"
+
+# User services status
+alias sus="systemctl --user status"
+
+alias sul="systemctl --user list-units --type=service"
+alias sull="systemctl --user list-units --type=service --all"
+alias sulll="systemctl --user list-units --type=service --all --full"
+
+# View system journal with sudo
+alias journalctl="sudo journalctl"
+
+# View kernel messages with color
+alias dmesg="sudo dmesg -H --color=always"
+
+##########################################
+# Clipboard Management
+##########################################
+
+# Copy selection to clipboard using xclip
+alias cpys="xclip -o | xclip -selection clipboard -i"
+
+# Copy to clipboard using xsel
+alias cpy="xsel --clipboard"
+
+# Paste from clipboard
+alias paste="xclip -o -sel clip"
+
+##########################################
+# Kitty Terminal
+##########################################
+
+# Kitty diff viewer
+alias kdiff="kitty +kitten diff"
+
+# Kitty image viewer
+alias kimg="kitty +kitten icat"
+
+# Kitty grep with hyperlinks
+alias kgrep-url="kitty +kitten hyperlinked_grep -f"
+
+# Kitty SSH client
+alias kssh="kitty +kitten ssh"
+
+
+##########################################
+# Miscellaneous
+##########################################
+
+# nsxiv image viewer (https://github.com/nsxiv/nsxiv)
+alias sx="nsxiv"
 alias sxiv="nsxiv"
-alias e="emacs -nw"
-alias k-diff="kitty +kitten diff"
-alias k-img="kitty +kitten icat"
-alias k-grep-url="kitty +kitten hyperlinked_grep -f"
-alias input="sudo input-remapper-service & input-remapper-control --command autoload"
 
-# sys maintaince 
-alias tg="topgrade"
+# Start input remapper service
+alias inputremap="sudo input-remapper-service && \
+input-remapper-control --command autoload"
 
-# net
-alias tb="nc termbin.com 9999"                             # Upload files to netcat-based pastebin. 
-alias wifi="nmcli dev wifi"
-alias yeet="curl parrot.live"                              # yeet
-alias ipa='ip a'
-alias ipeth='ip a show enp0s31f6'
-alias ipwlan='ip a show wlan0'
-alias ipia='ip a show wgpia0'
-alias iptun='ip a show tun0'
-alias wtfip='curlie wtfismyip.com/json'
-alias hx='helix'
+# bat for syntax highlighting
+alias catt="bat -pp"
+
+# Alias xcp to cpx  (extended CP)
+alias cpx="xcp"
+
+
+##########################################
+# Docker
+##########################################
+
+# Docker command aliases
+alias dk="docker"
+alias di="docker images"
+alias dps="docker ps"
+alias dpa="docker ps -a"
+alias dr="docker run"
+alias drm="docker rm"
+alias drmi="docker rmi"
+alias drmf="docker rm -f"
+alias dlf="docker logs -f"
+alias ds="docker stop"
+alias dstart="docker start"
+alias dst="docker stats"
+# Stop all containers
+alias dsto="docker stop \$(docker ps -a -q)"
+
+##########################################
+# Docker Compose
+##########################################
+
+# Docker Compose command aliases
+alias dc="docker-compose"
+alias dce="docker-compose exec"
+alias dcl="docker-compose logs"
+alias dclf="docker-compose logs -f"
+alias dco="docker-compose down"
+alias dcps="docker-compose ps"
+alias dcu="docker-compose up"
+
+##########################################
+# Git
+##########################################
+
+# General Git commands
+alias g="git"
+alias ga="git add"
+alias gb="git branch --all"
+alias gc="git commit"
+# Diff with clean output
+alias gd="git diff --output-indicator-new=\" \" --output-indicator-old=\" \""
+alias gfu="git fetch upstream"
+alias gi="git init"
+alias gl="git log --graph"
+alias gm="git merge"
+alias gmum="git merge upstream/master"
+alias gp="git push"
+alias gpf="git push --force"
+alias gr="git reset"
+alias gs="git status -s"
+alias gu="git pull"
+
+# Advanced Git commands
+alias gap="git add -p"
+alias gbi="git bisect"
+alias gca="git commit --amend --no-edit"
+alias gcl="git clone --recursive"
+alias gco="git checkout"
+alias gcm="git commit -m"
+alias gds="gd --staged"
+alias gdt="git difftool"
+alias gra="git remote add"
+alias grb="git rebase"
+alias grg="git remote get-url"
+alias grl="git remote show"
+alias grm="git rm"
+alias grs="git remote set-url"
+alias gsa="git stash apply"
+alias gsl="git stash list"
+alias gsp="git stash pop"
+alias gss="git stash save"
+alias gst="git diff --stat --color | cat"
+
+##########################################
+# Cloudflare
+##########################################
+
+# Cloudflare Warp CLI tool
+alias warp="warp-cli"
+
+# Wrangler CLI for Cloudflare Workers
+alias wr="wrangler2"
+
+##########################################
+# Development Tools
+##########################################
+
+# pnpm package manager
+alias pp="pnpm"
+
+##########################################
+# Paths
+##########################################
+
+# Export custom data paths
+export mdata="/media/MineData/"
+export bdata="/media/BankData/"

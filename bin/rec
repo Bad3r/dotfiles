@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+
+import os
+import random
+import subprocess
+import argparse
+import pyperclip
+
+
+def get_screen_geometry():
+    return subprocess.check_output(
+        ['slop', '-f', '%g;-video_size %wx%h -i +%x,%y']).decode().split(';')
+
+
+def construct_filename(dict_path):
+    with open(os.path.join(dict_path, "eng-adjectives.txt")) as f_adj, \
+            open(os.path.join(dict_path, "eng-nouns.txt")) as f_noun1, \
+            open(os.path.join(dict_path, "eng-verbs.txt")) as f_verb, \
+            open(os.path.join(dict_path, "eng-nouns.txt")) as f_noun2:
+
+        adj = random.choice([w.strip() for w in f_adj.readlines()])
+        noun1 = random.choice([w.strip() for w in f_noun1.readlines()])
+        verb = random.choice([w.strip() for w in f_verb.readlines()])
+        noun2 = random.choice([w.strip() for w in f_noun2.readlines()])
+    return f"{adj}-{verb}-{noun1}-{noun2}.mp4"
+
+
+def start_screenkey(geometry):
+    screenkey_cmd = [
+        "screenkey",
+        "--bg-color='#586e75'",
+        "--font-color='#9ab2bb'",
+        "--font='MonoLisa'",
+        "--opacity=1",
+        "-g", geometry,
+    ]
+    return os.system(" ".join(screenkey_cmd) + " &")
+
+
+def stop_screenkey():
+    return os.system("killall screenkey")
+
+
+def record_video(geometry, file):
+    ffmpeg_cmd = [
+        "ffmpeg",
+        "-loglevel", "quiet",
+        "-stats",
+        "-rtbufsize", "2140M",
+        "-f", "x11grab",
+        "-framerate", "15",
+        geometry,
+        "-c:v", "h264_nvenc",
+        "-b:v", "80M",
+        "-probesize", "128M",
+        "-g", "50",
+        "-vf", "'pad=iw+6:ih+6:3:3:color=#586e75'",
+        file,
+    ]
+    return os.system(" ".join(ffmpeg_cmd))
+
+
+def upload_video(file):
+    rclone_cmd = [
+        "rclone",
+        "copy",
+        "--quiet",
+        "--stats-one-line",
+        file,
+        "r2:r2b",
+    ]
+    return os.system(" ".join(rclone_cmd))
+
+
+def play_video(file):
+    mpv_cmd = [
+        "mpv",
+        file,
+    ]
+    return os.system(" ".join(mpv_cmd))
+
+
+def main():
+    # Constants
+    URL = "https://cdn.unsigned.sh"
+
+    # Directories
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    dict_path = os.path.join(dir_path, "dict")
+    home_dir = os.path.expanduser("~")
+    video_dir = os.path.join(home_dir, "Videos/recording")
+    if not os.path.exists(video_dir):
+        os.makedirs(video_dir)
+
+    # parse arguments
+    parser = argparse.ArgumentParser(
+        description="A script to record a selected window and upload it to R2."
+    )
+    parser.add_argument("-u", "--upload", action="store_true",
+                        help="Upload the recorded video to R2. Implies --copy option to copy the URL.")
+    parser.add_argument("-p", "--play", action="store_true",
+                        help="Play the recorded video using mpv.")
+    parser.add_argument("-d", "--delete", action="store_true",
+                        help="Delete the recorded video file after uploading or playing")
+    parser.add_argument("-s", "--screenkey", action="store_true",
+                        help="Use screenkey to display keystrokes.")
+    parser.add_argument("-c", "--copy", action="store_true",
+                        help="Copy the video filepath")
+    parser.add_argument("-v", "--version", action="version",
+                        version="%(prog)s 1.0")
+    args = parser.parse_args()
+
+    geometry = get_screen_geometry()
+
+    if args.screenkey:
+        print(":: Starting ScreenKey..")
+        start_screenkey(geometry[0])
+
+    filename = construct_filename(dict_path)
+    file = f"{video_dir}/{filename}"
+    print(f":: Generated filename: {filename}")
+
+    print("[!] Right-click on a window to start recording")
+    record_video(geometry[1], file)
+    print(":: Stopped Recording")
+
+    if args.copy:
+        pyperclip.copy(file)
+
+    if args.screenkey:
+        print(":: Stopping ScreenKey..")
+        stop_screenkey()
+
+    if args.upload:
+        print(":: Uploading to R2..")
+        # upload_video(file)
+        print(f"{URL}/{filename}")
+        pyperclip.copy(f"{URL}/{filename}")
+        print(":: Link Copied to clipboard")
+
+    if args.play:
+        play_video(file)
+
+    if args.delete:
+        os.remove(file)
+        print(":: Video removed successfully")
+        exit(0)
+
+
+if __name__ == "__main__":
+    main()

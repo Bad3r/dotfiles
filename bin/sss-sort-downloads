@@ -1,0 +1,34 @@
+#!/bin/env python3
+import os
+import shutil
+import mimetypes
+
+downloads_path = os.path.expanduser('/media/veracrypt2/Downloads_old')
+
+# Create a function to categorize files based on their MIME type
+def categorize_files(file_path):
+    mime_type, _ = mimetypes.guess_type(file_path)
+    if mime_type:
+        main_type, sub_type = mime_type.split('/')
+        category_folder = os.path.join(downloads_path, main_type)
+        if not os.path.exists(category_folder):
+            os.makedirs(category_folder)
+        return category_folder
+    else:
+        unknown_folder = os.path.join(downloads_path, 'unknown')
+        if not os.path.exists(unknown_folder):
+            os.makedirs(unknown_folder)
+        return unknown_folder
+
+# Parse the Downloads folder
+for file in os.listdir(downloads_path):
+    file_path = os.path.join(downloads_path, file)
+    if os.path.isfile(file_path):
+        target_folder = categorize_files(file_path)
+        new_file_path = os.path.join(target_folder, file)
+        if not os.path.exists(new_file_path):
+            shutil.move(file_path, new_file_path)
+        else:
+            print(f"File {file} already exists in the target folder. Skipping...")
+
+print("Files have been grouped based on their MIME type.")
