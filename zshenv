@@ -15,3 +15,9 @@ export MOZ_X11_EGL=1
 export LIBVA_DRIVER_NAME=nvidia
 export MOZ_DISABLE_RDD_SANDBOX=1
 
+
+export REDO_HISTORY_PATH="/home/chell/.cache/shell_history"
+source "$(redo alias-file)"
+
+
+export OPENAI_API_KEY=sk-katjla8tGWoQA5xKvFQhT3BlbkFJwCXAMrlGQE9dHetMcO4

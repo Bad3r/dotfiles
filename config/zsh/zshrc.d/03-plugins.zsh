@@ -1,9 +1,9 @@
-
 # list of plugins
 # if antibody is installed; bundle zsh plugins
-if (( $+commands[antibody] )); then
+if hash antibody 2>/dev/null; then
+
     source <(antibody init)
-    antibody bundle <<- plugins
+    antibody bundle <<-plugins
 
     # https://github.com/zsh-users/zsh-syntax-highlighting
     zsh-users/zsh-syntax-highlighting
@@ -27,17 +27,9 @@ if (( $+commands[antibody] )); then
     # https://github.com/zsh-users/zsh-history-substring-search
     zsh-users/zsh-history-substring-search
 
+   # https://github.com/g-plane/pnpm-shell-completion
+    g-plane/pnpm-shell-completion
+
 plugins
 
-    #### Shortcuts
-
-    # zsh-history-substring-search
-    bindkey '^[[A' history-substring-search-up                  # arrow up
-    bindkey '^[[B' history-substring-search-down                # arrow down
-    bindkey -M emacs '^P' history-substring-search-up           # emacs mode
-    bindkey -M emacs '^N' history-substring-search-down         # emacs mode
-    bindkey -M vicmd 'k' history-substring-search-up            # Vim mode
-    bindkey -M vicmd 'j' history-substring-search-down          # Vim  mode
-    
 fi
-

@@ -8,6 +8,10 @@ unsetopt menu_complete
 # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Use-of-compinit
 
 autoload -Uz compinit
+
+# Add custom completion directory to fpath
+fpath=("${ZDOTDIR}/completion.d" $fpath)
+
 # set compinit dump file locaton 
 # defualt:  ($ZDOTDIR or $HOME)/.zcompdump
 compinit -d "${XDG_CACHE_HOME:-$HOME/.cache/zsh}/zshcompdump"
