@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# Define colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No color
+
+# Define the packages to check
+packages="rockyou seclists"
+
+# Function to check if the package is installed
+is_installed() {
+    pacman -Qi "$1" > /dev/null 2>&1
+}
+
+# Check for missing packages
+missing_packages=""
+for pkg in $packages; do
+    if ! is_installed "$pkg"; then
+        missing_packages="$missing_packages $pkg"
+    else
+        printf "${GREEN}[*] %s is already installed.${NC}\n" "$pkg"
+    fi
+done
+
+# If any packages are missing, prompt the user to install them
+if [ -n "$missing_packages" ]; then
+    while true; do
+        printf "${YELLOW}[*] The following packages are missing: %s${NC}\n" "$missing_packages"
+        printf "${BLUE}[*] Do you want to install them? (y/n)${NC}\n"
+        read answer
+        case $answer in
+            yes|y)
+                yay -S $missing_packages --noconfirm
+                if [ $? -eq 0 ]; then
+                    printf "${GREEN}[*] Packages installed successfully.${NC}\n"
+                else
+                    printf "${RED}[!] Error: Failed to install packages.${NC}\n"
+                    exit 1
+                fi
+                break
+                ;;
+            no|n)
+                printf "${RED}[!] Installation aborted.${NC}\n"
+                exit 1
+                ;;
+            *)
+                printf "${YELLOW}[!] Please answer 'yes/y' or 'no/n'.${NC}\n"
+                ;;
+        esac
+    done
+fi
+
+# Create the symbolic link if necessary
+if [ ! -L /usr/share/wordlists ]; then
+    sudo ln -s /usr/share/dict /usr/share/wordlists
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}[*] Symbolic link created: /usr/share/dict -> /usr/share/wordlists${NC}\n"
+    else
+        printf "${RED}[!] Error: Failed to create symbolic link.${NC}\n"
+        exit 1
+    fi
+elif [ "$(readlink /usr/share/wordlists)" != "/usr/share/dict" ]; then
+    printf "${YELLOW}[!] Warning: /usr/share/wordlists exists but points to a different location.${NC}\n"
+else
+    printf "${GREEN}[*] Symbolic link already exists and is correct.${NC}\n"
+fi
+
+exit 0
+
