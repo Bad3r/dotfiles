@@ -1,0 +1,39 @@
+#!/bin/sh
+# store in /usr/local/bin/update-neo4j-browser
+# pacman hook is /etc/pacman.d/hooks/neo4j-browser.hook
+set -e # Exit immediately on error
+
+# Get the Neo4j version, trimming unnecessary spaces or newlines
+NEO4J_VERSION=$(neo4j --version 2>/dev/null) || {
+    echo "[!] Failed to determine Neo4j version. Ensure Neo4j is installed and accessible."
+    exit 1
+}
+
+# Construct the download URL
+DOWNLOAD_URL="https://repo.maven.apache.org/maven2/org/neo4j/client/neo4j-browser/${NEO4J_VERSION}/neo4j-browser-${NEO4J_VERSION}.jar"
+
+# Set the plugins directory and destination file
+PLUGIN_DIR="/var/lib/neo4j/plugins"
+DEST_FILE="${PLUGIN_DIR}/neo4j-browser-${NEO4J_VERSION}.jar"
+
+# Create the plugins directory if it doesn't exist
+if [ ! -d "$PLUGIN_DIR" ]; then
+    echo "[*] Creating plugins directory at $PLUGIN_DIR"
+    mkdir -p "$PLUGIN_DIR"
+    chown -R neo4j:neo4j "$PLUGIN_DIR"
+    chmod -R 755 "$PLUGIN_DIR"
+fi
+
+# Download the Neo4j Browser JAR file
+echo "[*] Downloading Neo4j Browser version ${NEO4J_VERSION} from ${DOWNLOAD_URL}..."
+if ! curl -fsSL -o "$DEST_FILE" "$DOWNLOAD_URL"; then
+    echo "Failed to download Neo4j Browser JAR from ${DOWNLOAD_URL}."
+    exit 1
+fi
+
+# Set the correct permissions for the JAR file
+echo "[*] Setting permissions for $DEST_FILE..."
+chown neo4j:neo4j "$DEST_FILE"
+chmod 755 "$DEST_FILE"
+
+echo "[*] Neo4j Browser ${NEO4J_VERSION} installed successfully."

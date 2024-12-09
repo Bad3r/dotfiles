@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = neo4j-community
+
+[Action]
+Description = Update Neo4j Browser JAR for neo4j-community
+When = PostTransaction
+Exec = /usr/local/bin/update-neo4j-browser
