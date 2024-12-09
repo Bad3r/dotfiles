@@ -31,7 +31,7 @@ yarn electron-forge package
 sudo rm -rf "$INSTALL_DIR"
 
 # Copy built files to installation directory (requires root)
-sudo rsync -av -HAX -hhh --progress "$OUTPUT_DIR/" "$INSTALL_DIR/"
+sudo rsync -a -HAX -hhh --progress "$OUTPUT_DIR/" "$INSTALL_DIR/"
 
 # Remove output directory
 rm -rf "$OUTPUT_DIR"
