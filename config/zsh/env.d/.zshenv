@@ -142,3 +142,6 @@ path=(
 export PATH
 
 export FUNCNEST=1000
+
+# Disable DMABUF :(
+export WEBKIT_DISABLE_DMABUF_RENDERER=1

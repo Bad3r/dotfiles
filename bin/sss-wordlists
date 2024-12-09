@@ -8,11 +8,11 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No color
 
 # Define the packages to check
-packages="rockyou seclists"
+packages="rockyou seclists wfuzz"
 
 # Function to check if the package is installed
 is_installed() {
-    pacman -Qi "$1" > /dev/null 2>&1
+    pacman -Qi "$1" >/dev/null 2>&1
 }
 
 # Check for missing packages
@@ -32,23 +32,23 @@ if [ -n "$missing_packages" ]; then
         printf "${BLUE}[*] Do you want to install them? (y/n)${NC}\n"
         read answer
         case $answer in
-            yes|y)
-                yay -S $missing_packages --noconfirm
-                if [ $? -eq 0 ]; then
-                    printf "${GREEN}[*] Packages installed successfully.${NC}\n"
-                else
-                    printf "${RED}[!] Error: Failed to install packages.${NC}\n"
-                    exit 1
-                fi
-                break
-                ;;
-            no|n)
-                printf "${RED}[!] Installation aborted.${NC}\n"
+        yes | y)
+            yay -S $missing_packages --noconfirm
+            if [ $? -eq 0 ]; then
+                printf "${GREEN}[*] Packages installed successfully.${NC}\n"
+            else
+                printf "${RED}[!] Error: Failed to install packages.${NC}\n"
                 exit 1
-                ;;
-            *)
-                printf "${YELLOW}[!] Please answer 'yes/y' or 'no/n'.${NC}\n"
-                ;;
+            fi
+            break
+            ;;
+        no | n)
+            printf "${RED}[!] Installation aborted.${NC}\n"
+            exit 1
+            ;;
+        *)
+            printf "${YELLOW}[!] Please answer 'yes/y' or 'no/n'.${NC}\n"
+            ;;
         esac
     done
 fi
@@ -69,4 +69,3 @@ else
 fi
 
 exit 0
-
