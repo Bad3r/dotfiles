@@ -272,9 +272,11 @@ bindsym $Mod+shift+p  sticky      toggle
 #bindsym $Alt+1        [class="Logseq"] scratchpad show, move position 1278 px 28 px, resize set 1278 1410
 #bindsym $Alt+2        [class="Logseq"] scratchpad show, move position 965 px 39 px, resize set 947 1034
 bindsym $Alt+1 exec --no-startup-id ~/.config/i3/scripts/toggle_obsidian.sh
-bindsym $Alt+3 exec --no-startup-id  ~/.config/i3/scripts/toggle_logseq.sh
 bindsym $Alt+2 exec --no-startup-id  ~/.config/i3/scripts/toggle_IDE.sh
+bindsym $Alt+3 exec --no-startup-id  ~/.config/i3/scripts/toggle_logseq.sh
+bindsym $Alt+4 exec --no-startup-id  ~/.config/i3/scripts/toggle_raindrop_io.sh
 bindsym $Alt+shift+1 exec --no-startup-id  ~/.config/i3/scripts/toggle_IDE.sh
+
 
 
 
@@ -381,8 +383,6 @@ bar {
 #                                                                             #
 # --------------------------------- run once -------------------------------- #
 #                                                                             #
-set $udiskie "udiskie -nas -f nemo --terminal 'kitty -t'"
-#
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 # startup files location: $XDG_CONFIG_HOME/autostart, /etc/xdg/autostart
@@ -395,27 +395,23 @@ set $udiskie "udiskie -nas -f nemo --terminal 'kitty -t'"
 exec --no-startup-id   dunst
 exec --no-startup-id   picom -b
 
+# Auth
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id gnome-keyring-daemon --start --components=pkcs11
+
+
 # XFCE
 exec --no-startup-id   xfsettingsd
 exec --no-startup-id   xfce4-power-manager --no-logind
 
+# Set Primary monitor
+exec --no-startup-id  ~/.screenlayout/one-mon.sh
 
 # Set wallpaper. Best to use feh. See exec_always section too.
 #set  wallpaper "/path/"
 #exec --no-startup-id feh --bg-scale $wapplaper
 #exec --no-startup-id   hsetroot -extend $wallpaper
 
-
-exec --no-startup-id opensnitch-ui --background
-exec --no-startup-id input-remapper-control --command autoload
-exec --no-startup-id  ~/.config/i3/scripts/CF-Warp-Status.sh
-exec --no-startup-id nm-applet
-exec --no-startup-id usbguard-notifier
-exec --no-startup-id usbguard-qt
-exec --no-startup-id   $udiskie
-
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id gnome-keyring-daemon --start --components=pkcs11
 
 # ksuperkey for remapping keys
 exec --no-startup-id ksuperkey -e 'Super_L=Alt_L|F1'
@@ -424,6 +420,17 @@ exec --no-startup-id ksuperkey -e 'Super_R=Alt_L|F1'
 # xset configurations
 exec --no-startup-id xset dpms 600 900 1200
 exec --no-startup-id xset r rate 350 60
+
+# Start Applications
+exec --no-startup-id opensnitch-ui --background
+exec --no-startup-id input-remapper-control --command autoload
+exec --no-startup-id nm-applet
+exec --no-startup-id usbguard-notifier
+# exec --no-startup-id usbguard-qt
+exec --no-startup-id udiskie -nas -f nemo --terminal 'kitty -t'
+
+# Notification Scripts
+exec --no-startup-id  ~/.config/i3/scripts/CF-Warp-Status.sh
 
 
 # old
@@ -438,7 +445,7 @@ exec --no-startup-id xset r rate 350 60
 # ------------------------------ run on reload ------------------------------ #
 exec_always --no-startup-id xrdb -load ~/.Xresources
 # Autotiling
-exec_always --no-startup-id autotiling
+exec_always --no-startup-id autotiling -sr 1.61
 # exec_always --no-startup-id   hsetroot -extend $wallpaper
 exec_always --no-startup-id   hsetroot -solid "#2e3440"
 #                                                                             #

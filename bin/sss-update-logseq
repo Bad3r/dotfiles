@@ -1,37 +1,115 @@
 #!/bin/sh
-
-# Exit immediately if a command exits with a non-zero status
 set -e
 
-# Define variables for paths
+# Configuration
 LOGSEQ_DIR="/home/chell/git/logseq"
+BRANCH="feat/db"
 STATIC_DIR="$LOGSEQ_DIR/static"
 OUTPUT_DIR="$STATIC_DIR/out/Logseq-linux-x64"
 INSTALL_DIR="/opt/logseq-desktop-git"
 
-# Update repository
-cd "$LOGSEQ_DIR" || exit 1
-git pull origin
+# Define color codes using printf
+GREEN="$(printf '\033[0;32m')"
+RED="$(printf '\033[0;31m')"
+YELLOW="$(printf '\033[0;33m')"
+RESET="$(printf '\033[0m')"
 
-# Install dependencies and build
-yarn install
+# Function to show progress
+show_progress() {
+    printf "%s[ * ] %s...%s\n" "$GREEN" "$1" "$RESET"
+}
+
+# Parse command line arguments
+FORCE=false
+while getopts "f" opt; do
+    case $opt in
+    f) FORCE=true ;;
+    *)
+        echo "Usage: $0 [-f]" >&2
+        exit 1
+        ;;
+    esac
+done
+
+# Function to handle git conflicts
+handle_conflicts() {
+    printf "%s[ ! ] Git conflicts detected.%s\n" "$RED" "$RESET"
+    printf "%sWould you like to stash your changes and continue? [y/N] %s" "$YELLOW" "$RESET"
+    read -r response
+    case "$response" in
+    [yY] | [yY][eE][sS])
+        show_progress "Stashing changes"
+        git stash
+        return 0
+        ;;
+    *)
+        printf "%s[ ! ] Aborting installation.%s\n" "$RED" "$RESET"
+        exit 1
+        ;;
+    esac
+}
+
+cd "$LOGSEQ_DIR" || exit 1
+
+# Check for local changes
+if git diff-index --quiet HEAD --; then
+    : # Working directory clean
+else
+    handle_conflicts
+fi
+
+show_progress "Fetching updates for branch $BRANCH"
+git fetch origin "$BRANCH" --quiet
+
+LOCAL=$(git rev-parse "$BRANCH")
+REMOTE=$(git rev-parse "origin/$BRANCH")
+
+if [ "$LOCAL" = "$REMOTE" ] && [ "$FORCE" = false ]; then
+    show_progress "Logseq is up to date. No updates to the branch"
+    printf "%s[ ! ] Use -f flag to force reinstall.%s\n" "$YELLOW" "$RESET"
+    exit 0
+fi
+
+if [ "$FORCE" = true ]; then
+    show_progress "Force reinstall requested"
+fi
+
+show_progress "Pulling latest changes"
+if ! git pull origin "$BRANCH" --quiet; then
+    handle_conflicts
+    git pull origin "$BRANCH" --quiet
+fi
+
+show_progress "Installing main dependencies"
+yarn install --silent --parallel
+
+show_progress "Building gulp"
 yarn gulp:build
 
 cd "$STATIC_DIR" || exit 1
-yarn install
+show_progress "Installing static dependencies"
+yarn install --silent --parallel
 
 cd "$LOGSEQ_DIR" || exit 1
+show_progress "Preparing ClojureScript environment"
 clojure -P -M:cljs
+
+show_progress "Building Electron release"
 yarn cljs:dev-release-electron
 
 cd "$STATIC_DIR" || exit 1
+show_progress "Packaging with Electron Forge"
 yarn electron-forge package
 
-# Remove previous installation directory (requires root)
+show_progress "Installing to $INSTALL_DIR"
 sudo rm -rf "$INSTALL_DIR"
+sudo rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
 
-# Copy built files to installation directory (requires root)
-sudo rsync -a -HAX -hhh --progress "$OUTPUT_DIR/" "$INSTALL_DIR/"
-
-# Remove output directory
+show_progress "Cleaning up build artifacts"
 rm -rf "$OUTPUT_DIR"
+
+show_progress "Setting permissons (root:users)"
+sudo chown -R root:users /opt/logseq-desktop-git/
+sudo chmod -R 755 /opt/logseq-desktop-git
+
+show_progress "Installation complete"
