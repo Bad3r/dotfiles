@@ -2,11 +2,14 @@
 set -e
 
 # Configuration
-LOGSEQ_DIR="/home/chell/git/logseq"
-BRANCH="feat/db"
+BRANCH="test/db"
 STATIC_DIR="$LOGSEQ_DIR/static"
 OUTPUT_DIR="$STATIC_DIR/out/Logseq-linux-x64"
 INSTALL_DIR="/opt/logseq-desktop-git"
+# get the username for UID 1000
+USER_NAME=$(id -nu 1000)
+USER_HOME=$(eval printf '%s\n' "~${USER_NAME}")
+LOGSEQ_DIR="${USER_HOME}/git/logseq"
 
 # Define color codes using printf
 GREEN="$(printf '\033[0;32m')"
