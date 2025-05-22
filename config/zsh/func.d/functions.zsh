@@ -794,6 +794,28 @@ function pasteit() {
   fi
 }
 
+# mktmpdircd [base_dir]
+# use custom directory (defaults to $TMPDIR env var or /tmp if not set) 
+# Create and cd into a temp directory under $base_dir (or $TMPDIR/ /tmp if none),
+# and clean it up on shell exit.
+function mktmpdir() {
+  local base_dir="${1:-${TMPDIR:-/tmp}}"
+  local tmpdir
+
+  tmpdir=$(mktemp -d --tmpdir="$base_dir") || {
+    echo "mktemp failed (check that '$base_dir' exists and is writable)" >&2
+    return 1
+  }
+
+  cd "$tmpdir" || return 1
+
+  echo "[i] $tmpdir"
+  echo "[!] (will be removed on shell exits)"
+
+  # Clean up on shell exit
+  trap 'rm -rf -- "$tmpdir"' EXIT
+}
+
 
 # Pacman
 
@@ -827,6 +849,11 @@ packey() {
                 ;;
             blackarch)
                 if grep -q "^\[blackarch\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            endeavouros)
+                if grep -q "^\[endeavouros\]" /etc/pacman.conf; then
                     active_repos+=("$repo")
                 fi
                 ;;

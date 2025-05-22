@@ -44,6 +44,9 @@ alias ducks="du -cms * | sort -rn | head -11"
 # Share content via termbin.com
 alias tb="nc termbin.com 9999"
 
+# Create temp directory
+alias tmpdir="mktmpdir"
+
 ##########################################
 # Compilation
 ##########################################
@@ -181,7 +184,7 @@ alias du="du -h -c"
 alias ixio="\curl -F 'f:1=<-' ix.io"
 
 # Ripgrep with hidden files and ignoring VCS
-alias rg="rg --hidden --ignore-vcs --require-git --glob \"!.git\""
+alias rg="rg --hidden --ignore-vcs --require-git --glob '!.git'"
 
 ##########################################
 # Command Replacements
