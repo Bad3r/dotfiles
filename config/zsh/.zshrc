@@ -31,7 +31,13 @@ done
 # load prompt
 # autoload -U promptinit
 # promptinit
-eval "$(starship init zsh)"
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+else
+  # load default prompt
+  autoload -U promptinit
+  promptinit
+fi
 
 # Set window title
 function set_win_title() {
