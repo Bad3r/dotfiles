@@ -4,29 +4,54 @@
 #       When this file exists it will always be read.
 #
 
-# XDG
-# Add environment variables for the XDG directory specification
-# https://wiki.archlinux.org/title/XDG_Base_Directory
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$(xdg-user-dir)/.config"}
-export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$(xdg-user-dir)/.cache"}
-export XDG_DATA_HOME=${XDG_DATA_HOME:="$(xdg-user-dir)/.local/share"}
-
-# locale
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-
 # Defaults
-export TERM="xterm-kitty"
+if command -v kitty &> /dev/null; then
+    export TERM="xterm-kitty"
+    export TERMINAL="kitty"
+else
+    export TERM="xterm-256color"
+    export TERMINAL="xterm"
+fi
 export COLORTERM="truecolor"
-export TERMINAL="kitty"
-export VISUAL="nvim"
-export EDITOR=$VISUAL
-export BROWSER="nbrowser"
-export READER="zathura"
-export IMAGE="sxiv"
+
+if command -v nvim &> /dev/null; then
+    export EDITOR="nvim"
+    export DIFFPROG="nvim -d"
+else
+    export EDITOR="vi"
+    export DIFFPROG="vimdiff"
+fi
+
+export VISUAL=$EDITOR
+
+if command -v nbrowser &> /dev/null; then
+    export BROWSER="nbrowser"
+else
+    export BROWSER="firefox"
+fi
+
+if command -v zathura &> /dev/null; then
+    export READER="zathura"
+else
+    export READER="evince"
+fi
+
+if command -v sxiv &> /dev/null; then
+    export IMAGE="sxiv"
+else
+    export IMAGE="feh"
+fi
+
 export OPENER="xdg-open"
-export PAGER="bat"
+
+if command -v bat &> /dev/null; then
+    export PAGER="bat"
+else
+    export PAGER="less"
+fi
+
 export WM="i3"
+export SHELL=$(which zsh)
 
 # GPG
 export GPG_TTY=$(tty)
@@ -42,20 +67,9 @@ export CUDACXX=/opt/cuda/bin/nvcc
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # Go
-# add to path
+# Set go env vars
 export GOBIN="$(xdg-user-dir)/go/bin"
 export GOPATH="$(xdg-user-dir)/go"
-
-# QT
-export QT_SELECT=6
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORMTHEME="qt6ct"
-export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/qt/plugins"
-
-# Ruby
-# Ruby Gems
-export GEM_HOME="$(xdg-user-dir)/.gem"
-export GEM_PATH="$(xdg-user-dir)/.gem"
 
 # Rust
 export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
@@ -75,49 +89,31 @@ export MOZ_X11_EGL=1
 
 # set font for Nordic theme
 # PKG: nordic-darker-theme-git
-export THEME_FONT_FACE="MonoLisa"
-export THEME_FONT_SIZE=11
 
-# Paru
-export PARU_CONF="$XDG_CONFIG_HOME/paru/paru.conf"
+if fc-list | grep -i "monolisa" &> /dev/null; then
+    export THEME_FONT_FACE="MonoLisa"
+    export THEME_FONT_SIZE=11
+elif fc-list | grep -i "ibm plex mono" &> /dev/null; then
+    export THEME_FONT_FACE="IBM Plex Mono"
+    export THEME_FONT_SIZE=11
+else
+    export THEME_FONT_FACE="JetBrains Mono"
+    export THEME_FONT_SIZE=11
+fi
 
-# Chromium
-# enable hardware acceleration
-export CHROMIUM_FLAGS="--enable-features=VaapiVideoDecoder"
-export CHROME_EXECUTABLE="ungoogled-chromium"
-
-# set default editor
-export EDITOR="nvim"
-
-# set default pager
-export PAGER="bat"
-
-# set default reader
-export READER="zathura"
-
-# set default image viewer
-export IMAGE="sxiv"
-
-# set default opener
-export OPENER="xdg-open"
-
-# set default terminal
-export TERMINAL="kitty"
-
-# set default window manager
-export WM="i3"
-
-# set default shell
-export SHELL="zsh"
 
 # set default file manager
-export FILE_MANAGER="nemo"
+if command -v nemo &> /dev/null; then
+    export FILE_MANAGER="nemo"
+else
+    export FILE_MANAGER="thunar"
+fi
 
 # set default video player
 export VIDEO_PLAYER="mpv"
 
-# Set diff program for git diff and pacdiff (pacman)
-export DIFFPROG="nvim -d"
+mkdir -p "$(xdg-user-dir)/.local/bin"
+mkdir -p "$(xdg-user-dir)/bin"
 
 # PATH
 typeset -U PATH path
@@ -141,7 +137,9 @@ path=(
         "$path[@]")
 export PATH
 
+# Set max function nesting
 export FUNCNEST=1000
 
-# Disable DMABUF :(
+# Disable DMABUF :( due to issue with Nvidia
+# TODO: test if still needed
 export WEBKIT_DISABLE_DMABUF_RENDERER=1

@@ -1,11 +1,11 @@
 # This file contain zoxide rc and aliases
 
 
-# if zoxide is not installed; exit
+# if zoxide is not installed; else skip the rest of the file
 if (( $+commands[zoxide] )); then
     eval "$(zoxide init zsh)"
   else
-    exit
+    return    
 fi
 
 #
