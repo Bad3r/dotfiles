@@ -2,14 +2,12 @@
 # if antibody is installed; bundle zsh plugins
 
 # TODO: replace with a mantained plugin manager
-if ! command -v antibody &> /dev/null; then
+if ! command -v antidote &> /dev/null; then
     return
 fi 
 
-if hash antibody 2>/dev/null; then
-
-    source <(antibody init)
-    antibody bundle <<-plugins
+if hash antidote 2>/dev/null; then
+    antidote load <<-plugins
 
     # https://github.com/zsh-users/zsh-syntax-highlighting
     zsh-users/zsh-syntax-highlighting
@@ -35,6 +33,9 @@ if hash antibody 2>/dev/null; then
 
    # https://github.com/g-plane/pnpm-shell-completion
     g-plane/pnpm-shell-completion
+
+    # https://github.com/hlissner/zsh-autopair
+    hlissner/zsh-autopair
 
 plugins
 
