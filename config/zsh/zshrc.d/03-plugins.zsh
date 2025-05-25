@@ -37,6 +37,10 @@ if hash antidote 2>/dev/null; then
     # https://github.com/hlissner/zsh-autopair
     hlissner/zsh-autopair
 
+    # TODO: Review Docs
+    # https://github.com/wfxr/forgit
+    wfxr/forgit
+
 plugins
 
 fi
