@@ -1,4 +1,4 @@
-# File: $ZDOTDIR/.zshenv
+# File: $ZSH_CONF_DIR/.zshenv
 # Desc: Used for setting user's environment variables;
 #       it should not contain commands that produce output or assume the shell is attached to a TTY.
 #       When this file exists it will always be read.
@@ -143,3 +143,6 @@ export FUNCNEST=1000
 # Disable DMABUF :( due to issue with Nvidia
 # TODO: test if still needed
 export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# Load zshrc
+source "${ZSH_CONF_DIR}/.zshrc"

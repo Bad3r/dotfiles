@@ -10,11 +10,10 @@ unsetopt menu_complete
 autoload -Uz compinit
 
 # Add custom completion directory to fpath
-fpath=("${ZDOTDIR}/completion.d" $fpath)
+fpath=("${ZSH_CONF_DIR}/completion.d" $fpath)
 
-# set compinit dump file locaton 
-# defualt:  ($ZDOTDIR or $HOME)/.zcompdump
-compinit -d "${XDG_CACHE_HOME:-$HOME/.cache/zsh}/zshcompdump"
+# set compinit dump file locaton
+compinit -d "${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
 
 # Case-insensitive and hyphen insensitive path-completion 
 CASE_SENSITIVE=false
