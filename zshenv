@@ -15,9 +15,9 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 # ZSH
-ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+ZSH_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-source "${ZDOTDIR}/env.d/.zshenv"
+source "${ZSH_CONF_DIR}/env.d/.zshenv"
 
 # https://github.com/elFarto/nvidia-vaapi-driver#firefox
 export NVD_BACKEND=direct

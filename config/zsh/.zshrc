@@ -4,16 +4,15 @@
 # It also loads the prompt and sets the window title to display the current user, host, and working directory.
 # Additionally, it sets up key bindings vi-like navigation.
 
-
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
 # Define an array of directories to load .zsh files from
 local config_dirs=(
-  "${ZDOTDIR}/zshrc.d"
-  # "${ZDOTDIR}/alias.d"
-  "${ZDOTDIR}/rc.d"
-  "${ZDOTDIR}/func.d"
+  "${ZSH_CONF_DIR}/zshrc.d"
+  # "${ZSH_CONF_DIR}/alias.d"
+  "${ZSH_CONF_DIR}/rc.d"
+  "${ZSH_CONF_DIR}/func.d"
 )
 
 # Iterate over each directory and source all .zsh files if the directory exists
@@ -38,6 +37,7 @@ else
   autoload -U promptinit
   promptinit
 fi
+
 
 # Set window title
 function set_win_title() {
