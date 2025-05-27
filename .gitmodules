@@ -1,3 +1,8 @@
-[submodule "dotbot"]
-	path = dotbot
+[submodule ".dotbot"]
+	path = .dotbot
 	url = https://github.com/anishathalye/dotbot
+	ignore = dirty
+[submodule ".antidote"]
+	path = .antidote
+	url = https://github.com/mattmc3/antidote
+	ignore = dirty
