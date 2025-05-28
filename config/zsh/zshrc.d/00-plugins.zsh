@@ -1,4 +1,7 @@
-# Zsh Plugins Configuration File
+#---------------------------------------------------------------------------
+# *                            Plugins Configuration
+#---------------------------------------------------------------------------
+# !NOTE: This file is sourced before other .zshrc.d files due to completion being configured via ez-compinit plugin
 
 export ANTIDOTE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}/antidote
 PLUGINS_CONF_FILE="${${(%):-%N}:A}" # this file
@@ -8,6 +11,7 @@ PLUGINS_DST_FILE="$ANTIDOTE_HOME/plugins.zsh"
 if [[ ! "$PLUGINS_DST_FILE" -nt "$PLUGINS_CONF_FILE" ]]; then
     source "$DOTFILES/.antidote/antidote.zsh"
     mkdir -p "${PLUGINS_CONF_FILE:h}"
+    
     antidote bundle <<-plugins >| "$PLUGINS_DST_FILE"
     # https://github.com/mattmc3/ez-compinit
     mattmc3/ez-compinit
@@ -46,6 +50,9 @@ if [[ ! "$PLUGINS_DST_FILE" -nt "$PLUGINS_CONF_FILE" ]]; then
     # TODO: Review Docs
     # https://github.com/wfxr/forgit
     wfxr/forgit
+
+    # https://github.com/mollifier/cd-gitroot
+    mollifier/cd-gitroot
 
     # NOTE: Replaced with starship prompt (seperate package)
     # https://github.com/sindresorhus/pure

@@ -1,3 +1,10 @@
+#---------------------------------------------------------------------------
+# *                            Fzf Tab
+#---------------------------------------------------------------------------
+
+if ! check_command fzf-tab-dummy; then
+    return
+fi
 
 
 # disable sort when completing `git checkout`
