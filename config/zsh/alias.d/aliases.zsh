@@ -303,7 +303,8 @@ alias kgrep-url="kitty +kitten hyperlinked_grep -f"
 # Kitty SSH client
 alias kssh="kitty +kitten ssh"
 
-
+# Kitty as SUDO detached
+alias sukitty="sudo setsid kitty"
 ##########################################
 # Miscellaneous
 ##########################################
