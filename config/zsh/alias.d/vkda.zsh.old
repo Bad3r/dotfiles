@@ -1,0 +1,18 @@
+# Valiases
+alias camid='f() { vtoolbox device.lookup -s $1 | jq -r ".cameras[0].cameraId" | xsel --clipboard};f'
+
+# vshell()
+# Description: a function to run a shell command on a device
+# Usage: vshell <SN> <TOKEN>
+#        OR
+#        vshell <TOKEN> <SN>
+function vshell() {
+    if [[ "$1" = *"-"* ]]; then
+        devID="$1"
+        devSN="$2"
+    else
+        devID="$2"
+        devSN="$1"
+    fi
+    vtoolbox device.shell -c $devID -a $devSN
+}

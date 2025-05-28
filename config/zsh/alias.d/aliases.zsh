@@ -2,7 +2,6 @@
 # Package Management
 ##########################################
 
-# Pacman install with colored output
 alias spm="sudo pacman --color=always -S"
 
 # Yay aliases for AUR helper
@@ -47,12 +46,24 @@ alias tb="nc termbin.com 9999"
 # Create temp directory
 alias tmpdir="mktmpdir"
 
+if check_command xdg-open; then
+    alias open=xdg-open
+fi
+
+if check_command cd-gitroot; then
+    alias gitroot="cd-gitroot"
+    alias groot="cd-gitroot"
+    alias cdr="cd-gitroot"
+fi
+
 ##########################################
 # Compilation
 ##########################################
 
-# GHC with dynamic linking
-alias ghc="ghc -dynamic"
+if check_command ghc; then
+    # GHC (Haskell Compiler) with dynamic linking
+    alias ghc="ghc -dynamic"
+fi
 
 # GCC with debugging and strict standards
 alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
@@ -65,7 +76,14 @@ alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
 alias ping="ping -c 5"
 
 # Curl with silent, follow redirects, compressed
-alias curl="curl -sJL --compressed"
+alias curl="curl -sSJL --compressed"
+# -s: Do not show progress meter or error messages
+# -S: Force showing error messages when -s is used
+# -J: (HTTP) Tell the -O option to use the server-specified Content-Disposition filename instead
+#       of  extracting a filename from the URL. If the server-provided filename contains a path, that is stripped
+#       off before the filename is used.
+# -L: follow redirects
+# --compressed: compress the response
 
 # Wget with continue, content disposition, and progress
 alias wget="wget -c --content-disposition --show-progress"
@@ -85,13 +103,20 @@ alias ipwlan="ip a show wlan0"
 alias iptun="ip a show tun0"
 
 # Get external IP in JSON format
-alias wtfip="curlie wtfismyip.com/json"
+if check_command curlie; then
+    alias wtfip="curlie wtfismyip.com/json"
+else
+    alias wtfip="curl wtfismyip.com/json"
+fi
 
 # List available Wi-Fi networks
 alias wifi="nmcli dev wifi"
 
 # List open network ports
-alias ports="lsof -ni | grep -i"
+# list open port via ss
+alias ports="sudo ss -tulnp"
+alias port="sudo ss -tulnp | grep -i"
+
 
 ##########################################
 # Text Editors
@@ -119,10 +144,10 @@ alias v.="vs ."
 ##########################################
 
 # Edit aliases file
-alias vialias="$EDITOR ~/.config/zsh/zshrc.d/05-aliases.zsh"
+alias vialias="$EDITOR ${ZSH_CONF_DIR}/alias.d/aliases.zsh"
 
 # Edit Zsh configuration
-alias zshrc="$EDITOR ~/.zshrc"
+alias zshrc="$EDITOR ${ZSH_CONF_DIR}/.zshrc"
 
 # Edit X resources
 alias xresources="$EDITOR ~/.Xresources"
@@ -183,20 +208,17 @@ alias du="du -h -c"
 # Upload content to ix.io
 alias ixio="\curl -F 'f:1=<-' ix.io"
 
-# Ripgrep with hidden files and ignoring VCS
-alias rg="rg --hidden --ignore-vcs --require-git --glob '!.git'"
-
 ##########################################
 # Command Replacements
 ##########################################
 
 # Use eva as bc if eva is installed
-if (( ${+commands[eva]} )); then
+if check_command eva; then
     alias bc="eva"
 fi
 
 # Replace 'ls' & 'tree' with 'exa'
-if command -v exa >/dev/null 2>&1; then
+if check_command exa; then
     alias ls="exa --group-directories-first -a --icons"
     alias ll="exa --group-directories-first -haglF --git --icons"
     alias tree="exa --tree --level=2"
@@ -252,14 +274,18 @@ alias dmesg="sudo dmesg -H --color=always"
 # Clipboard Management
 ##########################################
 
-# Copy selection to clipboard using xclip
-alias cpys="xclip -o | xclip -selection clipboard -i"
+if check_command xsel; then 
+    alias cpy="xsel --clipboard"
+    alias paste="xsel --clipboard --output"
+    # Copy selection to clipboard
+    alias cpys="xsel --clipboard --input"
+else 
+    alias cpy="xclip -selection clipboard"
+    alias paste="xclip -o -sel clip"
+    # Copy selection to clipboard
+    alias cpys="xclip -o | xclip -selection clipboard -i"
+fi
 
-# Copy to clipboard using xsel
-alias cpy="xsel --clipboard"
-
-# Paste from clipboard
-alias paste="xclip -o -sel clip"
 
 ##########################################
 # Kitty Terminal
@@ -290,8 +316,6 @@ alias sxiv="nsxiv"
 alias inputremap="sudo input-remapper-service && \
 input-remapper-control --command autoload"
 
-# bat for syntax highlighting
-alias catt="bat -pp"
 
 # Alias xcp to cpx  (extended CP)
 alias cpx="xcp"
@@ -395,5 +419,9 @@ alias pp="pnpm"
 ##########################################
 
 # Export custom data paths
-export mdata="/media/MineData/"
-export bdata="/media/BankData/"
+export  mdata="/media/MineData/"
+alias   mdata="cd $mdata"
+alias   media="cd ${mdata}media/"
+
+export  bdata="/media/BankData/"
+alias   bdata="cd $bdata"

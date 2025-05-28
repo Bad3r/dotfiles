@@ -1,4 +1,4 @@
-#files: 1029	version: 5.9
+#files: 1030	version: 5.9
 
 _comps=(
 '-' '_precommand'
@@ -159,6 +159,7 @@ _comps=(
 'cd' '_cd'
 'cdc' '_sccs'
 'cdcd' '_cdcd'
+'cd-gitroot' '_cd-gitroot'
 'cdr' '_cdr'
 'cdrdao' '_cdrdao'
 'cdrecord' '_cdrecord'
@@ -2104,7 +2105,7 @@ autoload -Uz _funchelp _compstyle _aa-log.zsh _atuin _bat \
             _thor _tmuxinator _tmuxp _tox _tsc \
             _ts-node _udisksctl _ufw _uuidgen _virtualbox \
             _vnstat _wemux _wg-quick _xsel _yarn \
-            _yfm _zcash-cli _fast-theme
+            _yfm _zcash-cli _fast-theme _cd-gitroot
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
