@@ -1,3 +1,19 @@
+# Set window title
+function set_win_title() {
+  echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
+}
+precmd_functions+=(set_win_title)
+
+
+# bindkey "^n" to reload zshrc
+exec-zsh() {
+  zle -I
+  exec zsh <"$TTY"
+}
+
+zle -N exec-zsh
+bindkey '^n' exec-zsh
+
 
 #---------------------------------------------------------------------------
 # *                            Copy
@@ -715,22 +731,8 @@ function run(){
   exit 0
 }
 
+#--------------------------------------------------------------------------- #
 
-
-function vshell {
-    # USAGE
-    # vshell <SN> <TOKEN>
-    # OR
-    # vshell <TOKEN> <SN>
-    if [[ "$1" = *"-"* ]]; then
-        devID="$1"
-        devSN="$2"
-    else
-        devID="$2"
-        devSN="$1"
-    fi
-    vtoolbox device.shell -c $devID -a $devSN
-}
 
 # Fancy Ctrl+z
 # https://github.com/mdumitru/fancy-ctrl-z
@@ -888,3 +890,35 @@ pacnew() {
     # Run the command
     sudo code --no-sandbox --user-data-dir="$HOME" "$file" "$pacnew"
 }
+
+
+
+# check_command()
+# Check if a command is available
+# Usage: check_command <command>
+# Returns: 0 if the command is available, 1 otherwise
+# Example: if check_command nvim; then
+#            echo "nvim is installed"
+#          else
+#            echo "nvim is not installed"
+#
+# This function caches the result of the command check to avoid repeated calls
+# to the command -v command.
+#
+# The cache is stored in the command_exists associative array
+declare -A command_exists
+check_command() {
+    local cmd="$1"
+    if [[ -n "$command_exists[$cmd]" ]]; then
+        return $command_exists[$cmd]
+    fi
+
+    if command -v "$cmd" &> /dev/null; then
+        command_exists[$cmd]=0
+        return 0
+    fi
+
+    command_exists[$cmd]=1
+    return 1
+}
+

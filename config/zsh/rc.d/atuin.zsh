@@ -1,5 +1,8 @@
-# atuin
+#---------------------------------------------------------------------------
+# *                            Atuin
+#---------------------------------------------------------------------------
 
-if command -v atuin &> /dev/null; then
+if check_command atuin; then
     eval "$(atuin init zsh --disable-up-arrow)"
 fi
+

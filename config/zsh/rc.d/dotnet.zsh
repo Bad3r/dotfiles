@@ -1,6 +1,19 @@
+#---------------------------------------------------------------------------
+# *                            .Net Framework
+#---------------------------------------------------------------------------
+
 # Refrences
 # https://wiki.archlinux.org/title/.NET
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete#zsh
+
+if ! check_command dotnet; then
+    return
+fi
+
+# .Net Framework
+# disable telemetry
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
 
 # add .NET to $PATH
 typeset -U PATH path

@@ -2,11 +2,13 @@
 # *                            History file configuration
 #---------------------------------------------------------------------------
 
-[ -z "$HISTFILE" ] && HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/shell_history"
-[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
-[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+[ -z "$HISTFILE" ] && HISTFILE="${ZSH_CACHE_DIR}/zsh_history"
+
+export HISTSIZE=2147483647 # LONG_MAX
+export SAVEHIST=$HISTSIZE
+
 # Commands to ignore
-export HISTORY_IGNORE="(ls|exa *|clear|pwd|zsh|exit|7z|mpv|cd ..|exit|pwd|* --help|vim|nvim|* *MineData*)"
+export HISTORY_IGNORE="(ls *|exa *|clear|pwd|zsh|exit|7z|mpv|cd ..|exit|pwd|* --help|vim|nvim|* *MineData*)"
 export HISTIGNORE="&:[bf]g:c:clear:history:exit:q:pwd:* --help"
 # Timestamp format
 export HIST_STAMPS="yyyy-mm-dd"

@@ -1,41 +1,76 @@
-__GREP_CACHE_FILE="$ZSH_CACHE_DIR"/grep-alias
+#---------------------------------------------------------------------------
+# *                            Grep Configuration
+#---------------------------------------------------------------------------
 
-# See if there's a cache file modified in the last day
-__GREP_ALIAS_CACHES=("$__GREP_CACHE_FILE"(Nm-1))
-if [[ -n "$__GREP_ALIAS_CACHES" ]]; then
-    source "$__GREP_CACHE_FILE"
-else
-    grep-flags-available() {
-        command grep "$@" "" &>/dev/null <<< ""
-    }
+# _grep()
+# Description: A wrapper function for grep that sets default color and exclude directories
+# Usage: _grep [options] [pattern] [file]
+# Example: _grep "error" *
+# Returns: The output of grep with color and excludes the defined directories as well as case insensitive
+function _grep() {
+    local color="--color=always"
+    local exclude_dirs="--exclude-dir={.git,.svn,.hg,.bzr,CVS,.idea,.tox,node_modules,__pycache__,.pytest_cache,.mypy_cache}"
+    command grep $color $exclude_dirs -i "$@"
+}
 
-    # Ignore these folders (if the necessary grep flags are available)
-    EXC_FOLDERS="{.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
 
-    # Check for --exclude-dir, otherwise check for --exclude. If --exclude
-    # isn't available, --color won't be either (they were released at the same
-    # time (v2.5): https://git.savannah.gnu.org/cgit/grep.git/tree/NEWS?id=1236f007
-    if grep-flags-available --color=auto --exclude-dir=.cvs; then
-        GREP_OPTIONS="--color=auto --exclude-dir=$EXC_FOLDERS"
-    elif grep-flags-available --color=auto --exclude=.cvs; then
-        GREP_OPTIONS="--color=auto --exclude=$EXC_FOLDERS"
-    fi
+# Main grep aliases using the function
+alias grep='_grep'
+alias egrep='_grep -E'
+alias fgrep='_grep -F'
 
-    if [[ -n "$GREP_OPTIONS" ]]; then
-        # export grep, egrep and fgrep settings
-        alias grep="grep $GREP_OPTIONS"
-        alias egrep="grep -E $GREP_OPTIONS"
-        alias fgrep="grep -F $GREP_OPTIONS"
+# Useful grep shortcuts
+alias grepi='_grep -i'                    # Case insensitive
+alias grepr='_grep -r'                    # Recursive
+alias grepri='_grep -ri'                  # Recursive + case insensitive
+alias grepn='_grep -n'                    # Show line numbers
+alias grepv='_grep -v'                    # Invert match
+alias grepc='_grep -c'                    # Count matches
+alias grepl='_grep -l'                    # Files with matches only
+alias grepL='_grep -L'                    # Files without matches
+alias grepw='_grep -w'                    # Whole words only
+alias grepx='_grep -x'                    # Whole lines only
 
-        # write to cache file if cache directory is writable
-        if [[ -w "$ZSH_CACHE_DIR" ]]; then
-            alias -L grep egrep fgrep >| "$__GREP_CACHE_FILE"
-        fi
-    fi
+# Advanced combinations
+alias greprin='_grep -rin'                # Recursive + case insensitive + line numbers
+alias greprnw='_grep -rnw'                # Recursive + line numbers + whole words
 
-    # Clean up
-    unset GREP_OPTIONS EXC_FOLDERS
-    unfunction grep-flags-available
-fi
+# Context greps
+alias grep1='_grep -C1'                   # 1 line context
+alias grep3='_grep -C3'                   # 3 lines context
+alias grep5='_grep -C5'                   # 5 lines context
 
-unset __GREP_CACHE_FILE __GREP_ALIAS_CACHES
+# Binary file handling
+alias grepb='_grep -a'                    # Treat binary as text
+alias grepI='_grep -I'                    # Skip binary files
+
+# System grep functions
+function psgrep() { ps aux | _grep -v grep | _grep "$@"; }
+alias psf="psgrep"
+function portgrep() { sudo ss -HQtulnp | _grep "$@"; }
+function hgrep() { history | _grep "$@"; }
+function envgrep() { env | _grep "$@"; }
+
+# Pattern extraction functions
+function gip() { _grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" "$@"; }  # IPs
+function gemail() { _grep -oE "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b" "$@"; }  # Emails
+function gurl() { _grep -oE "https?://[^\s]+" "$@"; }  # URLs
+function gphone() { _grep -oE "\b[0-9]{3}[-.]?[0-9]{3}[-.]?[0-9]{4}\b" "$@"; }  # Phone numbers
+
+# File type specific greps
+function gpy() { _grep -r --include="*.py" "$@"; }      # Python files
+function gjs() { _grep -r --include="*.js" "$@"; }      # JavaScript files
+function gcss() { _grep -r --include="*.css" "$@"; }    # CSS files
+function ghtml() { _grep -r --include="*.html" "$@"; }  # HTML files
+function gjson() { _grep -r --include="*.json" "$@"; }  # JSON files
+function gxml() { _grep -r --include="*.xml" "$@"; }    # XML files
+function gyml() { _grep -r --include="*.yml" --include="*.yaml" "$@"; }  # YAML files
+function gconf() { _grep -r --include="*.conf" --include="*.config" "$@"; }  # Config files
+function glog() { _grep -r --include="*.log" "$@"; }    # Log files
+
+# Development shortcuts
+function gtodo() { _grep -rn "TODO\|FIXME\|HACK\|XXX\|BUG" "$@"; }  # Find code comments
+function gfunc() { _grep -rn "function\|def\|class" "$@"; }         # Find function definitions
+function gimport() { _grep -rn "import\|require\|include" "$@"; }   # Find imports/includes
+function gerr() { _grep -i "error\|warn\|fail\|exception" "$@"; }   # Find error patterns
+
