@@ -2,6 +2,6 @@
 # *                            GitHub CLI
 #---------------------------------------------------------------------------
 
-if check_command gh; then
+if command_exists gh; then
     eval "$(gh copilot alias -- zsh)"
 fi

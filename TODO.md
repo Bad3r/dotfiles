@@ -1,7 +1,6 @@
 
 ## Fix
 
-/home/odd/.config/zsh/rc.d/atuin.zsh:1: command not found: atuin
-/home/odd/.config/zsh/rc.d/gh_cli.zsh:1: command not found: gh
-/home/odd/.config/zsh/rc.d/lsx.zsh:source:1: no such file or directory: /home/odd/.config/lsx/lsx.sh
-/home/odd/.config/zsh/rc.d/man.zsh:9: command not found: batman
+- FIX: .config/zsh/rc.d/lsx.zsh:source:1: no such file or directory: /home/odd/.config/lsx/lsx.sh
+- TODO: setup https://github.com/anishathalye/dotbot
+- TODO: move zsh and nix config to seperate repo and add as sub modules maybe vim and x11 as well

@@ -893,32 +893,40 @@ pacnew() {
 
 
 
-# check_command()
+# command_exists()
 # Check if a command is available
-# Usage: check_command <command>
+# Usage: command_exists <command>
 # Returns: 0 if the command is available, 1 otherwise
-# Example: if check_command nvim; then
-#            echo "nvim is installed"
-#          else
-#            echo "nvim is not installed"
+# Example:
+# if command_exists nvim; then
+#   echo "nvim is installed"
+# else
+#   echo "nvim is not installed"
+# fi
 #
 # This function caches the result of the command check to avoid repeated calls
-# to the command -v command.
+# to the `command -v` command.
 #
 # The cache is stored in the command_exists associative array
 declare -A command_exists
-check_command() {
+
+command_exists() {
     local cmd="$1"
+
     if [[ -n "$command_exists[$cmd]" ]]; then
         return $command_exists[$cmd]
     fi
 
     if command -v "$cmd" &> /dev/null; then
         command_exists[$cmd]=0
-        return 0
+    else 
+        command_exists[$cmd]=1
     fi
 
-    command_exists[$cmd]=1
-    return 1
+    # if debug is true i.e 0 print debug message
+    if [[ $DEBUG -eq 0 ]]; then
+        printf "[DEBUG] command_exists[$cmd]=${command_exists[$cmd]}\n"
+    fi
+    
+    return ${command_exists[$cmd]}
 }
-

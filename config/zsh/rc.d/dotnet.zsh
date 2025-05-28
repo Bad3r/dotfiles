@@ -6,7 +6,7 @@
 # https://wiki.archlinux.org/title/.NET
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete#zsh
 
-if ! check_command dotnet; then
+if ! command_exists dotnet; then
     return
 fi
 

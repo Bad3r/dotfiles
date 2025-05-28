@@ -7,6 +7,9 @@
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
+# set debug mode
+DEBUG=1
+
 # Define an array of directories to load .zsh files from
 local config_dirs=(
   "${ZSH_CONF_DIR}/zshrc.d"
@@ -43,7 +46,7 @@ bindkey "^u" backward-kill-word
 bindkey "^w" backward-kill-word
 
 # Defaults
-if check_command kitty; then
+if command_exists kitty; then
     export TERM="xterm-kitty"
     export TERMINAL="kitty"
 else
@@ -52,7 +55,7 @@ else
 fi
 export COLORTERM="truecolor"
 
-if check_command nvim; then
+if command_exists nvim; then
     export EDITOR="nvim"
     export DIFFPROG="nvim -d"
 else
@@ -62,19 +65,19 @@ fi
 
 export VISUAL=$EDITOR
 
-if check_command nbrowser; then
+if command_exists nbrowser; then
     export BROWSER="nbrowser"
 else
     export BROWSER="firefox"
 fi
 
-if check_command zathura; then
+if command_exists zathura; then
     export READER="zathura"
 else
     export READER="evince"
 fi
 
-if check_command sxiv; then
+if command_exists sxiv; then
     export IMAGE="sxiv"
 else
     export IMAGE="feh"
@@ -135,7 +138,7 @@ export THEME_FONT_SIZE=11
 
 
 # set default file manager
-if check_command nemo; then
+if command_exists nemo; then
     export FILE_MANAGER="nemo"
 else
     export FILE_MANAGER="thunar"

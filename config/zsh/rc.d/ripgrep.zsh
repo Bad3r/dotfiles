@@ -2,7 +2,7 @@
 # *                            Ripgrep
 #---------------------------------------------------------------------------
 
-if check_command rg; then
+if command_exists rg; then
     alias rgh='rg --hidden'                  # Include hidden files
     alias rgz='rg --search-zip'              # Search in compressed files
     alias rgi='rg --ignore-case'             # Case insensitive
