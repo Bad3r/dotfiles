@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------
 
 # Configure bat for syntax highlighting and pager
-if check_command bat; then
+if command_exists bat; then
     eval "$(batman --export-env)"
     export BAT_THEME="Nord"
     export PAGER="bat"

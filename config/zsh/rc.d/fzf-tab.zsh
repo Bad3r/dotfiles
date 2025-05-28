@@ -2,7 +2,7 @@
 # *                            Fzf Tab
 #---------------------------------------------------------------------------
 
-if ! check_command fzf-tab-dummy; then
+if ! command_exists fzf-tab-dummy; then
     return
 fi
 
