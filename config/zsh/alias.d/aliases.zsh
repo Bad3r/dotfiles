@@ -46,11 +46,11 @@ alias tb="nc termbin.com 9999"
 # Create temp directory
 alias tmpdir="mktmpdir"
 
-if check_command xdg-open; then
+if command_exists xdg-open; then
     alias open=xdg-open
 fi
 
-if check_command cd-gitroot; then
+if command_exists cd-gitroot; then
     alias gitroot="cd-gitroot"
     alias groot="cd-gitroot"
     alias cdr="cd-gitroot"
@@ -60,7 +60,7 @@ fi
 # Compilation
 ##########################################
 
-if check_command ghc; then
+if command_exists ghc; then
     # GHC (Haskell Compiler) with dynamic linking
     alias ghc="ghc -dynamic"
 fi
@@ -103,7 +103,7 @@ alias ipwlan="ip a show wlan0"
 alias iptun="ip a show tun0"
 
 # Get external IP in JSON format
-if check_command curlie; then
+if command_exists curlie; then
     alias wtfip="curlie wtfismyip.com/json"
 else
     alias wtfip="curl wtfismyip.com/json"
@@ -213,12 +213,12 @@ alias ixio="\curl -F 'f:1=<-' ix.io"
 ##########################################
 
 # Use eva as bc if eva is installed
-if check_command eva; then
+if command_exists eva; then
     alias bc="eva"
 fi
 
 # Replace 'ls' & 'tree' with 'exa'
-if check_command exa; then
+if command_exists exa; then
     alias ls="exa --group-directories-first -a --icons"
     alias ll="exa --group-directories-first -haglF --git --icons"
     alias tree="exa --tree --level=2"
@@ -274,7 +274,7 @@ alias dmesg="sudo dmesg -H --color=always"
 # Clipboard Management
 ##########################################
 
-if check_command xsel; then 
+if command_exists xsel; then 
     alias cpy="xsel --clipboard"
     alias paste="xsel --clipboard --output"
     # Copy selection to clipboard
