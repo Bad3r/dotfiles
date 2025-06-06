@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # patch for /usr/bin/i3-sensible-terminal
 
 terms=(
