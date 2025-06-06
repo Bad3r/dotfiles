@@ -1,12 +1,10 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 # Fetch upstream branches
 git fetch upstream
 
 # list all branches
 git branch -a | awk -F '/' '{system("git push -u git@github.com:bad3r/logseq-dev/"$(NF-1)"/"$NF" "$(NF-1)"/"$NF" --force")}'
-
-git 
 
 # return to master
 git checkout master
