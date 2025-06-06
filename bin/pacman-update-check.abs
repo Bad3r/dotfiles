@@ -1,5 +1,5 @@
 #!/usr/local/bin/abs
 
-updates=`pacman -Qu | awk 'END { print (NR == 0 ? "System up to date" : NR " package" (NR > 1 ? "s" : "")); }'`
+updates=$(pacman -Qu | awk 'END { print (NR == 0 ? "System up to date" : NR " package" (NR > 1 ? "s" : "")); }')
 
-echo(updates)
+echo "$updates"
