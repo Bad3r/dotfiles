@@ -1,4 +1,4 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 /usr/bin/git-auto -d /home/chell/git/Pandora -pr &
 _PID=$!
