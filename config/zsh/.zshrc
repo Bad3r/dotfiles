@@ -1,4 +1,3 @@
-#!/bin/zsh
 
 # This script sets up the zsh shell environment by loading configuration files from specific directories.
 # It also loads the prompt and sets the window title to display the current user, host, and working directory.
@@ -11,30 +10,28 @@
 DEBUG=1
 
 # Define an array of directories to load .zsh files from
+#    "${ZSH_CONF_DIR}/env.d"
 local config_dirs=(
-  "${ZSH_CONF_DIR}/zshrc.d"
-  "${ZSH_CONF_DIR}/func.d"
-  "${ZSH_CONF_DIR}/env.d"
-  "${ZSH_CONF_DIR}/rc.d"
-  "${ZSH_CONF_DIR}/alias.d"
+    "${ZSH_CONF_DIR}/zshrc.d"
+    "${ZSH_CONF_DIR}/func.d"
+    "${ZSH_CONF_DIR}/rc.d"
+    "${ZSH_CONF_DIR}/alias.d"
 )
-
 
 # Iterate over each directory and source all .zsh files
 for dir in "${config_dirs[@]}"; do
-  for file in "$dir"/*.zsh(N); do
-    source "$file"
-  done
+    for file in "$dir"/*.zsh; do
+        source "$file"
+    done
 done
 
-
 # arrow up/down to navigate history
-autoload  -U      up-line-or-beginning-search
-autoload  -U      down-line-or-beginning-search
-zle       -N      up-line-or-beginning-search
-zle       -N      down-line-or-beginning-search
-bindkey   "^[[A"  up-line-or-beginning-search
-bindkey   "^[[B"  down-line-or-beginning-search
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 # vi-like navigation bindings
 bindkey "^h" backward-word
@@ -134,9 +131,6 @@ export THEME_FONT_SIZE=11
 #     export THEME_FONT_SIZE=11
 # fi
 
-
-
-
 # set default file manager
 if command_exists nemo; then
     export FILE_MANAGER="nemo"
@@ -153,23 +147,29 @@ mkdir -p "$(xdg-user-dir)/bin"
 # PATH
 typeset -U PATH path
 path=(
-        "$(xdg-user-dir)/.local/bin"
-        "$(xdg-user-dir)/bin"
-        # Doom Emacs
-        "$(xdg-user-dir)/.emacs.d/bin"
-        # Go
-        "${GOPATH}/bin"
-        # Rust Cargo bins
-        "${CARGO_HOME}/bin"
-        # Ruby bins
-        "$(xdg-user-dir)/.gem/bin"
-        # ClojureScript
-        "/opt/clojurescript/bin/"
-        # yarn
-        "$(yarn global bin)"
-        # pub
-        "$(xdg-user-dir)/.pub-cache/bin"
-        "$path[@]")
+    "$(xdg-user-dir)/.local/bin"
+    "$(xdg-user-dir)/bin"
+    # Doom Emacs
+    "$(xdg-user-dir)/.emacs.d/bin"
+    # Go
+    "${GOPATH}/bin"
+    # Rust Cargo bins
+    "${CARGO_HOME}/bin"
+    # Ruby bins
+    "$(xdg-user-dir)/.gem/bin"
+    # ClojureScript
+    "/opt/clojurescript/bin/"
+    # yarn
+    "$(yarn global bin)"
+    # pub
+    "$(xdg-user-dir)/.pub-cache/bin"
+    # NPM
+    # Installation: mkdir -p ~/.npm-global && npm config set prefix '~/.npm-global'
+    "$(xdg-user-dir)/.npm-global/bin"
+    # Claude
+    "$(xdg-user-dir)/.claude/local"
+
+    "$path[@]")
 export PATH
 
 # Set max function nesting
@@ -178,3 +178,8 @@ export FUNCNEST=1000
 # Disable DMABUF :( due to issue with Nvidia
 # TODO: test if still needed
 export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# Claude Code
+# Defaults: Opus 4: 32k, Sonnet 4: 64k
+# To reset to default set to `1`
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=48000

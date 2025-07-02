@@ -1,0 +1,315 @@
+{
+    "schemeVersion": 2,
+    "enabled": true,
+    "fetchNews": true,
+    "theme": {
+        "mode": 1,
+        "brightness": 100,
+        "contrast": 100,
+        "grayscale": 0,
+        "sepia": 0,
+        "useFont": false,
+        "fontFamily": "system-ui",
+        "textStroke": 0,
+        "engine": "dynamicTheme",
+        "stylesheet": "",
+        "darkSchemeBackgroundColor": "#1c2128",
+        "darkSchemeTextColor": "#cdd9e5",
+        "lightSchemeBackgroundColor": "#dcdad7",
+        "lightSchemeTextColor": "#181a1b",
+        "scrollbarColor": "#1c2128",
+        "selectionColor": "auto",
+        "styleSystemControls": false,
+        "lightColorScheme": "Default",
+        "darkColorScheme": "Default",
+        "immediateModify": false
+    },
+    "presets": [],
+    "customThemes": [
+        {
+            "url": [
+                "*.officeapps.live.com"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "cssFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            },
+            "builtIn": true
+        },
+        {
+            "url": [
+                "*.sharepoint.com"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "cssFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            },
+            "builtIn": true
+        },
+        {
+            "url": [
+                "docs.google.com"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "cssFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            },
+            "builtIn": true
+        },
+        {
+            "url": [
+                "onedrive.live.com"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "cssFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            },
+            "builtIn": true
+        },
+        {
+            "url": [
+                "0.0.0.0:5010"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0,
+                "engine": "dynamicTheme",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            }
+        },
+        {
+            "url": [
+                "www.anthropic.com"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Open Sans",
+                "textStroke": 0.5,
+                "engine": "svgFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            }
+        },
+        {
+            "url": [
+                "claude.ai"
+            ],
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "system-ui",
+                "textStroke": 0,
+                "engine": "dynamicTheme",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1c2128",
+                "darkSchemeTextColor": "#cdd9e5",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#1c2128",
+                "selectionColor": "auto",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": false
+            }
+        }
+    ],
+    "enabledByDefault": true,
+    "enabledFor": [
+        "foo-dogsquared.github.io",
+        "biomejs.dev"
+    ],
+    "disabledFor": [
+        "auth0.openai.com",
+        "localhost:8080",
+        "zen-browser.app",
+        "mail.proton.me",
+        "192.168.10.1",
+        "rxresu.me",
+        "prm.haseen.gov.sa",
+        "www.google.com",
+        "www.joesandbox.com",
+        "eqs.moe.gov.sa",
+        "gemini.google.com",
+        "getemoji.com",
+        "track.toggl.com",
+        "docs.astral.sh",
+        "bitwarden.site-dfir.local",
+        "ui.shadcn.com",
+        "www.shadcn-svelte.com",
+        "github.com",
+        "excalidraw.com",
+        "www.tldraw.com",
+        "fontdrop.info",
+        "localhost:8000",
+        "www.research.net",
+        "www.monolisa.dev",
+        "aistudio.google.com",
+        "claude.ai",
+        "chat.site-dfir.local",
+        "test.logseq.com",
+        "dash.cloudflare.com"
+    ],
+    "changeBrowserTheme": false,
+    "syncSettings": true,
+    "syncSitesFixes": true,
+    "automation": {
+        "enabled": false,
+        "mode": "",
+        "behavior": "OnOff"
+    },
+    "time": {
+        "activation": "18:00",
+        "deactivation": "9:00"
+    },
+    "location": {
+        "latitude": null,
+        "longitude": null
+    },
+    "previewNewDesign": false,
+    "previewNewestDesign": false,
+    "enableForPDF": true,
+    "enableForProtectedPages": true,
+    "enableContextMenus": true,
+    "detectDarkTheme": true,
+    "displayedNews": [
+        "mobile",
+        "firefox-bugs"
+    ],
+    "notifyOfNews": false,
+    "readNews": [
+        "v4-9-16",
+        "v4-9",
+        "attention",
+        "dr-5-announcement",
+        "2m-users",
+        "automation",
+        "product-hunt-golden-kitty-2018",
+        "time-settings",
+        "safari",
+        "500k-users",
+        "stylish",
+        "product-hunt",
+        "custom-site-settings",
+        "thanks-for-contribution",
+        "dynamic-theme",
+        "5m-users",
+        "thanks-2021",
+        "chrome-favorites-2021",
+        "no-war",
+        "mobile",
+        "detect-dark-theme"
+    ],
+    "automationBehaviour": "OnOff",
+    "installation": {
+        "date": 1736241012767,
+        "reason": "install",
+        "version": "4.9.99"
+    }
+}

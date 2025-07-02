@@ -1,0 +1,27 @@
+[Unit]
+Description=ProtonVPN Port Forwarding with qBittorrent Integration
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/dotfiles/protonVPN-port-forwarding/protonVPN-port-forward.sh
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=false
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/tmp /run/user/%U/Proton/VPN %h/.config/qBittorrent %h/.cache/Proton/VPN/logs
+
+# Environment
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="XDG_CONFIG_HOME=%h/.config"
+Environment="XDG_CACHE_HOME=%h/.cache"
+
+[Install]
+WantedBy=default.target
