@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone target="ACCEPT">
+  <short>Trusted</short>
+  <description>All network connections are accepted.</description>
+  <interface name="tun0"/>
+  <interface name="proton0"/>
+  <forward/>
+</zone>

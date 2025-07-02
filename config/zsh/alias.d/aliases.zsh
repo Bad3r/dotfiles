@@ -426,3 +426,6 @@ alias   media="cd ${mdata}media/"
 
 export  bdata="/media/BankData/"
 alias   bdata="cd $bdata"
+
+
+# Dev tools

@@ -1,3 +1,13 @@
 # Toml Bombadil
 .dots
 *.dccache
+
+# logs
+logs/
+**/logs
+*.log
+
+# Claude Code
+**/.claude
+.claude/
+CLAUDE.md
