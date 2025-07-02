@@ -1,0 +1,60 @@
+{
+    "widget/Bjw1RuAtFzvU": null,
+    "widget/default-time": null,
+    "widget/default-greeting": null,
+    "widget/ljucKD1kOzJG": null,
+    "timeZone": null,
+    "widget/L-85wp5zmR76": null,
+    "data/cdb7a3e3-8bb6-4327-9469-8b3e788cd56b": {
+        "mode": "analogue",
+        "hour12": false,
+        "showDate": true,
+        "showMinutes": true,
+        "showSeconds": true,
+        "showDayPeriod": true,
+        "name": "❯ /bin/Firefox "
+    },
+    "widget/KF3cHA2DmTkG": null,
+    "widget/sz3W2Nq9BJaJ": null,
+    "widget/chmLsVfXeX3h": null,
+    "widget/eGJDaTk48CYd": null,
+    "widget/8dI09cW_wCuK": null,
+    "background": {
+        "id": "3e9pioHSa7x_",
+        "key": "background/colour",
+        "display": {
+            "blur": 0,
+            "luminosity": -0.2
+        }
+    },
+    "widget/aiklr1wAnkA7": null,
+    "widget/AFxsr5HDrY4t": null,
+    "focus": false,
+    "widget/la-IntjluCZr": null,
+    "widget/eoPHQF3QFtr6": null,
+    "widget/2yZ6tn6Czxv6": null,
+    "widget/0ZtulPMhvStt": null,
+    "widget/R6-gnT0vCjJL": null,
+    "widget/H66jTYg-ptqV": null,
+    "widget/dl3jFq0Wsnx-": null,
+    "widget/vE9Cwd0kr61m": null,
+    "data/3e9pioHSa7x_": {
+        "colour": "#22272e"
+    },
+    "widget/cdb7a3e3-8bb6-4327-9469-8b3e788cd56b": {
+        "id": "cdb7a3e3-8bb6-4327-9469-8b3e788cd56b",
+        "key": "widget/time",
+        "active": true,
+        "display": {
+            "position": "middleCentre",
+            "fontFamily": "MonoLisa Variable, FontAwesome",
+            "fontWeight": 400,
+            "fontStyle": "italic",
+            "colour": "#6f7581",
+            "fontSize": 22
+        },
+        "order": 1
+    },
+    "locale": "en",
+    "version": 3
+}
