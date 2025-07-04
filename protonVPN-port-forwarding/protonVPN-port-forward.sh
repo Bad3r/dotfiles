@@ -16,17 +16,11 @@ LOG_FILE="$LOG_DIR/protonVPN-port-forward.log"
 QBITTORRENT_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/qBittorrent/qBittorrent.conf"
 
 # Parse command line arguments
-CHECK_REACHABILITY=false
 for arg in "$@"; do
     case $arg in
-        --check-reachability)
-            CHECK_REACHABILITY=true
-            shift
-            ;;
         -h|--help)
             echo "Usage: $0 [OPTIONS]"
             echo "Options:"
-            echo "  --check-reachability    Enable port reachability testing"
             echo "  -h, --help             Show this help message"
             exit 0
             ;;
@@ -60,55 +54,6 @@ get_public_ip() {
     public_ip=$(natpmpc -g "$gateway" 2>/dev/null | awk '/Public IP address/ {print $5}')
     # Only return the IP, no logging inside the function
     echo "$public_ip"
-}
-
-check_port_reachable() {
-    local ip=$1
-    local port=$2
-    local nc_pid=""
-    local cleanup_needed=false
-
-    # Check if something is already listening on the port
-    if ! ss -lnt | grep -q ":$port "; then
-        # Nothing is listening, start a temporary netcat listener
-        timeout 10 nc -l -p "$port" >/dev/null 2>&1 &
-        nc_pid=$!
-        cleanup_needed=true
-        # Give netcat a moment to start listening
-        sleep 1
-    fi
-
-    # Use portchecker.io API
-    local response
-    response=$(curl -s -w "\n%{http_code}" https://portchecker.io/api/query \
-        --request POST \
-        --header 'Content-Type: application/json' \
-        --data "{\"host\": \"$ip\", \"ports\": [$port]}" \
-        --max-time 8 2>/dev/null)
-
-    # Clean up netcat if its running
-    if [ "$cleanup_needed" = true ] && [ -n "$nc_pid" ]; then
-        kill $nc_pid 2>/dev/null || true
-    fi
-
-    local http_code
-    http_code=$(echo "$response" | tail -n1)
-    local body
-    body=$(echo "$response" | head -n-1)
-
-    if [ "$http_code" = "200" ]; then
-        # Check if port is reachable
-        local status
-        status=$(echo "$body" | grep -o '"status":[^,}]*' | head -1 | cut -d':' -f2 | tr -d ' ')
-        if [ "$status" = "true" ]; then
-            return 0
-        else
-            return 1
-        fi
-    else
-        log "${RED}Port check API error: HTTP $http_code${NC}"
-        return 2
-    fi
 }
 
 get_port() {
@@ -233,23 +178,8 @@ fi
 # Update qBittorrent configuration on startup
 update_qbittorrent_config "$PORT" "$VPN_INTERFACE"
 
-# Initial port reachability check
-if [ "$CHECK_REACHABILITY" = true ] && [ -n "$PUBLIC_IP" ]; then
-    echo "Checking port reachability..."
-    if check_port_reachable "$PUBLIC_IP" "$PORT"; then
-        echo -e "${GREEN}✓ Port $PORT is reachable from the internet${NC}"
-        log "Port $PORT is reachable from public IP $PUBLIC_IP"
-    else
-        echo -e "${YELLOW}⚠ Port $PORT is not reachable from the internet${NC}"
-        log "[!] Warning: Port $PORT is not reachable from public IP $PUBLIC_IP"
-        echo "This might be normal during initial setup. Will check again later."
-    fi
-fi
-
 # Main loop
 consecutive_failures=0
-check_counter=0
-CHECK_INTERVAL=12 # Check port every 12 cycles (10 minutes)
 
 while true; do
     # Check if port has changed or disappeared
@@ -265,35 +195,12 @@ while true; do
         fi
         # Update qBittorrent with new port
         update_qbittorrent_config "$PORT" "$VPN_INTERFACE"
-        # Reset check counter to check reachability soon after port change
-        check_counter=$((CHECK_INTERVAL - 2))
     fi
 
     # Renew port forwarding
     if renew_port "$PORT" "$GATEWAY"; then
         echo -e "${GREEN}[$(date '+%H:%M:%S')] Port $PORT forwarding renewed${NC}"
         consecutive_failures=0
-
-        # Periodic port reachability check
-        if [ "$CHECK_REACHABILITY" = true ]; then
-            check_counter=$((check_counter + 1))
-            if [ $check_counter -ge $CHECK_INTERVAL ] && [ -n "$PUBLIC_IP" ]; then
-                check_counter=0
-                if check_port_reachable "$PUBLIC_IP" "$PORT"; then
-                    log "Periodic check: Port $PORT is still reachable"
-                else
-                    echo -e "${YELLOW}⚠ Port $PORT is no longer reachable from the internet${NC}"
-                    log "Warning: Port $PORT is no longer reachable from public IP $PUBLIC_IP"
-                    # Try to get new public IP in case it changed
-                    NEW_PUBLIC_IP=$(get_public_ip "$GATEWAY")
-                    if [ -n "$NEW_PUBLIC_IP" ] && [ "$NEW_PUBLIC_IP" != "$PUBLIC_IP" ]; then
-                        PUBLIC_IP=$NEW_PUBLIC_IP
-                        echo -e "${YELLOW}Public IP changed to: $PUBLIC_IP${NC}"
-                        log "${YELLOW}Public IP changed to: $PUBLIC_IP${NC}"
-                    fi
-                fi
-            fi
-        fi
     else
         consecutive_failures=$((consecutive_failures + 1))
         echo -e "${YELLOW}[$(date '+%H:%M:%S')] Failed to renew port forwarding (attempt $consecutive_failures)${NC}"
