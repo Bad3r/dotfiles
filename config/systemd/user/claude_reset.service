@@ -1,0 +1,17 @@
+[Unit]
+Description=Claude Reset Automation Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/odd/git/claude_reset
+ExecStart=/home/odd/git/claude_reset/run_claude_reset.sh
+Restart=on-failure
+RestartSec=5min
+TimeoutStartSec=4h
+
+# Retry limits: max 24 attempts in 2 hours
+# NOTE: These limits apply per timer trigger, not globally
+StartLimitIntervalSec=2h
+StartLimitBurst=24

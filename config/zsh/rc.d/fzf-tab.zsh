@@ -2,9 +2,7 @@
 # *                            Fzf Tab
 #---------------------------------------------------------------------------
 
-if ! command_exists fzf-tab-dummy; then
-    return
-fi
+# fzf-tab is loaded as a plugin, not a command
 
 
 # disable sort when completing `git checkout`

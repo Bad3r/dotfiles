@@ -1,0 +1,10 @@
+[Unit]
+Description=Claude Reset Automation Timer
+
+[Timer]
+OnCalendar=*-*-* 07,12,17:00:00
+Persistent=true
+Unit=claude_reset.service
+
+[Install]
+WantedBy=timers.target

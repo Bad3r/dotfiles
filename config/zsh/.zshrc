@@ -1,13 +1,12 @@
 
-# This script sets up the zsh shell environment by loading configuration files from specific directories.
-# It also loads the prompt and sets the window title to display the current user, host, and working directory.
-# Additionally, it sets up key bindings vi-like navigation.
-
 # catch non-zsh and non-interactive shells
 [[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
 
 # set debug mode
 DEBUG=1
+
+# Profiling
+[[ -n "$ZSH_PROFILE" ]] && zmodload zsh/zprof
 
 # Define an array of directories to load .zsh files from
 #    "${ZSH_CONF_DIR}/env.d"
@@ -18,10 +17,52 @@ local config_dirs=(
     "${ZSH_CONF_DIR}/alias.d"
 )
 
-# Iterate over each directory and source all .zsh files
+# Define files to lazy load (high-impact on startup time)
+local lazy_load_files=(
+    "zoxide.zsh"
+    "dotnet.zsh"
+    "gh_cli.zsh"
+)
+
 for dir in "${config_dirs[@]}"; do
     for file in "$dir"/*.zsh; do
-        source "$file"
+        local should_lazy_load=0
+        local filename="${file:t}"
+        
+        if [[ "$dir" == "${ZSH_CONF_DIR}/rc.d" ]]; then
+            for lazy_file in "${lazy_load_files[@]}"; do
+                if [[ "$filename" == "$lazy_file" ]]; then
+                    should_lazy_load=1
+                    break
+                fi
+            done
+        fi
+        
+        if [[ $should_lazy_load -eq 1 ]]; then
+            # Set up lazy loading based on the file
+            case "$filename" in
+                "zoxide.zsh")
+                    # Create wrapper functions for zoxide commands
+                    lazy_load_command "j" "$file"
+                    lazy_load_command "ji" "$file"
+                    lazy_load_command "zoxide" "$file"
+                    ;;
+                "dotnet.zsh")
+                    lazy_load_command "dotnet" "$file"
+                    ;;
+                "atuin.zsh")
+                    lazy_load_command "atuin" "$file"
+                    ;;
+                "gh_cli.zsh")
+                    lazy_load_command "gh" "$file"
+                    lazy_load_command "ghcs" "$file"
+                    lazy_load_command "ghce" "$file"
+                    ;;
+            esac
+        else
+            # Source normally
+            source "$file"
+        fi
     done
 done
 
@@ -89,15 +130,15 @@ export SHELL=$(which zsh)
 export GPG_TTY=$(tty)
 
 # Git repo for my dotfiles
-export DOTFILES="$(xdg-user-dir)/dotfiles"
+export DOTFILES="$HOME/dotfiles"
 
 # set CUDA Compiler path
 export CUDACXX=/opt/cuda/bin/nvcc
 
 # Go
 # Set go env vars
-export GOBIN="$(xdg-user-dir)/go/bin"
-export GOPATH="$(xdg-user-dir)/go"
+export GOBIN="$HOME/go/bin"
+export GOPATH="$HOME/go"
 
 # Rust
 export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
@@ -141,33 +182,33 @@ fi
 # set default video player
 export VIDEO_PLAYER="mpv"
 
-mkdir -p "$(xdg-user-dir)/.local/bin"
-mkdir -p "$(xdg-user-dir)/bin"
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/bin"
 
 # PATH
 typeset -U PATH path
 path=(
-    "$(xdg-user-dir)/.local/bin"
-    "$(xdg-user-dir)/bin"
+    "$HOME/.local/bin"
+    "$HOME/bin"
     # Doom Emacs
-    "$(xdg-user-dir)/.emacs.d/bin"
+    "$HOME/.emacs.d/bin"
     # Go
     "${GOPATH}/bin"
     # Rust Cargo bins
     "${CARGO_HOME}/bin"
     # Ruby bins
-    "$(xdg-user-dir)/.gem/bin"
+    "$HOME/.gem/bin"
     # ClojureScript
     "/opt/clojurescript/bin/"
-    # yarn
-    "$(yarn global bin)"
+    # yarn (hardcoded to avoid slow command)
+    "$HOME/.yarn/bin"
     # pub
-    "$(xdg-user-dir)/.pub-cache/bin"
+    "$HOME/.pub-cache/bin"
     # NPM
     # Installation: mkdir -p ~/.npm-global && npm config set prefix '~/.npm-global'
-    "$(xdg-user-dir)/.npm-global/bin"
+    "$HOME/.npm-global/bin"
     # Claude
-    "$(xdg-user-dir)/.claude/local"
+    "$HOME/.claude/local"
 
     "$path[@]")
 export PATH
@@ -183,3 +224,6 @@ export WEBKIT_DISABLE_DMABUF_RENDERER=1
 # Defaults: Opus 4: 32k, Sonnet 4: 64k
 # To reset to default set to `1`
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=48000
+
+# Profiling output
+[[ -n "$ZSH_PROFILE" ]] && zprof

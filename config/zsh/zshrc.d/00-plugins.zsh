@@ -4,64 +4,85 @@
 # !NOTE: This file is sourced before other .zshrc.d files due to completion being configured via ez-compinit plugin
 
 export ANTIDOTE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}/antidote
+export ZSH_COMPDUMP="${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
 PLUGINS_CONF_FILE="${${(%):-%N}:A}" # this file
 PLUGINS_DST_FILE="$ANTIDOTE_HOME/plugins.zsh"
 
+# Enable ez-compinit caching to prevent regenerating dump file on every shell start
+zstyle ':plugin:ez-compinit' 'use-cache' 'yes'
+
 
 if [[ ! "$PLUGINS_DST_FILE" -nt "$PLUGINS_CONF_FILE" ]]; then
-    source "$DOTFILES/.antidote/antidote.zsh"
-    mkdir -p "${PLUGINS_CONF_FILE:h}"
+    [[ -e "$DOTFILES/.antidote/antidote.zsh" ]] && source "$DOTFILES/.antidote/antidote.zsh"
+    mkdir -p "${PLUGINS_DST_FILE:h}"
     
     antidote bundle <<-plugins >| "$PLUGINS_DST_FILE"
-    # https://github.com/mattmc3/ez-compinit
     mattmc3/ez-compinit
-
-    # https://github.com/zsh-users/zsh-completions
     zsh-users/zsh-completions kind:fpath path:src
-
-    # https://github.com/Aloxaf/fzf-tab
-    Aloxaf/fzf-tab
-
-    # https://github.com/mattmc3/zfunctions
     mattmc3/zfunctions
-
-    # https://github.com/zsh-users/zsh-autosuggestions
     zsh-users/zsh-autosuggestions
-
-    # https://github.com/zdharma-continuum/fast-syntax-highlighting
     zdharma-continuum/fast-syntax-highlighting kind:defer
-
-    # https://github.com/zsh-users/zsh-history-substring-search
     zsh-users/zsh-history-substring-search
-
-    #  https://github.com/evanthegrayt/vagrant-box-wrapper
     # evanthegrayt/vagrant-box-wrapper
-
-    # https://github.com/NullSense/fuzzy-sys
-    # Utility for using systemctl interactively via junegunn/fzf.
-    NullSense/fuzzy-sys # command: $ fuzzy-sys
-
-    # https://github.com/g-plane/pnpm-shell-completion
+    NullSense/fuzzy-sys kind:defer
     # g-plane/pnpm-shell-completion
-
-    # https://github.com/hlissner/zsh-autopair
-    hlissner/zsh-autopair
-
-    # TODO: Review Docs
-    # https://github.com/wfxr/forgit
-    wfxr/forgit
-
-    # https://github.com/mollifier/cd-gitroot
-    mollifier/cd-gitroot
-
-    # NOTE: Replaced with starship prompt (seperate package)
-    # https://github.com/sindresorhus/pure
-    # sindresorhus/pure     kind:fpath
+    hlissner/zsh-autopair kind:defer
+    Aloxaf/fzf-tab kind:defer
+    wfxr/forgit kind:defer
+    mollifier/cd-gitroot kind:defer
+    # sindresorhus/pure kind:fpath
 plugins
 fi
 
 source "$PLUGINS_DST_FILE"
 
-# Set path to completion dump file
-# Must be after loading mattmc3/ez-compinit
-compinit -d "${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
+# Override ez-compinit's run-compinit to use 1-hour cache instead of 20 hours
+function run-compinit {
+  emulate -L zsh
+  setopt local_options extended_glob
+
+  # Use whatever ZSH_COMPDUMP is set to, or use an appropriate cache directory.
+  local zcompdump
+  if [[ -n "$ZSH_COMPDUMP" ]]; then
+    zcompdump="$ZSH_COMPDUMP"
+  else
+    zcompdump=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
+  fi
+
+  # Make sure zcompdump's directory exists and doesn't have a leading tilde.
+  zcompdump="${~zcompdump}"
+  [[ -d $zcompdump:h ]] || mkdir -p $zcompdump:h
+
+  # `run-compinit -f` forces a cache reset.
+  if [[ "$1" == (-f|--force) ]]; then
+    shift
+    [[ -r "$zcompdump" ]] && rm -rf -- "$zcompdump"
+  fi
+
+  # Initialize completions
+  local -a compinit_flags=(-d "$zcompdump")
+  autoload -Uz compinit
+  if zstyle -t ':plugin:ez-compinit' 'use-cache'; then
+    # 1 hour cache
+    local zcompdump_cache=($zcompdump(Nmh-1))
+    if (( $#zcompdump_cache )); then
+      # -C (skip function check) implies -i (skip security check).
+      compinit -C $compinit_flags
+    else
+      compinit -i $compinit_flags
+      touch "$zcompdump"  # Ensure timestamp updates to reset the cache timeout.
+    fi
+  else
+    compinit $compinit_flags
+  fi
+
+  # Compile zcompdump, if modified, in background to increase startup speed.
+  {
+    if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+      if command mkdir "${zcompdump}.zwc.lock" 2>/dev/null; then
+        zcompile "$zcompdump"
+        command rmdir  "${zcompdump}.zwc.lock" 2>/dev/null
+      fi
+    fi
+  } &!
+}

@@ -16,6 +16,7 @@ export LC_ALL="en_US.UTF-8"
 
 # ZSH
 ZSH_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+ZDOTDIR=$ZSH_CONF_DIR   # keep it..
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 source "${ZSH_CONF_DIR}/env.d/.zshenv"
 
