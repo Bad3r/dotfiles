@@ -1,0 +1,2 @@
+#!/bin/bash
+export G_SLICE=always-malloc && $HOME/bin/acbr-comic-book-reader.AppImage "$@"

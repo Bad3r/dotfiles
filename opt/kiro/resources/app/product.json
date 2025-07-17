@@ -1,0 +1,157 @@
+{
+  "vsCodeVersion": "1.94.0",
+  "nameShort": "Kiro",
+  "nameLong": "Kiro",
+  "applicationName": "kiro",
+  "dataFolderName": ".kiro",
+  "win32MutexName": "kiro",
+  "licenseName": "MIT",
+  "licenseUrl": "https://github.com/kiro-team/kiro-desktop/blob/main/LICENSE.txt",
+  "serverLicenseUrl": "https://github.com/kiro-team/kiro-desktop/blob/main/LICENSE.txt",
+  "serverGreeting": [],
+  "serverLicense": [],
+  "serverLicensePrompt": "",
+  "serverApplicationName": "kiro-server",
+  "serverDataFolderName": ".kiro-server",
+  "tunnelApplicationName": "kiro-tunnel",
+  "win32DirName": "Kiro",
+  "win32NameVersion": "Kiro",
+  "win32RegValueName": "Kiro",
+  "win32x64AppId": "{{ECDD7648-5B69-4BDC-9D21-C3452CE76CD2}",
+  "win32arm64AppId": "{{CF58DB1E-C697-42DB-9C64-722B37182E61}",
+  "win32x64UserAppId": "{{A2CA08B5-C756-463E-B13D-F051F4F11F0B}",
+  "win32arm64UserAppId": "{{C178CB1C-7689-4F22-B8CF-0952EC832496}",
+  "win32AppUserModelId": "Kiro",
+  "win32ShellNameShort": "Kiro",
+  "win32TunnelServiceMutex": "kiro-tunnelservice",
+  "win32TunnelMutex": "kiro-tunnel",
+  "darwinBundleIdentifier": "dev.kiro.desktop",
+  "linuxIconName": "code-oss",
+  "licenseFileName": "LICENSE.txt",
+  "reportIssueUrl": "https://github.com/kirodotdev/Kiro/issues/new",
+  "nodejsRepository": "https://nodejs.org",
+  "urlProtocol": "kiro",
+  "updateUrl": "https://prod.download.desktop.kiro.dev",
+  "downloadUrl": "https://kiro.dev",
+  "commit": "8c12d528fc95c4235fd9c5808778c4f9c20a0280",
+  "quality": "stable",
+  "enableTelemetry": true,
+  "webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
+  "trustedExtensionProtocolHandlers": ["kiro.kiroAgent"],
+  "trustedExtensionAuthAccess": ["kiro.kiroagent"],
+  "builtInExtensions": [{
+    "name": "kiro.kiro-agent",
+    "version": "0.1.0",
+    "s3": {
+      "region": "us-west-2",
+      "bucket": "{extention-artifact-bucket}",
+      "keyTemplate": "kiro-agent-ext/kiroAgent-{platform}-{arch}-{version}.vsix"
+    }
+  }, {
+    "name": "ms-vscode.js-debug-companion",
+    "version": "1.1.3",
+    "sha256": "7380a890787452f14b2db7835dfa94de538caf358ebc263f9d46dd68ac52de93",
+    "repo": "https://github.com/microsoft/vscode-js-debug-companion",
+    "forceGithub": true,
+    "metadata": {
+      "id": "99cb0b7f-7354-4278-b8da-6cc79972169d",
+      "publisherId": {
+        "publisherId": "5f5636e7-69ed-4afe-b5d6-8d231fb3d3ee",
+        "publisherName": "ms-vscode",
+        "displayName": "Microsoft",
+        "flags": "verified"
+      },
+      "publisherDisplayName": "Microsoft"
+    }
+  }, {
+    "name": "markdown-mermaid-aws",
+    "version": "1.0.0",
+    "sha256": "",
+    "repo": "https://github.com/Gupta-Raghav/vscode-markdown-mermaid",
+    "forceGithub": true,
+    "metadata": {
+      "id": "f1e2f4d4-5a9f-4d05-b0d2-edf8c51e1e89",
+      "publisherId": {
+        "publisherId": "kiro",
+        "publisherName": "Kiro",
+        "displayName": "Kiro"
+      },
+      "publisherDisplayName": "Kiro"
+    }
+  }, {
+    "name": "ms-vscode.js-debug",
+    "version": "1.94.0",
+    "sha256": "439ee7d384999fb1726296801bfcad9dcc9bad6622ae54317fc51ef99e0b2552",
+    "repo": "https://github.com/microsoft/vscode-js-debug",
+    "forceGithub": true,
+    "metadata": {
+      "id": "25629058-ddac-4e17-abba-74678e126c5d",
+      "publisherId": {
+        "publisherId": "5f5636e7-69ed-4afe-b5d6-8d231fb3d3ee",
+        "publisherName": "ms-vscode",
+        "displayName": "Microsoft",
+        "flags": "verified"
+      },
+      "publisherDisplayName": "Microsoft"
+    }
+  }, {
+    "name": "ms-vscode.vscode-js-profile-table",
+    "version": "1.0.10",
+    "sha256": "7361748ddf9fd09d8a2ed1f2a2d7376a2cf9aae708692820b799708385c38e08",
+    "repo": "https://github.com/microsoft/vscode-js-profile-visualizer",
+    "forceGithub": true,
+    "metadata": {
+      "id": "7e52b41b-71ad-457b-ab7e-0620f1fc4feb",
+      "publisherId": {
+        "publisherId": "5f5636e7-69ed-4afe-b5d6-8d231fb3d3ee",
+        "publisherName": "ms-vscode",
+        "displayName": "Microsoft",
+        "flags": "verified"
+      },
+      "publisherDisplayName": "Microsoft"
+    }
+  }],
+  "unsupportedExtensionIds": ["amazonwebservices.amazon-q-vscode"],
+  "extensionsGallery": {
+	"nlsBaseUrl": "https://www.vscode-unpkg.net/_lp/",
+	"serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",
+	"itemUrl": "https://marketplace.visualstudio.com/items",
+	"publisherUrl": "https://marketplace.visualstudio.com/publishers",
+	"resourceUrlTemplate": "https://{publisher}.vscode-unpkg.net/{publisher}/{name}/{version}/{path}",
+	"extensionUrlTemplate": "https://www.vscode-unpkg.net/_gallery/{publisher}/{name}/latest",
+	"controlUrl": "https://main.vscode-cdn.net/extensions/marketplace.json",
+	"mcpUrl": "https://main.vscode-cdn.net/mcp/servers.json",
+  },
+  "remote": {
+    "SSH": {
+      "serverDownloadUrlTemplate": "https://prod.download.desktop.kiro.dev/releases/remotes/${commit}/kiro-reh-${os}-${arch}.tar.gz"
+    }
+  },
+  "serverDownloadUrlTemplate": "https://prod.download.desktop.kiro.dev/releases/remotes/${commit}/kiro-reh-${os}-${arch}.tar.gz",
+  "linkProtectionTrustedDomains": ["https://open-vsx.org", "https://oidc.*.amazonaws.com", "https://device.sso.*.amazonaws.com", "https://*.aws.dev", "https://*.awsapps.com", "https://*.kiro.dev"],
+  "extensionEnabledApiProposals": {
+    "ms-vscode.vscode-selfhost-test-provider": ["testObserver", "testRelatedCode", "attributableCoverage"],
+    "ms-vscode.js-debug": ["portsAttributes", "findTextInFiles", "workspaceTrust", "tunnels"],
+    "ms-python.python": ["codeActionAI", "contribEditorContentMenu", "quickPickSortByLabel", "portsAttributes", "testObserver", "quickPickItemTooltip", "terminalDataWriteEvent", "terminalExecuteCommandEvent", "contribIssueReporter", "notebookReplDocument", "notebookVariableProvider"],
+    "GitHub.vscode-pull-request-github": ["activeComment", "codiconDecoration", "codeActionRanges", "commentingRangeHint", "commentReactor", "commentReveal", "commentThreadApplicability", "contribAccessibilityHelpContent", "contribCommentEditorActionsMenu", "contribCommentPeekContext", "contribCommentThreadAdditionalMenu", "contribCommentsViewThreadMenus", "contribEditorContentMenu", "contribMultiDiffEditorMenus", "contribShareMenu", "diffCommand", "fileComments", "quickDiffProvider", "shareProvider", "tabInputTextMerge", "tokenInformation", "treeViewMarkdownMessage"],
+    "ms-python.debugpy": ["contribIssueReporter", "contribViewsWelcome", "debugVisualization", "portsAttributes"],
+    "ms-toolsai.jupyter-renderers": ["contribNotebookStaticPreloads"],
+    "ms-toolsai.jupyter": ["notebookDeprecated", "notebookMessaging", "notebookMime", "notebookCellExecutionState", "portsAttributes", "quickPickSortByLabel", "notebookKernelSource", "interactiveWindow", "notebookControllerAffinityHidden", "contribNotebookStaticPreloads", "quickPickItemTooltip", "notebookExecution", "notebookCellExecution", "notebookVariableProvider", "notebookReplDocument"],
+    "dbaeumer.vscode-eslint": ["notebookCellExecutionState"],
+    "ms-azuretools.vscode-azureappservice": ["terminalDataWriteEvent"],
+    "redhat.java": ["documentPaste"],
+    "vscjava.vscode-java-pack": ["lmTools"],
+    "jeanp413.open-remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"],
+    "asbx.remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"]
+  },
+  "date": "2025-07-13T23:24:21.496Z",
+  "checksums": {
+    "vs/base/parts/sandbox/electron-sandbox/preload.js": "h9zTEca4rwe7BSEqQJ9qCOv9wRcI3ndTLT6orJwlwho",
+    "vs/workbench/workbench.desktop.main.js": "VAwbk67yJzlhpDNrN4oTn4DxcWo0sQq7DA9dWanHsD0",
+    "vs/workbench/workbench.desktop.main.css": "bu4cGcjt4RJjtvP+xneJ8SomOz+QmwSbxpZNQ4LskIo",
+    "vs/workbench/api/node/extensionHostProcess.js": "9+skoM/OMrYpghtGQJq+e1ovXZKGBhpnpzKj7atQLW4",
+    "vs/code/electron-sandbox/workbench/workbench.esm.html": "bmf0huk0BLDJrGqALjDJTi9WkCgr2gxudcA/UTcmzzY",
+    "vs/code/electron-sandbox/workbench/workbench.js": "5GiNWZzGnzcbUvuhYk+dH6fDEK45DN1Sgj4KP61KP3E"
+  },
+  "version": "0.1.0"
+}

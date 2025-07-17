@@ -117,7 +117,7 @@ alias wifi="nmcli dev wifi"
 alias ports="sudo ss -tulnp"
 alias port="sudo ss -tulnp | grep -i"
 
-
+alias mac-apple-rand='sudo macchanger -m "3C:22:FB:$(openssl rand -hex 3 | sed "s/\(..\)/\1:/g; s/.$//")"'
 ##########################################
 # Text Editors
 ##########################################

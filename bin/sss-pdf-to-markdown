@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 
 # Check if pandoc is installed
 
@@ -16,18 +16,18 @@ fi
 
 # Check if input file exists
 
-if [ ! -f "$1" ]; then
+if [ ! -f $1 ]; then
   echo "Input file does not exist. Please check the file path and try again."
   exit 1
 fi
 
 # Set output file name
 
-output_file="${1%.*}.md"
+output_file=${1%.*}.md
 
 # Convert PDF to markdown
 
-pandoc -f pdf -t markdown -o "$output_file" "$1"
+pandoc -f pdf -t markdown -o $output_file $1
 
 echo "PDF file successfully converted to markdown and saved as $output_file"
 
