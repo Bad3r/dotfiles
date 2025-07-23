@@ -33,8 +33,8 @@
   "urlProtocol": "kiro",
   "updateUrl": "https://prod.download.desktop.kiro.dev",
   "downloadUrl": "https://kiro.dev",
-  "commit": "8c12d528fc95c4235fd9c5808778c4f9c20a0280",
-  "quality": "stable",
+	"commit": "937486735d58aef64fba8f309593d01513e29672",
+	"quality": "insider",
   "enableTelemetry": true,
   "webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
   "trustedExtensionProtocolHandlers": ["kiro.kiroAgent"],
@@ -117,10 +117,10 @@
 	"serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",
 	"itemUrl": "https://marketplace.visualstudio.com/items",
 	"publisherUrl": "https://marketplace.visualstudio.com/publishers",
-	"resourceUrlTemplate": "https://{publisher}.vscode-unpkg.net/{publisher}/{name}/{version}/{path}",
+	"resourceUrlTemplate": "https://{publisher}.vscode-unpkg.net/{publisher}/{name}/{vsCodeVersion}/{path}",
 	"extensionUrlTemplate": "https://www.vscode-unpkg.net/_gallery/{publisher}/{name}/latest",
 	"controlUrl": "https://main.vscode-cdn.net/extensions/marketplace.json",
-	"mcpUrl": "https://main.vscode-cdn.net/mcp/servers.json",
+	"mcpUrl": "https://main.vscode-cdn.net/mcp/servers.json"
   },
   "remote": {
     "SSH": {
@@ -153,5 +153,5 @@
     "vs/code/electron-sandbox/workbench/workbench.esm.html": "bmf0huk0BLDJrGqALjDJTi9WkCgr2gxudcA/UTcmzzY",
     "vs/code/electron-sandbox/workbench/workbench.js": "5GiNWZzGnzcbUvuhYk+dH6fDEK45DN1Sgj4KP61KP3E"
   },
-  "version": "0.1.0"
+  "version": "1.94.0"
 }
