@@ -1,3 +1,6 @@
+# Misc
+bin/biglybt/
+
 # Toml Bombadil
 .dots
 *.dccache
