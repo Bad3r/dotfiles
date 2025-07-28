@@ -1,0 +1,29 @@
+[Default Applications]
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/chrome=firefox.desktop
+text/html=firefox.desktop
+application/x-extension-htm=firefox.desktop
+application/x-extension-html=firefox.desktop
+application/x-extension-shtml=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/x-extension-xhtml=firefox.desktop
+application/x-extension-xht=firefox.desktop
+text/markdown=userapp-kiro-FD1K92.desktop
+x-scheme-handler/tg=userapp-AyuGram Desktop-N2UK92.desktop
+x-scheme-handler/tonsite=userapp-AyuGram Desktop-XEI192.desktop
+
+[Added Associations]
+x-scheme-handler/http=firefox.desktop;zen.desktop;zen-beta.desktop;
+x-scheme-handler/https=firefox.desktop;zen.desktop;zen-beta.desktop;
+x-scheme-handler/chrome=firefox.desktop;zen.desktop;zen-beta.desktop;
+text/html=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/x-extension-htm=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/x-extension-html=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/x-extension-shtml=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/xhtml+xml=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/x-extension-xhtml=zen-beta.desktop;zen.desktop;firefox.desktop;
+application/x-extension-xht=zen-beta.desktop;zen.desktop;firefox.desktop;
+text/markdown=userapp-kiro-FD1K92.desktop;
+x-scheme-handler/tg=userapp-AyuGram Desktop-N2UK92.desktop;
+x-scheme-handler/tonsite=userapp-AyuGram Desktop-XEI192.desktop;

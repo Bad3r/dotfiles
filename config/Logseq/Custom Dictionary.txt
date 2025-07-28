@@ -1,0 +1,26 @@
+CLAUDE.md
+Context7
+Disruptor
+Domiciliation
+Fantagraphics
+NTFS
+Octogen
+Panoptic
+PressPop
+Pupshaw
+Pushpaw
+Spec.md
+Streamlit
+WOODRING
+Woodring
+backend
+bristol
+changelog
+claude
+context7
+iMessage
+plan.md
+pyright
+subagents
+ultrathink
+checksum_v1 = dc08c21949d0e3acf47aaafabe8c439e
