@@ -1,5 +1,5 @@
 {
-  "vsCodeVersion": "1.94.0",
+	"vsCodeVersion": "1.94.0",
   "nameShort": "Kiro",
   "nameLong": "Kiro",
   "applicationName": "kiro",
@@ -33,7 +33,7 @@
   "urlProtocol": "kiro",
   "updateUrl": "https://prod.download.desktop.kiro.dev",
   "downloadUrl": "https://kiro.dev",
-	"commit": "937486735d58aef64fba8f309593d01513e29672",
+	"commit": "bfd3990b4f415d24f4c80870755696bb1de759c5",
 	"quality": "insider",
   "enableTelemetry": true,
   "webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
@@ -144,7 +144,7 @@
     "jeanp413.open-remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"],
     "asbx.remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"]
   },
-  "date": "2025-07-13T23:24:21.496Z",
+	"date": "2025-07-22T22:06:38.895Z",
   "checksums": {
     "vs/base/parts/sandbox/electron-sandbox/preload.js": "h9zTEca4rwe7BSEqQJ9qCOv9wRcI3ndTLT6orJwlwho",
     "vs/workbench/workbench.desktop.main.js": "VAwbk67yJzlhpDNrN4oTn4DxcWo0sQq7DA9dWanHsD0",
