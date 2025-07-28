@@ -1,5 +1,5 @@
 # Misc
-bin/biglybt/
+**/bin/biglybt/
 
 # Toml Bombadil
 .dots

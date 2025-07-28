@@ -8,5 +8,5 @@ export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export CLAUDE_BASH_DEFAULT_TIMEOUT_MS=240000 # 4? minutes
 export CLAUDE_BASH_MAX_TIMEOUT_MS=4800000    # 20? minutes
 export MAX_THINKING_TOKENS=32768             # TODO: Calibrate
-export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000   # Max tokens: Opus 4 = 32k, Sonnet 4 = 64k
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=1       # Max tokens: Opus 4 = 32k, Sonnet 4 = 64k, 1 = default
 export DISABLE_AUTOUPDATER=1
