@@ -2,8 +2,7 @@
 
 # https://github.com/barthr/redo
 
-# TODO: check if needed otherwise use $HISTFILE. Might be related to atuin?
-export REDO_HISTORY_PATH="${XDG_CACHE_HOME:-$HOME/.cache}/shell_history"
+export REDO_HISTORY_PATH="$HISTFILE"
 
 # NOTE: REDO_HISTORY_PATH or HISTFILE must be set first
 if command -v redo &> /dev/null; then

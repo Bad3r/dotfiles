@@ -1,0 +1,266 @@
+# Font Settings
+* {
+    font-family: "MonoLisa Variable" !important;
+    font-variation-settings: "wght" 500 !important;
+    font-feature-settings:
+      "ss01" 1,
+      "ss02" 1,
+      "ss07" 1,
+      "ss08" 1,
+      "ss10" 1,
+      "ss11" 1,
+      "ss15" 1,
+      "ss16" 1,
+      "ss17" 1,
+      "zero" 1,
+      "liga" 1,
+      "calt" 1,
+      "frac" 1,
+      "rlig" 1,
+      "rvrn" 1 !important;
+    line-height: 1.4 !important;
+    font-size: 12px !important;
+  }
+
+
+/* Hide Tab Toolbar */
+:root {
+  --uc-window-control-width: 0px; /* Space reserved for window controls regular 138px */
+  --uc-window-drag-space-width: 4px; /* Extra space reserved on both sides of the nav-bar to be able to drag the window */
+  --uc-toolbar-height: 32px;
+}
+
+#nav-bar::before,
+#nav-bar::after {
+  content: "";
+  display: -moz-box;
+  width: var(--uc-window-drag-space-width);
+}
+
+toolbar#nav-bar::after {
+  width: calc(
+    var(--uc-window-control-width) + var(--uc-window-drag-space-width, 0px)
+  );
+}
+
+:root:not([uidensity="compact"]) {
+  --uc-toolbar-height: 38px;
+}
+
+#TabsToolbar {
+  visibility: collapse !important;
+}
+
+:root:not([inFullscreen]) #nav-bar {
+  margin-top: calc(0px - var(--uc-toolbar-height));
+}
+
+#toolbar-menubar {
+  min-height: unset !important;
+  height: var(--uc-toolbar-height) !important;
+  position: relative;
+}
+
+#main-menubar {
+  -moz-box-flex: 1;
+  background-color: var(--toolbar-bgcolor, --toolbar-non-lwt-bgcolor);
+  background-clip: padding-box;
+  border-image: linear-gradient(
+      to left,
+      transparent,
+      var(--toolbar-bgcolor, --toolbar-non-lwt-bgcolor) 30px
+    )
+    20 / 30px;
+}
+
+#toolbar-menubar:not([inactive]) {
+  z-index: 2;
+}
+#toolbar-menubar[inactive] > #menubar-items {
+  opacity: 0;
+  pointer-events: none;
+  margin-left: var(--uc-window-drag-space-width, 0px);
+}
+
+#navigator-toolbox {
+  border-bottom: none !important;
+}
+
+
+/* Autohide Sidebar */
+/* Sidebar min and max width removal */
+#sidebar {
+  max-width: none !important;
+  min-width: 0px !important;
+}
+/* Hide splitter, when using Tree Style Tab. */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]
+  + #sidebar-splitter {
+  display: none !important;
+}
+/* Hide sidebar header, when using Tree Style Tab. */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]
+  #sidebar-header {
+  visibility: collapse;
+}
+/* Shrink sidebar until hovered, when using Tree Style Tab. */
+:root {
+  --thin-tab-width: 38px;
+  --wide-tab-width: 200px;
+}
+#sidebar-box:not([sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]) {
+  min-width: var(--wide-tab-width) !important;
+  max-width: none !important;
+}
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] {
+  overflow: hidden !important;
+  position: relative !important;
+  transition: all 300ms !important;
+  min-width: var(--thin-tab-width) !important;
+  max-width: var(--thin-tab-width) !important;
+}
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]:hover,
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]
+  #sidebar {
+  transition: all 300ms !important;
+  min-width: var(--wide-tab-width) !important;
+  max-width: var(--wide-tab-width) !important;
+
+  /* Negative right-margin to keep page from being pushed to the side. */
+  margin-right: calc(
+    (var(--wide-tab-width) - var(--thin-tab-width)) * -1
+  ) !important;
+  z-index: 1;
+}
+
+/* This style hides the main toolbar and shows it when the cursor is over the
+   tabs toolbar as well as whenever the focus is inside nav-bar, such as when
+   __urlbar is focused. */
+/*
+:root{ --uc-navbar-transform: -40px }
+:root[uidensity="compact"]{ --uc-navbar-transform: -34px }
+
+:root[sessionrestored] :where(#nav-bar,#PersonalToolbar,#tab-notification-deck){
+  transform: translateY(var(--uc-navbar-transform))
+}
+
+:root[customizing],
+:root[chromehidden*="toolbar"] :where(#nav-bar,#PersonalToolbar,#tab-notification-deck){
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+#nav-bar:not([customizing]){
+  opacity: 0;
+  transition:  transform 400ms ease 1.8s, opacity 400ms ease 1.8s !important;
+  position: relative;
+  z-index: 2;
+}
+#TabsToolbar{ position: relative; z-index: 3 }
+#navigator-toolbox:focus-within > .browser-toolbar,
+#titlebar:hover ~ .browser-toolbar,
+#nav-bar:hover,
+#nav-bar:hover + #PersonalToolbar{
+  transform: translateY(0);
+  opacity: 1;
+  transition-duration: 500ms, 200ms !important;
+  transition-delay: 0s !important;
+}
+
+#PersonalToolbar{ transition: transform 400ms ease 1.8s !important; position: relative; z-index: 1 }
+:root[sessionrestored]:not([inFullscreen]) > body > #browser{ margin-top: var(--uc-navbar-transform); }
+
+*/
+/* Makes context menus dark. Also affects some portions of menu popups */
+/* Uses dark theme colors but does not respect dark theme variables (they wouldn't work on sidebar context menu) */
+
+:root {
+  --uc-menu-bkgnd: #2e3440;
+  --uc-menu-color: #4c566a;
+  --uc-menu-dimmed: #a5abb6;
+  --uc-menu-disabled: #3b4252;
+}
+panel richlistbox,
+panel tree,
+panel button,
+panel menulist,
+panel textbox,
+panel input,
+menupopup,
+menu,
+menuitem {
+  -moz-appearance: none !important;
+}
+
+menulist,
+menuitem,
+menu {
+  min-height: 1.8em;
+}
+
+panel menulist {
+  border: 1px solid transparent;
+}
+
+panel richlistbox,
+panel tree,
+panel button,
+panel menulist,
+panel textbox,
+panel input,
+panel #searchbar,
+menupopup:not(#BMB_bookmarksPopup),
+#main-menubar > menu > menupopup,
+#context-navigation {
+  color: var(--uc-menu-color) !important;
+  padding: 2px;
+  background-color: var(--uc-menu-bkgnd) !important;
+  border-color: var(--uc-menu-disabled) !important;
+}
+
+panel textbox input {
+  padding: 2px !important;
+}
+
+panel input {
+  border-width: 1px;
+  border-style: solid;
+  background-color: #2e3440 !important;
+}
+panel #searchbar {
+  background-color: #2e3440 !important;
+  padding: 0 !important;
+}
+panel #searchbar input {
+  background-color: transparent !important;
+}
+
+panel menulist:hover,
+panel menulist[open] {
+  border-color: Highlight !important;
+}
+
+#editBMPanel_folderMenuList > menupopup > menuitem {
+  color: var(--uc-menu-color) !important;
+}
+
+panel treechildren::-moz-tree-row(selected),
+panel button:hover,
+menu:hover,
+menu[_moz-menuactive],
+menu[open],
+menuitem:hover,
+menuitem[_moz-menuactive] {
+  background-color: var(--uc-menu-dimmed) !important;
+  color: inherit !important;
+}
+
+menu[disabled="true"],
+menuitem[disabled="true"] {
+  color: var(--uc-menu-disabled) !important;
+}
+
+menu:not(.subviewbutton) > .menu-right {
+  filter: invert(1);
+}
+

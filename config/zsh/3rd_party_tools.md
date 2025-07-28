@@ -56,9 +56,9 @@ This document lists all non-default GNU/Linux tools used in the dotfiles configu
   - *Installation*: `yay -S antidote`
 
 - **redo** - Command history tool
-  - *Description*: Bash/Zsh command history search and execution
+  - *Description*: an interactive way combine multiple commands from your shell history in a single command
   - *Referenced in*: `rc.d/redo.zsh`
-  - *Installation*: `yay -S redo`
+  - *Installation*: `go install github.com/barthr/redo@latest`
 
 ## File Management & Navigation
 
@@ -207,17 +207,16 @@ This document lists all non-default GNU/Linux tools used in the dotfiles configu
 
 ## System Information & Monitoring
 
-### Essential
-- **fastfetch** - System information tool
-  - *Description*: Fast system information tool written in C
-  - *Referenced in*: `alias.d/aliases.zsh`
-  - *Installation*: `sudo pacman -S fastfetch`
-
 ### Optional
 - **htop** - Process viewer
   - *Description*: Interactive process viewer
   - *Referenced in*: Common system tool
   - *Installation*: `sudo pacman -S htop`
+
+- **fastfetch** - System information tool
+  - *Description*: Fast system information tool written in C
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S fastfetch`
 
 ## Multimedia & Graphics
 
@@ -232,11 +231,6 @@ This document lists all non-default GNU/Linux tools used in the dotfiles configu
   - *Description*: Neo Simple X Image Viewer
   - *Referenced in*: `alias.d/aliases.zsh`, `optimal_packages.md`
   - *Installation*: `sudo pacman -S nsxiv`
-
-- **sxiv** - Simple X Image Viewer
-  - *Description*: Simple X Image Viewer
-  - *Referenced in*: `.zshrc`
-  - *Installation*: `sudo pacman -S sxiv`
 
 - **feh** - Image viewer
   - *Description*: Fast and light image viewer

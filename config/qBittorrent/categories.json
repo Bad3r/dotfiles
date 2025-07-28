@@ -1,17 +1,9 @@
 {
-    "Course": {
-        "save_path": ""
-    },
     "EDU": {
         "save_path": ""
     },
-    "IWO": {
-        "save_path": ""
-    },
-    "P": {
-        "save_path": ""
-    },
-    "Warez": {
-        "save_path": ""
+    "Pp": {
+        "download_path": false,
+        "save_path": "/run/media/veracrypt1/MovieP"
     }
 }

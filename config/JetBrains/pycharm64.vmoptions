@@ -1,0 +1,31 @@
+# custom PyCharm VM options (expand/override 'bin/pycharm64.vmoptions')
+-javaagent:$USER_HOME/.config/JetBrains/jetbra/ja-netfilter.jar=jetbrains
+
+# Memory management
+-Xms2g
+-Xmx4g
+-XX:MaxDirectMemorySize=1g
+
+-XX:+UseG1GC
+-XX:SoftRefLRUPolicyMSPerMB=50
+-XX:ReservedCodeCacheSize=1024m
+
+-XX:CICompilerCount=2
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:-OmitStackTraceInFastThrow
+-ea
+-Dsun.io.useCanonCaches=false
+-Djdk.attach.allowAttachSelf=true
+-Dkotlinx.coroutines.debug=off
+
+# Log Files
+-XX:ErrorFile=$USER_HOME/.cache/JetBrains/java_error_in_idea_%p.log
+-XX:HeapDumpPath=$USER_HOME/.cache/JetBrains/java_error_in_idea.hprof
+
+--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+--add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+
+
+
+
+

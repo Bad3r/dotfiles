@@ -1,0 +1,30 @@
+- clean: ['~']
+
+- link:
+    ~/.profile:
+        path:   profile
+        create: false
+        relink: false
+        force:  false
+    ~/.zshenv:
+        path:   .zshenv
+        create: false
+        relink: false
+        force:  false
+    ~/.config/zsh:
+        path:   config/zsh
+        create: true
+        relink: false
+        force:  false
+    ~/.Xresources:
+        path:   .Xresources
+        create: false
+        relink: false
+        force:  false
+    ~/.config/i3:
+        path:   config/i3
+        create: true
+        relink: false
+        force:  false
+
+

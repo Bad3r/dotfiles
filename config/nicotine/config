@@ -1,0 +1,238 @@
+[server]
+server = ('server.slsknet.org', 2242)
+login = BigEgypt
+passw = BlueGum492
+interface = 
+ctcpmsgs = False
+autosearch = []
+autoreply = 
+portrange = (42628, 42628)
+upnp = True
+upnp_interval = 4
+auto_connect_startup = True
+userlist = [['DrFeelgoodEsq', '', True, True, True, '07/18/2025 10:39:38', 'flag_GB'], ['counterpaul', '', True, True, True, '07/09/2025 09:58:57', 'flag_US']]
+banlist = []
+ignorelist = []
+ipignorelist = {}
+ipblocklist = {}
+autojoin = []
+autoaway = 30
+away = False
+private_chatrooms = False
+
+[transfers]
+incompletedir = ${NICOTINE_DATA_HOME}/incomplete
+downloaddir = /run/media/veracrypt1/SoulSeek
+uploaddir = ${NICOTINE_DATA_HOME}/received
+usernamesubfolders = False
+shared = [('Movies', '/run/media/veracrypt1/Movies'), ('Data', '/run/media/veracrypt1/Data'), ('TV', '/run/media/veracrypt1/TV'), ('media', '/run/media/veracrypt1/media'), ('Games', '/run/media/veracrypt1/Games'), ('Dev', '/run/media/veracrypt1/EDU/Dev'), ('SoulSeek', '/run/media/veracrypt1/SoulSeek')]
+buddyshared = []
+trustedshared = []
+uploadbandwidth = 50
+use_upload_speed_limit = unlimited
+uploadlimit = 1000
+uploadlimitalt = 100
+use_download_speed_limit = unlimited
+downloadlimit = 1000
+downloadlimitalt = 100
+preferfriends = False
+useupslots = False
+uploadslots = 2
+afterfinish = 
+afterfolder = 
+fifoqueue = False
+usecustomban = False
+limitby = True
+customban = Banned, don't bother retrying
+usecustomgeoblock = False
+customgeoblock = Sorry, your country is blocked
+queuelimit = 10000
+filelimit = 100
+reveal_buddy_shares = False
+reveal_trusted_shares = False
+friendsnolimits = False
+groupdownloads = ungrouped
+groupuploads = folder_grouping
+geoblock = False
+geoblockcc = ['']
+remotedownloads = False
+uploadallowed = 3
+autoclear_downloads = False
+autoclear_uploads = False
+rescanonstartup = True
+enablefilters = False
+downloadregexp = (\\(.*\.DS_Store|.*\.exe|.*\.msi|Thumbs\.db|desktop\.ini)$)
+downloadfilters = [['*.DS_Store', True], ['*.exe', True], ['*.msi', True], ['desktop.ini', True], ['Thumbs.db', True]]
+download_doubleclick = 2
+upload_doubleclick = 2
+downloadsexpanded = True
+uploadsexpanded = True
+
+[userbrowse]
+expand_folders = True
+
+[userinfo]
+descr = ''
+pic = 
+
+[words]
+censored = []
+autoreplaced = {'teh ': 'the ', 'taht ': 'that ', 'tihng': 'thing', 'youre': "you're", 'jsut': 'just', 'thier': 'their', 'tihs': 'this'}
+censorwords = False
+replacewords = False
+tab = True
+dropdown = False
+characters = 3
+roomnames = False
+buddies = True
+roomusers = True
+commands = True
+
+[logging]
+debug = False
+debugmodes = []
+debuglogsdir = ${NICOTINE_DATA_HOME}/logs/debug
+logcollapsed = False
+transferslogsdir = ${NICOTINE_DATA_HOME}/logs/transfers
+rooms_timestamp = %X
+private_timestamp = %x %X
+log_timestamp = %x %X
+privatechat = True
+chatrooms = True
+transfers = False
+debug_file_output = False
+roomlogsdir = ${NICOTINE_DATA_HOME}/logs/rooms
+privatelogsdir = ${NICOTINE_DATA_HOME}/logs/private
+readroomlines = 200
+readprivatelines = 200
+private_chats = []
+rooms = []
+
+[privatechat]
+store = True
+users = ['DrFeelgoodEsq', 'counterpaul']
+
+[columns]
+file_search = {'user': {'visible': True, 'width': 200}, 'country': {'visible': True, 'width': 30}, 'speed': {'visible': True, 'width': 120}, 'in_queue': {'visible': True, 'width': 110}, 'folder': {'visible': True, 'width': 895}, 'file_type': {'visible': True, 'width': 40}, 'filename': {'visible': True, 'width': 708}, 'size': {'visible': True, 'width': 180}, 'quality': {'visible': True, 'width': 150}, 'length': {'visible': True, 'width': 123}}
+download = {'user': {'visible': True, 'width': 200}, 'path': {'visible': False, 'width': 717}, 'file_type': {'visible': True, 'width': 40}, 'filename': {'visible': True, 'width': 1319}, 'status': {'visible': True, 'width': 174, 'sort': 'ascending'}, 'queue_position': {'visible': True, 'width': 90}, 'percent': {'visible': True, 'width': 111}, 'size': {'visible': True, 'width': 231}, 'speed': {'visible': True, 'width': 117}, 'time_elapsed': {'visible': True, 'width': 140}, 'time_left': {'visible': True, 'width': 134}}
+upload = {}
+user_browse = {'file_type': {'visible': True, 'width': 30}, 'filename': {'visible': True, 'width': 939}, 'size': {'visible': True, 'width': 100}, 'quality': {'visible': True, 'width': 150}, 'length': {'visible': True, 'width': 123}}
+buddy_list = {'status': {'visible': True, 'width': 25}, 'country': {'visible': True, 'width': 30}, 'user': {'visible': True, 'width': 250}, 'speed': {'visible': True, 'width': 150}, 'files': {'visible': True, 'width': 150}, 'trusted': {'visible': True, 'width': 113}, 'notify': {'visible': True, 'width': 103}, 'privileged': {'visible': True, 'width': 154}, 'last_seen': {'visible': True, 'width': 160}, 'comments': {'visible': True, 'width': 1413}}
+chat_room = {}
+
+[searches]
+expand_searches = True
+group_searches = folder_grouping
+maxresults = 300
+enable_history = True
+history = ['jim woodring', 'woodring', 'Jim Woodring', 'Jim Woodring self published', 'frank 1 jim woodring fantagraphics', 'jimwoodring']
+enablefilters = False
+filters_visible = True
+defilter = ['', '', '', '', False, '', '', '']
+filtercc = []
+filterin = ['frank #1 - jim woodring (fantagraphics)', '1982', 'self']
+filterout = []
+filtersize = []
+filterbr = []
+filtertype = ['cbr']
+filterlength = []
+search_results = True
+max_displayed_results = 2500
+min_search_chars = 3
+private_search_results = True
+
+[ui]
+language = 
+dark_mode = True
+header_bar = True
+icontheme = 
+chatme = #908E8B
+chatremote = 
+chatlocal = 
+chatcommand = #908E8B
+chathilite = #5288CE
+urlcolor = #5288CE
+useronline = #16BB5C
+useraway = #C9AE13
+useroffline = #E04F5E
+usernamehotspots = True
+usernamestyle = bold
+textbg = 
+search = 
+inputcolor = 
+spellcheck = True
+exitdialog = 1
+tab_default = 
+tab_hilite = #497EC2
+tab_changed = #497EC2
+tab_select_previous = True
+tabmain = Top
+tabrooms = Top
+tabprivate = Top
+tabinfo = Top
+tabbrowse = Top
+tabsearch = Top
+globalfont = 
+textviewfont = 
+chatfont = 
+tabclosers = True
+searchfont = 
+listfont = 
+browserfont = 
+transfersfont = 
+last_tab_id = search
+modes_visible = {'search': True, 'downloads': True, 'uploads': True, 'userbrowse': True, 'userinfo': True, 'private': True, 'userlist': True, 'chatrooms': True, 'interests': True}
+modes_order = ['search', 'downloads', 'uploads', 'userbrowse', 'userinfo', 'private', 'userlist', 'chatrooms', 'interests']
+buddylistinchatrooms = tab
+trayicon = True
+startup_hidden = False
+filemanager = 
+speechenabled = False
+speechprivate = User %(user)s told you: %(message)s
+speechrooms = In room %(room)s, user %(user)s said: %(message)s
+speechcommand = flite -t $
+width = 2548
+height = 1402
+xposition = -1
+yposition = -1
+maximized = True
+reverse_file_paths = True
+file_size_unit = 
+
+[urls]
+protocols = {}
+
+[interests]
+likes = ['jim woodring', 'the unifactor', 'frank', 'pupshaw & pushpaw']
+dislikes = ['manhog']
+
+[players]
+npothercommand = 
+npplayer = mpris
+npformatlist = []
+npformat = 
+
+[notifications]
+notification_window_title = True
+notification_tab_colors = False
+notification_popup_sound = False
+notification_popup_file = True
+notification_popup_folder = True
+notification_popup_private_message = True
+notification_popup_chatroom = False
+notification_popup_chatroom_mention = True
+notification_popup_wish = True
+
+[plugins]
+enable = True
+enabled = ['core_commands']
+
+[statistics]
+since_timestamp = 1751808470
+started_downloads = 3817
+completed_downloads = 940
+downloaded_size = 61015099799
+started_uploads = 0
+completed_uploads = 0
+uploaded_size = 0
+
