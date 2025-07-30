@@ -18,11 +18,9 @@ export LC_ALL="en_US.UTF-8"
 export ZSH_CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export ZDOTDIR=$ZSH_CONF_DIR
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-source "${ZSH_CONF_DIR}/env.d/.zshenv"
 
-# https://github.com/elFarto/nvidia-vaapi-driver#firefox
-export NVD_BACKEND=direct
-export MOZ_X11_EGL=1
-export LIBVA_DRIVER_NAME=nvidia
-export MOZ_DISABLE_RDD_SANDBOX=1
+# Source shared environment (with idempotency guard)
+[ -f "$HOME/.config/zsh/environment.zsh" ] && . "$HOME/.config/zsh/environment.zsh"
+
+source "${ZSH_CONF_DIR}/env.d/.zshenv"
 
