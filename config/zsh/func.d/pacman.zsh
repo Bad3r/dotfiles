@@ -1,5 +1,8 @@
 # https://wiki.archlinux.org/title/zsh#pacman_-F_%22command_not_found%22_handler
 function command_not_found_handler {
+    # Prevent this handler from running during startup/eval contexts
+    [[ -n "$ZSH_EVAL_CONTEXT" && "$ZSH_EVAL_CONTEXT" =~ "eval" ]] && return 127
+    
     local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
     printf 'zsh: command not found: %s\n' "$1"
     local entries=(
