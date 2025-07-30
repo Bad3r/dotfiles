@@ -11,12 +11,6 @@ function lazy_load_command() {
     local cmd="$1"
     local config_file="$2"
     
-    # Debug: check if cmd contains special characters
-    if [[ "$cmd" =~ [^a-zA-Z0-9_-] ]]; then
-        echo "Warning: lazy_load_command received invalid command name: '$cmd'" >&2
-        return 1
-    fi
-    
     eval "
     $cmd() {
         unfunction $cmd
