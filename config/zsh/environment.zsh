@@ -46,7 +46,7 @@ fi
 export OPENER="xdg-open"
 
 export WM="i3"
-export SHELL=$(which zsh)
+export SHELL="/usr/bin/zsh"
 
 # Git repo for my dotfiles
 export DOTFILES="$HOME/dotfiles"
