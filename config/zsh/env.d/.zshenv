@@ -1,5 +1,6 @@
 # File: $ZSH_CONF_DIR/.zshenv
-# Desc: sources .zshrc Kept to follow zsh configuration conventions (ironic ik)
+# Desc: Environment variables only - no interactive commands
+# This file should NOT source .zshrc as it violates zsh startup conventions
 
-emulate -L zsh  # Resets to defaults for the duration of configuring zsh
-source "${ZSH_CONF_DIR}/.zshrc"
+# Only set environment variables here that are needed in non-interactive shells
+# Interactive configurations belong in .zshrc

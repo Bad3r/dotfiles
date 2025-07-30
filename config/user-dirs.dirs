@@ -13,3 +13,8 @@ XDG_DOCUMENTS_DIR="$HOME/Documents"
 XDG_MUSIC_DIR="$HOME/Music"
 XDG_PICTURES_DIR="$HOME/Pictures"
 XDG_VIDEOS_DIR="$HOME/Videos"
+
+# Custom non-spec vars
+XDG_LOCAL_DIR="$HOME/.local"
+XDG_BIN_DIR="$HOME/.local/bin"
+XDG_LIB_DIR="$HOME/.local/lib"
