@@ -11,12 +11,6 @@ function lazy_load_command() {
     local cmd="$1"
     local config_file="$2"
     
-    # Debug: print what we're about to eval
-    if [[ $DEBUG -eq 1 ]]; then
-        echo "DEBUG: lazy_load_command called with cmd='$cmd' file='$config_file'" >&2
-        echo "DEBUG: cmd bytes: $(echo -n "$cmd" | od -c)" >&2
-    fi
-    
     # Ensure cmd contains only valid function name characters
     if [[ ! "$cmd" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
         echo "ERROR: Invalid function name for lazy loading: '$cmd'" >&2

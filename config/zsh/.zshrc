@@ -42,7 +42,6 @@ for dir in "${config_dirs[@]}"; do
       case "$filename" in
       "zoxide.zsh")
         # Create wrapper functions for zoxide commands
-        [[ $DEBUG -eq 1 ]] && echo "DEBUG: Setting up lazy load for zoxide from $file" >&2
         lazy_load_command "j" "$file"
         lazy_load_command "ji" "$file"
         lazy_load_command "zoxide" "$file"
