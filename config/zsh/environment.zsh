@@ -5,6 +5,10 @@
 # Idempotency Guard: Ensure this file is only ever sourced once per session
 [ -n "$_ZSH_ENV_SOURCED" ] && return || export _ZSH_ENV_SOURCED=1
 
+# Locale
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
 # Defaults
 if command -v kitty >/dev/null 2>&1; then
   export TERM="xterm-kitty"
