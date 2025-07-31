@@ -2,7 +2,7 @@
 # Desc: Used for setting user's environment variables;
 #       it should not contain commands that produce output or assume the shell is attached to a TTY.
 #       When this file exists it will always be read.
-#
+
 # XDG Base Directory - MUST stay in ~/.zshenv for early/universal access
 # (Different from XDG User Directories in ~/.config/user-dirs.dirs)
 # https://wiki.archlinux.org/title/XDG_Base_Directory
@@ -17,7 +17,5 @@ export ZDOTDIR=$ZSH_CONF_DIR
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 
 # Source shared environment (with idempotency guard)
-[ -f "${ZSH_CONF_DIR}/environment.zsh" ] && . "${ZSH_CONF_DIR}/environment.zsh"
-
-source "${ZSH_CONF_DIR}/env.d/.zshenv"
+[ -f "${ZSH_CONF_DIR}/env.d/env" ] && . "${ZSH_CONF_DIR}/env.d/env"
 

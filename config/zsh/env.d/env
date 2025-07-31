@@ -1,5 +1,5 @@
 #!/bin/sh
-# ~/.config/zsh/environment.zsh - Shared environment variables
+# ~/.config/zsh/env.d/env - Shared POSIX-compliant environment variables
 # Sourced by ~/.profile (for GUI) and ~/.zshenv (for shells)
 
 # Idempotency Guard: Ensure this file is only ever sourced once per session

@@ -11,7 +11,7 @@ if ! command_exists dotnet; then
 fi
 
 # .Net Framework
-# Environment variables moved to ~/.config/zsh/environment.zsh
+# Environment variables moved to ~/.config/zsh/env.d/env
 
 # add .NET tools to $PATH (if directory exists)
 [ -d "$HOME/.dotnet/tools" ] && PATH="$PATH:$HOME/.dotnet/tools"
