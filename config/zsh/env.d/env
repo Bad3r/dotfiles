@@ -119,3 +119,24 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 if [ -t 0 ]; then
   export GPG_TTY=$(tty)
 fi
+
+# PATH configuration
+# Base paths
+PATH="$HOME/.local/bin:$HOME/bin${PATH:+:$PATH}"
+
+# Development tools
+[ -d "$HOME/.emacs.d/bin" ] && PATH="$PATH:$HOME/.emacs.d/bin"
+[ -d "${GOPATH:-$HOME/go}/bin" ] && PATH="$PATH:${GOPATH:-$HOME/go}/bin"
+[ -d "${CARGO_HOME:-$HOME/.config/cargo}/bin" ] && PATH="$PATH:${CARGO_HOME:-$HOME/.config/cargo}/bin"
+[ -d "$HOME/.gem/bin" ] && PATH="$PATH:$HOME/.gem/bin"
+[ -d "/opt/clojurescript/bin" ] && PATH="$PATH:/opt/clojurescript/bin"
+
+# Package managers
+[ -d "$HOME/.yarn/bin" ] && PATH="$PATH:$HOME/.yarn/bin"
+[ -d "$HOME/.pub-cache/bin" ] && PATH="$PATH:$HOME/.pub-cache/bin"
+[ -d "$HOME/.npm-global/bin" ] && PATH="$PATH:$HOME/.npm-global/bin"
+
+# Claude
+[ -d "$HOME/.claude/local" ] && PATH="$PATH:$HOME/.claude/local"
+
+export PATH

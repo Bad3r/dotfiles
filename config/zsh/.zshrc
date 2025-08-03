@@ -108,8 +108,6 @@ bindkey "^w" backward-kill-word
 
 mkdir -p "$HOME/.local/bin" "$HOME/bin" 2>/dev/null
 
-# PATH configuration moved to ~/.profile
-
 # Set max function nesting
 export FUNCNEST=1000
 
