@@ -17,3 +17,15 @@ logs/
 **/.claude
 .claude/
 CLAUDE.md
+
+# Large binary files
+*.AppImage
+bin/*.AppImage
+
+# Zsh runtime files
+config/zsh/.zsh_history
+config/zsh/completion.d/.zshcompdump
+config/zsh/completion.d/.zshcompdump.zwc
+
+# Screenshot artifacts
+*.png
