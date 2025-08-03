@@ -2,8 +2,12 @@
 # ~/.config/zsh/env.d/env - Shared POSIX-compliant environment variables
 # Sourced by ~/.profile (for GUI) and ~/.zshenv (for shells)
 
-# Idempotency Guard: Ensure this file is only ever sourced once per session
-[ -n "$_ZSH_ENV_SOURCED" ] && return || export _ZSH_ENV_SOURCED=1
+# Idempotency Guard: Track sourcing context
+_CURRENT_SHELL_PID=$$
+if [ -n "$_ENV_SOURCED_PID" ] && [ "$_ENV_SOURCED_PID" = "$_CURRENT_SHELL_PID" ]; then
+  return
+fi
+export _ENV_SOURCED_PID=$_CURRENT_SHELL_PID
 
 # Locale
 export LANG="en_US.UTF-8"
@@ -105,6 +109,13 @@ export LIBVA_DRIVER_NAME=nvidia
 export MOZ_DISABLE_RDD_SANDBOX=1
 
 # From rc.d/dotnet.zsh
-export DOTNET_ROOT=/opt/dotnet
+if [ -d "/opt/dotnet" ]; then
+  export DOTNET_ROOT=/opt/dotnet
+fi
 # disable telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# GPG
+if [ -t 0 ]; then
+  export GPG_TTY=$(tty)
+fi

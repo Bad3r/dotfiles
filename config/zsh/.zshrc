@@ -16,15 +16,24 @@ local config_dirs=(
   "${ZSH_CONF_DIR}/alias.d"
 )
 
+# Source lazy loading functions first
+source "${ZSH_CONF_DIR}/zshrc.d/00-lazy-load.zsh"
+
 # Define files to lazy load (high-impact on startup time)
 local lazy_load_files=(
   "zoxide.zsh"
   "dotnet.zsh"
+  "atuin.zsh"
   "gh_cli.zsh"
 )
 
 for dir in "${config_dirs[@]}"; do
   for file in "$dir"/*.zsh; do
+    # Skip if already sourced
+    if [[ "$file" == "${ZSH_CONF_DIR}/zshrc.d/00-lazy-load.zsh" ]]; then
+      continue
+    fi
+    
     local should_lazy_load=0
     local filename="${file:t}"
 
@@ -84,9 +93,6 @@ bindkey "^w" backward-kill-word
 
 # Environment variables moved to ~/.config/zsh/environment.zsh
 
-# GPG
-export GPG_TTY=$(tty)
-
 
 # if fc-list | grep -i "monolisa" &> /dev/null; then
 #     export THEME_FONT_FACE="MonoLisa"
@@ -100,8 +106,7 @@ export GPG_TTY=$(tty)
 # fi
 
 
-mkdir -p "$HOME/.local/bin"
-mkdir -p "$HOME/bin"
+mkdir -p "$HOME/.local/bin" "$HOME/bin" 2>/dev/null
 
 # PATH configuration moved to ~/.profile
 
