@@ -3,7 +3,7 @@
 ######## CONFIGURATION OPTIONS ########
 AUTOUPDATE_SCRIPT=0 # change to 0 if you don't want your changes overwritten on next SCRIPT_VERSION change
 JAVA_PROGRAM_DIR="/usr/lib/jvm/default/bin/"	# use full path to java bin dir, ex. "/usr/java/j2sdk1.4.2/bin/"
-PROGRAM_DIR="/home/odd/biglybt"
+PROGRAM_DIR="$HOME/git/biglybt"
 JAVA_PROPS=""
 
 #######################################
