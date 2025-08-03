@@ -11,18 +11,10 @@ if ! command_exists dotnet; then
 fi
 
 # .Net Framework
-# disable telemetry
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
+# Environment variables moved to ~/.config/zsh/env.d/env
 
-
-# add .NET to $PATH
-typeset -U PATH path
-path=(
-        "$(xdg-user-dir)/.dotnet/tools"
-        "$path[@]")
-export PATH
-
-export DOTNET_ROOT=/opt/dotnet
+# add .NET tools to $PATH (if directory exists)
+[ -d "$HOME/.dotnet/tools" ] && PATH="$PATH:$HOME/.dotnet/tools"
 
 # zsh parameter completion for the dotnet CLI
 

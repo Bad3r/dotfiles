@@ -14,8 +14,8 @@ command_exists() {
         command_exists[$cmd]=1
     fi
 
-    if [[ $DEBUG -eq 0 ]]; then
-        printf "[DEBUG] command_exists[$cmd]=${command_exists[$cmd]}\n"
+    if [[ $DEBUG -eq 1 ]]; then
+        printf "[DEBUG] command_exists[$cmd]=${command_exists[$cmd]}\n" >&2
     fi
     
     return ${command_exists[$cmd]}

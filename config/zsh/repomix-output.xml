@@ -1,0 +1,5871 @@
+<directory_structure>
+.claude/
+  settings.local.json
+alias.d/
+  aliases.zsh
+  clipboard.zsh
+  directories.zsh
+  distrbox.zsh
+  docker.zsh
+  git.zsh
+  nmap.zsh
+  openvpn.zsh
+  systemd.zsh
+completion.d/
+  _nmap
+  .zshcompdump
+env.d/
+  .zshenv
+func.d/
+  archive.zsh
+  babashka.zsh
+  pacman.zsh
+  sshpt.zsh
+functions/
+rc.d/
+  atuin.zsh
+  bat.zsh
+  chromium.zsh
+  claude-code.zsh
+  dotnet.zsh
+  fzf-tab.zsh
+  gh_cli.zsh
+  grep.zsh
+  last-working-dir.plugin.zsh
+  libby.zsh
+  man.zsh
+  optimus_manager.zsh
+  paru.zsh
+  qt.zsh
+  redo.zsh
+  ripgrep.zsh
+  ruby.zsh
+  sk.zsh
+  vtoolbox.zsh
+  yazi.zsh
+  zoxide.zsh
+zshrc.d/
+  00-command-exists.zsh
+  00-lazy-load.zsh
+  00-plugins.zsh
+  01-completion.zsh
+  02-core-functions.zsh
+  02-expand-aliases.zsh
+  02-file-operations.zsh
+  02-pacman-functions.zsh
+  02-paste-service.zsh
+  02-sudo-functions.zsh
+  02-url-functions.zsh
+  02-utility-functions.zsh
+  02-zoxide-functions.zsh
+  03-history.zsh
+  04-ops.zsh
+  05-prompt.zsh
+.zsh_history
+.zshrc
+3rd_party_tools.md
+CLAUDE.md
+optimal_packages.md
+profile-startup.sh
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".claude/settings.local.json">
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v:*)",
+      "Bash(zoxide init:*)",
+      "Bash(gh copilot alias:*)",
+      "mcp__sequential-thinking__sequentialthinking"
+    ],
+    "deny": []
+  }
+}
+</file>
+
+<file path="alias.d/aliases.zsh">
+##########################################
+# Package Management
+##########################################
+
+alias spm="sudo pacman --color=always -S"
+
+# Yay aliases for AUR helper
+alias yya="yay"
+alias ya="yay"
+
+# Update packages
+alias up="yay -Syu"
+
+# Update without confirmation
+alias upc="yay -Syu --noconfirm"
+
+# Install skipping integrity checks
+alias yayskip="yay -S --mflags --skipinteg"
+
+# Topgrade: Upgrade all software
+alias tg="topgrade"
+alias gt="topgrade"
+
+##########################################
+# File Management
+##########################################
+
+# Change permissions to 755 with sudo
+alias chx="sudo chmod 755"
+
+# Remove files with verbose output
+alias rmv="rm -v"
+
+# Force remove directories recursively
+alias rmdf="rm -rfv"
+
+# List block devices with detailed info
+alias lsblk="lsblk -o NAME,FSTYPE,SIZE,TYPE,UUID,MOUNTPOINT"
+
+# Show top 11 largest directories/files
+alias ducks="du -cms * | sort -rn | head -11"
+
+# Share content via termbin.com
+alias tb="nc termbin.com 9999"
+
+# Create temp directory
+alias tmpdir="mktmpdir"
+
+if command_exists xdg-open; then
+    alias open=xdg-open
+fi
+
+if command_exists cd-gitroot; then
+    alias gitroot="cd-gitroot"
+    alias groot="cd-gitroot"
+    alias cdr="cd-gitroot"
+fi
+
+##########################################
+# Compilation
+##########################################
+
+if command_exists ghc; then
+    # GHC (Haskell Compiler) with dynamic linking
+    alias ghc="ghc -dynamic"
+fi
+
+# GCC with debugging and strict standards
+alias gcc="gcc -ggdb -std=c99 -Wall -Wextra -pedantic"
+
+##########################################
+# Networking
+##########################################
+
+# Ping with count of 5
+alias ping="ping -c 5"
+
+# Curl with silent, follow redirects, compressed
+alias curl="curl -sSJL --compressed"
+# -s: Do not show progress meter or error messages
+# -S: Force showing error messages when -s is used
+# -J: (HTTP) Tell the -O option to use the server-specified Content-Disposition filename instead
+#       of  extracting a filename from the URL. If the server-provided filename contains a path, that is stripped
+#       off before the filename is used.
+# -L: follow redirects
+# --compressed: compress the response
+
+# Wget with continue, content disposition, and progress
+alias wget="wget -c --content-disposition --show-progress"
+
+# Nmap with sudo and environment preservation
+alias nmap="sudo -E nmap"
+
+# Colorized IP command output
+alias ip="ip -color=auto"
+# Show all IP addresses
+alias ipa="ip a"
+# Ethernet interface
+alias ipeth="ip a show enp0s31f6"
+# WLAN interface
+alias ipwlan="ip a show wlan0"
+# Tunnel interface
+alias iptun="ip a show tun0"
+
+# Get external IP in JSON format
+if command_exists curlie; then
+    alias wtfip="curlie wtfismyip.com/json"
+else
+    alias wtfip="curl wtfismyip.com/json"
+fi
+
+# List available Wi-Fi networks
+alias wifi="nmcli dev wifi"
+
+# List open network ports
+# list open port via ss
+alias ports="sudo ss -tulnp"
+alias port="sudo ss -tulnp | grep -i"
+
+alias mac-apple-rand='sudo macchanger -m "3C:22:FB:$(openssl rand -hex 3 | sed "s/\(..\)/\1:/g; s/.$//")"'
+##########################################
+# Text Editors
+##########################################
+
+# Aliases for default editor
+alias vi="$EDITOR"
+alias vim="$EDITOR"
+
+# Emacs in terminal mode
+alias emacs="emacs -nw"
+alias e="emacs -nw"
+
+# Helix editor (https://helix-editor.com)
+alias hx="helix"
+
+# Visual Studio Code
+alias vs="code"
+alias vscode="vs"
+alias vs.="vs ."
+alias v.="vs ."
+
+##########################################
+# Configuration Files
+##########################################
+
+# Edit aliases file
+alias vialias="$EDITOR ${ZSH_CONF_DIR}/alias.d/aliases.zsh"
+
+# Edit Zsh configuration
+alias zshrc="$EDITOR ${ZSH_CONF_DIR}/.zshrc"
+
+# Edit X resources
+alias xresources="$EDITOR ~/.Xresources"
+
+# Edit i3 window manager config
+alias i3conf="$EDITOR ~/.i3/config"
+
+##########################################
+# System Information
+##########################################
+
+# Use fastfetch for system info
+alias fetch="fastfetch"
+alias neofetch="fastfetch"
+
+##########################################
+# Terminal Utilities
+##########################################
+
+# Shortcut for sudo
+alias _="sudo "
+alias suod="sudo"
+
+# cd shortcut
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Clear shell variable named $
+alias undoller="\$=''"
+
+# Clear screen and display directory tree
+alias cls="clear; tree"
+
+# Clear screen shortcuts
+alias cl="clear"
+alias c="clear"
+alias clr="clear"
+
+# tldr with fzf preview
+alias tl="tldr --list | fzf --preview 'tldr {} --color always' | xargs tldr"
+
+# Hex viewer
+alias hex="hyx"
+
+# Display animated parrot
+alias yeet="curl parrot.live"
+
+# Exit shell
+alias :q="exit"
+alias q="exit"
+
+# Grep processes with color
+alias psf="ps -ef | grep --color=always"
+
+# Human-readable disk usage with total
+alias du="du -h -c"
+
+# Upload content to ix.io
+alias ixio="\curl -F 'f:1=<-' ix.io"
+
+##########################################
+# Command Replacements
+##########################################
+
+# Use eva as bc if eva is installed
+if command_exists eva; then
+    alias bc="eva"
+fi
+
+# Replace 'ls' & 'tree' with 'exa'
+if command_exists exa; then
+    alias ls="exa --group-directories-first -a --icons"
+    alias ll="exa --group-directories-first -haglF --git --icons"
+    alias tree="exa --tree --level=2"
+fi
+
+
+##########################################
+# GUI Applications
+##########################################
+
+# Zathura PDF reader (https://pwmt.org/projects/zathura/)
+alias zt="zathura"
+alias za="zathura"
+
+##########################################
+# Systemd Management
+##########################################
+
+# Systemctl with sudo
+alias sd="sudo systemctl"
+
+# Service status
+alias sds="systemctl status"
+
+# Service status with sudo
+alias scs="sudo systemctl status"
+
+# Restart service
+alias sr="sudo systemctl restart"
+
+# List services
+alias sl="sudo systemctl list-units --type=service"
+alias sll="sudo systemctl list-units --type=service --all"
+alias slll="sudo systemctl list-units --type=service --all --full"
+
+# User-level systemctl
+alias scu="systemctl --user"
+
+# User services status
+alias sus="systemctl --user status"
+
+alias sul="systemctl --user list-units --type=service"
+alias sull="systemctl --user list-units --type=service --all"
+alias sulll="systemctl --user list-units --type=service --all --full"
+
+# View system journal with sudo
+alias journalctl="sudo journalctl"
+
+# View kernel messages with color
+alias dmesg="sudo dmesg -H --color=always"
+
+##########################################
+# Clipboard Management
+##########################################
+
+if command_exists xsel; then 
+    alias cpy="xsel --clipboard"
+    alias paste="xsel --clipboard --output"
+    # Copy selection to clipboard
+    alias cpys="xsel --clipboard --input"
+else 
+    alias cpy="xclip -selection clipboard"
+    alias paste="xclip -o -sel clip"
+    # Copy selection to clipboard
+    alias cpys="xclip -o | xclip -selection clipboard -i"
+fi
+
+
+##########################################
+# Kitty Terminal
+##########################################
+
+# Kitty diff viewer
+alias kdiff="kitty +kitten diff"
+
+# Kitty image viewer
+alias kimg="kitty +kitten icat"
+
+# Kitty grep with hyperlinks
+alias kgrep-url="kitty +kitten hyperlinked_grep -f"
+
+# Kitty SSH client
+alias kssh="kitty +kitten ssh"
+
+# Kitty as SUDO detached
+alias sukitty="sudo setsid kitty"
+##########################################
+# Miscellaneous
+##########################################
+
+# nsxiv image viewer (https://github.com/nsxiv/nsxiv)
+alias sx="nsxiv"
+alias sxiv="nsxiv"
+
+# Start input remapper service
+alias inputremap="sudo input-remapper-service && \
+input-remapper-control --command autoload"
+
+
+# Alias xcp to cpx  (extended CP)
+alias cpx="xcp"
+
+
+##########################################
+# Docker
+##########################################
+
+# Docker command aliases
+alias dk="docker"
+alias di="docker images"
+alias dps="docker ps"
+alias dpa="docker ps -a"
+alias dr="docker run"
+alias drm="docker rm"
+alias drmi="docker rmi"
+alias drmf="docker rm -f"
+alias dlf="docker logs -f"
+alias ds="docker stop"
+alias dstart="docker start"
+alias dst="docker stats"
+# Stop all containers
+alias dsto="docker stop \$(docker ps -a -q)"
+
+##########################################
+# Docker Compose
+##########################################
+
+# Docker Compose command aliases
+alias dc="docker-compose"
+alias dce="docker-compose exec"
+alias dcl="docker-compose logs"
+alias dclf="docker-compose logs -f"
+alias dco="docker-compose down"
+alias dcps="docker-compose ps"
+alias dcu="docker-compose up"
+
+##########################################
+# Git
+##########################################
+
+# General Git commands
+alias g="git"
+alias ga="git add"
+alias gb="git branch --all"
+alias gc="git commit"
+# Diff with clean output
+alias gd="git diff --output-indicator-new=\" \" --output-indicator-old=\" \""
+alias gfu="git fetch upstream"
+alias gi="git init"
+alias gl="git log --graph"
+alias gm="git merge"
+alias gmum="git merge upstream/master"
+alias gp="git push"
+alias gpf="git push --force"
+alias gr="git reset"
+alias gs="git status -s"
+alias gu="git pull"
+
+# Advanced Git commands
+alias gap="git add -p"
+alias gbi="git bisect"
+alias gca="git commit --amend --no-edit"
+alias gcl="git clone --recursive"
+alias gco="git checkout"
+alias gcm="git commit -m"
+alias gds="gd --staged"
+alias gdt="git difftool"
+alias gra="git remote add"
+alias grb="git rebase"
+alias grg="git remote get-url"
+alias grl="git remote show"
+alias grm="git rm"
+alias grs="git remote set-url"
+alias gsa="git stash apply"
+alias gsl="git stash list"
+alias gsp="git stash pop"
+alias gss="git stash save"
+alias gst="git diff --stat --color | cat"
+
+##########################################
+# Cloudflare
+##########################################
+
+# Cloudflare Warp CLI tool
+alias warp="warp-cli"
+
+# Wrangler CLI for Cloudflare Workers
+alias wr="wrangler2"
+
+##########################################
+# Development Tools
+##########################################
+
+# pnpm package manager
+alias pp="pnpm"
+
+##########################################
+# Paths
+##########################################
+
+# Export custom data paths
+export  mdata="/media/MineData/"
+alias   mdata="cd $mdata"
+alias   media="cd ${mdata}media/"
+
+export  bdata="/media/BankData/"
+alias   bdata="cd $bdata"
+
+
+# Dev tools
+</file>
+
+<file path="alias.d/clipboard.zsh">
+# pbcopy and pbpaste in Arch Linux
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+</file>
+
+<file path="alias.d/directories.zsh">
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+alias mkdir='mkdir -vp'
+alias dir="dir --color=auto"
+alias vdir="vdir --color=auto"
+alias tempdir="mktemp --directory"
+alias mktempdir="mktemp --directory"
+
+# List directory contents
+# Replace ls with exa if available https://github.com/ogham/exa
+if (($+commands[exa])); then
+    alias la="exa -hagl --git --icons"
+    alias ll="exa -haglF --git --icons"
+    alias ls="exa --icons"
+    alias tree="exa --tree --icons --level=1"
+else
+    alias l='ls -hagl'
+    alias ll='ls -hagl'
+    alias la='ls -lAh'
+fi
+</file>
+
+<file path="alias.d/distrbox.zsh">
+alias db="distrobox"
+alias dbc="distrobox-create"
+alias dbe="distrobox-enter"
+</file>
+
+<file path="alias.d/docker.zsh">
+# ---------------------------------------- #
+# ---------------- Docker ---------------- #
+# ---------------------------------------- #
+
+alias lzd="lazydocker"
+
+# Containers
+alias dstart="sudo systemctl restart docker.service && systemctl status docker.service"
+alias dps="docker ps"
+alias dpsl='docker ps -l $*'
+alias drm='docker rm'
+alias dexec='docker exec'
+alias dlog='docker logs'
+alias dip='docker inspect --format "{{ .NetworkSettings.IPAddress }}" $*'
+alias dstop_all='docker stop $* $(docker ps -q -f "status=running")'
+alias drm_stopped='docker rm $* $(docker ps -q -f "status=exited")'
+alias drmv_stopped='docker rm -v $* $(docker ps -q -f "status=exited")'
+alias drm_all='docker rm $* $(docker ps -a -q)'
+alias drmv_all='docker rm -v $* $(docker ps -a -q)'
+alias dprune="docker system prune -a --volumes"
+
+
+# Docker-compose
+alias dcup="docker-compose up"
+alias dcupb="docker-compose up --build"
+
+# Volumes
+alias dvls='docker volume ls $*'
+alias dvrm_all='docker volume rm $(docker volume ls -q)'
+alias dvrm_dang='docker volume rm $(docker volume ls -q -f "dangling=true")'
+</file>
+
+<file path="alias.d/git.zsh">
+# ---------------------------------------- #
+# ------------------ Git ----------------- #
+# ---------------------------------------- #
+
+if (( $+commands[hub] )); then                             # https://github.com/github/hub
+    alias git="hub"                                           
+    alias g="hub"
+    alias gcm="hub commit -m "
+    alias gcl="hub clone "
+else
+    alias g="git"
+    alias gcm="git commit -m "
+    alias gcl="git clone"
+fi
+alias giturl="git remote show origin"
+alias repo_add="mr register"
+alias repo_update="mr update"                              # https://myrepos.branchable.com/
+</file>
+
+<file path="alias.d/nmap.zsh">
+#---------------------------------------------------------------------------
+# *                            Nmap Aliases
+#---------------------------------------------------------------------------
+
+# Nmap options are:
+#  -sS - TCP SYN scan
+#  -v - verbose
+#  -T1 - timing of scan. Options are paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)
+#  -sF - FIN scan (can sneak through non-stateful firewalls)
+#  -PE - ICMP echo discovery probe
+#  -PP - timestamp discovery probe
+#  -PY - SCTP init ping
+#  -g - use given number as source port
+#  -A - enable OS detection, version detection, script scanning, and traceroute (aggressive)
+#  -O - enable OS detection
+#  -sA - TCP ACK scan
+#  -F - fast scan
+#  --script=vuln - also access vulnerabilities in target
+
+
+
+# `nmap_open_ports`: scan for open ports on target.
+alias nmap_open_ports="nmap --open"
+
+# `nmap_list_interfaces`: list all network interfaces on host where the command runs.
+alias nmap_list_interfaces="nmap --iflist"
+
+# `nmap_slow`: slow scan that avoids to spam the targets logs.
+alias nmap_slow="sudo nmap -sS -v -T1"
+
+# `nmap_fin`: scan to see if hosts are up with TCP FIN scan.
+alias nmap_fin="sudo nmap -sF -v"
+
+# `nmap_full`: aggressive full scan that scans all ports, tries to determine OS and service versions.
+alias nmap_full="sudo nmap -sS -T4 -PE -PP -PS80,443 -PY -g 53 -A -p1-65535 -v"
+
+# `nmap_check_for_firewall`: TCP ACK scan to check for firewall existence.
+alias nmap_check_for_firewall="sudo nmap -sA -p1-65535 -v -T4"
+
+# `nmap_ping_through_firewall`: host discovery with SYN and ACK probes instead of just pings to avoid firewall restrictions.
+alias nmap_ping_through_firewall="nmap -PS -PA"
+
+# `nmap_fast`: fast scan of the top 300 popular ports.
+alias nmap_fast="nmap -F -T5 --version-light --top-ports 300"
+
+# `nmap_detect_versions`: detects versions of services and OS, runs on all ports.
+alias nmap_detect_versions="sudo nmap -sV -p1-65535 -O --osscan-guess -T4 -Pn"
+
+# `nmap_check_for_vulns`: uses vulscan script to check target services for vulnerabilities.
+alias nmap_check_for_vulns="nmap --script=vuln"
+
+# `nmap_full_udp`: same as full but via UDP.
+alias nmap_full_udp="sudo nmap -sS -sU -T4 -A -v -PE -PS22,25,80 -PA21,23,80,443,3389 "
+
+# `nmap_traceroute`: try to traceroute using the most common ports.
+alias nmap_traceroute="sudo nmap -sP -PE -PS22,25,80 -PA21,23,80,3389 -PU -PO --traceroute "
+
+# `nmap_full_with_scripts`: same as nmap_full but also runs all the scripts.
+alias nmap_full_with_scripts="sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all " 
+
+# `nmap_web_safe_osscan`: little "safer" scan for OS version  as connecting to only HTTP and HTTPS ports doesn't look so attacking.
+alias nmap_web_safe_osscan="sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy "
+
+# `nmap_ping_scan`: ICMP scan for active hosts.
+alias nmap_ping_scan="nmap -n -sP"
+</file>
+
+<file path="alias.d/openvpn.zsh">
+# route ssh traffic via tun0
+sshtun0() {
+    # Check if tun0 interface exists
+    if ip link show tun0 &>/dev/null; then
+        # Extract the IP address associated with tun0
+        local tun0_ip=$(ip -4 addr show tun0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+        # Check if the IP address was found
+        if [ -n "$tun0_ip" ]; then
+            # Run the SSH command with the tun0 IP address
+            ssh -b "$tun0_ip" "$@"
+        else
+            echo "Could not retrieve the IP address for tun0."
+        fi
+    else
+        echo "tun0 interface does not exist."
+    fi
+}
+</file>
+
+<file path="alias.d/systemd.zsh">
+# systemctl aliases
+
+
+# --now commands
+alias sc-enable-now="sc-enable --now"
+alias sc-disable-now="sc-disable --now"
+alias sc-mask-now="sc-mask --now"
+
+alias scu-enable-now="scu-enable --now"
+alias scu-disable-now="scu-disable --now"
+alias scu-mask-now="scu-mask --now"
+
+
+ZSH_THEME_SYSTEMD_PROMPT_PREFIX='{'
+ZSH_THEME_SYSTEMD_PROMPT_SUFFIX="\n"
+ZSH_THEME_SYSTEMD_PROMPT_ACTIVE="✔"
+ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE="✖"
+
+function systemd-status {
+  # given one or more services; return if they are active in json format
+  # example:
+  # ❯ systemd_status bluetooth.service docker.service [...]
+  # [{
+  #     "service": "bluetooth.service",
+  #     "is-active": "✖"
+  #   }, {
+  #     "service": "docker.service",
+  #     "is-active": "✔"
+  #   }, {
+  #     "service": "canberra-system-shutdown-reboot.service",
+  #     "is-active": "✖"
+  # }]
+  # 
+  printf "%c" "["
+  local unit
+  local count=0
+  for unit in "$@"; do
+    (( count++ ))
+    printf "%c\n    " "{"
+    printf "\"service\": \"%s\",\n" "$unit"
+
+    if systemctl is-active "$unit" &>/dev/null; then
+      printf "    \"is-active\": \"%s\"\n" "$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE"
+    else
+      printf "    \"is-active\": \"%s\"\n" "$ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE"
+    fi
+
+    if [[ "$count" -lt "$#" ]]; then
+      printf "  %s" "}, "
+    else
+      printf "%c" "}"
+    fi
+  done
+    printf "%c" "]"
+}
+</file>
+
+<file path="completion.d/_nmap">
+#autoload
+#compdef nmap
+
+_nmap() {
+  local curcontext="$curcontext" state line ret=1
+  local -A opt_args
+
+  # Function to retrieve NSE script names and categories without caching
+  _nmap_scripts() {
+    local -a scripts
+    # Add script categories
+    scripts=(
+      "all:Category"
+      "auth:Category"
+      "broadcast:Category"
+      "brute:Category"
+      "default:Category"
+      "discovery:Category"
+      "dos:Category"
+      "exploit:Category"
+      "external:Category"
+      "fuzzer:Category"
+      "intrusive:Category"
+      "malware:Category"
+      "safe:Category"
+      "version:Category"
+      "vuln:Category"
+    )
+    # Parse script names and descriptions without caching
+    nmap --script-help all 2>/dev/null | awk '
+    BEGIN { RS = "\n\n+"; FS = "\n" }
+    {
+      # Skip the "Starting Nmap..." line
+      if ($1 ~ /^Starting Nmap /) next
+
+      script_name = ""
+      description = ""
+      for (i = 1; i <= NF; i++) {
+        line = $i
+        if (script_name == "" && line ~ /^[a-zA-Z0-9_.-]+$/) {
+          script_name = line
+          continue
+        }
+        if (line ~ /^Categories:/) continue
+        if (line ~ /^https?:\/\//) continue
+        if (line ~ /^\s*$/) continue
+        if (description == "") {
+          description = line
+        } else {
+          description = description " " line
+        }
+      }
+      if (script_name != "" && description != "") {
+        gsub(/\r/, "", description)
+        print script_name ":" description
+      }
+    }' | while IFS=: read -r name desc; do
+      scripts+=("$name":"$desc")
+    done
+
+    _describe -t scripts 'Nmap scripts' scripts
+  }
+
+  # Combined options array
+  local -a options
+  options=(
+    # TARGET SPECIFICATION
+    '-iL+[Input targets from file]:file:_files'
+    '--input-file=[Input targets from file]:file:_files'
+    '--iR=[Choose random targets]:number of hosts'
+    '--exclude=[Exclude hosts/networks]:hosts/networks:_hosts -n'
+    '--excludefile=[Exclude list from file]:file:_files'
+
+    # HOST DISCOVERY
+    '-sL[List Scan - list targets to scan]'
+    '-sn[No port scan (host discovery only)]'
+    '-Pn[Treat all hosts as online -- skip host discovery]'
+    '-PS+[TCP SYN Ping]:ports:_ports'
+    '-PA+[TCP ACK Ping]:ports:_ports'
+    '-PU+[UDP Ping]:ports:_ports'
+    '-PY+[SCTP INIT Ping]:ports:_ports'
+    '-PE[ICMP Echo Ping]'
+    '-PP[ICMP Timestamp Ping]'
+    '-PM[ICMP Netmask Ping]'
+    '-PO+[IP Protocol Ping]:protocols:_protocols'
+    '-PR[ARP Ping]'
+    '--disable-arp-ping[Disable ARP or ND Ping]'
+    '--traceroute[Trace path to host]'
+    '-n[Never do DNS resolution]'
+    '--system-dns[Use system DNS resolver]'
+    '--dns-servers=[Specify DNS servers]:DNS servers:_hosts -n'
+
+    # PORT SCANNING TECHNIQUES
+    '-sS[TCP SYN scan]'
+    '-sT[TCP connect scan]'
+    '-sU[UDP scan]'
+    '-sY[SCTP INIT scan]'
+    '-sN[TCP Null scan]'
+    '-sF[TCP FIN scan]'
+    '-sX[TCP Xmas scan]'
+    '-sA[TCP ACK scan]'
+    '-sW[TCP Window scan]'
+    '-sM[TCP Maimon scan]'
+    '-sZ[SCTP COOKIE ECHO scan]'
+    '-sI+[Idle scan]:zombie host:_hosts -n'
+    '-sO[IP protocol scan]'
+    '-b+[FTP bounce scan]:FTP relay host:_hosts -n'
+    '--scanflags=[Customize TCP scan flags]:flags'
+
+    # PORT SPECIFICATION AND SCAN ORDER
+    '-p+[Only scan specified ports]:ports:_ports'
+    '--exclude-ports=[Exclude specified ports from scanning]:ports:_ports'
+    '-F[Fast (limited port) scan]'
+    '-r[Don’t randomize ports]'
+    '--top-ports=[Scan the n most common ports]:number of ports'
+    '--port-ratio=[Scan ports with ratio greater than]:ratio'
+
+    # SERVICE AND VERSION DETECTION
+    '-sV[Version detection]'
+    '--allports[Do not exclude any ports from version detection]'
+    '--version-intensity=[Set version scan intensity (0-9)]:level'
+    '--version-light[Enable light mode for version scanning]'
+    '--version-all[Try every single probe]'
+    '--version-trace[Trace version scan activity]'
+
+    # OS DETECTION
+    '-O[Enable OS detection]'
+    '--osscan-limit[Limit OS detection to promising targets]'
+    '--osscan-guess[Guess OS detection results]'
+    '--fuzzy[Guess OS detection results]'
+    '--max-os-tries=[Set maximum number of OS detection tries]:tries'
+
+    # NMAP SCRIPTING ENGINE (NSE)
+    '-sC[Scan with default NSE scripts]'
+    '--script=[Specify NSE scripts to run]:script name or category:->nse_scripts'
+    '--script-args=[Provide arguments to NSE scripts]:args'
+    '--script-args-file=[Load NSE script args from file]:file:_files'
+    '--script-help=[Show help about scripts]:script name or category:->nse_scripts'
+    '--script-trace[Trace NSE script execution]'
+    '--script-updatedb[Update the script database]'
+
+    # TIMING AND PERFORMANCE
+    '--min-hostgroup=[Set minimum hostgroup size]:size'
+    '--max-hostgroup=[Set maximum hostgroup size]:size'
+    '--min-parallelism=[Set minimum parallelism]:number'
+    '--max-parallelism=[Set maximum parallelism]:number'
+    '--min-rtt-timeout=[Set minimum probe timeout]:time in ms'
+    '--max-rtt-timeout=[Set maximum probe timeout]:time in ms'
+    '--initial-rtt-timeout=[Set initial probe timeout]:time in ms'
+    '--max-retries=[Set maximum number of retries]:retries'
+    '--host-timeout=[Give up on slow hosts]:time'
+    '--script-timeout=[Set script execution timeout]:time in s'
+    '--scan-delay=[Set minimum time between probes]:time in ms'
+    '--max-scan-delay=[Set maximum time between probes]:time in ms'
+    '--min-rate=[Set minimum scan rate]:packets per second'
+    '--max-rate=[Set maximum scan rate]:packets per second'
+    '--defeat-rst-ratelimit[Ignore TCP RST rate limiting]'
+    '--defeat-icmp-ratelimit[Ignore ICMP unreachable rate limiting in UDP scans]'
+    '--nsock-engine=[Specify nsock IO engine]:engine:(epoll kqueue poll select)'
+    '-T+[Set timing template]:template:(0\:Paranoid 1\:Sneaky 2\:Polite 3\:Normal 4\:Aggressive 5\:Insane)'
+
+    # FIREWALL/IDS EVASION AND SPOOFING
+    '-f[Fragment packets]'
+    '--mtu=[Set maximum transmission unit]:MTU'
+    '--data=[Append custom binary data]:data'
+    '--data-string=[Append custom string data]:string'
+    '--data-length=[Append random data]:length'
+    '--ip-options=[Send packets with specified IP options]:options'
+    '-D+[Cloak a scan with decoys]:decoy hosts:_hosts -n'
+    '-S+[Spoof source address]:address:_hosts -n'
+    '-e+[Use specified interface]:interface:_net_interfaces'
+    '-g+[Use specified source port]:port'
+    '--source-port=[Use specified source port]:port'
+    '--spoof-mac=[Spoof MAC address]:MAC address or prefix'
+    '--proxies=[Relay connections through proxies]:proxy chain'
+    '--badsum[Send packets with incorrect checksums]'
+    '--adler32[Use Adler32 for SCTP checksums]'
+
+    # OUTPUT
+    '-oN+[Normal output]:output file:_files'
+    '--normal=[Normal output]:output file:_files'
+    '-oX+[XML output]:output file:_files'
+    '--xml=[XML output]:output file:_files'
+    '-oS+[Script kiddie output]:output file:_files'
+    '--scriptkiddie=[Script kiddie output]:output file:_files'
+    '-oG+[Grepable output]:output file:_files'
+    '--grepable=[Grepable output]:output file:_files'
+    '-oA+[Output in all formats]:basename'
+    '--allformats=[Output in all formats]:basename'
+    '-v+[Increase verbosity level]'
+    '-d+[Increase debugging level]'
+    '--reason[Display reason for host and port state]'
+    '--stats-every=[Print periodic timing stats]:time interval'
+    '--packet-trace[Trace packets sent and received]'
+    '--open[Show only open ports]'
+    '--iflist[List interfaces and routes]'
+    '--append-output[Append to output files]'
+    '--resume=[Resume aborted scan]:file:_files'
+    '--stylesheet=[XSL stylesheet for XML output]:file:_files'
+    '--webxml[Link to stylesheet on Nmap.Org]'
+    '--no-stylesheet[Omit XSL stylesheet declaration]'
+
+    # MISCELLANEOUS OPTIONS
+    '-6[Enable IPv6 scanning]'
+    '-A[Aggressive scan options]'
+    '--datadir=[Specify custom data directory]:directory:_directories'
+    '--servicedb=[Specify custom services file]:file:_files'
+    '--versiondb=[Specify custom version probe file]:file:_files'
+    '--send-eth[Send using raw ethernet frames]'
+    '--send-ip[Send at raw IP level]'
+    '--privileged[Assume fully privileged user]'
+    '--unprivileged[Assume unprivileged user]'
+    '--release-memory[Release memory before quitting]'
+    '-V[Display version information]'
+    '--version[Display version information]'
+    '-h[Display help information]'
+    '--help[Display help information]'
+  )
+
+  # Start completion
+  _arguments -C \
+    $options \
+    '*::host:->host' && ret=0
+
+  case $state in
+    nse_scripts)
+      _nmap_scripts && ret=0
+      ;;
+    host)
+      _hosts -n && ret=0
+      ;;
+  esac
+
+  return ret
+}
+</file>
+
+<file path="completion.d/.zshcompdump">
+#files: 1041	version: 5.9
+
+_comps=(
+'-' '_precommand'
+'.' '_source'
+'5g' '_go'
+'5l' '_go'
+'6g' '_go'
+'6l' '_go'
+'8g' '_go'
+'8l' '_go'
+'a2ps' '_a2ps'
+'aaaa' '_hosts'
+'aa-log' '_aa-log.zsh'
+'aap' '_aap'
+'abcde' '_abcde'
+'ack' '_ack'
+'ack2' '_ack'
+'ack-grep' '_ack'
+'ack-standalone' '_ack'
+'acpi' '_acpi'
+'acpitool' '_acpitool'
+'acroread' '_acroread'
+'adb' '_adb'
+'add-zle-hook-widget' '_add-zle-hook-widget'
+'add-zsh-hook' '_add-zsh-hook'
+'admin' '_sccs'
+'afew' '_afew'
+'age' '_age'
+'ali' '_mh'
+'alias' '_alias'
+'amaya' '_webbrowser'
+'analyseplugin' '_analyseplugin'
+'android' '_android'
+'animate' '_imagemagick'
+'anno' '_mh'
+'ansible' '_ansible'
+'ansible-config' '_ansible'
+'ansible-console' '_ansible'
+'ansible-doc' '_ansible'
+'ansible-galaxy' '_ansible'
+'ansible-inventory' '_ansible'
+'ansible-playbook' '_ansible'
+'ansible-pull' '_ansible'
+'ansible-vault' '_ansible'
+'ant' '_ant'
+'antiword' '_antiword'
+'aodh' '_openstack'
+'aoss' '_precommand'
+'apache2ctl' '_apachectl'
+'apachectl' '_apachectl'
+'aplay' '_alsa-utils'
+'apm' '_apm'
+'appletviewer' '_java'
+'apropos' '_man'
+'apvlv' '_pdf'
+'archlinux-java' '_archlinux-java'
+'arduino-ctags' '_ctags'
+'arecord' '_alsa-utils'
+'arena' '_webbrowser'
+'_arguments' '__arguments'
+'arp' '_arp'
+'arping' '_arping'
+'-array-value-' '_value'
+'artisan' '_artisan'
+'asciidoctor' '_asciidoctor'
+'asciinema' '_asciinema'
+'ash' '_sh'
+'-assign-parameter-' '_assign'
+'at' '_at'
+'atach' '_atach'
+'atq' '_at'
+'atrm' '_at'
+'attr' '_attr'
+'atuin' '_atuin'
+'augtool' '_augeas'
+'autoload' '_typeset'
+'avahi-browse' '_avahi'
+'avahi-browse-domains' '_avahi'
+'avahi-resolve' '_avahi'
+'avahi-resolve-address' '_avahi'
+'avahi-resolve-host-name' '_avahi'
+'avdmanager' '_avdmanager'
+'awk' '_awk'
+'b2sum' '_md5sum'
+'barbican' '_openstack'
+'base32' '_base64'
+'base64' '_base64'
+'basename' '_basename'
+'basenc' '_basenc'
+'bash' '_bash'
+'bat' '_bat'
+'batch' '_at'
+'baz' '_baz'
+'beep' '_beep'
+'bg' '_jobs_bg'
+'bibtex' '_bibtex'
+'bindkey' '_bindkey'
+'bison' '_bison'
+'bitcoin-cli' '_bitcoin-cli'
+'bluetoothctl' '_bluetoothctl'
+'bmake' '_make'
+'bogofilter' '_bogofilter'
+'bogotune' '_bogofilter'
+'bogoutil' '_bogofilter'
+'bootctl' '_bootctl'
+'bower' '_bower'
+'bpython' '_bpython'
+'bpython2' '_bpython'
+'bpython2-gtk' '_bpython'
+'bpython2-urwid' '_bpython'
+'bpython3' '_bpython'
+'bpython3-gtk' '_bpython'
+'bpython3-urwid' '_bpython'
+'bpython-gtk' '_bpython'
+'bpython-urwid' '_bpython'
+'-brace-parameter-' '_brace_parameter'
+'brctl' '_brctl'
+'bsdgrep' '_grep'
+'bsdtar' '_tar'
+'btdownloadcurses' '_bittorrent'
+'btdownloadgui' '_bittorrent'
+'btdownloadheadless' '_bittorrent'
+'btlaunchmany' '_bittorrent'
+'btlaunchmanycurses' '_bittorrent'
+'btm' '_btm'
+'btmakemetafile' '_bittorrent'
+'btreannounce' '_bittorrent'
+'btrename' '_bittorrent'
+'btrfs' '_btrfs'
+'btshowmetainfo' '_bittorrent'
+'bttrack' '_bittorrent'
+'buildhash' '_ispell'
+'builtin' '_builtin'
+'bun' '_bun'
+'bundle' '_bundle'
+'bunzip2' '_bzip2'
+'burst' '_mh'
+'busctl' '_busctl'
+'bwrap' '_bwrap'
+'bzcat' '_bzip2'
+'bzegrep' '_grep'
+'bzfgrep' '_grep'
+'bzgrep' '_grep'
+'bzip2' '_bzip2'
+'bzip2recover' '_bzip2'
+'bzr' '_bzr'
+'c++' '_gcc'
+'cabal' '_cabal'
+'cal' '_cal'
+'calendar' '_calendar'
+'cap' '_cap'
+'cargo' '_cargo'
+'cask' '_cask'
+'cat' '_cat'
+'catchsegv' '_precommand'
+'cc' '_gcc'
+'ccache' '_ccache'
+'ccal' '_ccal'
+'cd' '_cd'
+'cdc' '_sccs'
+'cdcd' '_cdcd'
+'cd-gitroot' '_cd-gitroot'
+'cdr' '_cdr'
+'cdrdao' '_cdrdao'
+'cdrecord' '_cdrecord'
+'ceilometer' '_openstack'
+'certtool' '_gnutls'
+'cf' '_cf'
+'cfspeedtest' '_cfspeedtest'
+'cftp' '_twisted'
+'chage' '_users'
+'chatblade' '_chatblade'
+'chattr' '_chattr'
+'chcon' '_chcon'
+'chdir' '_cd'
+'checkupdates' '_checkupdates'
+'chfn' '_users'
+'chgrp' '_chown'
+'chimera' '_webbrowser'
+'chkconfig' '_chkconfig'
+'chkstow' '_stow'
+'chmod' '_chmod'
+'choc' '_choc'
+'choom' '_choom'
+'chown' '_chown'
+'chpass' '_chsh'
+'chromium' '_chromium'
+'chroot' '_chroot'
+'chrt' '_chrt'
+'chsh' '_chsh'
+'ci' '_rcs'
+'cifsiostat' '_sysstat'
+'cinder' '_openstack'
+'ckeygen' '_twisted'
+'cksum' '_cksum'
+'clang' '_gcc'
+'clang++' '_gcc'
+'clang-check' '_clang-check'
+'clang-format' '_clang-format'
+'clang-tidy' '_clang-tidy'
+'clay' '_clay'
+'clear' '_nothing'
+'cloudkitty' '_openstack'
+'clusterdb' '_postgresql'
+'cmake' '_cmake'
+'cmp' '_cmp'
+'co' '_rcs'
+'code' '_code'
+'coffee' '_coffee'
+'column' '_column'
+'comb' '_sccs'
+'combine' '_imagemagick'
+'combinediff' '_patchutils'
+'comm' '_comm'
+'-command-' '_autocd'
+'command' '_command'
+'-command-line-' '_normal'
+'comp' '_mh'
+'compadd' '_compadd'
+'compdef' '_compdef'
+'composer' '_composer'
+'composer.phar' '_composer'
+'composite' '_imagemagick'
+'compress' '_compress'
+'compstyle' '_compstyle'
+'conan' '_conan'
+'conch' '_twisted'
+'concourse' '_concourse'
+'-condition-' '_condition'
+'config.status' '_configure'
+'configure' '_configure'
+'console' '_console'
+'convert' '_imagemagick'
+'coredumpctl' '_coredumpctl'
+'cowsay' '_cowsay'
+'cowthink' '_cowsay'
+'cp' '_cp'
+'cpio' '_cpio'
+'cplay' '_cplay'
+'cppcheck' '_cppcheck'
+'cpupower' '_cpupower'
+'createdb' '_postgresql'
+'createuser' '_postgresql'
+'crontab' '_crontab'
+'crsh' '_cssh'
+'cryptsetup' '_cryptsetup'
+'cscope' '_cscope'
+'csh' '_sh'
+'csplit' '_csplit'
+'cssh' '_cssh'
+'ctags' '_ctags'
+'ctags-exuberant' '_ctags'
+'ctags-universal' '_ctags'
+'curl' '_curl'
+'cut' '_cut'
+'cvs' '_cvs'
+'dad' '_dad'
+'darcs' '_darcs'
+'dart' '_dart'
+'dash' '_sh'
+'date' '_date'
+'dbus-launch' '_dbus'
+'dbus-monitor' '_dbus'
+'dbus-send' '_dbus'
+'dconf' '_dconf'
+'dcop' '_dcop'
+'dcopclient' '_dcop'
+'dcopfind' '_dcop'
+'dcopobject' '_dcop'
+'dcopref' '_dcop'
+'dcopstart' '_dcop'
+'dd' '_dd'
+'declare' '_typeset'
+'-default-' '_default'
+'delta' '_delta'
+'designate' '_openstack'
+'devtodo' '_devtodo'
+'df' '_df'
+'dget' '_dget'
+'dhclient' '_dhclient'
+'dhclient3' '_dhclient'
+'dhcpcd' '_dhcpcd'
+'diana' '_diana'
+'dict' '_dict'
+'diff' '_diff'
+'diff3' '_diff3'
+'diffstat' '_diffstat'
+'dig' '_dig'
+'dillo' '_webbrowser'
+'dircmp' '_directories'
+'direnv' '_direnv'
+'dirs' '_dirs'
+'disable' '_disable'
+'disown' '_jobs_fg'
+'display' '_imagemagick'
+'dist' '_mh'
+'django-admin' '_django'
+'django-admin.py' '_django'
+'dkms' '_dkms'
+'dmake' '_make'
+'dmesg' '_dmesg'
+'dmidecode' '_dmidecode'
+'doas' '_doas'
+'docker-machine' '_docker-machine'
+'docpad' '_docpad'
+'domainname' '_yp'
+'do-release-upgrade' '_do-release-upgrade'
+'dos2unix' '_dos2unix'
+'dotnet' '_dotnet'
+'downgrade' '_downgrade'
+'drill' '_drill'
+'dropbox' '_dropbox'
+'dropdb' '_postgresql'
+'dropuser' '_postgresql'
+'drush' '_drush'
+'dsh' '_dsh'
+'dtruss' '_dtruss'
+'du' '_du'
+'_dunst' '_dunst'
+'dunst' '_dunst'
+'_dunstctl' '_dunstctl'
+'dunstctl' '_dunstctl'
+'dvibook' '_dvi'
+'dviconcat' '_dvi'
+'dvicopy' '_dvi'
+'dvidvi' '_dvi'
+'dvipdf' '_dvi'
+'dvips' '_dvi'
+'dviselect' '_dvi'
+'dvitodvi' '_dvi'
+'dvitype' '_dvi'
+'dwb' '_webbrowser'
+'e2label' '_e2label'
+'eatmydata' '_precommand'
+'ecasound' '_ecasound'
+'ecdsautil' '_ecdsautil'
+'echotc' '_echotc'
+'echoti' '_echoti'
+'ed' '_ed'
+'egrep' '_grep'
+'elfdump' '_elfdump'
+'elinks' '_elinks'
+'emacs' '_emacs'
+'emacsclient' '_emacsclient'
+'emulate' '_emulate'
+'emulator' '_emulator'
+'enable' '_enable'
+'enscript' '_enscript'
+'entr' '_entr'
+'env' '_env'
+'envdir' '_envdir'
+'eog' '_eog'
+'epdfview' '_pdf'
+'epsffit' '_psutils'
+'-equal-' '_equal'
+'erb' '_ruby'
+'espeak' '_espeak'
+'etags' '_etags'
+'ethtool' '_ethtool'
+'eu-nm' '_nm'
+'eu-objdump' '_objdump'
+'eu-readelf' '_readelf'
+'eu-strings' '_strings'
+'eval' '_precommand'
+'eview' '_vim'
+'evim' '_vim'
+'evince' '_evince'
+'ex' '_vi'
+'exec' '_exec'
+'expand' '_unexpand'
+'export' '_typeset'
+'exportfs' '_exportfs'
+'express' '_webbrowser'
+'extcheck' '_java'
+'extractres' '_psutils'
+'eza' '_eza'
+'fab' '_fab'
+'fail2ban-client' '_fail2ban-client'
+'fakeroot' '_fakeroot'
+'false' '_nothing'
+'fast-theme' '_fast-theme'
+'fc' '_fc'
+'fc-list' '_xft_fonts'
+'fc-match' '_xft_fonts'
+'fd' '_fd'
+'feh' '_feh'
+'fetchmail' '_fetchmail'
+'ffind' '_ffind'
+'ffmpeg' '_ffmpeg'
+'fg' '_jobs_fg'
+'fgrep' '_grep'
+'figlet' '_figlet'
+'filterdiff' '_patchutils'
+'find' '_find'
+'findaffix' '_ispell'
+'findmnt' '_findmnt'
+'finger' '_finger'
+'firefox' '_mozilla'
+'firejail' '_firejail'
+'-first-' '_first'
+'fixdlsrps' '_psutils'
+'fixfmps' '_psutils'
+'fixmacps' '_psutils'
+'fixpsditps' '_psutils'
+'fixpspps' '_psutils'
+'fixscribeps' '_psutils'
+'fixtpps' '_psutils'
+'fixwfwps' '_psutils'
+'fixwpps' '_psutils'
+'fixwwps' '_psutils'
+'flac' '_flac'
+'flameshot' '_flameshot'
+'flatpak' '_flatpak'
+'fleetctl' '_fleetctl'
+'flex' '_flex'
+'flex++' '_flex'
+'flipdiff' '_patchutils'
+'flist' '_mh'
+'flists' '_mh'
+'float' '_typeset'
+'flutter' '_flutter'
+'fly' '_concourse'
+'fmt' '_fmt'
+'fmttest' '_mh'
+'fned' '_zed'
+'fnext' '_mh'
+'fold' '_fold'
+'folder' '_mh'
+'folders' '_mh'
+'fortune' '_fortune'
+'forw' '_mh'
+'fprev' '_mh'
+'free' '_free'
+'freebsd-make' '_make'
+'freezer' '_openstack'
+'fsh' '_fsh'
+'ftp' '_hosts'
+'funchelp' '_funchelp'
+'functions' '_typeset'
+'fuser' '_fuser'
+'fusermount' '_fusermount'
+'fwhois' '_whois'
+'fwupdmgr' '_fwupdmgr'
+'g++' '_gcc'
+'galeon' '_webbrowser'
+'gas' '_gas'
+'gawk' '_awk'
+'gb2sum' '_md5sum'
+'gbase32' '_base64'
+'gbase64' '_base64'
+'gbasename' '_basename'
+'gcat' '_cat'
+'gcc' '_gcc'
+'gccgo' '_go'
+'gchgrp' '_chown'
+'gchmod' '_chmod'
+'gchown' '_chown'
+'gchroot' '_chroot'
+'gcksum' '_cksum'
+'gcmp' '_cmp'
+'gcomm' '_comm'
+'gcore' '_gcore'
+'gcp' '_cp'
+'gcut' '_cut'
+'gdate' '_date'
+'gdb' '_gdb'
+'gdd' '_dd'
+'gdf' '_df'
+'gdiff' '_diff'
+'gdu' '_du'
+'geany' '_geany'
+'gegrep' '_grep'
+'gem' '_gem'
+'genisoimage' '_genisoimage'
+'genv' '_env'
+'get' '_sccs'
+'getafm' '_psutils'
+'getconf' '_getconf'
+'getent' '_getent'
+'getfacl' '_getfacl'
+'getfacl.exe' '_getfacl'
+'getfattr' '_attr'
+'getmail' '_getmail'
+'getopt' '_getopt'
+'getopts' '_vars'
+'gex' '_vim'
+'gexpand' '_unexpand'
+'gfgrep' '_grep'
+'gfind' '_find'
+'gfmt' '_fmt'
+'gfold' '_fold'
+'ggetopt' '_getopt'
+'ggrep' '_grep'
+'ggv' '_gnome-gv'
+'ghc' '_ghc'
+'ghci' '_ghc'
+'ghc-pkg' '_ghc'
+'ghead' '_head'
+'ghostscript' '_ghostscript'
+'ghostty' '_ghostty'
+'ghostview' '_pspdf'
+'gid' '_id'
+'ginstall' '_install'
+'gist' '_gist'
+'git' '_git'
+'git-cvsserver' '_git'
+'git-flow' '_git-flow'
+'gitk' '_git'
+'git-pulls' '_git-pulls'
+'git-receive-pack' '_git'
+'git-revise' '_git-revise'
+'git-shell' '_git'
+'git-upload-archive' '_git'
+'git-upload-pack' '_git'
+'git-wtf' '_git-wtf'
+'gjoin' '_join'
+'glance' '_openstack'
+'glances' '_glances'
+'gln' '_ln'
+'global' '_global'
+'glocate' '_locate'
+'glow' '_glow'
+'gls' '_ls'
+'gm' '_graphicsmagick'
+'gmake' '_make'
+'gmd5sum' '_md5sum'
+'gmkdir' '_mkdir'
+'gmkfifo' '_mkfifo'
+'gmknod' '_mknod'
+'gmktemp' '_mktemp'
+'gmplayer' '_mplayer'
+'gmv' '_mv'
+'gnl' '_nl'
+'gnocchi' '_openstack'
+'gnome-gv' '_gnome-gv'
+'gnumfmt' '_numfmt'
+'gnupod_addsong' '_gnupod'
+'gnupod_addsong.pl' '_gnupod'
+'gnupod_check' '_gnupod'
+'gnupod_check.pl' '_gnupod'
+'gnupod_INIT' '_gnupod'
+'gnupod_INIT.pl' '_gnupod'
+'gnupod_search' '_gnupod'
+'gnupod_search.pl' '_gnupod'
+'gnutls-cli' '_gnutls'
+'gnutls-cli-debug' '_gnutls'
+'gnutls-serv' '_gnutls'
+'go' '_golang'
+'god' '_od'
+'gofmt' '_go'
+'google' '_google'
+'gpasswd' '_gpasswd'
+'gpaste' '_paste'
+'gpatch' '_patch'
+'gpg' '_gpg'
+'gpg2' '_gpg'
+'gpgconf' '_gpgconf'
+'gpgv' '_gpg'
+'gpg-zip' '_gpg'
+'gphoto2' '_gphoto2'
+'gprintenv' '_printenv'
+'gprof' '_gprof'
+'gqview' '_gqview'
+'gradle' '_gradle'
+'gradlew' '_gradle'
+'grail' '_webbrowser'
+'greadlink' '_readlink'
+'grep' '_grep'
+'grepdiff' '_patchutils'
+'grm' '_rm'
+'grmdir' '_rmdir'
+'groff' '_groff'
+'groupadd' '_user_admin'
+'groupdel' '_groups'
+'groupmod' '_user_admin'
+'groups' '_users'
+'growisofs' '_growisofs'
+'grpcurl' '_grpcurl'
+'gs' '_ghostscript'
+'gsbj' '_pspdf'
+'gsdj' '_pspdf'
+'gsdj500' '_pspdf'
+'gsed' '_sed'
+'gseq' '_seq'
+'gsettings' '_gsettings'
+'gsha1sum' '_md5sum'
+'gsha224sum' '_md5sum'
+'gsha256sum' '_md5sum'
+'gsha384sum' '_md5sum'
+'gsha512sum' '_md5sum'
+'gshred' '_shred'
+'gshuf' '_shuf'
+'gslj' '_pspdf'
+'gslp' '_pspdf'
+'gsnd' '_pspdf'
+'gsort' '_sort'
+'gsplit' '_split'
+'gstat' '_stat'
+'gstdbuf' '_stdbuf'
+'gstrings' '_strings'
+'gstty' '_stty'
+'gsum' '_cksum'
+'gtac' '_tac'
+'gtail' '_tail'
+'gtar' '_tar'
+'gtee' '_tee'
+'gtimeout' '_timeout'
+'gtk4-launch' '_gtk-launch'
+'gtk-launch' '_gtk-launch'
+'gtouch' '_touch'
+'gtr' '_tr'
+'gtty' '_tty'
+'guilt' '_guilt'
+'guilt-add' '_guilt'
+'guilt-applied' '_guilt'
+'guilt-delete' '_guilt'
+'guilt-files' '_guilt'
+'guilt-fold' '_guilt'
+'guilt-fork' '_guilt'
+'guilt-header' '_guilt'
+'guilt-help' '_guilt'
+'guilt-import' '_guilt'
+'guilt-import-commit' '_guilt'
+'guilt-init' '_guilt'
+'guilt-new' '_guilt'
+'guilt-next' '_guilt'
+'guilt-patchbomb' '_guilt'
+'guilt-pop' '_guilt'
+'guilt-prev' '_guilt'
+'guilt-push' '_guilt'
+'guilt-rebase' '_guilt'
+'guilt-refresh' '_guilt'
+'guilt-rm' '_guilt'
+'guilt-series' '_guilt'
+'guilt-status' '_guilt'
+'guilt-top' '_guilt'
+'guilt-unapplied' '_guilt'
+'guname' '_uname'
+'gunexpand' '_unexpand'
+'guniq' '_uniq'
+'gunzip' '_gzip'
+'guptime' '_uptime'
+'gv' '_gv'
+'gview' '_vim'
+'gvim' '_vim'
+'gvimdiff' '_vim'
+'gwc' '_wc'
+'gwho' '_who'
+'gxargs' '_xargs'
+'gzcat' '_gzip'
+'gzegrep' '_grep'
+'gzfgrep' '_grep'
+'gzgrep' '_grep'
+'gzilla' '_webbrowser'
+'gzip' '_gzip'
+'hash' '_hash'
+'hd' '_hexdump'
+'head' '_head'
+'heat' '_openstack'
+'hello' '_hello'
+'help' '_sccs'
+'hexdump' '_hexdump'
+'hilite' '_precommand'
+'histed' '_zed'
+'history' '_fc'
+'hledger' '_hledger'
+'homestead' '_homestead'
+'host' '_host'
+'hostname' '_hostname'
+'hostnamectl' '_hostnamectl'
+'hotjava' '_webbrowser'
+'htop' '_htop'
+'http' '_httpie'
+'https' '_httpie'
+'ibus' '_ibus'
+'iceweasel' '_mozilla'
+'icombine' '_ispell'
+'iconv' '_iconv'
+'iconvconfig' '_iconvconfig'
+'id' '_id'
+'identify' '_imagemagick'
+'ifconfig' '_ifconfig'
+'ifdown' '_net_interfaces'
+'iftop' '_iftop'
+'ifup' '_net_interfaces'
+'ijoin' '_ispell'
+'img2sixel' '_img2sixel'
+'import' '_imagemagick'
+'inc' '_mh'
+'includeres' '_psutils'
+'include-what-you-use' '_include-what-you-use'
+'info' '_texinfo'
+'infocmp' '_terminals'
+'initctl' '_initctl'
+'initdb' '_postgresql'
+'insmod' '_insmod'
+'install' '_install'
+'install-info' '_texinfo'
+'integer' '_typeset'
+'interdiff' '_patchutils'
+'inxi' '_inxi'
+'ionice' '_ionice'
+'iostat' '_iostat'
+'ip' '_ip'
+'ip6tables' '_iptables'
+'ip6tables-restore' '_iptables'
+'ip6tables-save' '_iptables'
+'ipkg' '_opkg'
+'ipsec' '_ipsec'
+'ipset' '_ipset'
+'iptables' '_iptables'
+'iptables-restore' '_iptables'
+'iptables-save' '_iptables'
+'irb' '_ruby'
+'ironic' '_openstack'
+'irssi' '_irssi'
+'isag' '_sysstat'
+'ispell' '_ispell'
+'iwconfig' '_iwconfig'
+'iwyu' '_include-what-you-use'
+'jadetex' '_tex'
+'jar' '_java'
+'jarsigner' '_java'
+'java' '_java'
+'javac' '_java'
+'javadoc' '_java'
+'javah' '_java'
+'javap' '_java'
+'jdb' '_java'
+'jest' '_jest'
+'jest.js' '_jest'
+'jmeter' '_jmeter'
+'jmeter-plugins' '_jmeter-plugins'
+'jobs' '_jobs_builtin'
+'joe' '_joe'
+'join' '_join'
+'jonas' '_jonas'
+'journalctl' '_journalctl'
+'jq' '_jq'
+'jrnl' '_jrnl'
+'jupyter' '_jupyter'
+'kak' '_kak'
+'kdeconnect-cli' '_kdeconnect'
+'kernel-install' '_kernel-install'
+'keyring' '_keyring'
+'keystone' '_openstack'
+'keytool' '_java'
+'kfmclient' '_kfmclient'
+'kill' '_kill'
+'killall' '_killall'
+'killall5' '_killall'
+'kioclient' '_kfmclient'
+'kiro' '_kiro'
+'kitchen' '_kitchen'
+'kitty' '_kitty'
+'knife' '_knife'
+'knock' '_knock'
+'konqueror' '_webbrowser'
+'kpartx' '_kpartx'
+'kpdf' '_pdf'
+'ksh' '_sh'
+'ksh88' '_sh'
+'ksh93' '_sh'
+'kvno' '_kvno'
+'l3build' '_l3build'
+'last' '_last'
+'lastb' '_last'
+'latex' '_tex'
+'latexmk' '_tex'
+'ldconfig' '_ldconfig'
+'ldconfig.real' '_ldconfig'
+'ldd' '_ldd'
+'less' '_less'
+'let' '_math'
+'lftp' '_ncftp'
+'lha' '_lha'
+'libinput' '_libinput'
+'light' '_webbrowser'
+'lilypond' '_lilypond'
+'limit' '_limit'
+'links' '_links'
+'links2' '_links'
+'linux' '_uml'
+'lldb' '_lldb'
+'llvm-g++' '_gcc'
+'llvm-gcc' '_gcc'
+'llvm-objdump' '_objdump'
+'ln' '_ln'
+'loadkeys' '_loadkeys'
+'local' '_typeset'
+'locale' '_locale'
+'localectl' '_localectl'
+'localedef' '_localedef'
+'locate' '_locate'
+'log' '_nothing'
+'logger' '_logger'
+'loginctl' '_loginctl'
+'logname' '_nothing'
+'look' '_look'
+'losetup' '_losetup'
+'lp' '_lp'
+'lpadmin' '_lp'
+'lpinfo' '_lp'
+'lpoptions' '_lp'
+'lpq' '_lp'
+'lpr' '_lp'
+'lprm' '_lp'
+'lpstat' '_lp'
+'ls' '_ls'
+'lsattr' '_lsattr'
+'lsblk' '_lsblk'
+'lscpu' '_lscpu'
+'lsdiff' '_patchutils'
+'lsmod' '_lsmod'
+'lsns' '_lsns'
+'lsof' '_lsof'
+'lsusb' '_lsusb'
+'ltrace' '_ltrace'
+'lua' '_lua'
+'luarocks' '_luarocks'
+'luarocks-admin' '_luarocks-admin'
+'lunchy' '_lunchy'
+'lynx' '_lynx'
+'lz4' '_lz4'
+'lz4c' '_lz4'
+'lz4c32' '_lz4'
+'lz4cat' '_lz4'
+'lzcat' '_xz'
+'lzma' '_xz'
+'lzop' '_lzop'
+'mac2unix' '_dos2unix'
+'machinectl' '_machinectl'
+'magnum' '_openstack'
+'mail' '_mail'
+'Mail' '_mail'
+'mailx' '_mail'
+'make' '_make'
+'makeinfo' '_texinfo'
+'makepkg' '_pacman'
+'man' '_man'
+'manage.py' '_django'
+'manila' '_openstack'
+'mark' '_mh'
+'mat' '_mat'
+'mat2' '_mat2'
+'-math-' '_math'
+'matlab' '_matlab'
+'mattrib' '_mtools'
+'mc' '_mc'
+'mcd' '_mtools'
+'mcopy' '_mtools'
+'md2' '_cksum'
+'md4' '_cksum'
+'md5' '_cksum'
+'md5sum' '_md5sum'
+'mdadm' '_mdadm'
+'mdel' '_mtools'
+'mdeltree' '_mtools'
+'mdir' '_mtools'
+'mdu' '_mtools'
+'mencal' '_mencal'
+'mere' '_mere'
+'merge' '_rcs'
+'meson' '_meson'
+'metaflac' '_flac'
+'mformat' '_mtools'
+'mgv' '_pspdf'
+'mhfixmsg' '_mh'
+'mhlist' '_mh'
+'mhmail' '_mh'
+'mhn' '_mh'
+'mhparam' '_mh'
+'mhpath' '_mh'
+'mhshow' '_mh'
+'mhstore' '_mh'
+'middleman' '_middleman'
+'mii-tool' '_mii-tool'
+'mina' '_mina'
+'mistral' '_openstack'
+'mix' '_mix'
+'mkcert' '_mkcert'
+'mkdir' '_mkdir'
+'mkfifo' '_mkfifo'
+'mkisofs' '_growisofs'
+'mknod' '_mknod'
+'mksh' '_sh'
+'mktemp' '_mktemp'
+'mktunes' '_gnupod'
+'mktunes.pl' '_gnupod'
+'mlabel' '_mtools'
+'mlocate' '_locate'
+'mmd' '_mtools'
+'mmm' '_webbrowser'
+'mmount' '_mtools'
+'mmove' '_mtools'
+'modinfo' '_modutils'
+'modprobe' '_modutils'
+'modprobed-db' '_modprobed-db'
+'module' '_module'
+'mogrify' '_imagemagick'
+'monasca' '_openstack'
+'mondoarchive' '_mondo'
+'montage' '_imagemagick'
+'moosic' '_moosic'
+'Mosaic' '_webbrowser'
+'mosh' '_mosh'
+'mount' '_mount'
+'mozilla' '_mozilla'
+'mozilla-firefox' '_mozilla'
+'mozilla-xremote-client' '_mozilla'
+'mpc' '_mpc'
+'mplayer' '_mplayer'
+'mpstat' '_sysstat'
+'mpv' '_mpv'
+'mr' '_myrepos'
+'mrd' '_mtools'
+'mread' '_mtools'
+'mren' '_mtools'
+'msgchk' '_mh'
+'mssh' '_mssh'
+'mt' '_mt'
+'mtn' '_monotone'
+'mtoolstest' '_mtools'
+'mtr' '_mtr'
+'mtype' '_mtools'
+'munchlist' '_ispell'
+'mupdf' '_mupdf'
+'murano' '_openstack'
+'mush' '_mail'
+'mussh' '_mussh'
+'mutt' '_mutt'
+'mux' '_tmuxinator'
+'mv' '_mv'
+'mvim' '_vim'
+'mvn' '_mvn'
+'mvnDebug' '_mvn'
+'mx' '_hosts'
+'mysql' '_mysql_utils'
+'mysqladmin' '_mysql_utils'
+'mysqldiff' '_mysqldiff'
+'mysqldump' '_mysql_utils'
+'mysqlimport' '_mysql_utils'
+'mysqlshow' '_mysql_utils'
+'nail' '_mail'
+'nano' '_nano'
+'nanoc' '_nanoc'
+'native2ascii' '_java'
+'nautilus' '_nautilus'
+'nawk' '_awk'
+'nc' '_netcat'
+'ncal' '_cal'
+'ncftp' '_ncftp'
+'ncl' '_nedit'
+'nedit' '_nedit'
+'nedit-nc' '_nedit'
+'neo' '_neo'
+'neofetch' '_neofetch'
+'netcat' '_netcat'
+'netctl' '_netctl'
+'netctl-auto' '_netctl'
+'netrik' '_webbrowser'
+'netscape' '_netscape'
+'netstat' '_netstat'
+'networkctl' '_networkctl'
+'networkQuality' '_networkQuality'
+'neutron' '_openstack'
+'new' '_mh'
+'newgrp' '_groups'
+'next' '_mh'
+'nft' '_nftables'
+'nginx' '_nginx'
+'ngrep' '_ngrep'
+'nice' '_nice'
+'ninja' '_ninja'
+'nix' '_nix'
+'nkf' '_nkf'
+'nl' '_nl'
+'nm' '_nm'
+'nmap' '_nmap'
+'nmblookup' '_samba'
+'nmcli' '_networkmanager'
+'nocorrect' '_precommand'
+'node' '_node'
+'noglob' '_precommand'
+'nohup' '_precommand'
+'nova' '_openstack'
+'npm' '_npm'
+'ns' '_hosts'
+'nsenter' '_nsenter'
+'nslookup' '_nslookup'
+'ntalk' '_other_accounts'
+'numfmt' '_numfmt'
+'nvim' '_vim'
+'nvm' '_nvm'
+'objdump' '_objdump'
+'od' '_od'
+'ogg123' '_vorbis'
+'oggdec' '_vorbis'
+'oggenc' '_vorbis'
+'ogginfo' '_vorbis'
+'oksh' '_sh'
+'okular' '_okular'
+'oomctl' '_oomctl'
+'openssl' '_openssl'
+'openstack' '_openstack'
+'openvpn3' '_openvpn3'
+'opera' '_webbrowser'
+'opera-next' '_webbrowser'
+'opkg' '_opkg'
+'optirun' '_optirun'
+'opusdec' '_opustools'
+'opusenc' '_opustools'
+'opusinfo' '_opustools'
+'p4' '_perforce'
+'p4d' '_perforce'
+'pacat' '_pulseaudio'
+'paccache' '_paccache'
+'pacdiff' '_pacdiff'
+'pacignore' '_pacignore'
+'pack' '_pack'
+'packf' '_mh'
+'paclist' '_paclist'
+'paclog-pkglist' '_paclog-pkglist'
+'pacman' '_pacman'
+'pacman-conf' '_pacman'
+'pacman-key' '_pacman'
+'pacman.static' '_pacman'
+'pacmd' '_pulseaudio'
+'pacscripts' '_pacscripts'
+'pacsearch' '_pacsearch'
+'pacsort' '_pacsort'
+'pactl' '_pulseaudio'
+'pactree' '_pactree'
+'padsp' '_pulseaudio'
+'pandoc' '_pandoc'
+'paplay' '_pulseaudio'
+'parallel' '_parallel'
+'-parameter-' '_parameter'
+'parec' '_pulseaudio'
+'parecord' '_pulseaudio'
+'passwd' '_users'
+'paste' '_paste'
+'pasuspender' '_pulseaudio'
+'patch' '_patch'
+'patool' '_patool'
+'pax' '_pax'
+'pcat' '_pack'
+'pcp-htop' '_htop'
+'pcred' '_pids'
+'pdf2dsc' '_pdf'
+'pdf2ps' '_pdf'
+'pdffonts' '_pdf'
+'pdfimages' '_pdf'
+'pdfinfo' '_pdf'
+'pdfjadetex' '_tex'
+'pdflatex' '_tex'
+'pdfopt' '_pdf'
+'pdftex' '_tex'
+'pdftexi2dvi' '_texinfo'
+'pdftk' '_pdftk'
+'pdftopbm' '_pdf'
+'pdftops' '_pdf'
+'pdftotext' '_pdf'
+'pdksh' '_sh'
+'perf' '_perf'
+'periscope' '_periscope'
+'perl' '_perl'
+'perldoc' '_perldoc'
+'pfiles' '_pids'
+'pflags' '_pids'
+'pg_config' '_postgresql'
+'pg_ctl' '_postgresql'
+'pg_dump' '_postgresql'
+'pg_dumpall' '_postgresql'
+'pg_isready' '_postgresql'
+'pgrep' '_pgrep'
+'pg_restore' '_postgresql'
+'pg_upgrade' '_postgresql'
+'phing' '_phing'
+'php' '_php'
+'pick' '_mh'
+'picocom' '_picocom'
+'pidof' '_pidof'
+'pidstat' '_sysstat'
+'pigz' '_gzip'
+'pine' '_pine'
+'pinef' '_pine'
+'pinfo' '_texinfo'
+'ping' '_ping'
+'ping6' '_ping'
+'pixz' '_pixz'
+'pkcon' '_pkcon'
+'pkgadd' '_pkgadd'
+'pkg-config' '_pkg-config'
+'pkgfile' '_pkgfile'
+'pkginfo' '_pkginfo'
+'pkgrm' '_pkgrm'
+'pkill' '_pgrep'
+'play' '_play'
+'playerctl' '_playerctl'
+'pldd' '_pids'
+'pm2' '_pm2'
+'pmake' '_make'
+'pman' '_perl_modules'
+'pmap' '_pmap'
+'pmcat' '_perl_modules'
+'pmdesc' '_perl_modules'
+'pmeth' '_perl_modules'
+'pmexp' '_perl_modules'
+'pmfunc' '_perl_modules'
+'pmload' '_perl_modules'
+'pmls' '_perl_modules'
+'pmpath' '_perl_modules'
+'pmvers' '_perl_modules'
+'podgrep' '_perl_modules'
+'podpath' '_perl_modules'
+'podtoc' '_perl_modules'
+'poetry' '_poetry'
+'poff' '_pon'
+'policytool' '_java'
+'pon' '_pon'
+'popd' '_directory_stack'
+'port' '_port'
+'postconf' '_postfix'
+'postgres' '_postgresql'
+'postmaster' '_postgresql'
+'postqueue' '_postfix'
+'postsuper' '_postfix'
+'powerprofilesctl' '_powerprofilesctl'
+'pr' '_pr'
+'pre-commit' '_pre-commit'
+'prev' '_mh'
+'print' '_print'
+'printenv' '_printenv'
+'printf' '_print'
+'prompt' '_prompt'
+'protoc' '_protoc'
+'prove' '_prove'
+'prs' '_sccs'
+'prt' '_sccs'
+'prun' '_pids'
+'ps' '_ps'
+'ps2ascii' '_pspdf'
+'ps2epsi' '_postscript'
+'ps2pdf' '_postscript'
+'ps2pdf12' '_postscript'
+'ps2pdf13' '_postscript'
+'ps2pdf14' '_postscript'
+'ps2pdfwr' '_postscript'
+'ps2ps' '_postscript'
+'psbook' '_psutils'
+'psed' '_sed'
+'psig' '_pids'
+'psmerge' '_psutils'
+'psmulti' '_postscript'
+'psnup' '_psutils'
+'psql' '_postgresql'
+'psresize' '_psutils'
+'psselect' '_psutils'
+'pstack' '_pids'
+'pstoedit' '_pspdf'
+'pstop' '_pids'
+'pstops' '_psutils'
+'pstotgif' '_pspdf'
+'pswrap' '_postscript'
+'ptx' '_ptx'
+'pulseaudio' '_pulseaudio'
+'pump' '_pump'
+'pushd' '_cd'
+'pv' '_pv'
+'pwait' '_pids'
+'pwdx' '_pids'
+'pwgen' '_pwgen'
+'pygmentize' '_pygmentize'
+'pyhtmlizer' '_twisted'
+'qdbus' '_qdbus'
+'qiv' '_qiv'
+'qmk' '_qmk'
+'quilt' '_quilt'
+'r' '_fc'
+'rails' '_rails'
+'rake' '_rake'
+'ralio' '_ralio'
+'rankmirrors' '_rankmirrors'
+'ranlib' '_ranlib'
+'rar' '_rar'
+'rc' '_sh'
+'rclone' '_rclone'
+'rcp' '_rlogin'
+'rcs' '_rcs'
+'rcsdiff' '_rcs'
+'rdesktop' '_rdesktop'
+'rdfind' '_rdfind'
+'read' '_read'
+'readelf' '_readelf'
+'readlink' '_readlink'
+'readonly' '_typeset'
+'rec' '_redis-cli'
+'-redirect-' '_redirect'
+'-redirect-,<,bunzip2' '_bzip2'
+'-redirect-,<,bzip2' '_bzip2'
+'-redirect-,>,bzip2' '_bzip2'
+'-redirect-,<,compress' '_compress'
+'-redirect-,>,compress' '_compress'
+'-redirect-,-default-,-default-' '_files'
+'-redirect-,<,gunzip' '_gzip'
+'-redirect-,<,gzip' '_gzip'
+'-redirect-,>,gzip' '_gzip'
+'-redirect-,<,uncompress' '_compress'
+'-redirect-,<,unxz' '_xz'
+'-redirect-,<,xz' '_xz'
+'-redirect-,>,xz' '_xz'
+'redis-cli' '_redis-cli'
+'refile' '_mh'
+'rehash' '_hash'
+'reindexdb' '_postgresql'
+'reload' '_initctl'
+'remsh' '_rlogin'
+'renice' '_renice'
+'repl' '_mh'
+'resolvectl' '_resolvectl'
+'restart' '_initctl'
+'retawq' '_webbrowser'
+'rfkill' '_rfkill'
+'rg' '_rg'
+'rgrep' '_grep'
+'rgview' '_vim'
+'rgvim' '_vim'
+'ri' '_ri'
+'rkt' '_rkt'
+'rlogin' '_rlogin'
+'rm' '_rm'
+'rmd160' '_cksum'
+'rmdel' '_sccs'
+'rmdir' '_rmdir'
+'rmf' '_mh'
+'rmic' '_java'
+'rmid' '_java'
+'rmiregistry' '_java'
+'rmlint' '_rmlint'
+'rmlint.sh' '_rmlint'
+'rmm' '_mh'
+'rmmod' '_rmmod'
+'route' '_route'
+'rrdtool' '_rrdtool'
+'rsh' '_rlogin'
+'rslsync' '_rslsync'
+'rspec' '_rspec'
+'rsvm' '_rsvm'
+'rsync' '_rsync'
+'rtin' '_tin'
+'rubber' '_rubber'
+'rubber-info' '_rubber'
+'rubber-pipe' '_rubber'
+'rubocop' '_rubocop'
+'ruby' '_ruby'
+'ruby-mri' '_ruby'
+'ruff' '_ruff'
+'run0' '_run0'
+'run-help' '_run-help'
+'rup' '_hosts'
+'rusage' '_precommand'
+'rview' '_vim'
+'rvim' '_vim'
+'rwho' '_hosts'
+'rxvt' '_urxvt'
+'s2p' '_sed'
+'sact' '_sccs'
+'sadf' '_sysstat'
+'sahara' '_openstack'
+'sar' '_sysstat'
+'sbt' '_sbt'
+'scala' '_scala'
+'scalac' '_scala'
+'scan' '_mh'
+'sccs' '_sccs'
+'sccsdiff' '_sccs'
+'sched' '_sched'
+'schedtool' '_schedtool'
+'scons' '_scons'
+'scp' '_ssh'
+'screen' '_screen'
+'screencapture' '_screencapture'
+'script' '_script'
+'scriptreplay' '_script'
+'scrub' '_scrub'
+'sd' '_sd'
+'sdd' '_sdd'
+'sdkmanager' '_sdkmanager'
+'seaf-cli' '_seafile'
+'sed' '_sed'
+'senlin' '_openstack'
+'sensors' '_sensors'
+'sensors-detect' '_sensors-detect'
+'seq' '_seq'
+'serialver' '_java'
+'service' '_service'
+'set' '_set'
+'setcap' '_setcap'
+'setfacl' '_setfacl'
+'setfacl.exe' '_setfacl'
+'setfattr' '_attr'
+'setopt' '_setopt'
+'setpriv' '_setpriv'
+'setsid' '_setsid'
+'setup.py' '_setup.py'
+'setxkbmap' '_setxkbmap'
+'sfdx' '_sfdx'
+'sftp' '_ssh'
+'sh' '_sh'
+'sha1' '_cksum'
+'sha1sum' '_md5sum'
+'sha224sum' '_md5sum'
+'sha256' '_cksum'
+'sha256sum' '_md5sum'
+'sha384' '_cksum'
+'sha384sum' '_md5sum'
+'sha512' '_cksum'
+'sha512sum' '_md5sum'
+'sha512t256' '_cksum'
+'shallow-backup' '_shallow-backup'
+'shasum' '_shasum'
+'shellcheck' '_shellcheck'
+'shift' '_arrays'
+'show' '_mh'
+'showchar' '_psutils'
+'showmount' '_showmount'
+'showoff' '_showoff'
+'shred' '_shred'
+'shuf' '_shuf'
+'shutdown' '_shutdown'
+'sisu' '_sisu'
+'skein1024' '_cksum'
+'skein256' '_cksum'
+'skein512' '_cksum'
+'skipstone' '_webbrowser'
+'slabtop' '_slabtop'
+'slitex' '_tex'
+'slocate' '_locate'
+'slogin' '_ssh'
+'slrn' '_slrn'
+'smartctl' '_smartmontools'
+'smbclient' '_samba'
+'smbcontrol' '_samba'
+'smbstatus' '_samba'
+'soa' '_hosts'
+'socket' '_socket'
+'sort' '_sort'
+'sortm' '_mh'
+'source' '_source'
+'spamassassin' '_spamassassin'
+'split' '_split'
+'splitdiff' '_patchutils'
+'sqlite' '_sqlite'
+'sqlite3' '_sqlite'
+'sqsh' '_sqsh'
+'sr' '_surfraw'
+'srm' '_srm'
+'srptool' '_gnutls'
+'ss' '_ss'
+'ssh' '_ssh'
+'ssh-add' '_ssh'
+'ssh-agent' '_ssh'
+'ssh-copy-id' '_ssh'
+'sshfs' '_sshfs'
+'ssh-keygen' '_ssh'
+'ssh-keyscan' '_ssh'
+'stack' '_stack'
+'star' '_tar'
+'starship' '_starship'
+'start' '_initctl'
+'stat' '_stat'
+'status' '_initctl'
+'stdbuf' '_stdbuf'
+'stg' '_stgit'
+'stop' '_initctl'
+'stow' '_stow'
+'strace' '_strace'
+'strace64' '_strace'
+'strftime' '_strftime'
+'strings' '_strings'
+'strip' '_strip'
+'strongswan' '_ipsec'
+'stty' '_stty'
+'su' '_su'
+'subl' '_sublimetext'
+'subliminal' '_subliminal'
+'-subscript-' '_subscript'
+'sudo' '_sudo'
+'sudoedit' '_sudo'
+'sum' '_cksum'
+'supervisorctl' '_supervisorctl'
+'supervisord' '_supervisord'
+'surfraw' '_surfraw'
+'sv' '_runit'
+'svm' '_svm'
+'svn' '_subversion'
+'svnadmin' '_subversion'
+'svnadmin-static' '_subversion'
+'svnlite' '_subversion'
+'svnliteadmin' '_subversion'
+'swaks' '_swaks'
+'swanctl' '_swanctl'
+'swift' '_swift'
+'swiftc' '_swift'
+'sync' '_nothing'
+'sysctl' '_sysctl'
+'systemctl' '_systemctl'
+'systemd-analyze' '_systemd-analyze'
+'systemd-ask-password' '_systemd'
+'systemd-cat' '_systemd'
+'systemd-cgls' '_systemd'
+'systemd-cgtop' '_systemd'
+'systemd-delta' '_systemd-delta'
+'systemd-detect-virt' '_systemd'
+'systemd-inhibit' '_systemd-inhibit'
+'systemd-machine-id-setup' '_systemd'
+'systemd-notify' '_systemd'
+'systemd-nspawn' '_systemd-nspawn'
+'systemd-path' '_systemd-path'
+'systemd-resolve' '_resolvectl'
+'systemd-run' '_systemd-run'
+'systemd-tmpfiles' '_systemd-tmpfiles'
+'systemd-tty-ask-password-agent' '_systemd'
+'tac' '_tac'
+'tacker' '_openstack'
+'tail' '_tail'
+'talk' '_other_accounts'
+'tar' '_tar'
+'tardy' '_tardy'
+'tcpdump' '_tcpdump'
+'tcp_open' '_tcpsys'
+'tcptraceroute' '_tcptraceroute'
+'tcsh' '_sh'
+'tda' '_devtodo'
+'tdd' '_devtodo'
+'tde' '_devtodo'
+'tdr' '_devtodo'
+'teamocil' '_teamocil'
+'tee' '_tee'
+'telnet' '_telnet'
+'tex' '_tex'
+'texi2any' '_texinfo'
+'texi2dvi' '_texinfo'
+'texi2pdf' '_texinfo'
+'texindex' '_texinfo'
+'tg' '_topgit'
+'thor' '_thor'
+'tidy' '_tidy'
+'tig' '_git'
+'-tilde-' '_tilde'
+'time' '_precommand'
+'timedatectl' '_timedatectl'
+'timeout' '_timeout'
+'times' '_nothing'
+'tin' '_tin'
+'tkconch' '_twisted'
+'tkinfo' '_texinfo'
+'tla' '_tla'
+'tldr' '_tldr'
+'tload' '_tload'
+'tmux' '_tmux'
+'tmuxinator' '_tmuxinator'
+'tmuxp' '_tmuxp'
+'todo' '_devtodo'
+'todo.sh' '_todo.sh'
+'toilet' '_toilet'
+'top' '_top'
+'topgrade' '_topgrade'
+'totdconfig' '_totd'
+'touch' '_touch'
+'tox' '_tox'
+'tpb' '_tpb'
+'tput' '_tput'
+'tr' '_tr'
+'tracepath' '_tracepath'
+'tracepath6' '_tracepath'
+'traceroute' '_hosts'
+'transmission-remote' '_transmission'
+'trap' '_trap'
+'tree' '_tree'
+'trial' '_twisted'
+'trove' '_openstack'
+'true' '_nothing'
+'truncate' '_truncate'
+'truss' '_truss'
+'tryaffix' '_ispell'
+'tsc' '_tsc'
+'ts-node' '_ts-node'
+'tty' '_tty'
+'ttyctl' '_ttyctl'
+'tunctl' '_uml'
+'tune2fs' '_tune2fs'
+'tunes2pod' '_gnupod'
+'tunes2pod.pl' '_gnupod'
+'twidge' '_twidge'
+'twist' '_twisted'
+'twistd' '_twisted'
+'txt' '_hosts'
+'type' '_which'
+'typeset' '_typeset'
+'udevadm' '_udevadm'
+'udiskie' '_udiskie'
+'udiskie-mount' '_udiskie-mount'
+'udiskie-umount' '_udiskie-umount'
+'udisksctl' '_udisks2'
+'ufw' '_ufw'
+'ulimit' '_ulimit'
+'uml_mconsole' '_uml'
+'uml_moo' '_uml'
+'uml_switch' '_uml'
+'umount' '_mount'
+'unace' '_unace'
+'unalias' '_aliases'
+'uname' '_uname'
+'uncompress' '_compress'
+'unexpand' '_unexpand'
+'unfunction' '_functions'
+'unget' '_sccs'
+'unhash' '_unhash'
+'uniq' '_uniq'
+'unison' '_unison'
+'units' '_units'
+'unix2dos' '_dos2unix'
+'unix2mac' '_dos2unix'
+'unlimit' '_limits'
+'unlz4' '_lz4'
+'unlzma' '_xz'
+'unpack' '_pack'
+'unpigz' '_gzip'
+'unrar' '_rar'
+'unset' '_vars'
+'unsetopt' '_setopt'
+'unshare' '_unshare'
+'unwrapdiff' '_patchutils'
+'unxz' '_xz'
+'unzip' '_zip'
+'updpkgsums' '_updpkgsums'
+'upower' '_upower'
+'uptime' '_uptime'
+'urxvt' '_urxvt'
+'urxvt256c' '_urxvt'
+'urxvt256cc' '_urxvt'
+'urxvt256c-ml' '_urxvt'
+'urxvt256c-mlc' '_urxvt'
+'urxvtc' '_urxvt'
+'useradd' '_user_admin'
+'userdel' '_users'
+'usermod' '_user_admin'
+'uuidgen' '_uuidgen'
+'uv' '_uv'
+'vacuumdb' '_postgresql'
+'val' '_sccs'
+'valgrind' '_valgrind'
+'-value-' '_value'
+'-value-,ADB_TRACE,-default-' '_adb'
+'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
+'-value-,ANDROID_SERIAL,-default-' '_adb'
+'-value-,ANSIBLE_INVENTORY_ENABLED,-default-' '_ansible'
+'-value-,ANSIBLE_STDOUT_CALLBACK,-default-' '_ansible'
+'-value-,ANT_ARGS,-default-' '_ant'
+'-value-,CFLAGS,-default-' '_gcc'
+'-value-,CMAKE_GENERATOR,-default-' '_cmake'
+'-value-,CPPFLAGS,-default-' '_gcc'
+'-value-,CXXFLAGS,-default-' '_gcc'
+'-value-,-default-,-command-' '_zargs'
+'-value-,-default-,-default-' '_value'
+'-value-,DISPLAY,-default-' '_x_display'
+'-value-,GREP_OPTIONS,-default-' '_grep'
+'-value-,GZIP,-default-' '_gzip'
+'-value-,LANG,-default-' '_locales'
+'-value-,LANGUAGE,-default-' '_locales'
+'-value-,LD_DEBUG,-default-' '_ld_debug'
+'-value-,LDFLAGS,-default-' '_gcc'
+'-value-,LESSCHARSET,-default-' '_less'
+'-value-,LESS,-default-' '_less'
+'-value-,LOOPDEV_DEBUG,-default-' '_losetup'
+'-value-,LPDEST,-default-' '_printers'
+'-value-,MPD_HOST,-default' '_mpc'
+'-value-,P4CLIENT,-default-' '_perforce'
+'-value-,P4MERGE,-default-' '_perforce'
+'-value-,P4PORT,-default-' '_perforce'
+'-value-,P4USER,-default-' '_perforce'
+'-value-,PERLDOC,-default-' '_perldoc'
+'-value-,PRINTER,-default-' '_printers'
+'-value-,PROMPT2,-default-' '_ps1234'
+'-value-,PROMPT3,-default-' '_ps1234'
+'-value-,PROMPT4,-default-' '_ps1234'
+'-value-,PROMPT,-default-' '_ps1234'
+'-value-,PS1,-default-' '_ps1234'
+'-value-,PS2,-default-' '_ps1234'
+'-value-,PS3,-default-' '_ps1234'
+'-value-,PS4,-default-' '_ps1234'
+'-value-,RPROMPT2,-default-' '_ps1234'
+'-value-,RPROMPT,-default-' '_ps1234'
+'-value-,RPS1,-default-' '_ps1234'
+'-value-,RPS2,-default-' '_ps1234'
+'-value-,SPROMPT,-default-' '_ps1234'
+'-value-,TERM,-default-' '_terminals'
+'-value-,TERMINFO_DIRS,-default-' '_dir_list'
+'-value-,TZ,-default-' '_time_zone'
+'-value-,VALGRIND_OPTS,-default-' '_valgrind'
+'-value-,WWW_HOME,-default-' '_urls'
+'-value-,XML_CATALOG_FILES,-default-' '_xmlsoft'
+'-value-,XZ_DEFAULTS,-default-' '_xz'
+'-value-,XZ_OPT,-default-' '_xz'
+'-vared-' '_in_vared'
+'vared' '_vared'
+'varlinkctl' '_varlinkctl'
+'vboxheadless' '_virtualbox'
+'VBoxHeadless' '_virtualbox'
+'vboxmanage' '_virtualbox'
+'VBoxManage' '_virtualbox'
+'vcs_info_hookadd' '_vcs_info'
+'vcs_info_hookdel' '_vcs_info'
+'vi' '_vi'
+'view' '_vi'
+'vim' '_vim'
+'vimdiff' '_vim'
+'virsh' '_libvirt'
+'virt-admin' '_libvirt'
+'virt-host-validate' '_libvirt'
+'virt-pki-validate' '_libvirt'
+'virt-xml-validate' '_libvirt'
+'visudo' '_visudo'
+'vitrage' '_openstack'
+'vmstat' '_vmstat'
+'vncserver' '_vnc'
+'vncviewer' '_vnc'
+'vnstat' '_vnstat'
+'vorbiscomment' '_vorbis'
+'vpnc' '_vpnc'
+'vpnc-connect' '_vpnc'
+'vserver' '_vserver'
+'w' '_w'
+'w3m' '_w3m'
+'wait' '_wait'
+'watch' '_watch'
+'watcher' '_openstack'
+'wc' '_wc'
+'wemux' '_wemux'
+'wget' '_wget'
+'wg-quick' '_wg-quick'
+'what' '_sccs'
+'whatis' '_man'
+'whence' '_which'
+'where' '_which'
+'whereis' '_whereis'
+'which' '_which'
+'who' '_who'
+'whoami' '_nothing'
+'whois' '_whois'
+'whom' '_mh'
+'wifi-menu' '_netctl'
+'wiggle' '_wiggle'
+'windsurf' '_windsurf'
+'wipefs' '_wipefs'
+'wodim' '_cdrecord'
+'wpa_cli' '_wpa_cli'
+'wpctl' '_wpctl'
+'write' '_users_on'
+'www' '_webbrowser'
+'xargs' '_xargs'
+'xattr' '_attr'
+'xauth' '_xauth'
+'xautolock' '_xautolock'
+'xclip' '_xclip'
+'xdpyinfo' '_x_utils'
+'xdvi' '_xdvi'
+'xelatex' '_tex'
+'xetex' '_tex'
+'xev' '_x_utils'
+'xfd' '_x_utils'
+'xfig' '_xfig'
+'xfontsel' '_x_utils'
+'xfreerdp' '_rdesktop'
+'xhost' '_x_utils'
+'xinput' '_xinput'
+'xkill' '_x_utils'
+'xli' '_xloadimage'
+'xloadimage' '_xloadimage'
+'xlsatoms' '_x_utils'
+'xlsclients' '_x_utils'
+'xml' '_xmlstarlet'
+'xmllint' '_xmlsoft'
+'xmlstarlet' '_xmlstarlet'
+'xmms2' '_xmms2'
+'xmodmap' '_xmodmap'
+'xmosaic' '_webbrowser'
+'xon' '_x_utils'
+'xournal' '_xournal'
+'xpdf' '_xpdf'
+'xping' '_hosts'
+'xprop' '_x_utils'
+'xrandr' '_xrandr'
+'xrdb' '_x_utils'
+'xscreensaver-command' '_xscreensaver'
+'xsel' '_xsel'
+'xset' '_xset'
+'xsetbg' '_xloadimage'
+'xsetroot' '_x_utils'
+'xsltproc' '_xmlsoft'
+'xss-lock' '_xss-lock'
+'xterm' '_xterm'
+'xtightvncviewer' '_vnc'
+'xtp' '_imagemagick'
+'xv' '_xv'
+'xview' '_xloadimage'
+'xvnc4viewer' '_vnc'
+'xvncviewer' '_vnc'
+'xwd' '_x_utils'
+'xwininfo' '_x_utils'
+'xwit' '_xwit'
+'xwud' '_x_utils'
+'xxd' '_xxd'
+'xz' '_xz'
+'xzcat' '_xz'
+'yafc' '_yafc'
+'yarn' '_yarn'
+'yash' '_sh'
+'yay' '_yay'
+'yfm' '_yfm'
+'ypbind' '_yp'
+'ypcat' '_yp'
+'ypmatch' '_yp'
+'yppasswd' '_yp'
+'yppoll' '_yp'
+'yppush' '_yp'
+'ypserv' '_yp'
+'ypset' '_yp'
+'ypwhich' '_yp'
+'ypxfr' '_yp'
+'ytalk' '_other_accounts'
+'yt-dlp' '_yt-dlp'
+'zargs' '_zargs'
+'zathura' '_zathura'
+'zcalc' '_zcalc'
+'-zcalc-line-' '_zcalc_line'
+'zcash-cli' '_zcash-cli'
+'zcat' '_zcat'
+'zcompile' '_zcompile'
+'zcp' '_zmv'
+'zdb' '_zfs'
+'zdelattr' '_zattr'
+'zdump' '_zdump'
+'zeal' '_zeal'
+'zed' '_zed'
+'zegrep' '_grep'
+'zen' '_webbrowser'
+'zf_chgrp' '_chown'
+'zf_chmod' '_chmod'
+'zf_chown' '_chown'
+'zfgrep' '_grep'
+'zf_ln' '_ln'
+'zf_mkdir' '_mkdir'
+'zf_mv' '_mv'
+'zf_rm' '_rm'
+'zf_rmdir' '_rmdir'
+'zfs' '_zfs'
+'zgetattr' '_zattr'
+'zgrep' '_grep'
+'zip' '_zip'
+'zipinfo' '_zip'
+'zle' '_zle'
+'zlistattr' '_zattr'
+'zln' '_zmv'
+'zmail' '_mail'
+'zmodload' '_zmodload'
+'zmv' '_zmv'
+'zone' '_hosts'
+'zoxide' '_zoxide'
+'zparseopts' '_zparseopts'
+'zpool' '_zfs'
+'zpty' '_zpty'
+'zsetattr' '_zattr'
+'zsh' '_zsh'
+'zsh-mime-handler' '_zsh-mime-handler'
+'zsocket' '_zsocket'
+'zstat' '_stat'
+'zstyle' '_zstyle'
+'ztodo' '_ztodo'
+'zun' '_openstack'
+'zxpdf' '_xpdf'
+)
+
+_services=(
+'bzcat' 'bunzip2'
+'gchgrp' 'chgrp'
+'gchown' 'chown'
+'gnupod_addsong.pl' 'gnupod_addsong'
+'gnupod_check.pl' 'gnupod_check'
+'gnupod_INIT.pl' 'gnupod_INIT'
+'gnupod_search.pl' 'gnupod_search'
+'gpg2' 'gpg'
+'gzcat' 'gunzip'
+'https' 'http'
+'iceweasel' 'firefox'
+'lzcat' 'unxz'
+'lzma' 'xz'
+'Mail' 'mail'
+'mailx' 'mail'
+'mktunes.pl' 'mktunes'
+'nail' 'mail'
+'ncl' 'nc'
+'nedit-nc' 'nc'
+'pacman.static' 'pacman'
+'pcat' 'unpack'
+'-redirect-,<,bunzip2' 'bunzip2'
+'-redirect-,<,bzip2' 'bzip2'
+'-redirect-,>,bzip2' 'bunzip2'
+'-redirect-,<,compress' 'compress'
+'-redirect-,>,compress' 'uncompress'
+'-redirect-,<,gunzip' 'gunzip'
+'-redirect-,<,gzip' 'gzip'
+'-redirect-,>,gzip' 'gunzip'
+'-redirect-,<,uncompress' 'uncompress'
+'-redirect-,<,unxz' 'unxz'
+'-redirect-,<,xz' 'xz'
+'-redirect-,>,xz' 'unxz'
+'remsh' 'rsh'
+'slogin' 'ssh'
+'svnadmin-static' 'svnadmin'
+'svnlite' 'svn'
+'svnliteadmin' 'svnadmin'
+'tunes2pod.pl' 'tunes2pod'
+'unlzma' 'unxz'
+'vboxheadless' 'vboxheadless'
+'VBoxHeadless' 'vboxheadless'
+'vboxmanage' 'vboxmanage'
+'VBoxManage' 'vboxmanage'
+'xelatex' 'latex'
+'xetex' 'tex'
+'xzcat' 'unxz'
+'zf_chgrp' 'chgrp'
+'zf_chown' 'chown'
+)
+
+_patcomps=(
+'*/(init|rc[0-9S]#).d/*' '_init_d'
+)
+
+_postpatcomps=(
+'_*' '_compadd'
+'c++-*' '_gcc'
+'g++-*' '_gcc'
+'gcc-*' '_gcc'
+'gem[0-9.]#' '_gem'
+'lua[0-9.-]##' '_lua'
+'(p[bgpn]m*|*top[bgpn]m)' '_pbm'
+'php[0-9.-]' '_php'
+'pip[0-9.]#' '_pip'
+'pydoc[0-9.]#' '_pydoc'
+'python[0-9.]#' '_python'
+'qemu(|-system-*)' '_qemu'
+'rmlint.*.sh' '_rmlint'
+'(ruby|[ei]rb)[0-9.]#' '_ruby'
+'shasum(|5).*' '_shasum'
+'(texi(2*|ndex))' '_texi'
+'(tiff*|*2tiff|pal2rgb)' '_tiff'
+'-value-,CCACHE_*,-default-' '_ccache'
+'-value-,CGO*,-default-' '_golang'
+'-value-,(ftp|http(|s))_proxy,-default-' '_urls'
+'-value-,GO*,-default-' '_golang'
+'-value-,LC_*,-default-' '_locales'
+'-value-,*path,-default-' '_directories'
+'-value-,*PATH,-default-' '_dir_list'
+'-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
+'*/X11(|R<4->)/*' '_x_arguments'
+'yodl(|2*)' '_yodl'
+'zf*' '_zftp'
+)
+
+_compautos=(
+'_call_program' '+X'
+)
+
+zle -C _bash_complete-word .complete-word _bash_completions
+zle -C _bash_list-choices .list-choices _bash_completions
+zle -C _complete_debug .complete-word _complete_debug
+zle -C _complete_help .complete-word _complete_help
+zle -C _complete_tag .complete-word _complete_tag
+zle -C _correct_filename .complete-word _correct_filename
+zle -C _correct_word .complete-word _correct_word
+zle -C _expand_alias .complete-word _expand_alias
+zle -C _expand_word .complete-word _expand_word
+zle -C _history-complete-newer .complete-word _history_complete_word
+zle -C _history-complete-older .complete-word _history_complete_word
+zle -C _list_expansions .list-choices _expand_word
+zle -C _most_recent_file .complete-word _most_recent_file
+zle -C _next_tags .list-choices _next_tags
+zle -C _read_comp .complete-word _read_comp
+bindkey '^X^R' _read_comp
+bindkey '^X?' _complete_debug
+bindkey '^XC' _correct_filename
+bindkey '^Xa' _expand_alias
+bindkey '^Xc' _correct_word
+bindkey '^Xd' _list_expansions
+bindkey '^Xe' _expand_word
+bindkey '^Xh' _complete_help
+bindkey '^Xm' _most_recent_file
+bindkey '^Xn' _next_tags
+bindkey '^Xt' _complete_tag
+bindkey '^X~' _bash_list-choices
+bindkey '^[,' _history-complete-newer
+bindkey '^[/' _history-complete-older
+bindkey '^[~' _bash_complete-word
+
+autoload -Uz _kitty _funchelp _compstyle _aa-log.zsh _atuin \
+            _bat _bluetoothctl _bootctl _btm _bun \
+            _busctl _bwrap _cargo _cfspeedtest _checkupdates \
+            _code _coredumpctl _curl _delta _dkms \
+            _docker-machine _dotnet _downgrade _dunst _dunstctl \
+            _eza _fd _firejail _flameshot _flatpak \
+            _ghostty _glow _hostnamectl _img2sixel _insmod \
+            _journalctl _jupyter _kernel-install _keyring _kiro \
+            _kitty _libinput _localectl _loginctl _lsmod \
+            _luarocks _luarocks-admin _machinectl _meson _modprobed-db \
+            _mpv _netctl _networkctl _ninja _nix \
+            _oomctl _paccache _pacdiff _pacignore _paclist \
+            _paclog-pkglist _pacman _pacscripts _pacsearch _pacsort \
+            _pactree _parallel _pip _pkgfile _playerctl \
+            _poetry _powerprofilesctl _pulseaudio _rankmirrors _resolvectl \
+            _rg _rmmod _ruff _run0 _sd \
+            _sd_hosts_or_user_at_host _sd_machines _sd_outputmodes _sd_unit_files _sensors \
+            _sensors-detect _starship _systemctl _systemd _systemd-analyze \
+            _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-path _systemd-run \
+            _systemd-tmpfiles _timedatectl _tldr _topgrade _udevadm \
+            _udiskie _udiskie-canonical_paths _udiskie-mount _udiskie-umount _udisks2 \
+            _updpkgsums _upower _uv _varlinkctl _windsurf \
+            _wpctl _xss-lock _yay _yt-dlp _zathura \
+            _zoxide _cdr _all_labels _all_matches _alternative \
+            _approximate _arg_compile _arguments _bash_completions _cache_invalid \
+            _call_function _combination _complete _complete_debug _complete_help \
+            _complete_help_generic _complete_tag _comp_locale _correct _correct_filename \
+            _correct_word _describe _description _dispatch _expand \
+            _expand_alias _expand_word _extensions _external_pwds _generic \
+            _guard _history _history_complete_word _ignored _list \
+            _main_complete _match _menu _message _most_recent_file \
+            _multi_parts _next_label _next_tags _normal _nothing \
+            _numbers _oldlist _pick_variant _prefix _read_comp \
+            _regex_arguments _regex_words _requested _retrieve_cache _sep_parts \
+            _sequence _set_command _setup _store_cache _sub_commands \
+            _tags _user_expand _values _wanted _acpi \
+            _acpitool _alsa-utils _analyseplugin _basenc _brctl \
+            _btrfs _capabilities _chattr _chcon _choom \
+            _chrt _cpupower _cryptsetup _dkms _e2label \
+            _ethtool _findmnt _free _fuse_arguments _fusermount \
+            _fuse_values _gpasswd _htop _iconvconfig _ionice \
+            _ipset _iptables _iwconfig _kpartx _losetup \
+            _lsattr _lsblk _lsns _lsusb _ltrace \
+            _mat _mat2 _mdadm _mii-tool _modutils \
+            _mondo _networkmanager _nsenter _opkg _perf \
+            _pidof _pmap _qdbus _schedtool _selinux_contexts \
+            _selinux_roles _selinux_types _selinux_users _setpriv _setsid \
+            _slabtop _ss _sshfs _strace _sysstat \
+            _tload _tpb _tracepath _tune2fs _uml \
+            _unshare _valgrind _vserver _wakeup_capable_devices _wipefs \
+            _wpa_cli _a2ps _aap _abcde _absolute_command_paths \
+            _ack _adb _ansible _ant _antiword \
+            _apachectl _apm _arch_archives _arch_namespace _arp \
+            _arping _asciidoctor _asciinema _at _attr \
+            _augeas _avahi _awk _base64 _basename \
+            _bash _baudrates _baz _beep _bibtex \
+            _bind_addresses _bison _bittorrent _bogofilter _bpf_filters \
+            _bpython _bzip2 _bzr _cabal _cal \
+            _calendar _canonical_paths _cat _ccal _cdcd \
+            _cdrdao _cdrecord _chkconfig _chmod _chown \
+            _chroot _chsh _cksum _clay _cmdambivalent \
+            _cmdstring _cmp _column _comm _composer \
+            _compress _configure _cowsay _cp _cpio \
+            _cplay _crontab _cscope _csplit _cssh \
+            _ctags _ctags_tags _curl _cut _cvs \
+            _darcs _date _date_formats _dates _dbus \
+            _dconf _dd _devtodo _df _dhclient \
+            _dict _dict_words _diff _diff3 _diff_options \
+            _diffstat _dig _directories _dir_list _django \
+            _dmesg _dmidecode _dns_types _doas _domains \
+            _dos2unix _drill _dropbox _dsh _dtruss \
+            _du _dvi _ecasound _ed _elfdump \
+            _elinks _email_addresses _enscript _entr _env \
+            _espeak _etags _fakeroot _feh _fetchmail \
+            _ffmpeg _figlet _file_modes _files _file_systems \
+            _find _find_net_interfaces _finger _flac _flex \
+            _fmt _fold _fortune _fsh _fuser \
+            _gcc _gcore _gdb _gem _genisoimage \
+            _getconf _getent _getfacl _getmail _getopt \
+            _ghostscript _git _global _global_tags _gnu_generic \
+            _gnupod _gnutls _go _gpg _gphoto2 \
+            _gprof _gradle _graphicsmagick _grep _groff \
+            _groups _growisofs _gsettings _guilt _gzip \
+            _have_glob_qual _head _hexdump _host _hostname \
+            _hosts _iconv _id _ifconfig _iftop \
+            _imagemagick _initctl _init_d _install _iostat \
+            _ip _ipsec _irssi _ispell _java \
+            _java_class _joe _join _jq _killall \
+            _knock _kvno _last _ldconfig _ldd \
+            _ld_debug _less _lha _libvirt _links \
+            _list_files _lldb _ln _loadkeys _locale \
+            _localedef _locales _locate _logger _look \
+            _lp _ls _lsof _lua _luarocks \
+            _lynx _lz4 _lzop _mail _mailboxes \
+            _make _man _md5sum _mencal _mh \
+            _mime_types _mkdir _mkfifo _mknod _mktemp \
+            _module _monotone _moosic _mosh _mount \
+            _mpc _mt _mtools _mtr _mutt \
+            _mv _my_accounts _myrepos _mysqldiff _mysql_utils \
+            _ncftp _netcat _net_interfaces _netstat _newsgroups \
+            _nginx _ngrep _nice _nkf _nl \
+            _nm _nmap _npm _nslookup _numfmt \
+            _objdump _object_files _od _openstack _opustools \
+            _other_accounts _pack _pandoc _paste _patch \
+            _patchutils _path_commands _path_files _pax _pbm \
+            _pdf _perforce _perl _perl_basepods _perldoc \
+            _perl_modules _pgids _pgrep _php _picocom \
+            _pids _pine _ping _pip _pkgadd \
+            _pkg-config _pkginfo _pkg_instance _pkgrm _pon \
+            _ports _postfix _postgresql _postscript _pr \
+            _printenv _printers _process_names _prove _ps \
+            _pspdf _psutils _ptx _pump _pv \
+            _pwgen _pydoc _python _python_modules _qemu \
+            _quilt _rake _ranlib _rar _rclone \
+            _rcs _readelf _readlink _remote_files _renice \
+            _ri _rlogin _rm _rmdir _route \
+            _rrdtool _rsync _rubber _ruby _runit \
+            _samba _sccs _scons _screen _script \
+            _seafile _sed _seq _service _services \
+            _setfacl _sh _shasum _showmount _shred \
+            _shuf _shutdown _signals _sisu _slrn \
+            _smartmontools _socket _sort _spamassassin _split \
+            _sqlite _sqsh _ssh _ssh_hosts _stat \
+            _stdbuf _stgit _stow _strings _strip \
+            _stty _su _subversion _sudo _surfraw \
+            _swaks _swanctl _swift _sys_calls _sysctl \
+            _tac _tail _tar _tar_archive _tardy \
+            _tcpdump _tcptraceroute _tee _telnet _terminals \
+            _tex _texi _texinfo _tidy _tiff \
+            _tilde_files _timeout _time_zone _tin _tla \
+            _tmux _todo.sh _toilet _top _topgit \
+            _totd _touch _tput _tr _transmission \
+            _tree _truncate _truss _tty _ttys \
+            _twidge _twisted _umountable _unace _uname \
+            _unexpand _uniq _unison _units _uptime \
+            _urls _user_admin _user_at_host _users _users_on \
+            _vi _vim _visudo _vmstat _vorbis \
+            _vpnc _w _w3m _watch _wc \
+            _webbrowser _wget _whereis _who _whois \
+            _wiggle _xargs _xmlsoft _xmlstarlet _xmms2 \
+            _xxd _xz _yafc _yodl _yp \
+            _zcat _zdump _zfs _zfs_dataset _zfs_pool \
+            _zip _zsh _acroread _code _dcop \
+            _eog _evince _geany _gnome-gv _gqview \
+            _gv _kdeconnect _kfmclient _matlab _mozilla \
+            _mplayer _mupdf _nautilus _nedit _netscape \
+            _okular _pdftk _qiv _rdesktop _setxkbmap \
+            _sublimetext _urxvt _vnc _x_arguments _xauth \
+            _xautolock _x_borderwidth _xclip _x_color _x_colormapid \
+            _x_cursor _x_display _xdvi _x_extension _xfig \
+            _x_font _xft_fonts _x_geometry _xinput _x_keysym \
+            _xloadimage _x_locale _x_modifier _xmodmap _x_name \
+            _xournal _xpdf _xrandr _x_resource _xscreensaver \
+            _x_selection_timeout _xset _xt_arguments _xterm _x_title \
+            _xt_session_id _x_utils _xv _x_visual _x_window \
+            _xwit _zeal _add-zle-hook-widget _add-zsh-hook _alias \
+            _aliases __arguments _arrays _assign _autocd \
+            _bindkey _brace_parameter _builtin _cd _command \
+            _command_names _compadd _compdef _completers _condition \
+            _default _delimiters _directory_stack _dirs _disable \
+            _dynamic_directory_name _echotc _echoti _emulate _enable \
+            _equal _exec _fc _file_descriptors _first \
+            _functions _globflags _globqual_delims _globquals _hash \
+            _history_modifiers _in_vared _jobs _jobs_bg _jobs_builtin \
+            _jobs_fg _kill _limit _limits _math \
+            _math_params _mere _module_math_func _options _options_set \
+            _options_unset _parameter _parameters _precommand _print \
+            _prompt _ps1234 _read _redirect _run-help \
+            _sched _set _setopt _source _strftime \
+            _subscript _suffix_alias_files _tcpsys _tilde _trap \
+            _ttyctl _typeset _ulimit _unhash _user_math_func \
+            _value _vared _vars _vcs_info _vcs_info_hooks \
+            _wait _which _widgets _zargs _zattr \
+            _zcalc _zcalc_line _zcompile _zed _zftp \
+            _zle _zmodload _zmv _zparseopts _zpty \
+            _zsh-mime-handler _zsocket _zstyle _ztodo _afew \
+            _age _android _archlinux-java _artisan _atach \
+            _avdmanager _bitcoin-cli _bower _bundle _cap \
+            _cask _ccache _cf _chatblade _choc \
+            _chromium _clang-check _clang-format _clang-tidy _cmake \
+            _coffee _conan _concourse _console _cppcheck \
+            _dad _dart _dget _dhcpcd _diana \
+            _direnv _docpad _do-release-upgrade _drush _ecdsautil \
+            _emacs _emacsclient _emulator _envdir _exportfs \
+            _fab _fail2ban-client _ffind _fleetctl _flutter \
+            _fwupdmgr _gas _ghc _gist _git-flow \
+            _git-pulls _git-revise _git-wtf _glances _golang \
+            _google _gpgconf _grpcurl _gtk-launch _hello \
+            _hledger _homestead _httpie _ibus _include-what-you-use \
+            _inxi _jest _jmeter _jmeter-plugins _jonas \
+            _jrnl _kak _kitchen _knife _l3build \
+            _language_codes _lilypond _lscpu _lunchy _mc \
+            _middleman _mina _mix _mkcert _mssh \
+            _mussh _mvn _nano _nanoc _neo \
+            _neofetch _networkQuality _nftables _node _nvm \
+            _openssl _openvpn3 _optirun _patool _periscope \
+            _pgsql_utils _phing _pixz _pkcon _play \
+            _pm2 _port _pre-commit _protoc _pygmentize \
+            _qmk _rails _ralio _rdfind _redis-cli \
+            _rfkill _rkt _rmlint _rslsync _rspec \
+            _rsvm _rubocop _sbt _scala _screencapture \
+            _scrub _sdd _sdkmanager _setcap _setup.py \
+            _sfdx _shallow-backup _shellcheck _showoff _srm \
+            _stack _subliminal _supervisorctl _supervisord _svm \
+            _teamocil _thor _tmuxinator _tmuxp _tox \
+            _tsc _ts-node _udisksctl _ufw _uuidgen \
+            _virtualbox _vnstat _wemux _wg-quick _xsel \
+            _yarn _yfm _zcash-cli _fast-theme _cd-gitroot
+autoload -Uz +X _call_program
+
+typeset -gUa _comp_assocs
+_comp_assocs=( '' )
+</file>
+
+<file path="env.d/.zshenv">
+# File: $ZSH_CONF_DIR/.zshenv
+# Desc: Environment variables only - no interactive commands
+# This file should NOT source .zshrc as it violates zsh startup conventions
+
+# Only set environment variables here that are needed in non-interactive shells
+# Interactive configurations belong in .zshrc
+</file>
+
+<file path="func.d/archive.zsh">
+function archive() {
+  local usage=\
+"Archive files and directories using a given compression algorithm.
+
+Usage:   $0 <format> <files>
+Example: $0 tbz PKGBUILD
+
+Supported archive formats are:
+7z, bz2, gz, lzma, lzo, rar, tar, tbz (tar.bz2), tgz (tar.gz),
+tlz (tar.lzma), txz (tar.xz), tZ (tar.Z), xz, Z, zip, and zst."
+
+  if [[ $# -lt 2 ]]; then
+    print -u2 -- "$usage"
+    return 1
+  fi
+
+  local ext="$1"
+  local input="${2:a}"
+
+  shift
+
+  if [[ ! -e "$input" ]]; then
+    print -u2 -- "$input not found"
+    return 1
+  fi
+
+  # generate output file name
+  local output
+  if [[ $# -gt 1 ]]; then
+    output="${input:h:t}"
+  elif [[ -f "$input" ]]; then
+    output="${input:r:t}"
+  elif [[ -d "$input" ]]; then
+    output="${input:t}"
+  fi
+
+  # if output file exists, generate a random name
+  if [[ -f "${output}.${ext}" ]]; then
+    output=$(mktemp "${output}_XXX") && rm "$output" || return 1
+  fi
+
+  # add extension
+  output="${output}.${ext}"
+
+  # safety check
+  if [[ -f "$output" ]]; then
+    print -u2 -- "output file '$output' already exists. Aborting"
+    return 1
+  fi
+
+  case "$ext" in
+    7z)                  7z u                                         "${output}"   "${@}" ;;
+    bz2)                 bzip2 -vcf                              "${@}" > "${output}" ;;
+    gz)                  gzip -vcf                                "${@}" > "${output}" ;;
+    lzma)               lzma -vc -T0                           "${@}" > "${output}" ;;
+    lzo)                lzop -vc                                 "${@}" > "${output}" ;;
+    rar)                 rar a                                     "${output}"   "${@}" ;;
+    tar)                 tar -cvf                                "${output}"   "${@}" ;;
+    tbz|tar.bz2)    tar -cvjf                              "${output}"   "${@}" ;;
+    tgz|tar.gz)      tar -cvzf                              "${output}"   "${@}" ;;
+    tlz|tar.lzma)   XZ_OPT=-T0 tar --lzma -cvf   "${output}"   "${@}" ;;
+    txz|tar.xz)      XZ_OPT=-T0 tar -cvJf            "${output}"   "${@}" ;;
+    tZ|tar.Z)         tar -cvZf                              "${output}"   "${@}" ;;
+    xz)                   xz -vc -T0                             "${@}" > "${output}" ;;
+    Z)                    compress -vcf                        "${@}" > "${output}" ;;
+    zip)                 zip -rull                              "${output}"   "${@}" ;;
+    zst)                 zstd -c -T0                            "${@}" > "${output}" ;;
+    *) print -u2 -- "$usage"; return 1 ;;
+  esac
+}
+</file>
+
+<file path="func.d/babashka.zsh">
+_bb_tasks() {
+    local matches=($(bb tasks | tail -n +3 | cut -f1 -d ' '))
+    compadd -a matches
+    _files # autocomplete filenames as well
+}
+compdef _bb_tasks bb
+</file>
+
+<file path="func.d/pacman.zsh">
+# https://wiki.archlinux.org/title/zsh#pacman_-F_%22command_not_found%22_handler
+function command_not_found_handler {
+    local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
+    printf 'zsh: command not found: %s\n' "$1"
+    local entries=(
+        ${(f)"$(/usr/bin/pacman -F --machinereadable -- "/usr/bin/$1")"}
+    )
+    if (( ${#entries[@]} ))
+    then
+        printf "${bright}$1${reset} may be found in the following packages:\n"
+        local pkg
+        for entry in "${entries[@]}"
+        do
+            # (repo package version file)
+            local fields=(
+                ${(0)entry}
+            )
+            if [[ "$pkg" != "${fields[2]}" ]]
+            then
+                printf "${purple}%s/${bright}%s ${green}%s${reset}\n" "${fields[1]}" "${fields[2]}" "${fields[3]}"
+            fi
+            printf '    /%s\n' "${fields[4]}"
+            pkg="${fields[2]}"
+        done
+    fi
+}
+</file>
+
+<file path="func.d/sshpt.zsh">
+# ---------------------------------------------------------------
+# Function: sshpt
+# Description:
+#   Connects to a remote SSH server with optimized settings.
+#   Automatically selects bash if available.
+#
+# Usage:
+#   sshpt <username>@<hostname>
+#
+# Parameters:
+#   <username>@hostname - SSH username and Domain name or IP address of the remote host
+#
+# SSH Options:
+#   -t
+#     Forces pseudo-terminal allocation, enabling interactive sessions.
+#
+#   ControlMaster=auto
+#     Enables SSH connection multiplexing, allowing multiple SSH sessions
+#     to reuse a single TCP connection for efficiency.
+#
+#   ControlPath=~/.ssh/ctrl-%C
+#     Specifies the path for the control socket used in connection multiplexing.
+#     %C is a token that ensures a unique socket per host.
+#
+#   ControlPersist=yes
+#     Keeps the master connection open in the background even after the initial
+#     session has closed, facilitating faster reconnections.
+#
+#   UserKnownHostsFile=/dev/null
+#     Disables updating the ~/.ssh/known_hosts file, preventing SSH from
+#     storing host key information.
+#
+#   StrictHostKeyChecking=no
+#     Disables strict host key checking, allowing SSH to automatically add
+#     new hosts to the known_hosts file without prompting.
+#
+# Remote Command Execution:
+#   - Sets TERM to xterm-256color for backspace & 256-color support.
+# ---------------------------------------------------------------
+function sshpt() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: sshpt <username>@<hostname>"
+    return 1
+  fi
+
+  ssh "$1" -t \
+    -o ControlMaster=auto \
+    -o ControlPath=~/.ssh/ctrl-%C \
+    -o ControlPersist=yes \
+    -o "UserKnownHostsFile=/dev/null" \
+    -o "StrictHostKeyChecking=no" \
+    "export TERM=xterm-256color; \
+     exec bash;"
+}
+</file>
+
+<file path="rc.d/atuin.zsh">
+#---------------------------------------------------------------------------
+# *                            Atuin
+#---------------------------------------------------------------------------
+
+if command_exists atuin; then
+    eval "$(atuin init zsh --disable-up-arrow)"
+fi
+</file>
+
+<file path="rc.d/bat.zsh">
+#---------------------------------------------------------------------------
+# *                            Bat
+#---------------------------------------------------------------------------
+
+# Configure bat for syntax highlighting and pager
+if command_exists bat; then
+    eval "$(batman --export-env)"
+    export BAT_THEME="Nord"
+    export PAGER="bat"
+    export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+    alias cat="bat -p"
+    alias catt="bat -pp"
+    alias less="bat"
+else
+    export PAGER="less"
+    export MANPAGER="less"
+fi
+</file>
+
+<file path="rc.d/chromium.zsh">
+#---------------------------------------------------------------------------
+# *                            Chromium
+#---------------------------------------------------------------------------
+
+# enable hardware acceleration
+export CHROMIUM_FLAGS="--enable-features=VaapiVideoDecoder"
+export CHROME_EXECUTABLE="ungoogled-chromium"
+</file>
+
+<file path="rc.d/claude-code.zsh">
+# Claude Code Env Vars
+
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 # Equivalent of setting DISABLE_AUTOUPDATER, DISABLE_BUG_COMMAND, DISABLE_ERROR_REPORTING, and DISABLE_TELEMETRY
+export DISABLE_TELEMETRY=1
+export CLAUDE_CODE_ENABLE_TELEMETRY=0
+export DISABLE_ERROR_REPORTING=1
+export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
+export CLAUDE_BASH_DEFAULT_TIMEOUT_MS=240000 # 4? minutes
+export CLAUDE_BASH_MAX_TIMEOUT_MS=4800000    # 20? minutes
+export MAX_THINKING_TOKENS=32768             # TODO: Calibrate
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=1       # Max tokens: Opus 4 = 32k, Sonnet 4 = 64k, 1 = default
+export DISABLE_AUTOUPDATER=1
+</file>
+
+<file path="rc.d/dotnet.zsh">
+#---------------------------------------------------------------------------
+# *                            .Net Framework
+#---------------------------------------------------------------------------
+
+# Refrences
+# https://wiki.archlinux.org/title/.NET
+# https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete#zsh
+
+if ! command_exists dotnet; then
+    return
+fi
+
+# .Net Framework
+# disable telemetry
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+
+# add .NET to $PATH
+typeset -U PATH path
+path=(
+        "$(xdg-user-dir)/.dotnet/tools"
+        "$path[@]")
+export PATH
+
+export DOTNET_ROOT=/opt/dotnet
+
+# zsh parameter completion for the dotnet CLI
+
+_dotnet_zsh_complete() 
+{
+  local completions=("$(dotnet complete "$words")")
+
+  # If the completion list is empty, just continue with filename selection
+  if [ -z "$completions" ]
+  then
+    _arguments '*::arguments: _normal'
+    return
+  fi
+
+  # This is not a variable assigment, don't remove spaces!
+  _values = "${(ps:\n:)completions}"
+}
+
+compdef _dotnet_zsh_complete dotnet
+</file>
+
+<file path="rc.d/fzf-tab.zsh">
+#---------------------------------------------------------------------------
+# *                            Fzf Tab
+#---------------------------------------------------------------------------
+
+# fzf-tab is loaded as a plugin, not a command
+
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# use tmux for fzf-command
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# Default value
+# zstyle ':fzf-tab:*' fzf-command fzf
+
+# Preview
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
+
+
+# give a preview of commandline arguments when completing `kill`
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+    '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+
+# accept-line
+# zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+# zstyle ':fzf-tab:*' accept-line enter
+
+# groups
+FZF_TAB_GROUP_COLORS=(
+    $'\033[94m' $'\033[32m' $'\033[33m' $'\033[35m' $'\033[31m' $'\033[38;5;27m' $'\033[36m' \
+    $'\033[38;5;100m' $'\033[38;5;98m' $'\033[91m' $'\033[38;5;80m' $'\033[92m' \
+    $'\033[38;5;214m' $'\033[38;5;165m' $'\033[38;5;124m' $'\033[38;5;120m'
+)
+zstyle ':fzf-tab:*' group-colors $FZF_TAB_GROUP_COLORS
+zstyle ':fzf-tab:*' show-group full
+</file>
+
+<file path="rc.d/gh_cli.zsh">
+#---------------------------------------------------------------------------
+# *                            GitHub CLI
+#---------------------------------------------------------------------------
+
+if command_exists gh; then
+    eval "$(gh copilot alias -- zsh)"
+fi
+</file>
+
+<file path="rc.d/grep.zsh">
+#---------------------------------------------------------------------------
+# *                            Grep Configuration
+#---------------------------------------------------------------------------
+
+# _grep()
+# Description: A wrapper function for grep that sets default color and exclude directories
+# Usage: _grep [options] [pattern] [file]
+# Example: _grep "error" *
+# Returns: The output of grep with color and excludes the defined directories as well as case insensitive
+function _grep() {
+    local color="--color=always"
+    local exclude_dirs="--exclude-dir={.git,.svn,.hg,.bzr,CVS,.idea,.tox,node_modules,__pycache__,.pytest_cache,.mypy_cache}"
+    command grep $color $exclude_dirs -i "$@"
+}
+
+
+# Main grep aliases using the function
+alias grep='_grep'
+alias egrep='_grep -E'
+alias fgrep='_grep -F'
+
+# Useful grep shortcuts
+alias grepi='_grep -i'                    # Case insensitive
+alias grepr='_grep -r'                    # Recursive
+alias grepri='_grep -ri'                  # Recursive + case insensitive
+alias grepn='_grep -n'                    # Show line numbers
+alias grepv='_grep -v'                    # Invert match
+alias grepc='_grep -c'                    # Count matches
+alias grepl='_grep -l'                    # Files with matches only
+alias grepL='_grep -L'                    # Files without matches
+alias grepw='_grep -w'                    # Whole words only
+alias grepx='_grep -x'                    # Whole lines only
+
+# Advanced combinations
+alias greprin='_grep -rin'                # Recursive + case insensitive + line numbers
+alias greprnw='_grep -rnw'                # Recursive + line numbers + whole words
+
+# Context greps
+alias grep1='_grep -C1'                   # 1 line context
+alias grep3='_grep -C3'                   # 3 lines context
+alias grep5='_grep -C5'                   # 5 lines context
+
+# Binary file handling
+alias grepb='_grep -a'                    # Treat binary as text
+alias grepI='_grep -I'                    # Skip binary files
+
+# System grep functions
+function psgrep() { ps aux | _grep -v grep | _grep "$@"; }
+alias psf="psgrep"
+function portgrep() { sudo ss -HQtulnp | _grep "$@"; }
+function hgrep() { history | _grep "$@"; }
+function envgrep() { env | _grep "$@"; }
+
+# Pattern extraction functions
+function gip() { _grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" "$@"; }  # IPs
+function gemail() { _grep -oE "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b" "$@"; }  # Emails
+function gurl() { _grep -oE "https?://[^\s]+" "$@"; }  # URLs
+function gphone() { _grep -oE "\b[0-9]{3}[-.]?[0-9]{3}[-.]?[0-9]{4}\b" "$@"; }  # Phone numbers
+
+# File type specific greps
+function gpy() { _grep -r --include="*.py" "$@"; }      # Python files
+function gjs() { _grep -r --include="*.js" "$@"; }      # JavaScript files
+function gcss() { _grep -r --include="*.css" "$@"; }    # CSS files
+function ghtml() { _grep -r --include="*.html" "$@"; }  # HTML files
+function gjson() { _grep -r --include="*.json" "$@"; }  # JSON files
+function gxml() { _grep -r --include="*.xml" "$@"; }    # XML files
+function gyml() { _grep -r --include="*.yml" --include="*.yaml" "$@"; }  # YAML files
+function gconf() { _grep -r --include="*.conf" --include="*.config" "$@"; }  # Config files
+function glog() { _grep -r --include="*.log" "$@"; }    # Log files
+
+# Development shortcuts
+function gtodo() { _grep -rn "TODO\|FIXME\|HACK\|XXX\|BUG" "$@"; }  # Find code comments
+function gfunc() { _grep -rn "function\|def\|class" "$@"; }         # Find function definitions
+function gimport() { _grep -rn "import\|require\|include" "$@"; }   # Find imports/includes
+function gerr() { _grep -i "error\|warn\|fail\|exception" "$@"; }   # Find error patterns
+</file>
+
+<file path="rc.d/last-working-dir.plugin.zsh">
+# Flag indicating if we've previously jumped to last directory
+typeset -g ZSH_LAST_WORKING_DIRECTORY
+
+# Updates the last directory once directory is changed
+autoload -U add-zsh-hook
+add-zsh-hook chpwd chpwd_last_working_dir
+chpwd_last_working_dir() {
+  # Don't run in subshells
+  [[ "$ZSH_SUBSHELL" -eq 0 ]] || return 0
+  # Add ".$SSH_USER" suffix to cache file if $SSH_USER is set and non-empty
+  local cache_file="$ZSH_CACHE_DIR/last-working-dir${SSH_USER:+.$SSH_USER}"
+  pwd >| "$cache_file"
+}
+
+# Changes directory to the last working directory
+lwd() {
+  # Add ".$SSH_USER" suffix to cache file if $SSH_USER is set and non-empty
+  local cache_file="$ZSH_CACHE_DIR/last-working-dir${SSH_USER:+.$SSH_USER}"
+  [[ -r "$cache_file" ]] && cd "$(cat "$cache_file")"
+}
+
+# Jump to last directory automatically unless:
+# - this isn't the first time the plugin is loaded
+# - it's not in $HOME directory
+[[ -n "$ZSH_LAST_WORKING_DIRECTORY" ]] && return
+[[ "$PWD" != "$HOME" ]] && return
+
+lwd 2>/dev/null && ZSH_LAST_WORKING_DIRECTORY=1 || true
+</file>
+
+<file path="rc.d/libby.zsh">
+# https://github.com/carterprince/libby
+# libby is a simple CLI tool to quickly download books from Library Genesis.
+# libby filters out all filetypes except ePUBs and PDFs.
+# Install: yay -S libby-git
+
+# Usage: libby [--rofi] [--mirror <num>] [--no-view] [--to-kindle] <query>
+#   --rofi: use rofi to select a book (default is fzf)
+#   --mirror <num>: use an alternative libgen mirror (default: 3)
+#   --no-view: don't view the result
+#   --to-kindle: convert file to .mobi and send to $KINDLE_EMAIL via mutt/neomutt (implies --no-view)
+#   --to-usb: copy file to $USB via rsync (implies --no-view)
+#   <query>: the query to search for
+
+# By default, libby assumes $HOME/books (lowercase 'b') exists and saves all downloads there. This can be changed by adding
+export LIBBY_OUTPUT_DIR="$HOME/Documents/books"
+
+# By default, libby opens the downloaded file with xdg-open. This command can be changed by adding
+export LIBBY_VIEWER="zathura"
+</file>
+
+<file path="rc.d/man.zsh">
+#---------------------------------------------------------------------------
+# *                            Man Pages
+#---------------------------------------------------------------------------
+export MANWIDTH=120
+</file>
+
+<file path="rc.d/optimus_manager.zsh">
+# Nvidia Prime Offloading 
+# https://github.com/Askannz/optimus-manager/wiki/Nvidia-GPU-offloading-for-%22hybrid%22-mode
+__NV_PRIME_RENDER_OFFLOAD=1
+__GLX_VENDOR_LIBRARY_NAME="nvidia"
+__VK_LAYER_NV_optimus="NVIDIA_only"
+</file>
+
+<file path="rc.d/paru.zsh">
+# Paru
+if command -v paru &> /dev/null; then
+    export PARU_CONF="$XDG_CONFIG_HOME/paru/paru.conf"
+fi
+</file>
+
+<file path="rc.d/qt.zsh">
+# QT
+export QT_SELECT=6
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_QPA_PLATFORMTHEME="qt6ct"
+export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/lib/qt/plugins"
+</file>
+
+<file path="rc.d/redo.zsh">
+# rc.d/redo.zsh
+
+# https://github.com/barthr/redo
+
+export REDO_HISTORY_PATH="$HISTFILE"
+
+# NOTE: REDO_HISTORY_PATH or HISTFILE must be set first
+if command -v redo &> /dev/null; then
+  source "$(redo alias-file)"
+fi
+</file>
+
+<file path="rc.d/ripgrep.zsh">
+#---------------------------------------------------------------------------
+# *                            Ripgrep
+#---------------------------------------------------------------------------
+
+if command_exists rg; then
+    alias rgh='rg --hidden'                  # Include hidden files
+    alias rgz='rg --search-zip'              # Search in compressed files
+    alias rgi='rg --ignore-case'             # Case insensitive
+    alias rgf='rg --files'                   # List files that would be searched
+    alias rgt='rg --type-list'               # Show available file types
+    alias rgp='rg --pretty'                  # Pretty output with colors
+    alias rgj='rg --json'                    # JSON output
+    alias rgc='rg --count'                   # Count matches per file
+    alias rgl='rg --files-with-matches'      # Files with matches only
+    alias rgL='rg --files-without-match'     # Files without matches
+fi
+</file>
+
+<file path="rc.d/ruby.zsh">
+# Ruby
+# Ruby Gems
+export GEM_HOME="$(xdg-user-dir)/.gem"
+export GEM_PATH="$(xdg-user-dir)/.gem"
+
+eval "$(rbenv init - zsh)"
+</file>
+
+<file path="rc.d/sk.zsh">
+# Skim/sk
+# https://github.com/lotabout/skim
+export SKIM_DEFAULT_COMMAND="fd --type f"
+</file>
+
+<file path="rc.d/vtoolbox.zsh">
+# Invoke tab-completion script to be sourced with the Z shell.
+# Known to work on zsh 5.0.x, probably works on later 4.x releases as well (as
+# it uses the older compctl completion system).
+
+_complete_vtoolbox() {
+    # `words` contains the entire command string up til now (including
+    # program name).
+    #
+    # We hand it to Invoke so it can figure out the current context: spit back
+    # core options, task names, the current task's options, or some combo.
+    #
+    # Before doing so, we attempt to tease out any collection flag+arg so we
+    # can ensure it is applied correctly.
+    collection_arg=''
+    if [[ "${words}" =~ "(-c|--collection) [^ ]+" ]]; then
+        collection_arg=$MATCH
+    fi
+    # `reply` is the array of valid completions handed back to `compctl`.
+    # Use ${=...} to force whitespace splitting in expansion of
+    # $collection_arg
+    reply=( $(vtoolbox ${=collection_arg} --complete -- ${words}) )
+}
+
+
+# Tell shell builtin to use the above for completing our given binary name(s).
+# * -K: use given function name to generate completions.
+# * +: specifies 'alternative' completion, where options after the '+' are only
+#   used if the completion from the options before the '+' result in no matches.
+# * -f: when function generates no results, use filenames.
+# * positional args: program names to complete for.
+compctl -K _complete_vtoolbox + -f vtoolbox
+
+# vim: set ft=sh :
+</file>
+
+<file path="rc.d/yazi.zsh">
+# https://yazi-rs.github.io/docs/quick-start
+
+function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+</file>
+
+<file path="rc.d/zoxide.zsh">
+# This file contain zoxide rc and aliases
+
+
+# if zoxide is not installed; else skip the rest of the file
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh)"
+  else
+    return    
+fi
+
+#
+# Utility functions for zoxide
+#
+# pwd based on the value of _ZO_RESOLVE_SYMLINKS.
+function __zoxide_pwd() {
+    pwd -L
+}
+# cd + custom logic based on the value of _ZO_ECHO.
+function __zoxide_cd() {
+    cd "$@"
+}
+#
+# Hook configuration for zoxide.
+#
+# Hook to add new entries to the database
+function __zoxide_hook() {
+    zoxide add "$(__zoxide_pwd)"
+}
+# Initialize hook
+[[ -n '${precmd_functions[(r)__zoxide_hook]}' ]] || {
+    precmd_functions+=(__zoxide_hook)
+}
+#
+# When using zoxide with --no-aliases, alias these internal functions as
+# desired
+#
+# Jump to a directory using only keywords.
+function __zoxide_z() {
+    if [ "$#" -eq 0 ]; then
+        __zoxide_cd ~
+    elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
+        if [ -n "$OLDPWD" ]; then
+            __zoxide_cd "$OLDPWD"
+        else
+            echo "zoxide: \\$OLDPWD is not set"
+            return 1
+        fi
+    elif [ "$#" -eq 1 ] &&  [ -d "$1" ]; then
+        __zoxide_cd "$1"
+    else
+        local __zoxide_result
+        __zoxide_result="$(zoxide query -- "$@")" && 
+            __zoxide_cd "$__zoxide_result"
+    fi
+}
+# Jump to a directory using interactive search.
+function __zoxide_zi() {
+    local __zoxide_result
+    __zoxide_result="$(zoxide query -i -- "$@")"&&
+        __zoxide_cd "$__zoxide_result"
+}
+# Add a new entry to the database.
+function __zoxide_za() {
+    zoxide add "$@"
+}
+# Query an entry from the database using only keywords.
+function __zoxide_zq() {
+    zoxide query "$@"
+}
+# Query an entry from the database using interactive selection.
+function __zoxide_zqi() {
+    zoxide query -i "$@"
+}
+# Remove an entry from the database using the exact path.
+function __zoxide_zr() {
+    zoxide remove "$@"
+}
+# Remove an entry from the database using interactive selection.
+function __zoxide_zri() {
+    zoxide remove -i "$@"
+}
+#
+# Convenient aliases for zoxide. Disable these using --no-aliases.
+#
+# Remove definitions.
+function __zoxide_unset() {
+    \unalias "$@" &>/dev/null
+    \unfunction "$@" &>/dev/null
+    \unset "$@" &>/dev/null
+}
+
+__zoxide_unset 'j'
+function j() {
+    __zoxide_z "$@"
+}
+
+__zoxide_unset 'ji'
+function ji() {
+    __zoxide_zi "$@"
+}
+
+__zoxide_unset 'ja'
+function ja() {
+    __zoxide_za "$@"
+}
+
+__zoxide_unset 'jr'
+function jr() {
+    __zoxide_zr "$@"
+}
+
+__zoxide_unset 'jri'
+function jri() {
+    __zoxide_zri "$@"
+}
+</file>
+
+<file path="zshrc.d/00-command-exists.zsh">
+# Check if a command is available with caching
+declare -A command_exists
+
+command_exists() {
+    local cmd="$1"
+
+    if [[ -n "$command_exists[$cmd]" ]]; then
+        return $command_exists[$cmd]
+    fi
+
+    if command -v "$cmd" &> /dev/null; then
+        command_exists[$cmd]=0
+    else 
+        command_exists[$cmd]=1
+    fi
+
+    if [[ $DEBUG -eq 1 ]]; then
+        printf "[DEBUG] command_exists[$cmd]=${command_exists[$cmd]}\n" >&2
+    fi
+    
+    return ${command_exists[$cmd]}
+}
+</file>
+
+<file path="zshrc.d/00-lazy-load.zsh">
+# --------------------------------------------------------------------------- #
+#*                            Lazy Loading System
+# --------------------------------------------------------------------------- #
+# This file provides functions to lazy-load tool configurations
+# to improve shell startup time
+
+# lazy_load_command()
+# Create a wrapper function that loads the actual configuration on first use
+# Usage: lazy_load_command <command> <config_file>
+function lazy_load_command() {
+    local cmd="$1"
+    local config_file="$2"
+    
+    eval "
+    $cmd() {
+        unfunction $cmd
+        source $config_file
+        $cmd \"\$@\"
+    }
+    "
+}
+
+# lazy_load_alias()
+# Create a wrapper alias that loads the actual configuration on first use
+# Usage: lazy_load_alias <alias> <config_file>
+function lazy_load_alias() {
+    local alias_name="$1"
+    local config_file="$2"
+    
+    alias $alias_name="unalias $alias_name; source $config_file; $alias_name"
+}
+
+# lazy_load_completion()
+# Lazy load completion configurations
+# Usage: lazy_load_completion <command> <config_file>
+function lazy_load_completion() {
+    local cmd="$1"
+    local config_file="$2"
+    
+    eval "_lazy_load_${cmd}() {
+        unfunction _lazy_load_${cmd}
+        source $config_file
+        # Re-trigger completion for current command
+        _main_complete
+    }"
+    
+    compdef _lazy_load_${cmd}=$cmd
+}
+</file>
+
+<file path="zshrc.d/00-plugins.zsh">
+#---------------------------------------------------------------------------
+# *                            Plugins Configuration
+#---------------------------------------------------------------------------
+# !NOTE: This file is sourced before other .zshrc.d files due to completion being configured via ez-compinit plugin
+
+export ANTIDOTE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}/antidote
+export ZSH_COMPDUMP="${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
+PLUGINS_CONF_FILE="${${(%):-%N}:A}" # this file
+PLUGINS_DST_FILE="$ANTIDOTE_HOME/plugins.zsh"
+
+# Enable ez-compinit caching to prevent regenerating dump file on every shell start
+zstyle ':plugin:ez-compinit' 'use-cache' 'yes'
+
+
+if [[ ! "$PLUGINS_DST_FILE" -nt "$PLUGINS_CONF_FILE" ]]; then
+    [[ -e "$DOTFILES/.antidote/antidote.zsh" ]] && source "$DOTFILES/.antidote/antidote.zsh"
+    mkdir -p "${PLUGINS_DST_FILE:h}"
+    
+    antidote bundle <<-plugins >| "$PLUGINS_DST_FILE"
+    mattmc3/ez-compinit
+    zsh-users/zsh-completions kind:fpath path:src
+    mattmc3/zfunctions
+    zsh-users/zsh-autosuggestions
+    zdharma-continuum/fast-syntax-highlighting kind:defer
+    zsh-users/zsh-history-substring-search
+    # evanthegrayt/vagrant-box-wrapper
+    NullSense/fuzzy-sys kind:defer
+    # g-plane/pnpm-shell-completion
+    hlissner/zsh-autopair kind:defer
+    Aloxaf/fzf-tab kind:defer
+    wfxr/forgit kind:defer
+    mollifier/cd-gitroot kind:defer
+    # sindresorhus/pure kind:fpath
+plugins
+fi
+
+source "$PLUGINS_DST_FILE"
+
+# Override ez-compinit's run-compinit to use 1-hour cache instead of 20 hours
+function run-compinit {
+  emulate -L zsh
+  setopt local_options extended_glob
+
+  # Use whatever ZSH_COMPDUMP is set to, or use an appropriate cache directory.
+  local zcompdump
+  if [[ -n "$ZSH_COMPDUMP" ]]; then
+    zcompdump="$ZSH_COMPDUMP"
+  else
+    zcompdump=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
+  fi
+
+  # Make sure zcompdump's directory exists and doesn't have a leading tilde.
+  zcompdump="${~zcompdump}"
+  [[ -d $zcompdump:h ]] || mkdir -p $zcompdump:h
+
+  # `run-compinit -f` forces a cache reset.
+  if [[ "$1" == (-f|--force) ]]; then
+    shift
+    [[ -r "$zcompdump" ]] && rm -rf -- "$zcompdump"
+  fi
+
+  # Initialize completions
+  local -a compinit_flags=(-d "$zcompdump")
+  autoload -Uz compinit
+  if zstyle -t ':plugin:ez-compinit' 'use-cache'; then
+    # 1 hour cache
+    local zcompdump_cache=($zcompdump(Nmh-1))
+    if (( $#zcompdump_cache )); then
+      # -C (skip function check) implies -i (skip security check).
+      compinit -C $compinit_flags
+    else
+      compinit -i $compinit_flags
+      touch "$zcompdump"  # Ensure timestamp updates to reset the cache timeout.
+    fi
+  else
+    compinit $compinit_flags
+  fi
+
+  # Compile zcompdump, if modified, in background to increase startup speed.
+  {
+    if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+      if command mkdir "${zcompdump}.zwc.lock" 2>/dev/null; then
+        zcompile "$zcompdump"
+        command rmdir  "${zcompdump}.zwc.lock" 2>/dev/null
+      fi
+    fi
+  } &!
+}
+</file>
+
+<file path="zshrc.d/01-completion.zsh">
+# # Completion
+# #
+# # do not autoselect the first completion entry
+# unsetopt menu_complete   
+
+# # 20.2.1 Use of compinit
+# # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Use-of-compinit
+
+# autoload -Uz compinit
+
+# # Add custom completion directory to fpath
+# fpath=("${ZSH_CONF_DIR}/completion.d" $fpath)
+
+# # set compinit dump file locaton
+# compinit -d "${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
+
+# # Case-insensitive and hyphen insensitive path-completion 
+# CASE_SENSITIVE=false
+# HYPHEN_INSENSITIVE=true 
+
+# if [[ "$CASE_SENSITIVE" = true ]]; then
+#   zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+# else
+#   if [[ "$HYPHEN_INSENSITIVE" = true ]]; then
+#     zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+#   else
+#     zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+#   fi
+# fi
+# unset CASE_SENSITIVE HYPHEN_INSENSITIVE
+
+# # Complete . and .. special directories
+# zstyle ':completion:*' special-dirs true
+
+# # disable named-directories autocompletion
+# zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+# # Use caching so that commands like apt and dpkg complete are useable
+# zstyle ':completion:*' use-cache yes
+# zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+
+# # Don't complete uninteresting users
+# zstyle ':completion:*:*:*:users' ignored-patterns \
+#         adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+#         clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+#         gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+#         ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+#         named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+#         operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+#         rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+#         usbmux uucp vcsa wwwrun xfs '_*'
+
+# # ... unless we really want to.
+# zstyle '*' single-ignored show
+
+
+
+# On-demand rehash
+# # https://wiki.archlinux.org/title/zsh#On-demand_rehash
+# Typically, compinit will not automatically find new executables in the $PATH.
+# For example, after you install a new package, the files in /usr/bin/ 
+# would not be immediately or automatically included in the completion.
+# however pacman can be configured with hooks to automatically request a rehash
+# hook: /etc/pacman.d/hooks/zsh.hook
+#
+zshcache_time="$(date +%s%N)"
+
+autoload -Uz add-zsh-hook
+
+rehash_precmd() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
+
+add-zsh-hook -Uz precmd rehash_precmd
+</file>
+
+<file path="zshrc.d/02-core-functions.zsh">
+# --------------------------------------------------------------------------- #
+#*                               Core Functions
+# --------------------------------------------------------------------------- #
+# This file has been split into multiple smaller files for better organization:
+# - 00-command-exists.zsh    - Command existence checking
+# - 02-expand-aliases.zsh    - Alias expansion functions
+# - 02-file-operations.zsh   - File operations (copy, move, extract)
+# - 02-pacman-functions.zsh  - Pacman/package management functions
+# - 02-paste-service.zsh     - Paste service functions
+# - 02-sudo-functions.zsh    - Sudo command line functions
+# - 02-url-functions.zsh     - URL encoding/decoding functions
+# - 02-utility-functions.zsh - General utility functions
+# - 02-zoxide-functions.zsh  - Zoxide related functions
+
+# Any remaining functions that don't fit in the above categories can be added here
+# or moved to appropriate new files
+</file>
+
+<file path="zshrc.d/02-expand-aliases.zsh">
+# --------------------------------------------------------------------------- #
+#*                                expand aliases
+# --------------------------------------------------------------------------- #
+
+globalias() {
+   zle _expand_alias
+   zle expand-word
+   zle self-insert
+}
+zle -N globalias
+
+# space expands all aliases, including global
+bindkey -M emacs " " globalias
+bindkey -M viins " " globalias
+
+# control-space to make a normal space
+bindkey -M emacs "^ " magic-space
+bindkey -M viins "^ " magic-space
+
+# normal space during searches
+bindkey -M isearch " " magic-space
+</file>
+
+<file path="zshrc.d/02-file-operations.zsh">
+# --------------------------------------------------------------------------- #
+#*                            File Operations
+# --------------------------------------------------------------------------- #
+
+#---------------------------------------------------------------------------
+# *                            Copy
+#---------------------------------------------------------------------------
+
+# cpypath()
+# desc: copies the path of given directory or file to the system clipboard
+#          Copy current directory if no parameter
+# dep: xsel
+function cpypath {
+  local file="${1:-.}"
+
+  [[ $file = /* ]] || file="$PWD/$file"
+
+  print -n "${file:a}" | xsel --clipboard || return 1
+
+  echo ${(%):-"%B${file:a}%b copied to clipboard."}
+}
+
+# cp()
+# desc: copy files using rsync
+cp() {
+  rsync -lav -HAX -hhh --progress "$@"
+}
+compdef _files cp
+
+# cpv()
+# desc: copy files using rsync with verbose output format
+cpv() {
+  rsync -av -HAX -hhh --out-format="[%t] %o: '%n', size %'''b, Last Modified: %M" "$@"
+}
+compdef _files cpv
+
+#---------------------------------------------------------------------------
+# *                            Move
+#---------------------------------------------------------------------------
+
+mv() {
+    if (( $# == 1 )); then
+        command mv -vi "$1" .
+    else
+        command mv -vi "$@"
+    fi
+}
+
+# --------------------------------------------------------------------------- #
+#*                               Extract Archives
+# --------------------------------------------------------------------------- #
+alias x=extract
+
+extract() {
+	local remove_archive
+	local success
+	local extract_dir
+
+	if (( $# == 0 )); then
+		cat <<-'EOF' >&2
+			Usage: extract [-option] [file ...]
+
+			Options:
+			    -r, --remove    Remove archive after unpacking.
+		EOF
+	fi
+
+	remove_archive=1
+	if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
+		remove_archive=0
+		shift
+	fi
+
+	while (( $# > 0 )); do
+		if [[ ! -f "$1" ]]; then
+			echo "extract: '$1' is not a valid file" >&2
+			shift
+			continue
+		fi
+
+		success=0
+		extract_dir="${1:t:r}"
+		case "${1:l}" in
+			(*.tar.gz|*.tgz) (( $+commands[pigz] )) &&
+                { pigz -dc "$1" | tar xv } || tar zxvf "$1" ;;
+			(*.tar.bz2|*.tbz|*.tbz2) tar xvjf "$1" ;;
+			(*.tar.xz|*.txz)
+				tar --xz --help &> /dev/null \
+				&& tar --xz -xvf "$1" \
+				|| xzcat "$1" | tar xvf - ;;
+			(*.tar.zma|*.tlz)
+				tar --lzma --help &> /dev/null \
+				&& tar --lzma -xvf "$1" \
+				|| lzcat "$1" | tar xvf - ;;
+			(*.tar.zst|*.tzst)
+				tar --zstd --help &> /dev/null \
+				&& tar --zstd -xvf "$1" \
+				|| zstdcat "$1" | tar xvf - ;;
+			(*.tar) tar xvf "$1" ;;
+			(*.tar.lz) (( $+commands[lzip] )) && tar xvf "$1" ;;
+			(*.tar.lz4) lz4 -c -d "$1" | tar xvf - ;;
+			(*.tar.lrz) (( $+commands[lrzuntar] )) && lrzuntar "$1" ;;
+			(*.gz) (( $+commands[pigz] )) && pigz -dk "$1" ||
+                gunzip -k "$1" ;;
+			(*.bz2) bunzip2 "$1" ;;
+			(*.xz) unxz "$1" ;;
+			(*.lrz) (( $+commands[lrunzip] )) && lrunzip "$1" ;;
+			(*.lz4) lz4 -d "$1" ;;
+			(*.lzma) unlzma "$1" ;;
+			(*.z) uncompress "$1" ;;
+			(*.zip|*.war|*.jar|*.sublime-package|*.ipa|*.ipsw|
+                *.xpi|*.apk|*.aar|*.whl) unzip "$1" -d $extract_dir ;;
+			(*.rar) unrar x -ad "$1" ;;
+			(*.rpm) mkdir "$extract_dir" && cd "$extract_dir" &&
+                rpm2cpio "../$1" | cpio --quiet -id && cd .. ;;
+			(*.7z) 7za x "$1" ;;
+			(*.deb)
+				mkdir -p "$extract_dir/control"
+				mkdir -p "$extract_dir/data"
+				cd "$extract_dir"; ar vx "../${1}" > /dev/null
+				cd control; tar xzvf ../control.tar.gz
+				cd ../data; extract ../data.tar.*
+				cd ..; rm *.tar.* debian-binary
+				cd ..
+			;;
+			(*.zst) unzstd "$1" ;;
+			(*)
+				echo "extract: '$1' cannot be extracted" >&2
+				success=1
+			;;
+		esac
+
+		(( success = $success > 0 ? $success : $? ))
+		(( $success == 0 )) && (( $remove_archive == 0 )) && rm "$1"
+		shift
+	done
+}
+</file>
+
+<file path="zshrc.d/02-pacman-functions.zsh">
+# --------------------------------------------------------------------------- #
+#*                            Pacman/Package Management
+# --------------------------------------------------------------------------- #
+
+search_aur() {
+    paru -Sl | awk '{print $2($4=="" ? "" : " *")}' | \
+    sk --multi --preview 'paru -Si {1}' | \
+    cut -d " " -f 1 | xargs -ro paru -S
+}
+
+ba_search() {
+    pacman -Sgg | rg blackarch | cut -d ' ' -f2 | sort -u | fzf
+}
+
+# Reinitialize Pacman keys
+packey() {
+    local repos_to_check=(alhp cachyos blackarch)
+    local active_repos=(archlinux)  # archlinux is always included
+
+    for repo in "${repos_to_check[@]}"; do
+        case $repo in
+            alhp)
+                if grep -q "^\[core-x86-64-v3\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            cachyos)
+                if grep -q "^\[cachyos-" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            blackarch)
+                if grep -q "^\[blackarch\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+            endeavouros)
+                if grep -q "^\[endeavouros\]" /etc/pacman.conf; then
+                    active_repos+=("$repo")
+                fi
+                ;;
+        esac
+    done
+
+    echo "${active_repos[@]}"
+
+    sudo rm -rf /etc/pacman.d/gnupg && \
+    sudo pacman-key --init && \
+    sudo pacman-key --populate ${active_repos[@]}
+}
+
+
+pacnew() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: compare_pacnew <file>"
+        return 1
+    fi
+
+    local file="$1"
+    local pacnew="${file}.pacnew"
+
+    if [[ ! -f "$pacnew" ]]; then
+        echo "No .pacnew file found for $file"
+        return 1
+    fi
+
+    sudo code --no-sandbox --user-data-dir="$HOME" "$file" "$pacnew"
+}
+</file>
+
+<file path="zshrc.d/02-paste-service.zsh">
+# --------------------------------------------------------------------------- #
+#*                            Paste Service
+# --------------------------------------------------------------------------- #
+
+# OpenSUSE Paste Service (https://paste.opensuse.org)
+function pasteit() {
+  local file_path=$1
+  local private=1
+  local author_name="Bad3r"
+  local syntax_highlighting="text"
+  local response=""
+  local paste_id=""
+  
+  # Supported languages regex
+  local supported_langs="^(text|html5|css|javascript|php|python|ruby|lua|bash|erlang|go|c|cpp|diff|latex|sql|xml|0|4cs|6502acme|6502kickass|6502tasm|68000devpac|abap|actionscript|actionscript3|ada|aimms|algol68|apache|applescript|apt_sources|arm|asm|asymptote|asp|autoconf|autohotkey|autoit|avisynth|awk|bascomavr|basic4gl|bbcode|bf|bibtex|blitzbasic|bnf|boo|c_loadrunner|c_mac|c_winapi|caddcl|cadlisp|cfdg|cfm|chaiscript|chapel|cil|clojure|cmake|cobol|coffeescript|cpp-winapi|csharp|cuesheet|d|dart|dcs|dcl|dcpu16|delphi|div|dos|dot|e|ecmascript|eiffel|email|epc|euphoria|ezt|f1|falcon|fo|fortran|freebasic|freeswitch|fsharp|gambas|gdb|genero|genie|gettext|glsl|gml|gnuplot|groovy|gwbasic|haskell|haxe|hicest|hq9plus|html4strict|icon|idl|ini|inno|intercal|io|ispfpanel|j|java|java5|jcl|jquery|klonec|klonecpp|kotlin|lb|ldif|lisp|llvm|locobasic|logcat|logtalk|lolcode|lotusformulas|lotusscript|lscript|lsl2|m68k|magiksf|make|mapbasic|matlab|mirc|mmix|modula2|modula3|mpasm|mxml|mysql|nagios|netrexx|newlisp|nginx|nimrod|nsis|oberon2|objc|objeck|ocaml|octave|oobas|oorexx|oracle11|oracle8|oxygene|oz|parasail|parigp|pascal|pcre|per|perl|perl6|pf|pic16|pike|pixelbender|pli|plsql|postgresql|postscript|povray|powerbuilder|powershell|proftpd|progress|prolog|properties|providex|purebasic|pys60|q|qbasic|qml|racket|rails|rbs|rebol|reg|rexx|robots|rpmspec|rsplus|rust|sas|scala|scheme|scilab|scl|sdlbasic|smalltalk|smarty|spark|sparql|standardml|stonescript|systemverilog|tcl|teraterm|thinbasic|tsql|typoscript|unicon|uscript|upc|urbi|vala|vb|vbnet|vbscript|vedit|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xbasic|xorg_conf|xpp|yaml|z80|zxbasic)$"
+
+  if [[ $# -gt 1 ]]; then
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        -p|--public)
+          private=0
+          shift ;;
+        -a|--author)
+          author_name=$2
+          shift 2 ;;
+        -l|--lang)
+          if [[ $2 =~ $supported_langs ]]; then
+                syntax_highlighting=$2
+          else
+            echo "Error: Unsupported language. Use -l with one of the supported language codes."
+            return 1
+          fi
+          shift 2 ;;
+        *)
+          echo "Unknown option: $1"
+          return 1 ;;
+      esac
+    done
+  fi
+
+  local api_url="https://paste.opensuse.org/api/create"
+
+  response=$(curl -s -d "private=${private}" -d "name=${author_name}" --data-urlencode -d "${syntax_highlighting}=@${file_path}" ${api_url})
+
+  paste_id=$(echo ${"response"} | sed -n 's/.*https:\/\/paste.centos.org\/view\/\(.*\)/\1/p')
+
+  if [[ -n $paste_id ]]; then
+    echo "File uploaded successfully. Paste URL: https://paste.centos.org/view/${paste_id}"
+  else
+    echo "Failed to upload file. Error: ${response}"
+  fi
+}
+</file>
+
+<file path="zshrc.d/02-sudo-functions.zsh">
+# --------------------------------------------------------------------------- #
+#*                                     SUDO
+# --------------------------------------------------------------------------- #
+# Toggles "sudo" before the current/previous command by pressing:
+# [ESC][ESC]
+
+__sudo-replace-buffer() {
+  local old=$1 new=$2 space=${2:+ }
+
+  # if the cursor is positioned in the $old part of the text, make
+  # the substitution and leave the cursor after the $new text
+  if [[ $CURSOR -le ${#old} ]]; then
+    BUFFER="${new}${space}${BUFFER#$old }"
+    CURSOR=${#new}
+  # otherwise just replace $old with $new in the text before the cursor
+  else
+    LBUFFER="${new}${space}${LBUFFER#$old }"
+  fi
+}
+
+sudo-command-line() {
+  # If line is empty, get the last run command from history
+  [[ -z $BUFFER ]] && LBUFFER="$(fc -ln -1)"
+
+  local WHITESPACE=""
+  if [[ ${LBUFFER:0:1} = " " ]]; then
+    WHITESPACE=" "
+    LBUFFER="${LBUFFER:1}"
+  fi
+
+  {
+    # If $SUDO_EDITOR or $VISUAL are defined, then use that as $EDITOR
+    # Else use the default $EDITOR
+    local EDITOR=${SUDO_EDITOR:-${VISUAL:-$EDITOR}}
+
+    if [[ -z "$EDITOR" ]]; then
+      case "$BUFFER" in
+        sudoedit\ *) __sudo-replace-buffer "sudoedit" "" ;;
+        sudo\ *) __sudo-replace-buffer "sudo" "" ;;
+        *) LBUFFER="sudo $LBUFFER" ;;
+      esac
+      return
+    fi
+
+    # Check if the typed command is really an alias to $EDITOR
+
+    # Get the first part of the typed command
+    local cmd="${${(Az)BUFFER}[1]}"
+    # Get the first part of the alias of the same name as $cmd, or $cmd if no alias matches
+    local realcmd="${${(Az)aliases[$cmd]}[1]:-$cmd}"
+    # Get the first part of the $EDITOR command ($EDITOR may have arguments after it)
+    local editorcmd="${${(Az)EDITOR}[1]}"
+
+    # Note: ${var:c} makes a $PATH search and expands $var to the full path
+    # The if condition is met when:
+    # - $realcmd is '$EDITOR'
+    # - $realcmd is "cmd" and $EDITOR is "cmd"
+    # - $realcmd is "cmd" and $EDITOR is "cmd --with --arguments"
+    # - $realcmd is "/path/to/cmd" and $EDITOR is "cmd"
+    # - $realcmd is "/path/to/cmd" and $EDITOR is "/path/to/cmd"
+    # or
+    # - $realcmd is "cmd" and $EDITOR is "cmd"
+    # - $realcmd is "cmd" and $EDITOR is "/path/to/cmd"
+    # or
+    # - $realcmd is "cmd" and $EDITOR is /alternative/path/to/cmd that appears in $PATH
+    if [[ "$realcmd" = (\$EDITOR|$editorcmd|${editorcmd:c}) \
+      || "${realcmd:c}" = ($editorcmd|${editorcmd:c}) ]] \
+      || builtin which -a "$realcmd" | command grep -Fx -q "$editorcmd"; then
+      __sudo-replace-buffer "$cmd" "sudoedit"
+      return
+    fi
+
+    case "$BUFFER" in
+      $editorcmd\ *) __sudo-replace-buffer "$editorcmd" "sudoedit" ;;
+      \$EDITOR\ *) __sudo-replace-buffer '$EDITOR' "sudoedit" ;;
+      sudoedit\ *) __sudo-replace-buffer "sudoedit" "$EDITOR" ;;
+      sudo\ *) __sudo-replace-buffer "sudo" "" ;;
+      *) LBUFFER="sudo $LBUFFER" ;;
+    esac
+  } always {
+    LBUFFER="${WHITESPACE}${LBUFFER}"
+
+    # Redisplay edit buffer (compatibility with zsh-syntax-highlighting)
+    zle && zle redisplay # only run redisplay if zle is enabled
+  }
+}
+
+zle -N sudo-command-line
+
+bindkey -M emacs '\e\e' sudo-command-line
+bindkey -M vicmd '\e\e' sudo-command-line
+bindkey -M viins '\e\e' sudo-command-line
+</file>
+
+<file path="zshrc.d/02-url-functions.zsh">
+#---------------------------------------------------------------------------
+# *                            URL Encoding & Decoding
+#---------------------------------------------------------------------------
+
+# Required for $langinfo
+zmodload zsh/langinfo
+
+# URL-encode a string
+function urlencode() {
+  emulate -L zsh
+  local -a opts
+  zparseopts -D -E -a opts r m P
+
+  local in_str="$@"
+  local url_str=""
+  local spaces_as_plus
+  if [[ -z $opts[(r)-P] ]]; then spaces_as_plus=1; fi
+  local str="$in_str"
+
+  local encoding=$langinfo[CODESET]
+  local safe_encodings
+  safe_encodings=(UTF-8 utf8 US-ASCII)
+  if [[ -z ${safe_encodings[(r)$encoding]} ]]; then
+    str=$(echo -E "$str" | iconv -f $encoding -t UTF-8)
+    if [[ $? != 0 ]]; then
+      echo "Error converting string from $encoding to UTF-8" >&2
+      return 1
+    fi
+  fi
+
+  local i byte ord LC_ALL=C
+  export LC_ALL
+  local reserved=';/?:@&=+$,'
+  local mark='_.!~*''()-'
+  local dont_escape="[A-Za-z0-9"
+  if [[ -z $opts[(r)-r] ]]; then
+    dont_escape+=$reserved
+  fi
+  if [[ -z $opts[(r)-m] ]]; then
+    dont_escape+=$mark
+  fi
+  dont_escape+="]"
+
+  local url_str=""
+  for (( i = 1; i <= ${#str}; ++i )); do
+    byte="$str[i]"
+    if [[ "$byte" =~ "$dont_escape" ]]; then
+      url_str+="$byte"
+    else
+      if [[ "$byte" == " " && -n $spaces_as_plus ]]; then
+        url_str+="+"
+      else
+        ord=$(( [##16] #byte ))
+        url_str+="%$ord"
+      fi
+    fi
+  done
+  echo -E "$url_str"
+}
+
+
+# URL-decode a string
+function urldecode {
+  emulate -L zsh
+  local encoded_url=$1
+
+  local caller_encoding=$langinfo[CODESET]
+  local LC_ALL=C
+  export LC_ALL
+
+  local tmp=${encoded_url:gs/+/ /}
+  tmp=${tmp:gs/\\/\\\\/}
+  tmp=${tmp:gs/%/\\x/}
+  local decoded="$(printf -- "$tmp")"
+
+  local -a safe_encodings
+  safe_encodings=(UTF-8 utf8 US-ASCII)
+  if [[ -z ${safe_encodings[(r)$caller_encoding]} ]]; then
+    decoded=$(echo -E "$decoded" | iconv -f UTF-8 -t $caller_encoding)
+    if [[ $? != 0 ]]; then
+      echo "Error converting string from UTF-8 to $caller_encoding" >&2
+      return 1
+    fi
+  fi
+
+  echo -E "$decoded"
+}
+</file>
+
+<file path="zshrc.d/02-utility-functions.zsh">
+# --------------------------------------------------------------------------- #
+#*                            Utility Functions
+# --------------------------------------------------------------------------- #
+
+function set_win_title() {
+  echo -ne "\033]0; $USER@$HOST:${PWD/$HOME/~} \007"
+}
+precmd_functions+=(set_win_title)
+
+exec-zsh() {
+  zle -I
+  exec zsh <"$TTY"
+}
+
+zle -N exec-zsh
+bindkey '^n' exec-zsh
+
+# Search ArchWiki
+wiki() {
+  search_term="${${*}// /+}"
+  lynx "https://wiki.archlinux.org/index.php\?search\=${search_term}"
+}
+
+#### d()
+# Select a directory from a list of previously visited directories (current session)
+#  Recommended Options (set in *ops.zsh)
+# setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
+PS3="❯ "
+
+d() {
+  local dir
+  select dir in $dirstack; do
+    test "x$dir" != x && cd "$dir" || exit
+  done
+}
+
+mdv () {
+  pandoc $1 | lynx -stdin
+}
+
+#---------------------------------------------------------------------------
+# *                            Return zsh Statistics
+#---------------------------------------------------------------------------
+
+function zsh_stats() {
+  fc -l 1 \
+    | awk '{ CMD[$2]++; count++; } END { for (a in CMD) print CMD[a] " " CMD[a]*100/count "% " a }' \
+    | grep -v "./" | sort -nr | head -n 20 | column -c3 -s " " -t | nl
+}
+
+function run(){
+  "$@" &>/dev/null &; disown
+  exit 0
+}
+
+# Fancy Ctrl+z
+# https://github.com/mdumitru/fancy-ctrl-z
+# Use CTRL+z to background and bringback Vim
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line -w
+  else
+    zle push-input -w
+    zle clear-screen -w
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+# mktmpdircd [base_dir]
+# use custom directory (defaults to $TMPDIR env var or /tmp if not set) 
+# Create and cd into a temp directory under $base_dir (or $TMPDIR/ /tmp if none),
+# and clean it up on shell exit.
+function mktmpdir() {
+  local base_dir="${1:-${TMPDIR:-/tmp}}"
+  local tmpdir
+
+  tmpdir=$(mktemp -d --tmpdir="$base_dir") || {
+    echo "mktemp failed (check that '$base_dir' exists and is writable)" >&2
+    return 1
+  }
+
+  cd "$tmpdir" || return 1
+
+  echo "[i] $tmpdir"
+  echo "[!] (will be removed on shell exits)"
+
+  trap 'rm -rf -- "$tmpdir"' EXIT
+}
+</file>
+
+<file path="zshrc.d/02-zoxide-functions.zsh">
+# --------------------------------------------------------------------------- #
+#*                                    Zoxide
+# --------------------------------------------------------------------------- #
+
+# pwd based on the value of _ZO_RESOLVE_SYMLINKS.
+function __zoxide_pwd() {
+    pwd -L
+}
+
+# cd + custom logic based on the value of _ZO_ECHO.
+function __zoxide_cd() {
+    cd "$@"
+}
+# --------------------------------------------------------------------------- #
+# Hook to add new entries to the database
+function __zoxide_hook() {
+    zoxide add "$(__zoxide_pwd)"
+}
+
+[[ -n '${precmd_functions[(r)__zoxide_hook]}' ]] || {
+    precmd_functions+=(__zoxide_hook)
+}
+
+# --------------------------------------------------------------------------- #
+#
+# When using zoxide with --no-aliases, alias these internal functions as
+# desired
+#
+
+# Jump to a directory using only keywords.
+function __zoxide_z() {
+    if [ "$#" -eq 0 ]; then
+        __zoxide_cd ~
+    elif [ "$#" -eq 1 ] && [ "$1" = '-' ]; then
+        if [ -n "$OLDPWD" ]; then
+            __zoxide_cd "$OLDPWD"
+        else
+            echo "zoxide: \\$OLDPWD is not set"
+            return 1
+        fi
+    elif [ "$#" -eq 1 ] &&  [ -d "$1" ]; then
+        __zoxide_cd "$1"
+    else
+        local __zoxide_result
+        __zoxide_result="$(zoxide query -- "$@")" &&
+            __zoxide_cd "$__zoxide_result"
+    fi
+}
+
+# Jump to a directory using interactive search.
+function __zoxide_zi() {
+    local __zoxide_result
+    __zoxide_result="$(zoxide query -i -- "$@")"&&
+        __zoxide_cd "$__zoxide_result"
+}
+
+function __zoxide_za() {
+    zoxide add "$@"
+}
+
+function __zoxide_zq() {
+    zoxide query "$@"
+}
+
+function __zoxide_zqi() {
+    zoxide query -i "$@"
+}
+
+function __zoxide_zr() {
+    zoxide remove "$@"
+}
+
+function __zoxide_zri() {
+    zoxide remove -i "$@"
+}
+
+# --------------------------------------------------------------------------- #
+# Convenient aliases for zoxide. Disable these using --no-aliases.
+#
+function __zoxide_unset() {
+    \unalias "$@" &>/dev/null
+    \unfunction "$@" &>/dev/null
+    \unset "$@" &>/dev/null
+}
+
+__zoxide_unset 'j'
+function j() {
+    __zoxide_z "$@"
+}
+
+__zoxide_unset 'ji'
+function ji() {
+    __zoxide_zi "$@"
+}
+
+__zoxide_unset 'ja'
+function ja() {
+    __zoxide_za "$@"
+}
+
+
+
+__zoxide_unset 'jr'
+function jr() {
+    __zoxide_zr "$@"
+}
+
+__zoxide_unset 'jri'
+function jri() {
+    __zoxide_zri "$@"
+}
+
+#
+# To initialize zoxide with zsh, add the following line to your zsh
+# configuration file (usually ~/.zshrc):
+#
+# eval "$(zoxide init zsh)"
+#
+</file>
+
+<file path="zshrc.d/03-history.zsh">
+#---------------------------------------------------------------------------
+# *                            History file configuration
+#---------------------------------------------------------------------------
+
+[ -z "$HISTFILE" ] && HISTFILE="${ZSH_CACHE_DIR}/zsh_history"
+
+export HISTSIZE=2147483647 # LONG_MAX
+export SAVEHIST=$HISTSIZE
+
+# Commands to ignore
+export HISTORY_IGNORE="(ls *|exa *|clear|pwd|zsh|exit|7z|mpv|cd ..|exit|pwd|* --help|vim|nvim|* *MineData*)"
+export HISTIGNORE="&:[bf]g:c:clear:history:exit:q:pwd:* --help"
+# Timestamp format
+export HIST_STAMPS="yyyy-mm-dd"
+
+
+#===========================================================================
+# *                            History command configuration
+#===========================================================================
+
+# Append history
+setopt append_history
+
+# Write to history file immediately
+setopt inc_append_history
+
+# record timestamp of command in HISTFILE
+setopt extended_history
+
+# Ignore duplicate commands
+setopt hist_ignore_all_dups
+
+# delete duplicates first when HISTFILE size exceeds HISTSIZE
+# redundent due to hist_ignore_all_dups being set
+# setopt hist_expire_dups_first
+
+
+# Ignore space prefixed commands
+setopt hist_ignore_space
+
+# Trim blanks
+setopt hist_reduce_blanks
+
+# Show command with history expansion
+setopt hist_verify
+
+# Share history between sessions
+setopt share_history
+
+# !keyword to search history
+setopt bang_hist
+</file>
+
+<file path="zshrc.d/04-ops.zsh">
+#### Options section
+
+# Auto correct mistakes
+setopt correct
+
+# Extended globbing. Allows using regular expressions with *
+setopt extendedglob
+
+# Case insensitive globbing
+setopt nocaseglob
+
+# Array expension with parameters
+setopt rcexpandparam
+
+# Don't warn about running processes when exiting
+setopt nocheckjobs
+
+# Sort filenames numerically when it makes sense
+setopt numericglobsort
+
+# no beep
+setopt nobeep
+
+setopt pushd_ignore_dups
+setopt pushdminus
+
+
+# If command is a path, cd into it
+setopt auto_cd
+
+# automatically pushes (unique) directories visted into $dirstack
+# to trace back use `$ popd`
+# or `$ cd -5` to get back to the 5th most recent directory you've visited
+setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
+
+PS3="❯ "
+d() {
+    local dir
+    select dir in $dirstack; break
+    test "x$dir" != x && cd "$dir" || exit
+}
+
+# remove trailing slash when tab-completing
+setopt auto_remove_slash
+
+# Resolve symbolic links
+setopt chase_links
+
+# Prevents accidantally overwriting a file
+# use !< to force writing to the file
+setopt noclobber
+
+# Try to correct spelling of commands
+setopt correctall
+
+# Report command stats if time is >
+REPORTTIME=5
+</file>
+
+<file path="zshrc.d/05-prompt.zsh">
+# Set prompt to starship if available otherwise use Pure prompt
+
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+else
+  # load default prompt
+  autoload -U promptinit
+  promptinit
+  prompt pure
+fi
+</file>
+
+<file path=".zsh_history">
+: 1751788499:0;/usr/bin/python /home/odd/.windsurf/extensions/ms-python.python-2025.8.0-linux-x64/python_files/printEnvVariablesToFile.py /home/odd/.windsurf/extensions/ms-python.python-2025.8.0-linux-x64/python_files/deactivate/zsh/envVars.txt
+: 1752545273:0;/bin/python /home/odd/.windsurf/extensions/ms-python.python-2025.8.0-linux-x64/python_files/printEnvVariablesToFile.py /home/odd/.windsurf/extensions/ms-python.python-2025.8.0-linux-x64/python_files/deactivate/zsh/envVars.txt
+: 1752546457:0;npx --yes dotenv-vault@1.24.0 open --yes
+: 1752546503:0;npx --yes dotenv-vault@1.24.0 login --yes
+: 1752546515:0;ll
+: 1752546545:0;rm -rfd .coverage.DFIR-SITE.1375414.XQiCiUfx .coverage.DFIR-SITE.1376255.XvYeMrKx .coverage.DFIR-SITE.1380191.XmjdYiHx
+: 1752565626:0;pytest backend/tests/ -v -rA --tb=long --no-header
+: 1752565722:0;source /home/odd/git/Panoptic_v2/.venv/bin/activate && pytest backend/tests/ -v -rA --tb=long --no-header
+: 1752569424:0;python -m pytest backend/tests/e2e/test_debug_db.py::test_debug_database_connection -v
+: 1752569485:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering -v
+: 1752569567:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_db_disaster_recovery -v
+: 1752569714:0;python -m pytest backend/tests/integration/security/test_auth_security.py::test_security_headers_presence -v
+: 1752569782:0;python -m pytest backend/tests/integration/security/test_auth_security.py --collect-only
+: 1752569843:0;python -m pytest "backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence" -v
+: 1752569937:0;python -m pytest "backend/tests/integration/security/test_auth_security.py::TestMiddlewareOrder::test_error_handling_wraps_all_middleware" -v
+: 1752569994:0;python -m pytest "backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_behind_http_proxy" -v
+: 1752570310:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py -v --tb=short
+: 1752570417:0;python -m pytest backend/tests/e2e/test_auth_flows.py -v --tb=line
+: 1752572004:0;python -m pytest backend/tests/e2e/ -v --tb=line -x
+: 1752572052:0;python -m pytest backend/tests/e2e/test_debug_db.py backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering -v
+: 1752572081:0;python -m pytest "backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence" "backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_with_https_proxy" "backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_on_logout" -v
+: 1752572128:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_ldap_group_resync backend/tests/integration/services/test_ldap_integration.py::test_group_to_role_mapping -v --tb=line
+: 1752572177:0;python -c ""
+: 1752572177:0;import asyncio
+: 1752572179:0;import pytest
+: 1752572181:0;from backend.tests.conftest import *
+: 1752572184:0;from backend.app.models.role_model import Role
+: 1752572187:0;async def test_parallel_role_creation():
+: 1752572216:0;""
+: 1752572452:0;python -m pytest "backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence" "backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_with_https_proxy" "backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_on_logout" -v
+: 1752572487:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_ldap_group_resync backend/tests/integration/services/test_ldap_integration.py::test_group_to_role_mapping -v --tb=line
+: 1752572528:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering -v
+: 1752572539:0;python -m pytest backend/tests/e2e/test_debug_db.py::test_debug_database_connection -v
+: 1752572548:0;python -m pytest backend/tests/integration/security/test_auth_security.py::test_security_headers_presence -v
+: 1752572559:0;python -m pytest backend/tests/integration/security/test_auth_security.py --collect-only
+: 1752572570:0;python -m pytest backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence -v
+: 1752572582:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_ldap_group_resync -v
+: 1752572591:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_group_to_role_mapping -v
+: 1752572603:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering backend/tests/e2e/test_debug_db.py::test_debug_database_connection backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence -v --tb=short
+: 1752573017:0;python -m pytest backend/tests/e2e/test_debug_db.py::test_debug_database_connection -v
+: 1752573038:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering backend/tests/e2e/test_debug_db.py::test_debug_database_connection backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_with_https_proxy backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_on_logout -v --tb=short
+: 1752573198:0;python -c ""
+: 1752573199:0;import asyncio
+: 1752573201:0;import sys
+: 1752573203:0;sys.path.append('backend')
+: 1752573203:0;from app.utils.config_validation import validate_ldap_group_mapping
+: 1752573206:0;from app.core.config import get_settings
+: 1752573209:0;from app.core.database import get_async_engine
+: 1752573212:0;from sqlalchemy.ext.asyncio import AsyncSession
+: 1752573215:0;async def test_ldap_validation():
+: 1752573224:0;""
+: 1752573235:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_ldap_group_resync -v --tb=short
+: 1752573250:0;cd "/home/odd/git/Panoptic_v2/backend" && python scripts/test.py unit --tb=short
+: 1752573260:0;cd "/home/odd/git/Panoptic_v2" && python scripts/test.py unit --tb=short
+: 1752573273:0;python -m pytest backend/tests/unit/ -v --tb=short
+: 1752573317:0;python -c ""
+: 1752573317:0;import asyncio
+: 1752573318:0;import os
+: 1752573320:0;from pathlib import Path
+: 1752573322:0;# Set up test environment
+: 1752573323:0;os.environ['DATABASE_URL'] = 'sqlite+aiosqlite:///./test_startup.db'
+: 1752573323:0;os.environ['ENVIRONMENT'] = 'test'
+: 1752573323:0;os.environ['LOG_LEVEL'] = 'INFO'
+: 1752573323:0;async def test_startup():
+: 1752573329:0;""
+: 1752573379:0;python test_startup.py
+: 1752574002:0;PYTHONPATH=backend python test_startup.py
+: 1752574234:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering backend/tests/e2e/test_debug_db.py::test_debug_database_connection backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence -v -n 3
+: 1752574249:0;python -m pytest backend/tests/integration/services/test_ldap_integration.py::test_default_roles_assignment -v --tb=short
+: 1752574271:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_jwt_algorithm_tampering backend/tests/e2e/test_debug_db.py::test_debug_database_connection backend/tests/integration/security/test_auth_security.py::TestSecurityHeaders::test_security_headers_presence backend/tests/integration/security/test_auth_security.py::TestCookieSecurity::test_cookie_flags_with_https_proxy -v --tb=short -n 4
+: 1752576126:0;python scripts/test.py backend/tests/integration/services/test_ldap_integration.py -v
+: 1752576247:0;python scripts/test.py backend/tests/e2e/test_debug_db.py::test_debug_database_connection -v
+: 1752576265:0;python scripts/test.py backend/tests/e2e/test_debug_db.py::test_debug_database_connection -n 4 -v
+: 1752576289:0;python scripts/test.py backend/tests/unit/utils/test_config_validation.py -v
+: 1752576385:0;python test_ldap_validation.py
+: 1752576580:0;python scripts/test.py backend/tests/unit/models/ -v --tb=short
+: 1752576594:0;python scripts/test.py backend/tests/unit/utils/ -v --tb=short
+: 1752651727:0;ruff check backend/tests/conftest.py backend/app/utils/config_validation.py backend/tests/e2e/test_debug_db.py --fix
+: 1752651767:0;cd "/home/odd/git/Panoptic_v2" && ruff check backend/tests/conftest.py backend/app/utils/config_validation.py backend/tests/e2e/test_debug_db.py --fix
+: 1752652009:0;ruff check backend/tests/conftest.py backend/app/utils/config_validation.py backend/tests/e2e/test_debug_db.py --fix
+: 1752652042:0;ruff format backend/tests/conftest.py backend/app/utils/config_validation.py backend/tests/e2e/test_debug_db.py
+: 1752652867:0;cd "/home/odd/git/Panoptic_v2/backend" && python scripts/test.py --tb=short
+: 1752652929:0;cd "/home/odd/git/Panoptic_v2" && python scripts/test.py --tb=short
+: 1752653069:0;uv sync --dev
+: 1752653109:0;source .venv/bin/activate && python scripts/test.py --tb=short
+: 1752654989:0;python -m pytest backend/tests/e2e/test_e2e_local_user_lifecycle.py::test_e2e_local_user_lifecycle -v -s --tb=long --log-cli-level=DEBUG
+: 1752655058:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_e2e_local_user_lifecycle -v -s --tb=long --log-cli-level=DEBUG
+: 1752655091:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_e2e_ldap_fallback_user_lifecycle -v -s --tb=long --log-cli-level=DEBUG
+: 1752655156:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_db_disaster_recovery -v -s --tb=long --log-cli-level=DEBUG
+: 1752655969:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_e2e_local_user_lifecycle -v -s --tb=short -x
+: 1752657381:0;python -m pytest backend/tests/e2e/test_auth_flows.py::test_e2e_local_user_lifecycle -v --tb=short
+</file>
+
+<file path=".zshrc">
+# catch non-zsh and non-interactive shells
+[[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
+
+# set debug mode
+DEBUG=0
+
+# Profiling
+[[ -n "$ZSH_PROFILE" ]] && zmodload zsh/zprof
+
+# Define an array of directories to load .zsh files from
+#    "${ZSH_CONF_DIR}/env.d"
+local config_dirs=(
+  "${ZSH_CONF_DIR}/zshrc.d"
+  "${ZSH_CONF_DIR}/func.d"
+  "${ZSH_CONF_DIR}/rc.d"
+  "${ZSH_CONF_DIR}/alias.d"
+)
+
+# Define files to lazy load (high-impact on startup time)
+local lazy_load_files=(
+  "zoxide.zsh"
+  "dotnet.zsh"
+  "gh_cli.zsh"
+)
+
+for dir in "${config_dirs[@]}"; do
+  for file in "$dir"/*.zsh; do
+    local should_lazy_load=0
+    local filename="${file:t}"
+
+    if [[ "$dir" == "${ZSH_CONF_DIR}/rc.d" ]]; then
+      for lazy_file in "${lazy_load_files[@]}"; do
+        if [[ "$filename" == "$lazy_file" ]]; then
+          should_lazy_load=1
+          break
+        fi
+      done
+    fi
+
+    if [[ $should_lazy_load -eq 1 ]]; then
+      # Set up lazy loading based on the file
+      case "$filename" in
+      "zoxide.zsh")
+        # Create wrapper functions for zoxide commands
+        lazy_load_command "j" "$file"
+        lazy_load_command "ji" "$file"
+        lazy_load_command "zoxide" "$file"
+        ;;
+      "dotnet.zsh")
+        lazy_load_command "dotnet" "$file"
+        ;;
+      "atuin.zsh")
+        lazy_load_command "atuin" "$file"
+        ;;
+      "gh_cli.zsh")
+        lazy_load_command "gh" "$file"
+        lazy_load_command "ghcs" "$file"
+        lazy_load_command "ghce" "$file"
+        ;;
+      esac
+    else
+      # Source normally
+      source "$file"
+    fi
+  done
+done
+
+# arrow up/down to navigate history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+# vi-like navigation bindings
+bindkey "^h" backward-word
+bindkey "^j" down-line-or-beginning-search
+bindkey "^k" up-line-or-beginning-search
+bindkey "^l" forward-word
+
+bindkey "^u" backward-kill-word
+bindkey "^w" backward-kill-word
+
+# Defaults
+if command_exists kitty; then
+  export TERM="xterm-kitty"
+  export TERMINAL="kitty"
+else
+  export TERM="xterm-256color"
+  export TERMINAL="xterm"
+fi
+export COLORTERM="truecolor"
+
+if command_exists nvim; then
+  export EDITOR="nvim"
+  export DIFFPROG="nvim -d"
+else
+  export EDITOR="vi"
+  export DIFFPROG="vimdiff"
+fi
+
+export VISUAL=$EDITOR
+
+if command_exists nbrowser; then
+  export BROWSER="nbrowser"
+else
+  export BROWSER="firefox"
+fi
+
+if command_exists zathura; then
+  export READER="zathura"
+else
+  export READER="evince"
+fi
+
+if command_exists sxiv; then
+  export IMAGE="sxiv"
+else
+  export IMAGE="feh"
+fi
+
+export OPENER="xdg-open"
+
+export WM="i3"
+export SHELL=$(which zsh)
+
+# GPG
+export GPG_TTY=$(tty)
+
+# Git repo for my dotfiles
+export DOTFILES="$HOME/dotfiles"
+
+# set CUDA Compiler path
+export CUDACXX=/opt/cuda/bin/nvcc
+
+# Go
+# Set go env vars
+export GOBIN="$HOME/go/bin"
+export GOPATH="$HOME/go"
+
+# Rust
+export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
+
+# Node
+# Increase max memory
+export NODE_OPTIONS="--max-old-space-size=16384"
+
+# Firefox
+# Enable WebRender compositor
+# https://wiki.archlinux.org/title/Firefox/Tweaks#Enable_WebRender_compositor
+export MOZ_WEBRENDER=1
+
+# Enable hardware acceleration
+# https://wiki.archlinux.org/title/Firefox/Tweaks#Enable_hardware_video_acceleration
+export MOZ_X11_EGL=1
+
+# set font for Nordic theme
+# PKG: nordic-darker-theme-git
+export THEME_FONT_FACE="MonoLisa"
+export THEME_FONT_SIZE=11
+
+# if fc-list | grep -i "monolisa" &> /dev/null; then
+#     export THEME_FONT_FACE="MonoLisa"
+#     export THEME_FONT_SIZE=11
+# elif fc-list | grep -i "ibm plex mono" &> /dev/null; then
+#     export THEME_FONT_FACE="IBM Plex Mono"
+#     export THEME_FONT_SIZE=11
+# else
+#     export THEME_FONT_FACE="JetBrains Mono"
+#     export THEME_FONT_SIZE=11
+# fi
+
+# set default file manager
+if command_exists nemo; then
+  export FILE_MANAGER="nemo"
+else
+  export FILE_MANAGER="thunar"
+fi
+
+# set default video player
+export VIDEO_PLAYER="mpv"
+
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/bin"
+
+# PATH
+typeset -U PATH path
+path=(
+  "$HOME/.local/bin"
+  "$HOME/bin"
+  # Doom Emacs
+  "$HOME/.emacs.d/bin"
+  # Go
+  "${GOPATH}/bin"
+  # Rust Cargo bins
+  "${CARGO_HOME}/bin"
+  # Ruby bins
+  "$HOME/.gem/bin"
+  # ClojureScript
+  "/opt/clojurescript/bin/"
+  # yarn (hardcoded to avoid slow command)
+  "$HOME/.yarn/bin"
+  # pub
+  "$HOME/.pub-cache/bin"
+  # NPM
+  # Installation: mkdir -p ~/.npm-global && npm config set prefix '~/.npm-global'
+  "$HOME/.npm-global/bin"
+  # Claude
+  "$HOME/.claude/local"
+
+  "$path[@]")
+export PATH
+
+# Set max function nesting
+export FUNCNEST=1000
+
+# Disable DMABUF :( due to issue with Nvidia
+# TODO: test if still needed
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# Profiling output
+[[ -n "$ZSH_PROFILE" ]] && zprof
+</file>
+
+<file path="3rd_party_tools.md">
+# Third-Party Tools Used in Dotfiles Configuration
+
+This document lists all non-default GNU/Linux tools used in the dotfiles configuration, categorized by their purpose and marked as essential or optional.
+
+## Package Managers & System Tools
+
+### Essential
+- **yay** - AUR helper for Arch Linux
+  - *Description*: Yet Another Yaourt - AUR helper with pacman syntax
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S yay`
+
+- **paru** - Alternative AUR helper
+  - *Description*: Feature-packed AUR helper
+  - *Referenced in*: `rc.d/paru.zsh`
+  - *Installation*: `yay -S paru`
+
+### Optional
+- **topgrade** - Universal upgrade tool
+  - *Description*: Upgrade all the things (system packages, language packages, etc.)
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S topgrade`
+
+## Shell Enhancement Tools
+
+### Essential
+- **zsh** - Z shell
+  - *Description*: Extended Bourne shell with improvements
+  - *Referenced in*: `.zshrc`, multiple config files
+  - *Installation*: `sudo pacman -S zsh`
+
+- **starship** - Cross-shell prompt
+  - *Description*: Minimal, blazing-fast, and infinitely customizable prompt
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S starship`
+
+- **atuin** - Shell history replacement
+  - *Description*: Magical shell history with sync capabilities
+  - *Referenced in*: `rc.d/atuin.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S atuin`
+
+- **zoxide** - Smart cd command
+  - *Description*: A smarter cd command inspired by z and autojump
+  - *Referenced in*: `rc.d/zoxide.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S zoxide`
+
+- **fzf** - Fuzzy finder
+  - *Description*: Command-line fuzzy finder
+  - *Referenced in*: `alias.d/aliases.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S fzf`
+
+### Optional
+- **antidote** - Zsh plugin manager
+  - *Description*: A zsh plugin manager made from the ground up thinking about performance
+  - *Referenced in*: `zshrc.d/00-plugins.zsh`
+  - *Installation*: `yay -S antidote`
+
+- **redo** - Command history tool
+  - *Description*: an interactive way combine multiple commands from your shell history in a single command
+  - *Referenced in*: `rc.d/redo.zsh`
+  - *Installation*: `go install github.com/barthr/redo@latest`
+
+## File Management & Navigation
+
+### Essential
+- **exa** - Modern ls replacement
+  - *Description*: A modern replacement for ls with colors and git integration
+  - *Referenced in*: `alias.d/aliases.zsh`, `alias.d/directories.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S exa`
+
+- **bat** - Cat clone with syntax highlighting
+  - *Description*: A cat clone with wings (syntax highlighting and git integration)
+  - *Referenced in*: `rc.d/bat.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S bat`
+
+- **yazi** - Terminal file manager
+  - *Description*: Blazing fast terminal file manager written in Rust
+  - *Referenced in*: `rc.d/yazi.zsh`
+  - *Installation*: `sudo pacman -S yazi`
+
+### Optional
+- **nemo** - File manager
+  - *Description*: Cinnamon file manager
+  - *Referenced in*: `.zshrc`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S nemo`
+
+- **thunar** - Lightweight file manager
+  - *Description*: Modern file manager for Xfce
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S thunar`
+
+- **xcp** - Extended cp
+  - *Description*: An extended cp command with progress bar
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S xcp`
+
+## Text Editors & Viewers
+
+### Essential
+- **nvim** - Neovim
+  - *Description*: Vim-fork focused on extensibility and usability
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S neovim`
+
+### Optional
+- **helix** - Modern text editor
+  - *Description*: A post-modern modal text editor
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S helix`
+
+- **code** - Visual Studio Code
+  - *Description*: Microsoft's code editor
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S visual-studio-code-bin`
+
+- **doom emacs** - Emacs framework
+  - *Description*: An Emacs framework for the stubborn martian hacker
+  - *Referenced in*: `alias.d/aliases.zsh`, `.zshrc`
+  - *Installation*: `yay -S doom-emacs-git`
+
+- **zathura** - Document viewer
+  - *Description*: Highly customizable document viewer
+  - *Referenced in*: `.zshrc`, `alias.d/aliases.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S zathura zathura-pdf-mupdf`
+  - *Note*: Ensure to install the appropriate processor package for your system (e.g., `zathura-pdf-mupdf` for MuPDF support, `zathura-pdf-poppler` for Poppler support, etc.)
+
+## Search & Text Processing
+
+### Essential
+- **ripgrep** - Fast grep alternative
+  - *Description*: Line-oriented search tool that recursively searches directories
+  - *Referenced in*: `rc.d/ripgrep.zsh`
+  - *Installation*: `sudo pacman -S ripgrep`
+
+- **fd** - Find alternative
+  - *Description*: Simple, fast and user-friendly alternative to find
+  - *Referenced in*: `rc.d/sk.zsh`
+  - *Installation*: `sudo pacman -S fd`
+
+### Optional
+- **tldr** - Simplified man pages
+  - *Description*: Collaborative cheatsheets for console commands
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S tldr`
+
+- **skim** - Fuzzy finder alternative to fzf
+  - *Description*: Fuzzy finder in Rust
+  - *Referenced in*: `rc.d/sk.zsh`
+  - *Installation*: `yay -S skim`
+
+## Development Tools
+
+### Essential
+- **git** - Version control system
+  - *Description*: Distributed version control system
+  - *Referenced in*: Multiple files
+  - *Installation*: `sudo pacman -S git`
+
+- **gh** - GitHub CLI
+  - *Description*: GitHub's official command line tool
+  - *Referenced in*: `rc.d/gh_cli.zsh`
+  - *Installation*: `sudo pacman -S github-cli`
+
+### Optional
+- **hub** - Git wrapper for GitHub
+  - *Description*: Command-line wrapper for git that makes working with GitHub easier
+  - *Referenced in*: `alias.d/git.zsh`
+  - *Installation*: `yay -S hub`
+
+- **git-delta** - Git diff viewer
+  - *Description*: A syntax-highlighting pager for git and diff output
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S git-delta`
+
+- **docker** - Containerization platform
+  - *Description*: Platform for developing, shipping, and running applications in containers
+  - *Referenced in*: `alias.d/aliases.zsh`, `alias.d/docker.zsh`
+  - *Installation*: `sudo pacman -S docker docker-compose`
+
+- **lazydocker** - Docker TUI
+  - *Description*: Simple terminal UI for docker and docker-compose
+  - *Referenced in*: `alias.d/docker.zsh`
+  - *Installation*: `yay -S lazydocker`
+
+- **pnpm** - Fast package manager
+  - *Description*: Fast, disk space efficient package manager
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S pnpm`
+
+## Language-Specific Tools
+
+### Optional
+- **ghc** - Haskell compiler
+  - *Description*: The Glasgow Haskell Compiler
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S ghc`
+
+- **dotnet** - .NET SDK
+  - *Description*: Microsoft .NET development platform
+  - *Referenced in*: `rc.d/dotnet.zsh`
+  - *Installation*: `sudo pacman -S dotnet-sdk`
+
+- **yarn** - JavaScript package manager
+  - *Description*: Fast, reliable, and secure dependency management
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S yarn`
+
+## System Information & Monitoring
+
+### Optional
+- **htop** - Process viewer
+  - *Description*: Interactive process viewer
+  - *Referenced in*: Common system tool
+  - *Installation*: `sudo pacman -S htop`
+
+- **fastfetch** - System information tool
+  - *Description*: Fast system information tool written in C
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S fastfetch`
+
+## Multimedia & Graphics
+
+### Essential
+- **mpv** - Media player
+  - *Description*: Free, open source, and cross-platform media player
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S mpv`
+
+### Optional
+- **nsxiv** - Image viewer
+  - *Description*: Neo Simple X Image Viewer
+  - *Referenced in*: `alias.d/aliases.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S nsxiv`
+
+- **feh** - Image viewer
+  - *Description*: Fast and light image viewer
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S feh`
+
+## Terminal & Terminal Tools
+
+### Essential
+- **kitty** - GPU-accelerated terminal
+  - *Description*: Cross-platform, fast, feature-rich, GPU-accelerated terminal emulator
+  - *Referenced in*: `.zshrc`, `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S kitty`
+
+### Optional
+- **xterm** - Terminal emulator
+  - *Description*: Standard terminal emulator for X Window System
+  - *Referenced in*: `.zshrc`
+  - *Installation*: `sudo pacman -S xterm`
+
+## Networking Tools
+
+### Optional
+- **nmap** - Network scanner
+  - *Description*: Network discovery and security auditing tool
+  - *Referenced in*: `alias.d/aliases.zsh`, `alias.d/nmap.zsh`
+  - *Installation*: `sudo pacman -S nmap`
+
+- **curlie** - Curl frontend
+  - *Description*: Frontend to curl that adds the ease of use of httpie
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S curlie`
+
+- **warp-cli** - Cloudflare Warp CLI
+  - *Description*: Cloudflare Warp VPN client
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S cloudflare-warp-bin`
+
+- **wrangler2** - Cloudflare Workers CLI
+  - *Description*: Command-line tool for working with Cloudflare Workers
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S wrangler-bin`
+
+## Utilities & Miscellaneous
+
+### Essential
+- **xdg-utils** - Desktop integration utilities
+  - *Description*: Command line tools that assist applications with desktop integration
+  - *Referenced in*: `.zshrc`, `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S xdg-utils`
+
+### Optional
+- **eva** - Calculator
+  - *Description*: Simple calculator REPL, similar to bc
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S eva`
+
+- **hyx** - Hex viewer
+  - *Description*: Minimalistic but powerful Linux hex editor
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S hyx`
+
+- **xsel** - X selection tool
+  - *Description*: Command-line program for getting and setting X selection
+  - *Referenced in*: `alias.d/aliases.zsh`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S xsel`
+
+- **xclip** - X clipboard tool
+  - *Description*: Command line interface to X selections
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S xclip`
+
+- **libby** - Library Genesis CLI
+  - *Description*: Simple CLI tool to quickly download books from Library Genesis
+  - *Referenced in*: `rc.d/libby.zsh`
+  - *Installation*: `yay -S libby-git`
+
+- **input-remapper** - Input device remapping
+  - *Description*: Tool to remap input devices
+  - *Referenced in*: `alias.d/aliases.zsh`
+  - *Installation*: `yay -S input-remapper-git`
+
+- **distrobox** - Container management
+  - *Description*: Use any Linux distribution inside your terminal
+  - *Referenced in*: `alias.d/distrbox.zsh`
+  - *Installation*: `sudo pacman -S distrobox`
+
+## Code Quality & Formatting Tools
+
+### Optional
+- **prettier** - Code formatter
+  - *Description*: Opinionated code formatter
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S prettier`
+
+- **shfmt** - Shell script formatter
+  - *Description*: Shell parser, formatter, and interpreter
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S shfmt`
+
+- **hadolint** - Dockerfile linter
+  - *Description*: Haskell Dockerfile Linter
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `yay -S hadolint-bin`
+
+- **ruff** - Python linter
+  - *Description*: Extremely fast Python linter
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S ruff`
+
+- **entr** - File watcher
+  - *Description*: Run arbitrary commands when files change
+  - *Referenced in*: `optimal_packages.md`
+  - *Installation*: `sudo pacman -S entr`
+
+## Browser & Web Tools
+
+### Essential
+- **firefox** - Web browser
+  - *Description*: Free and open-source web browser
+  - *Referenced in*: `.zshrc`, `optimal_packages.md`
+  - *Installation*: `sudo pacman -S firefox`
+
+### Optional
+- **ungoogled-chromium** - Privacy-focused Chromium
+  - *Description*: Chromium without Google integration
+  - *Referenced in*: `rc.d/chromium.zsh`
+  - *Installation*: `yay -S ungoogled-chromium`
+
+- **nbrowser** - Custom browser
+  - *Description*: Custom browser (specific to user setup)
+  - *Referenced in*: `.zshrc`
+  - *Installation*: Custom/user-specific
+
+## Window Manager & Desktop
+
+### Optional
+- **i3** - Tiling window manager
+  - *Description*: Improved tiling window manager
+  - *Referenced in*: `.zshrc`, `alias.d/aliases.zsh`
+  - *Installation*: `sudo pacman -S i3-wm`
+
+## Archive Tools
+
+### Optional
+- **7z** - Archive utility
+  - *Description*: File archiver with high compression ratio
+  - *Referenced in*: `func.d/archive.zsh`
+  - *Installation*: `sudo pacman -S p7zip`
+
+- **rar** - RAR archiver
+  - *Description*: Archive manager for RAR files
+  - *Referenced in*: `func.d/archive.zsh`
+  - *Installation*: `yay -S rar`
+
+- **zstd** - Compression algorithm
+  - *Description*: Fast real-time compression algorithm
+  - *Referenced in*: `func.d/archive.zsh`
+  - *Installation*: `sudo pacman -S zstd`
+
+## Repository Management
+
+### Optional
+- **myrepos** - Multiple repository management
+  - *Description*: Tool to manage multiple version control repositories
+  - *Referenced in*: `alias.d/git.zsh`
+  - *Installation*: `sudo pacman -S myrepos`
+
+## Installation Summary
+
+To install all essential tools:
+```bash
+sudo pacman -S yay zsh starship atuin zoxide fzf exa bat yazi nvim ripgrep fd git github-cli fastfetch mpv kitty xdg-utils firefox
+```
+
+To install all optional tools (using yay for AUR packages):
+```bash
+yay -S paru topgrade antidote redo helix visual-studio-code-bin emacs zathura zathura-pdf-mupdf tldr skim hub git-delta docker docker-compose lazydocker pnpm ghc dotnet-sdk yarn htop nsxiv sxiv feh xterm nmap curlie cloudflare-warp-bin wrangler-bin eva hyx xsel xclip libby-git input-remapper-git distrobox prettier shfmt hadolint-bin ruff entr ungoogled-chromium i3-wm p7zip rar zstd myrepos
+```
+
+Note: Some packages may have different names or may not be available in the official repositories. Always check package availability and names before installation.
+
+## Additional Notes
+
+### Zsh Plugins (via antidote)
+The following zsh plugins are managed through antidote and don't require separate installation:
+- **fzf-tab** - Replace zsh's default completion selection menu with fzf
+- **zsh-autosuggestions** - Fish-like autosuggestions for zsh
+- **fast-syntax-highlighting** - Feature-rich syntax highlighting for zsh
+- **zsh-history-substring-search** - Fish-like history search for zsh
+- **zsh-autopair** - Auto-close and delete matching delimiters
+- **forgit** - Utility tool powered by fzf for using git interactively
+- **cd-gitroot** - Change directory to git repository root
+- **fuzzy-sys** - Utility for using systemctl interactively via fzf
+
+### Package Alternatives
+Some tools have alternatives that can be used interchangeably:
+- **exa** vs **eza** (eza is a maintained fork of exa)
+- **sxiv** vs **nsxiv** (nsxiv is a maintained fork of sxiv)
+- **bat** vs **batcat** (different package names on some distributions)
+- **fd** vs **fd-find** (different package names on some distributions)
+
+### Custom Functions
+The dotfiles include custom functions that don't require additional packages:
+- **archive()** - Universal archive creation function
+- **command_exists()** - Check if a command is available
+- **yy()** - Yazi wrapper that changes directory on exit
+
+### Environment Variables
+Many tools are configured through environment variables set in the dotfiles:
+- **BAT_THEME** - Set to "Nord" for bat
+- **PAGER** - Set to bat when available
+- **EDITOR** - Set to nvim when available
+- **BROWSER** - Set to firefox or custom nbrowser
+- **TERMINAL** - Set to kitty when available
+</file>
+
+<file path="CLAUDE.md">
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+This is a modular Zsh configuration repository organized with the XDG Base Directory specification. The configuration is split across multiple directories for better maintainability.
+
+## Architecture
+
+### Load Order
+1. `$HOME/.zshenv` → Sets XDG directories and sources `config/zsh/env.d/.zshenv`
+2. `config/zsh/.zshrc` → Main configuration that loads directories in this order:
+   - `zshrc.d/*.zsh` - Core Zsh configuration (plugins, completion, functions, history, prompt)
+   - `func.d/*.zsh` - Custom shell functions
+   - `rc.d/*.zsh` - Tool-specific configurations
+   - `alias.d/*.zsh` - Shell aliases
+
+### Key Directories
+- `alias.d/` - Aliases organized by tool/category
+- `completion.d/` - Custom completions and completion cache
+- `env.d/` - Environment variables (loaded early)
+- `func.d/` - Custom shell functions
+- `rc.d/` - Tool-specific configurations
+- `zshrc.d/` - Core Zsh setup files
+
+## Development Commands
+
+### Testing Changes
+```bash
+# Reload Zsh configuration
+source ~/.zshenv && source $ZDOTDIR/.zshrc
+
+# Test specific configuration file
+source $ZDOTDIR/rc.d/new-tool.zsh
+```
+
+### Adding New Configurations
+- Aliases: Create file in `alias.d/` (e.g., `alias.d/mytool.zsh`)
+- Functions: Add to `func.d/` or create new file
+- Tool configs: Add to `rc.d/` (e.g., `rc.d/mytool.zsh`)
+- Environment vars: Add to existing `env.d/.zshenv` or `.zshrc`
+
+## Plugin Management
+
+This configuration uses Antidote for plugin management. Plugins are defined in `zshrc.d/00-plugins.zsh`.
+
+### Adding Plugins
+1. Edit `zshrc.d/00-plugins.zsh`
+2. Add plugin in the antidote bundle section
+3. Remove the cached plugin file to trigger rebuild:
+   ```bash
+   rm $ANTIDOTE_HOME/plugins.zsh
+   ```
+
+## Key Patterns
+
+### Function Definition
+Always check if command exists before using:
+```zsh
+if command_exists mytool; then
+    alias mt='mytool --color=auto'
+fi
+```
+
+### Tool Configuration
+Tool-specific configs in `rc.d/` follow this pattern:
+```zsh
+# Tool: ToolName
+# Desc: Brief description
+
+# Check if tool exists
+command_exists toolname || return 0
+
+# Configuration
+export TOOL_VAR="value"
+alias tool='toolname --options'
+```
+
+### Alias Organization
+Aliases are grouped by tool/purpose with consistent formatting:
+```zsh
+# Tool/Category name
+alias short='long-command --with-options'
+alias another='command2'
+```
+
+## Important Files
+
+- `3rd_party_tools.md` - Comprehensive list of all external tools used
+- `optimal_packages.md` - Essential packages for best experience
+- `completion.d/.zshcompdump` - Zsh completion cache (auto-generated)
+
+## Common Tasks
+
+### Find where a command/alias is defined
+```bash
+grep -r "alias name" $ZDOTDIR/alias.d/
+grep -r "function name" $ZDOTDIR/func.d/
+```
+
+### Check load order issues
+```bash
+# Enable debug mode (already set in .zshrc)
+DEBUG=1
+source ~/.zshenv && source $ZDOTDIR/.zshrc
+```
+
+### Update completion cache
+```bash
+rm $ZDOTDIR/completion.d/.zshcompdump
+compinit -d $ZDOTDIR/completion.d/.zshcompdump
+```
+
+## Environment Variables
+
+Key environment variables set by this configuration:
+- `ZDOTDIR` - Zsh configuration directory
+- `ZSH_CONF_DIR` - Same as ZDOTDIR
+- `ZSH_CACHE_DIR` - Cache directory for Zsh
+- `ANTIDOTE_HOME` - Plugin manager cache directory
+- `DOTFILES` - Path to dotfiles repository
+
+## Notes
+
+- The configuration assumes Arch Linux with yay/paru for package management
+- Many aliases depend on specific tools being installed (see `3rd_party_tools.md`)
+- Vi-like key bindings are configured for command line navigation
+- The prompt is managed by Starship (separate configuration)
+</file>
+
+<file path="optimal_packages.md">
+For best experince ensure the following packages are available
+
+bat bat-extras starship zoxide git-delta fzf eza entr prettier shfmt atuin sxiv zathura nemo firefox  antidot  xsel
+
+
+# Linters, Formatters, and Type Checkers
+
+hadlint # Dockerfile linter
+ruff
+</file>
+
+<file path="profile-startup.sh">
+#!/bin/bash
+echo "=== Zsh Startup Time Analysis ==="
+echo
+# Quick timing
+echo "1. Quick startup time (10 runs):"
+for i in {1..10}; do
+    /usr/bin/time -f "%e" zsh -i -c exit 2>&1
+done | awk '{sum+=$1} END {print "Average: " sum/NR "s"}'
+echo
+# Profile with zprof
+echo "2. Detailed profiling (top functions by time):"
+echo "Running: ZSH_PROFILE=1 zsh -i -c exit"
+echo "---"
+ZSH_PROFILE=1 zsh -i -c exit 2>&1 | tail -n +2
+echo
+echo "3. Check plugin loading:"
+echo "---"
+ls -la "$HOME/.cache/antidote/plugins.zsh" 2>/dev/null && echo "Plugin cache exists"
+echo
+echo "4. Measuring without plugins:"
+echo "---"
+mv "$HOME/.cache/antidote/plugins.zsh" "$HOME/.cache/antidote/plugins.zsh.bak" 2>/dev/null
+echo -n "Without plugins: "
+/usr/bin/time -f "%es" zsh -i -c exit 2>&1
+mv "$HOME/.cache/antidote/plugins.zsh.bak" "$HOME/.cache/antidote/plugins.zsh" 2>/dev/null
+echo
+echo "5. Files being sourced:"
+echo "---"
+DEBUG=0 zsh -i -c exit 2>&1 | grep -E "sourcing|loading" | head -20
+</file>
+
+</files>

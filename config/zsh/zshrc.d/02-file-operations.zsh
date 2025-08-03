@@ -115,8 +115,7 @@ extract() {
                 rpm2cpio "../$1" | cpio --quiet -id && cd .. ;;
 			(*.7z) 7za x "$1" ;;
 			(*.deb)
-				mkdir -p "$extract_dir/control"
-				mkdir -p "$extract_dir/data"
+				mkdir -p "$extract_dir/control" "$extract_dir/data" 2>/dev/null
 				cd "$extract_dir"; ar vx "../${1}" > /dev/null
 				cd control; tar xzvf ../control.tar.gz
 				cd ../data; extract ../data.tar.*

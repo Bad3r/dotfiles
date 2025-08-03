@@ -73,8 +73,7 @@ else
 			-b|--browser)
 				hash surfraw >/dev/null 2>&1 || { echo "Requires 'surfraw' installed"; exit 1; }
 				surfraw -browser="$BROWSER" "$(sr -elvi | awk -F'-' '{print $1}' | sed '/:/d' | awk '{$1=$1};1' |
-					rofi -hide-scrollbar -kb-row-select 'Tab' -kb-row-tab 'Control+space' \
-						-dmenu -mesg 'Tab for Autocomplete' -i -p 'Web Search')"
+					rofi -hide-scrollbar -dmenu -mesg 'Tab for Autocomplete' -i -p 'Web Search')"
 				;;
 			-l|--logout)
 				case "$(rofi -sep "|" -dmenu -i -p 'System' -width 20 -hide-scrollbar \

@@ -11,13 +11,17 @@ function lazy_load_command() {
     local cmd="$1"
     local config_file="$2"
     
-    eval "
-    $cmd() {
-        unfunction $cmd
-        source $config_file
-        $cmd \"\$@\"
-    }
-    "
+    # Ensure cmd contains only valid function name characters
+    if [[ ! "$cmd" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]]; then
+        echo "ERROR: Invalid function name for lazy loading: '$cmd'" >&2
+        return 1
+    fi
+    
+    eval "${cmd}() {
+        unfunction ${cmd}
+        source ${config_file}
+        ${cmd} \"\$@\"
+    }"
 }
 
 # lazy_load_alias()
