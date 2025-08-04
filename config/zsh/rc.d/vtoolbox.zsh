@@ -1,3 +1,11 @@
+#---------------------------------------------------------------------------
+# *                            VToolbox
+#---------------------------------------------------------------------------
+
+if ! (( $+commands[vtoolbox] )); then
+    return
+fi
+
 # Invoke tab-completion script to be sourced with the Z shell.
 # Known to work on zsh 5.0.x, probably works on later 4.x releases as well (as
 # it uses the older compctl completion system).

@@ -1,3 +1,11 @@
+#---------------------------------------------------------------------------
+# *                            Libby
+#---------------------------------------------------------------------------
+
+if ! (( $+commands[libby] )); then
+    return
+fi
+
 # https://github.com/carterprince/libby
 # libby is a simple CLI tool to quickly download books from Library Genesis.
 # libby filters out all filetypes except ePUBs and PDFs.

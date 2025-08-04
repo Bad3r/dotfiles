@@ -2,6 +2,10 @@
 # *                            Grep Configuration
 #---------------------------------------------------------------------------
 
+if ! (( $+commands[grep] )); then
+    return
+fi
+
 # _grep()
 # Description: A wrapper function for grep that sets default color and exclude directories
 # Usage: _grep [options] [pattern] [file]

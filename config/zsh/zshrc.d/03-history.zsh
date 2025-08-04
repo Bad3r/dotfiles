@@ -2,7 +2,7 @@
 # *                            History file configuration
 #---------------------------------------------------------------------------
 
-[ -z "$HISTFILE" ] && HISTFILE="${ZSH_CACHE_DIR}/zsh_history"
+[ -z "$HISTFILE" ] && HISTFILE="${XDG_DATA_HOME}/zsh/zsh_history"
 
 export HISTSIZE=2147483647 # LONG_MAX
 export SAVEHIST=$HISTSIZE
@@ -12,7 +12,6 @@ export HISTORY_IGNORE="(ls *|exa *|clear|pwd|zsh|exit|7z|mpv|cd ..|exit|pwd|* --
 export HISTIGNORE="&:[bf]g:c:clear:history:exit:q:pwd:* --help"
 # Timestamp format
 export HIST_STAMPS="yyyy-mm-dd"
-
 
 #===========================================================================
 # *                            History command configuration
@@ -34,7 +33,6 @@ setopt hist_ignore_all_dups
 # redundent due to hist_ignore_all_dups being set
 # setopt hist_expire_dups_first
 
-
 # Ignore space prefixed commands
 setopt hist_ignore_space
 
@@ -49,4 +47,3 @@ setopt share_history
 
 # !keyword to search history
 setopt bang_hist
-
