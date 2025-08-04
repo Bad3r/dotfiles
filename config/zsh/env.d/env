@@ -3,11 +3,12 @@
 # Sourced by ~/.profile (for GUI) and ~/.zshenv (for shells)
 
 # Idempotency Guard: Track sourcing context
+# Don't export this variable - it should be local to each shell session
 _CURRENT_SHELL_PID=$$
 if [ -n "$_ENV_SOURCED_PID" ] && [ "$_ENV_SOURCED_PID" = "$_CURRENT_SHELL_PID" ]; then
   return
 fi
-export _ENV_SOURCED_PID=$_CURRENT_SHELL_PID
+_ENV_SOURCED_PID=$_CURRENT_SHELL_PID
 
 # Locale
 export LANG="en_US.UTF-8"

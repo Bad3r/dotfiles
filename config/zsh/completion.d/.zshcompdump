@@ -1,4 +1,4 @@
-#files: 1040	version: 5.9
+#files: 1045	version: 5.9
 
 _comps=(
 '-' '_precommand'
@@ -252,6 +252,7 @@ _comps=(
 'ctags' '_ctags'
 'ctags-exuberant' '_ctags'
 'ctags-universal' '_ctags'
+'ctr' '_ctr'
 'curl' '_curl'
 'cut' '_cut'
 'cvs' '_cvs'
@@ -302,6 +303,7 @@ _comps=(
 'dmesg' '_dmesg'
 'dmidecode' '_dmidecode'
 'doas' '_doas'
+'docker' '_docker'
 'docker-machine' '_docker-machine'
 'docpad' '_docpad'
 'domainname' '_yp'
@@ -493,6 +495,7 @@ _comps=(
 'ggetopt' '_getopt'
 'ggrep' '_grep'
 'ggv' '_gnome-gv'
+'gh' '_gh'
 'ghc' '_ghc'
 'ghci' '_ghc'
 'ghc-pkg' '_ghc'
@@ -550,6 +553,7 @@ _comps=(
 'god' '_od'
 'gofmt' '_go'
 'google' '_google'
+'goreleaser' '_goreleaser'
 'gpasswd' '_gpasswd'
 'gpaste' '_paste'
 'gpatch' '_patch'
@@ -1906,13 +1910,14 @@ bindkey '^[,' _history-complete-newer
 bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
-autoload -Uz _funchelp _compstyle _aa-log.zsh _atuin _bat \
-            _bluetoothctl _bootctl _btm _bun _busctl \
-            _bwrap _cargo _cfspeedtest _checkupdates _code \
-            _coredumpctl _curl _delta _dkms _docker-machine \
-            _dotnet _downgrade _dunst _dunstctl _eza \
-            _fd _firejail _flameshot _flatpak _ghostty \
-            _glow _hostnamectl _img2sixel _insmod _journalctl \
+autoload -Uz _kitty _funchelp _compstyle _aa-log.zsh _atuin \
+            _bat _bluetoothctl _bootctl _btm _bun \
+            _busctl _bwrap _cargo _cfspeedtest _checkupdates \
+            _code _coredumpctl _ctr _curl _delta \
+            _dkms _docker _docker-machine _dotnet _downgrade \
+            _dunst _dunstctl _eza _fd _firejail \
+            _flameshot _flatpak _gh _ghostty _glow \
+            _goreleaser _hostnamectl _img2sixel _insmod _journalctl \
             _jupyter _kernel-install _keyring _kiro _kitty \
             _libinput _localectl _loginctl _lsmod _luarocks \
             _luarocks-admin _machinectl _meson _modprobed-db _mpv \
