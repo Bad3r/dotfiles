@@ -436,7 +436,6 @@ Some tools have alternatives that can be used interchangeably:
 ### Custom Functions
 The dotfiles include custom functions that don't require additional packages:
 - **archive()** - Universal archive creation function
-- **command_exists()** - Check if a command is available
 - **yy()** - Yazi wrapper that changes directory on exit
 
 ### Environment Variables
