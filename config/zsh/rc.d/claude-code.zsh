@@ -1,3 +1,11 @@
+#---------------------------------------------------------------------------
+# *                            Claude Code
+#---------------------------------------------------------------------------
+
+if ! (( $+commands[claude] )); then
+    return
+fi
+
 # Claude Code Env Vars
 export DISABLE_AUTOUPDATER=1
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 # Equivalent of setting DISABLE_AUTOUPDATER, DISABLE_BUG_COMMAND, DISABLE_ERROR_REPORTING, and DISABLE_TELEMETRY
@@ -22,7 +30,7 @@ export VERTEX_REGION_CLAUDE_4_0_OPUS=me-south-1
 export VERTEX_REGION_CLAUDE_4_0_SONNET=me-south-1
 
 # First-time Claude setup
-if command_exists claude && [[ ! -f ~/.claude.json ]]; then
+if [[ ! -f ~/.claude.json ]]; then
   claude config set -g verbose true
   claude config set -g preferredNotifChannel iterm2_with_bell
   claude config set -g editorMode vim

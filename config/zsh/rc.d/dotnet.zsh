@@ -6,15 +6,14 @@
 # https://wiki.archlinux.org/title/.NET
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete#zsh
 
-if ! command_exists dotnet; then
+if ! (( $+commands[dotnet] )); then
     return
 fi
 
-# .Net Framework
-# Environment variables moved to ~/.config/zsh/env.d/env
-
-# add .NET tools to $PATH (if directory exists)
-[ -d "$HOME/.dotnet/tools" ] && PATH="$PATH:$HOME/.dotnet/tools"
+# Set DOTNET_ROOT if directory exists
+if [ -d "/opt/dotnet" ]; then
+    export DOTNET_ROOT=/opt/dotnet
+fi
 
 # zsh parameter completion for the dotnet CLI
 

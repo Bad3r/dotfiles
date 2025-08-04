@@ -1,4 +1,12 @@
 
+#---------------------------------------------------------------------------
+# *                            Optimus Manager
+#---------------------------------------------------------------------------
+
+if ! (( $+commands[optimus-manager] )); then
+    return
+fi
+
 # Nvidia Prime Offloading 
 # https://github.com/Askannz/optimus-manager/wiki/Nvidia-GPU-offloading-for-%22hybrid%22-mode
 __NV_PRIME_RENDER_OFFLOAD=1

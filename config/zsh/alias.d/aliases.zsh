@@ -46,21 +46,22 @@ alias tb="nc termbin.com 9999"
 # Create temp directory
 alias tmpdir="mktmpdir"
 
-if command_exists xdg-open; then
+if (( $+commands[xdg-open] )); then
     alias open=xdg-open
 fi
 
-if command_exists cd-gitroot; then
-    alias gitroot="cd-gitroot"
-    alias groot="cd-gitroot"
-    alias cdr="cd-gitroot"
-fi
+# Plugin-provided commands (loaded via deferred plugins)
+# These aliases are created unconditionally as the commands are loaded after startup
+alias gitroot="cd-gitroot"
+alias groot="cd-gitroot"
+alias cdr="cd-gitroot"
+alias cdroot="cd-gitroot"
 
 ##########################################
 # Compilation
 ##########################################
 
-if command_exists ghc; then
+if (( $+commands[ghc] )); then
     # GHC (Haskell Compiler) with dynamic linking
     alias ghc="ghc -dynamic"
 fi
@@ -103,7 +104,7 @@ alias ipwlan="ip a show wlan0"
 alias iptun="ip a show tun0"
 
 # Get external IP in JSON format
-if command_exists curlie; then
+if (( $+commands[curlie] )); then
     alias wtfip="curlie wtfismyip.com/json"
 else
     alias wtfip="curl wtfismyip.com/json"
@@ -213,12 +214,12 @@ alias ixio="\curl -F 'f:1=<-' ix.io"
 ##########################################
 
 # Use eva as bc if eva is installed
-if command_exists eva; then
+if (( $+commands[eva] )); then
     alias bc="eva"
 fi
 
 # Replace 'ls' & 'tree' with 'exa'
-if command_exists exa; then
+if (( $+commands[exa] )); then
     alias ls="exa --group-directories-first -a --icons"
     alias ll="exa --group-directories-first -haglF --git --icons"
     alias tree="exa --tree --level=2"
@@ -274,7 +275,7 @@ alias dmesg="sudo dmesg -H --color=always"
 # Clipboard Management
 ##########################################
 
-if command_exists xsel; then 
+if (( $+commands[xsel] )); then 
     alias cpy="xsel --clipboard"
     alias paste="xsel --clipboard --output"
     # Copy selection to clipboard

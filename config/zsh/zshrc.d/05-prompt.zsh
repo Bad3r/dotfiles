@@ -1,7 +1,11 @@
 
+#---------------------------------------------------------------------------
+# *                            Prompt Configuration
+#---------------------------------------------------------------------------
+
 # Set prompt to starship if available otherwise use Pure prompt
 
-if command -v starship &> /dev/null; then
+if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 else
   # load default prompt

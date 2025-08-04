@@ -1,10 +1,13 @@
-# rc.d/redo.zsh
+#---------------------------------------------------------------------------
+# *                            Redo
+#---------------------------------------------------------------------------
 
 # https://github.com/barthr/redo
+if ! (( $+commands[redo] )); then
+  return
+fi
 
 export REDO_HISTORY_PATH="$HISTFILE"
 
 # NOTE: REDO_HISTORY_PATH or HISTFILE must be set first
-if command -v redo &> /dev/null; then
-  source "$(redo alias-file)"
-fi
+source "$(redo alias-file)"

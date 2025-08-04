@@ -1,8 +1,7 @@
-
 # # Completion
 # #
 # # do not autoselect the first completion entry
-# unsetopt menu_complete   
+# unsetopt menu_complete
 
 # # 20.2.1 Use of compinit
 # # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Use-of-compinit
@@ -10,14 +9,14 @@
 # autoload -Uz compinit
 
 # # Add custom completion directory to fpath
-# fpath=("${ZSH_CONF_DIR}/completion.d" $fpath)
+# fpath=("${XDG_DATA_HOME:-$HOME/.local/share/zsh}/" $fpath)
 
 # # set compinit dump file locaton
-# compinit -d "${ZSH_CONF_DIR:-$HOME/.config/zsh}/completion.d/.zshcompdump"
+# compinit -d "${XDG_DATA_HOME:-$HOME/.local/share/zsh}/.zshcompdump"
 
-# # Case-insensitive and hyphen insensitive path-completion 
+# # Case-insensitive and hyphen insensitive path-completion
 # CASE_SENSITIVE=false
-# HYPHEN_INSENSITIVE=true 
+# HYPHEN_INSENSITIVE=true
 
 # if [[ "$CASE_SENSITIVE" = true ]]; then
 #   zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
@@ -54,12 +53,10 @@
 # # ... unless we really want to.
 # zstyle '*' single-ignored show
 
-
-
 # On-demand rehash
 # # https://wiki.archlinux.org/title/zsh#On-demand_rehash
 # Typically, compinit will not automatically find new executables in the $PATH.
-# For example, after you install a new package, the files in /usr/bin/ 
+# For example, after you install a new package, the files in /usr/bin/
 # would not be immediately or automatically included in the completion.
 # however pacman can be configured with hooks to automatically request a rehash
 # hook: /etc/pacman.d/hooks/zsh.hook
@@ -69,9 +66,9 @@ zshcache_time="$(date +%s%N)"
 autoload -Uz add-zsh-hook
 
 rehash_precmd() {
-  if [[ -a /var/cache/zsh/pacman ]]; then
+  if [[ -e /var/cache/zsh/pacman ]]; then
     local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-    if (( zshcache_time < paccache_time )); then
+    if ((zshcache_time < paccache_time)); then
       rehash
       zshcache_time="$paccache_time"
     fi

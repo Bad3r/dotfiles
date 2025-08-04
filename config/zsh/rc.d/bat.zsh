@@ -2,16 +2,15 @@
 # *                            Bat
 #---------------------------------------------------------------------------
 
-# Configure bat for syntax highlighting and pager
-if command_exists bat; then
-    eval "$(batman --export-env)"
-    export BAT_THEME="Nord"
-    export PAGER="bat"
-    export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
-    alias cat="bat -p"
-    alias catt="bat -pp"
-    alias less="bat"
-else
-    export PAGER="less"
-    export MANPAGER="less"
+if ! (( $+commands[bat] )); then
+    return
 fi
+
+# Configure bat for syntax highlighting and pager
+eval "$(batman --export-env)"
+export BAT_THEME="Nord"
+export PAGER="bat"
+export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+alias cat="bat -p"
+alias catt="bat -pp"
+alias less="bat"
