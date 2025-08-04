@@ -16,62 +16,9 @@ local config_dirs=(
   "${ZSH_CONF_DIR}/alias.d"
 )
 
-# Source lazy loading functions first
-source "${ZSH_CONF_DIR}/zshrc.d/00-lazy-load.zsh"
-
-# Define files to lazy load (high-impact on startup time)
-local lazy_load_files=(
-  "zoxide.zsh"
-  "dotnet.zsh"
-  "atuin.zsh"
-  "gh_cli.zsh"
-)
-
-for dir in "${config_dirs[@]}"; do
-  for file in "$dir"/*.zsh; do
-    # Skip if already sourced
-    if [[ "$file" == "${ZSH_CONF_DIR}/zshrc.d/00-lazy-load.zsh" ]]; then
-      continue
-    fi
-    
-    local should_lazy_load=0
-    local filename="${file:t}"
-
-    if [[ "$dir" == "${ZSH_CONF_DIR}/rc.d" ]]; then
-      for lazy_file in "${lazy_load_files[@]}"; do
-        if [[ "$filename" == "$lazy_file" ]]; then
-          should_lazy_load=1
-          break
-        fi
-      done
-    fi
-
-    if [[ $should_lazy_load -eq 1 ]]; then
-      # Set up lazy loading based on the file
-      case "$filename" in
-      "zoxide.zsh")
-        # Create wrapper functions for zoxide commands
-        lazy_load_command "j" "$file"
-        lazy_load_command "ji" "$file"
-        lazy_load_command "zoxide" "$file"
-        ;;
-      "dotnet.zsh")
-        lazy_load_command "dotnet" "$file"
-        ;;
-      "atuin.zsh")
-        lazy_load_command "atuin" "$file"
-        ;;
-      "gh_cli.zsh")
-        lazy_load_command "gh" "$file"
-        lazy_load_command "ghcs" "$file"
-        lazy_load_command "ghce" "$file"
-        ;;
-      esac
-    else
-      # Source normally
-      source "$file"
-    fi
-  done
+# Source all .zsh files from config directories
+for file in ${^config_dirs}/*.zsh(N); do
+  source "$file"
 done
 
 # arrow up/down to navigate history
@@ -93,7 +40,6 @@ bindkey "^w" backward-kill-word
 
 # Environment variables moved to ~/.config/zsh/environment.zsh
 
-
 # if fc-list | grep -i "monolisa" &> /dev/null; then
 #     export THEME_FONT_FACE="MonoLisa"
 #     export THEME_FONT_SIZE=11
@@ -105,12 +51,10 @@ bindkey "^w" backward-kill-word
 #     export THEME_FONT_SIZE=11
 # fi
 
-
 mkdir -p "$HOME/.local/bin" "$HOME/bin" 2>/dev/null
 
 # Set max function nesting
 export FUNCNEST=1000
-
 
 # Profiling output
 [[ -n "$ZSH_PROFILE" ]] && zprof

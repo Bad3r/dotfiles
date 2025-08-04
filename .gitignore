@@ -1,5 +1,6 @@
 # tmp dump
 *.zwc
+**/repomix-output.xml
 
 # Misc
 **/bin/biglybt/
@@ -26,6 +27,3 @@ bin/*.AppImage
 config/zsh/.zsh_history
 config/zsh/completion.d/.zshcompdump
 config/zsh/completion.d/.zshcompdump.zwc
-
-# Screenshot artifacts
-*.png
