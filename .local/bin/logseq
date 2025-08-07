@@ -1,0 +1,2 @@
+#!/bin/sh
+exec $USR_BIN_DIR/logseq-desktop-git/Logseq --disable-gpu "$@"

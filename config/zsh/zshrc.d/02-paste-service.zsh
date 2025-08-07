@@ -42,10 +42,10 @@ function pasteit() {
 
   response=$(curl -s -d "private=${private}" -d "name=${author_name}" --data-urlencode -d "${syntax_highlighting}=@${file_path}" ${api_url})
 
-  paste_id=$(echo ${"response"} | sed -n 's/.*https:\/\/paste.centos.org\/view\/\(.*\)/\1/p')
+  paste_id=$(echo ${"response"} | sed -n 's/.*https:\/\/paste.opensuse.org\/view\/\(.*\)/\1/p')
 
   if [[ -n $paste_id ]]; then
-    echo "File uploaded successfully. Paste URL: https://paste.centos.org/view/${paste_id}"
+    echo "File uploaded successfully. Paste URL: https://paste.opensuse.org/view/${paste_id}"
   else
     echo "Failed to upload file. Error: ${response}"
   fi

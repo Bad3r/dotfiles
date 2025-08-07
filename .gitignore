@@ -27,3 +27,7 @@ bin/*.AppImage
 config/zsh/.zsh_history
 config/zsh/completion.d/.zshcompdump
 config/zsh/completion.d/.zshcompdump.zwc
+
+# Code
+**/.vscode
+**/.kiro

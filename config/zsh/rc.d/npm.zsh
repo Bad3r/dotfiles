@@ -1,6 +1,7 @@
-local npm_config_prefix="$HOME/.npm-global"
+# Tool: NPM Configuration
+# Desc: Configure NPM settings and directories
 
-# if npm is not installed, of if its already configured; exit.
+# if npm is not installed, or if its already configured; exit.
 if ! (( $+commands[npm] )) || [ -d "$npm_config_prefix" ]; then
     return
 fi
@@ -11,9 +12,6 @@ local npm_config_dir="$XDG_CONFIG_HOME/npm"
 mkdir -p "$npm_config_prefix" >/dev/null 2>&1
 mkdir -p "$npm_cache_dir" >/dev/null 2>&1
 mkdir -p "${npm_config_dir}" >/dev/null 2>&1
-
-# Update $PATH
-export PATH="$npm_config_prefix/bin:$PATH"
 
 local npm_userconfig="$npm_config_dir/usernpmrc"
 local npm_globalconfig="$npm_config_dir/globalnpmrc"

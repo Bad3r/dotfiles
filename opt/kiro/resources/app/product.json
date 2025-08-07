@@ -33,7 +33,7 @@
   "urlProtocol": "kiro",
   "updateUrl": "https://prod.download.desktop.kiro.dev",
   "downloadUrl": "https://kiro.dev",
-	"commit": "2c6e12236dbde99028c0901a5f2f5db879c1e65d",
+	"commit": "c880426c26646dbe1be35e0aa4c0d06fa4b0ec63",
 	"quality": "insider",
   "enableTelemetry": true,
   "webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
@@ -128,7 +128,7 @@
     }
   },
   "serverDownloadUrlTemplate": "https://prod.download.desktop.kiro.dev/releases/remotes/${commit}/kiro-reh-${os}-${arch}.tar.gz",
-  "linkProtectionTrustedDomains": ["https://open-vsx.org", "https://oidc.*.amazonaws.com", "https://device.sso.*.amazonaws.com", "https://*.aws.dev", "https://*.awsapps.com", "https://*.kiro.dev"],
+  "linkProtectionTrustedDomains": ["https://*.visualstudio.com", "https://oidc.*.amazonaws.com", "https://device.sso.*.amazonaws.com", "https://*.aws.dev", "https://*.awsapps.com", "https://*.kiro.dev"],
   "extensionEnabledApiProposals": {
     "ms-vscode.vscode-selfhost-test-provider": ["testObserver", "testRelatedCode", "attributableCoverage"],
     "ms-vscode.js-debug": ["portsAttributes", "findTextInFiles", "workspaceTrust", "tunnels"],
@@ -144,12 +144,12 @@
     "jeanp413.open-remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"],
     "asbx.remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"]
   },
-	"date": "2025-07-28T05:40:12.029Z",
+	"date": "2025-08-06T05:39:53.078Z",
   "checksums": {
     "vs/base/parts/sandbox/electron-sandbox/preload.js": "h9zTEca4rwe7BSEqQJ9qCOv9wRcI3ndTLT6orJwlwho",
-		"vs/workbench/workbench.desktop.main.js": "VzLWaKVWx7TZF5+q4vBip9sCe1IjXnhLZkezCUIKjPc",
+		"vs/workbench/workbench.desktop.main.js": "hcrMsD9pvX2jgW5yFEOvL0p8y6gecY48ODk5qkmT9Tc",
     "vs/workbench/workbench.desktop.main.css": "bu4cGcjt4RJjtvP+xneJ8SomOz+QmwSbxpZNQ4LskIo",
-    "vs/workbench/api/node/extensionHostProcess.js": "9+skoM/OMrYpghtGQJq+e1ovXZKGBhpnpzKj7atQLW4",
+		"vs/workbench/api/node/extensionHostProcess.js": "sJN2GR+b1Q/2qmNewXAIeRNSM6yM+ezCPykmTcQkr+o",
     "vs/code/electron-sandbox/workbench/workbench.esm.html": "bmf0huk0BLDJrGqALjDJTi9WkCgr2gxudcA/UTcmzzY",
     "vs/code/electron-sandbox/workbench/workbench.js": "5GiNWZzGnzcbUvuhYk+dH6fDEK45DN1Sgj4KP61KP3E"
   },

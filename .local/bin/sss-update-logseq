@@ -2,8 +2,8 @@
 set -e
 
 # Configuration
-BRANCH="test/db"
-INSTALL_DIR="/opt/logseq-desktop-git"
+BRANCH="master"
+INSTALL_DIR="$USR_BIN_DIR/logseq-desktop-git"
 LOGSEQ_DIR="$(eval printf '%s' "~$(id -nu 1000)")/git/logseq"
 STATIC_DIR="$LOGSEQ_DIR/static"
 OUTPUT_DIR="$STATIC_DIR/out/Logseq-linux-x64"
@@ -102,14 +102,19 @@ show_progress "Packaging with Electron Forge"
 yarn electron-forge package
 
 show_progress "Installing to $INSTALL_DIR"
-sudo rm -rf "$INSTALL_DIR"
-sudo rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
+#sudo rm -rf "$INSTALL_DIR"
+rm -rf "$INSTALL_DIR"
+
+#sudo rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
+rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
 
 show_progress "Cleaning up build artifacts"
 rm -rf "$OUTPUT_DIR"
 
 show_progress "Setting permissons (root:users)"
-sudo chown -R root:users /opt/logseq-desktop-git/
-sudo chmod -R 755 /opt/logseq-desktop-git
+#sudo chown -R root:users /opt/logseq-desktop-git/
+#sudo chmod -R 755 /opt/logseq-desktop-git
+
+chmod 755 "$INSTALL_DIR/Logseq"
 
 show_progress "Installation complete"

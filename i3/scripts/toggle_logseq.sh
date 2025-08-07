@@ -1,7 +1,10 @@
 #!/bin/sh
 
+# Ensure USR_LIB_DIR is set (workaround for i3 environment issue)
+: ${USR_LIB_DIR:="$HOME/.local/lib"}
+
 # source window utils lib to calculate window size and position
-. "$HOME/bin/window_utils.sh"
+. "$USR_LIB_DIR/window_utils"
 
 # Calculate the window geometry
 calculate_window_geometry

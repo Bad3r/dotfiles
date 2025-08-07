@@ -3,13 +3,13 @@
 
 
 # --now commands
-alias sc-enable-now="sc-enable --now"
-alias sc-disable-now="sc-disable --now"
+alias enable-now="sc-enable --now"
+alias disable-now="sc-disable --now"
 alias sc-mask-now="sc-mask --now"
 
-alias scu-enable-now="scu-enable --now"
-alias scu-disable-now="scu-disable --now"
-alias scu-mask-now="scu-mask --now"
+alias usr-enable-now="scu-enable --now"
+alias usr-disable-now="scu-disable --now"
+alias usr-mask-now="scu-mask --now"
 
 
 ZSH_THEME_SYSTEMD_PROMPT_PREFIX='{'

@@ -14,6 +14,11 @@ _ENV_SOURCED_PID=$_CURRENT_SHELL_PID
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+# User Common Dirs
+export USR_LOCAL_DIR="$HOME/.local"
+export USR_BIN_DIR="$HOME/.local/bin"
+export USR_LIB_DIR="$HOME/.local/lib"
+
 # Defaults
 export TERM="xterm-256color"
 export TERMINAL="xterm"
@@ -41,13 +46,6 @@ export SHELL="/usr/bin/zsh"
 export DOTFILES="$HOME/dotfiles"
 
 
-# Go
-# Set go env vars
-export GOBIN="$HOME/go/bin"
-export GOPATH="$HOME/go"
-
-# Rust
-export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
 
 # Node
 # Increase max memory
@@ -56,7 +54,7 @@ export NODE_OPTIONS="--max-old-space-size=16384"
 
 # set font for Nordic theme
 # PKG: nordic-darker-theme-git
-export THEME_FONT_FACE="MonoLisa"
+export THEME_FONT_FACE="MonoLisa Variable"
 export THEME_FONT_SIZE=11
 
 # set default file manager
@@ -82,29 +80,37 @@ PATH="$HOME/.local/bin:$HOME/bin${PATH:+:$PATH}"
 #  Emacs Packages
 [ -d "$HOME/.emacs.d/bin" ] && PATH="$PATH:$HOME/.emacs.d/bin"
 
-#  Go Packages
-[ -d "${GOPATH:-$HOME/go}/bin" ] && PATH="$PATH:${GOPATH:-$HOME/go}/bin"
+# Go Packages
+export GOPATH="${GOPATH:=$HOME/go}"
+export GOBIN="${GOBIN:=$GOPATH/bin}"
+[ -d "$GOBIN" ] && PATH="$PATH:$GOBIN"
 
 # Rust Cargo Packages
-[ -d "${CARGO_HOME:-$HOME/.config/cargo}/bin" ] && PATH="$PATH:${CARGO_HOME:-$HOME/.config/cargo}/bin"
+export CARGO_HOME="${CARGO_HOME:=$XDG_CONFIG_HOME/cargo}"
+[ -d "$CARGO_HOME/bin" ] && PATH="$PATH:$CARGO_HOME/bin"
 
 # Ruby Gems
-[ -d "$HOME/.gem/bin" ] && PATH="$PATH:$HOME/.gem/bin"
+export GEM_HOME="${GEM_HOME:=$HOME/.gem}"
+[ -d "$GEM_HOME/bin" ] && PATH="$PATH:$GEM_HOME/bin"
 
 # ClojureScript
 [ -d "/opt/clojurescript/bin" ] && PATH="$PATH:/opt/clojurescript/bin"
 
-# .Net tools
-[ -d "$HOME/.dotnet/tools" ] && PATH="$PATH:$HOME/.dotnet/tools"
+# .NET Tools
+export DOTNET_ROOT="${DOTNET_ROOT:=/usr/share/dotnet}"
+export DOTNET_TOOLS_PATH="${DOTNET_TOOLS_PATH:=$HOME/.dotnet/tools}"
+[ -d "$DOTNET_TOOLS_PATH" ] && PATH="$PATH:$DOTNET_TOOLS_PATH"
 
-# Yarn Packages
+# Yarn Global Packages (no standard env var)
 [ -d "$HOME/.yarn/bin" ] && PATH="$PATH:$HOME/.yarn/bin"
 
-# Dart pub packages
-[ -d "$HOME/.pub-cache/bin" ] && PATH="$PATH:$HOME/.pub-cache/bin"
+# Dart/Flutter Pub Packages
+export PUB_CACHE="${PUB_CACHE:=$HOME/.pub-cache}"
+[ -d "$PUB_CACHE/bin" ] && PATH="$PATH:$PUB_CACHE/bin"
 
-# NPM --global packages
-[ -d "$HOME/.npm-global/bin" ] && PATH="$PATH:$HOME/.npm-global/bin"
+# Node/NPM Global Packages
+export npm_config_prefix="${npm_config_prefix:=$HOME/.npm-global}"
+[ -d "$npm_config_prefix/bin" ] && PATH="$PATH:$npm_config_prefix/bin"
 
 # Claude
 [ -d "$HOME/.claude/local" ] && PATH="$PATH:$HOME/.claude/local"
