@@ -2,13 +2,18 @@
     "protocol": "openvpn-udp",
     "killswitch": 0,
     "custom_dns": {
-        "enabled": false,
-        "ip_list": []
+        "enabled": true,
+        "ip_list": [
+            {
+                "ip": "194.242.2.3",
+                "enabled": true
+            }
+        ]
     },
-    "ipv6": true,
+    "ipv6": false,
     "anonymous_crash_reports": true,
     "features": {
-        "netshield": 2,
+        "netshield": 0,
         "moderate_nat": false,
         "vpn_accelerator": true,
         "port_forwarding": true
