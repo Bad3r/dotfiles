@@ -5,7 +5,11 @@
         "enabled": true,
         "ip_list": [
             {
-                "ip": "194.242.2.3",
+                "ip": "94.140.14.14",
+                "enabled": true
+            },
+            {
+                "ip": "94.140.15.15",
                 "enabled": true
             }
         ]
