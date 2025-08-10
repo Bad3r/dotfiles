@@ -31,3 +31,6 @@ config/zsh/completion.d/.zshcompdump.zwc
 # Code
 **/.vscode
 **/.kiro
+
+# Large Bins
+.local/bin/logseq-desktop-git
