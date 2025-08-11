@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# File:
+#    /etc/kernel/install.d/85-cmdline-d.install 
+# Description:
+#    /etc/kernel/cmdline.d support
+#    replaces /etc/kernel/cmdline with cmdline.d contents
+
+set -e
+set -o pipefail
+
+# Only run during "add" operations
+[ "$1" = "add" ] || exit 0
+
+# Color codes
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
+# Logging functions
+log_info() {
+    echo -e "${GREEN}[i] kernel-install-cmdline-d: $*${NC}" >&2
+}
+
+log_error() {
+    echo -e "${RED}[!] kernel-install-cmdline-d: $*${NC}" >&2
+}
+
+log_warn() {
+    echo -e "${YELLOW}[w] kernel-install-cmdline-d: $*${NC}" >&2
+}
+
+if [ -d /etc/kernel/cmdline.d ]; then
+    # Remove immutable flag if present (ignore errors if not set)
+    chattr -i /etc/kernel/cmdline 2>/dev/null || true
+    
+    # Temporary file for atomic write, with a trap to ensure cleanup on exit/error
+    TEMP_FILE=$(mktemp /tmp/kernel-cmdline.XXXXXX)
+    trap 'rm -f "$TEMP_FILE"' EXIT
+    
+    # Use an array to collect options efficiently
+    declare -a options_array=()
+    file_count=0
+    
+    # Process files safely, handling spaces in filenames
+    while IFS= read -r -d '' f; do
+        [ -r "$f" ] || continue
+        log_info "Processing: $f"
+        ((++file_count))
+        
+        # This loop structure is the definitive fix.
+        # `|| [ -n "$line" ]` ensures that the last line of a file is processed
+        # even if it is not terminated by a newline character.
+        while IFS= read -r line || [ -n "$line" ]; do
+            # Skip comments and empty lines
+            [[ "$line" =~ ^[[:space:]]*# ]] && continue
+            [[ -z "${line// }" ]] && continue
+            
+            # Normalize whitespace and remove leading/trailing spaces
+            line=$(echo "$line" | tr -s ' ' | sed 's/^ //;s/ $//')
+            [ -z "$line" ] && continue
+            
+            # Correctly parse lines with multiple space-separated parameters
+            read -ra params <<< "$line"
+            options_array+=("${params[@]}")
+        done < "$f"
+    done < <(find /etc/kernel/cmdline.d -name "*.conf" -type f -print0 | sort -z)
+    
+    # Check if any options were collected
+    if [ ${#options_array[@]} -eq 0 ]; then
+        log_warn "No valid options found in /etc/kernel/cmdline.d/"
+        log_warn "Not creating/updating /etc/kernel/cmdline"
+        exit 0
+    fi
+    
+    # Deduplicate and join the parameters correctly.
+    CMDLINE_OPTIONS=$(printf "%s\n" "${options_array[@]}" | awk '!seen[$0]++' | paste -sd ' ')
+    
+    # Write the final, combined options to the temporary file
+    echo "$CMDLINE_OPTIONS" > "$TEMP_FILE"
+    
+    # Atomically replace the old cmdline file with the new one
+    if mv -f "$TEMP_FILE" /etc/kernel/cmdline; then
+        log_info "Updated /etc/kernel/cmdline from $file_count file(s) in cmdline.d/"
+        log_info "Result: $(cat /etc/kernel/cmdline)"
+        
+        # Make the file immutable to enforce the use of the cmdline.d directory
+        chattr +i /etc/kernel/cmdline
+        log_info "Set immutable flag on /etc/kernel/cmdline - use cmdline.d for modifications"
+    else
+        log_error "Failed to update /etc/kernel/cmdline"
+        exit 1
+    fi
+fi
+
+exit 0
