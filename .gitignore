@@ -34,3 +34,7 @@ config/zsh/completion.d/.zshcompdump.zwc
 
 # Large Bins
 .local/bin/logseq-desktop-git
+
+# qBittorrent lock files
+config/qBittorrent/lockfile
+config/qBittorrent/rss/storage.lock
