@@ -1,0 +1,46 @@
+#!/bin/bash
+# Verify kernel cmdline configuration
+
+echo "=== Current /etc/kernel/cmdline ==="
+if [ -f /etc/kernel/cmdline ]; then
+    cat /etc/kernel/cmdline
+else
+    echo "(file does not exist)"
+fi
+
+echo -e "\n=== Files in /etc/kernel/cmdline.d/ ==="
+if [ -d /etc/kernel/cmdline.d ]; then
+    ls -la /etc/kernel/cmdline.d/*.conf 2>/dev/null || echo "(no .conf files)"
+else
+    echo "(directory does not exist)"
+fi
+
+echo -e "\n=== Combined output from cmdline.d ==="
+if [ -d /etc/kernel/cmdline.d ]; then
+    for f in $(find /etc/kernel/cmdline.d -name "*.conf" -type f | sort); do
+        [ -r "$f" ] || continue
+        grep -v '^[[:space:]]*#' "$f" | grep -v '^[[:space:]]*$' | tr '\n' ' '
+    done
+    echo
+else
+    echo "(directory does not exist)"
+fi
+
+echo -e "\n=== Current boot entry options ==="
+if [ -d /efi/loader/entries ]; then
+    for entry in /efi/loader/entries/*.conf; do
+        [ -f "$entry" ] || continue
+        echo "$(basename "$entry"):"
+        grep "^options" "$entry" 2>/dev/null || echo "  (no options line)"
+    done
+else
+    echo "(loader entries not found)"
+fi
+
+echo -e "\n=== Kernel install plugins ==="
+for dir in /etc/kernel/install.d /usr/lib/kernel/install.d; do
+    if [ -d "$dir" ]; then
+        echo "$dir:"
+        ls -la "$dir"/*.install 2>/dev/null | awk '{print "  " $9}' || echo "  (no .install files)"
+    fi
+done
