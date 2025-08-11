@@ -1,0 +1,75 @@
+#!/bin/bash
+# Wrapper to edit kernel cmdline properly
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${GREEN}Kernel Command Line Editor${NC}"
+echo -e "${YELLOW}Using modular configuration in /etc/kernel/cmdline.d/${NC}\n"
+
+# List current configuration files
+echo "Current configuration files:"
+for f in /etc/kernel/cmdline.d/*.conf; do
+    [ -f "$f" ] || continue
+    echo "  - $(basename "$f")"
+    grep -v '^#' "$f" | grep -v '^$' | sed 's/^/      /'
+done
+
+echo -e "\nOptions:"
+echo "1) Edit existing config file"
+echo "2) Create new config file"
+echo "3) Delete config file"
+echo "4) Show combined parameters"
+echo "5) Apply changes (run kernel-install)"
+echo "6) Exit"
+
+read -p "Choice [1-6]: " choice
+
+case $choice in
+    1)
+        echo -e "\nSelect file to edit:"
+        select f in /etc/kernel/cmdline.d/*.conf; do
+            [ -f "$f" ] && sudo ${EDITOR:-nano} "$f" && break
+        done
+        ;;
+    2)
+        read -p "Enter filename (without .conf): " name
+        if [[ "$name" =~ ^[0-9]+-[a-z-]+$ ]]; then
+            sudo ${EDITOR:-nano} "/etc/kernel/cmdline.d/${name}.conf"
+        else
+            echo -e "${RED}Filename should be like: 60-description${NC}"
+            echo "Examples: 10-network, 20-performance, 30-security"
+        fi
+        ;;
+    3)
+        echo -e "\nSelect file to delete:"
+        select f in /etc/kernel/cmdline.d/*.conf; do
+            [ -f "$f" ] && sudo rm -i "$f" && break
+        done
+        ;;
+    4)
+        echo -e "\n${GREEN}Combined kernel parameters:${NC}"
+        for f in /etc/kernel/cmdline.d/*.conf; do
+            [ -f "$f" ] && grep -v '^#' "$f" | grep -v '^$'
+        done | tr '\n' ' ' | sed 's/  */ /g'
+        echo
+        ;;
+    5)
+        echo -e "\n${YELLOW}Applying changes...${NC}"
+        sudo kernel-install add-all
+        echo -e "${GREEN}Done! Changes will take effect on next boot.${NC}"
+        ;;
+    6)
+        exit 0
+        ;;
+esac
+
+# Offer to continue
+echo
+read -p "Press Enter to return to menu, or Ctrl-C to exit..."
+exec "$0"
