@@ -1,0 +1,18 @@
+[user]
+	signingkey = 4E9DD32186954320
+[commit]
+	gpgsign = true
+[gpg]
+    program = gpg
+[diff]
+    tool = kitty
+    guitool = kitty.gui
+[difftool]
+    prompt = false
+    trustExitCode = true
+[difftool "kitty"]
+    cmd = kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+    cmd = kitty -e "kitten diff $LOCAL $REMOTE"
+[pack]
+	compression = 9
