@@ -56,6 +56,9 @@ alias gitroot="cd-gitroot"
 alias groot="cd-gitroot"
 alias cdr="cd-gitroot"
 alias cdroot="cd-gitroot"
+alias jroot="cd-gitroot"
+alias jgit="cd-gitroot"
+alias jro="cd-gitroot"
 
 ##########################################
 # Compilation
