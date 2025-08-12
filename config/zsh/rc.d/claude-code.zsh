@@ -19,7 +19,7 @@ export CLAUDE_BASH_DEFAULT_TIMEOUT_MS=240000 # 4? minutes
 export CLAUDE_BASH_MAX_TIMEOUT_MS=4800000    # 20? minutes
 export BASH_MAX_OUTPUT_LENGTH=1024
 
-export MAX_THINKING_TOKENS=60000       # TODO: Calibrate
+export MAX_THINKING_TOKENS=64000       # TODO: Calibrate
 export CLAUDE_CODE_MAX_OUTPUT_TOKENS=1 # Max tokens: Opus 4 = 32k, Sonnet 4 = 64k, 1 = default
 export MAX_MCP_OUTPUT_TOKENS=32000     # Defualt 25000
 export cleanupPeriodDays=30            # Defualt: 30
@@ -35,6 +35,9 @@ if [[ ! -f ~/.claude.json ]]; then
   claude config set -g preferredNotifChannel iterm2_with_bell
   claude config set -g editorMode vim
   claude config set -g supervisorMode true
-  claude config set -g parallelTasksCount 4
-  claude config set -g installMethod npm
+  claude config set -g autoUpdates false
+  claude config set -g editorMode vim
+  claude config set -g autoCompactEnabled true
+  claude config set -g diffTool kdiff
+  claude config set -g checkpointingEnabled true
 fi
