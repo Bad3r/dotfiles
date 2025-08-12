@@ -15,18 +15,17 @@ logs/
 *.log
 
 # Claude Code
-**/.claude
-.claude/
-CLAUDE.md
+#**/.claude
+#.claude/
+#CLAUDE.md
 
 # Large binary files
 *.AppImage
 bin/*.AppImage
 
 # Zsh runtime files
-config/zsh/.zsh_history
-config/zsh/completion.d/.zshcompdump
-config/zsh/completion.d/.zshcompdump.zwc
+.zsh_history
+.zshcomp*
 
 # Code
 **/.vscode
@@ -34,6 +33,16 @@ config/zsh/completion.d/.zshcompdump.zwc
 
 # Large Bins
 .local/bin/logseq-desktop-git
+*.asar
+
+# Prevent large binary files
+*.run
+bin/pia-*
+bin_bk/bin/pia-*
+scripts/pia-*
+config/spicetify/Extracted/
+config/spicetify/Backup/
+*.ses
 
 # qBittorrent runtime files
 config/qBittorrent/lockfile
