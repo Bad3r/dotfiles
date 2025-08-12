@@ -33,7 +33,7 @@
   "urlProtocol": "kiro",
   "updateUrl": "https://prod.download.desktop.kiro.dev",
   "downloadUrl": "https://kiro.dev",
-	"commit": "c880426c26646dbe1be35e0aa4c0d06fa4b0ec63",
+	"commit": "2d29065bb79e13e4f56561032e821071b52c568b",
 	"quality": "insider",
   "enableTelemetry": true,
   "webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
@@ -144,12 +144,12 @@
     "jeanp413.open-remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"],
     "asbx.remote-ssh": ["resolvers", "tunnels", "terminalDataWriteEvent", "contribRemoteHelp", "contribViewsRemote"]
   },
-	"date": "2025-08-06T05:39:53.078Z",
+	"date": "2025-08-07T20:59:30.385Z",
   "checksums": {
     "vs/base/parts/sandbox/electron-sandbox/preload.js": "h9zTEca4rwe7BSEqQJ9qCOv9wRcI3ndTLT6orJwlwho",
-		"vs/workbench/workbench.desktop.main.js": "hcrMsD9pvX2jgW5yFEOvL0p8y6gecY48ODk5qkmT9Tc",
+		"vs/workbench/workbench.desktop.main.js": "w7EV2p2zv1MwGz0XPO8aOunUmXuIu5oY4ZYNqVDZSgg",
     "vs/workbench/workbench.desktop.main.css": "bu4cGcjt4RJjtvP+xneJ8SomOz+QmwSbxpZNQ4LskIo",
-		"vs/workbench/api/node/extensionHostProcess.js": "sJN2GR+b1Q/2qmNewXAIeRNSM6yM+ezCPykmTcQkr+o",
+		"vs/workbench/api/node/extensionHostProcess.js": "uwZrZjDZLEKR0ZTfopJRzRC4OU5x8lCJPoqqx9+2qI8",
     "vs/code/electron-sandbox/workbench/workbench.esm.html": "bmf0huk0BLDJrGqALjDJTi9WkCgr2gxudcA/UTcmzzY",
     "vs/code/electron-sandbox/workbench/workbench.js": "5GiNWZzGnzcbUvuhYk+dH6fDEK45DN1Sgj4KP61KP3E"
   },
