@@ -15,4 +15,40 @@
 [difftool "kitty.gui"]
     cmd = kitty -e "kitten diff $LOCAL $REMOTE"
 [pack]
-	compression = 9
+	compression = 1 
+	threads = 0
+	windowMemory = 256m
+	packSizeLimit = 128m
+
+[core]
+	compression = 1 
+	preloadIndex = true
+	fscache = true
+	bigFileThreshold = 512m
+
+[protocol]
+	version = 2
+
+[fetch]
+	writeCommitGraph = true
+
+[http]
+	postBuffer = 524288000
+	lowSpeedLimit = 1000
+	lowSpeedTime = 60
+
+[ssh]
+	postBuffer = 524288000
+
+[push]
+	autoSetupRemote = true
+	default = current
+
+[pull]
+	rebase = true
+
+[transfer]
+	fsckObjects = false
+
+[receive]
+	keepAlive = 60 
