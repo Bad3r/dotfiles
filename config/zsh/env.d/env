@@ -80,10 +80,7 @@ PATH="$HOME/.local/bin:$HOME/bin${PATH:+:$PATH}"
 #  Emacs Packages
 [ -d "$HOME/.emacs.d/bin" ] && PATH="$PATH:$HOME/.emacs.d/bin"
 
-# Go Packages
-export GOPATH="${GOPATH:=$HOME/go}"
-export GOBIN="${GOBIN:=$GOPATH/bin}"
-[ -d "$GOBIN" ] && PATH="$PATH:$GOBIN"
+# Go configuration moved to rc.d/go.zsh
 
 # Rust Cargo Packages
 export CARGO_HOME="${CARGO_HOME:=$XDG_CONFIG_HOME/cargo}"
