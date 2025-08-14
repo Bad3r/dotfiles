@@ -9,3 +9,6 @@
 [submodule ".i3sass"]
 	path = .i3sass
 	url = https://github.com/budlabs/i3ass.git
+[submodule "Mullvad-iOS-MacOS-DNS-Profiles"]
+	path = Mullvad-iOS-MacOS-DNS-Profiles
+	url = https://github.com/mullvad/encrypted-dns-profiles.git
