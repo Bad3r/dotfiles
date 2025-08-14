@@ -1,0 +1,23 @@
+{
+    "border": "pixel",
+    "current_border_width": 5,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 1397,
+       "width": 1265,
+       "x": 3283,
+       "y": 163
+    },
+    "marks": [],
+    "name": "* #ios-share",
+    "percent": 1,
+    "swallows": [
+       {
+        "class": "^Ripcord$",
+        "instance": "^ripcord$",
+        "title": "^\\*\\ \\#ios\\-share$"
+       }
+    ],
+    "type": "con"
+}
+
