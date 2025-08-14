@@ -1,0 +1,11 @@
+[submodule ".dotbot"]
+	path = .dotbot
+	url = https://github.com/anishathalye/dotbot
+	ignore = dirty
+[submodule ".antidote"]
+	path = .antidote
+	url = https://github.com/mattmc3/antidote
+	ignore = dirty
+[submodule ".i3sass"]
+	path = .i3sass
+	url = https://github.com/budlabs/i3ass.git
