@@ -5,8 +5,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/home/odd/git/claude_reset
-ExecStart=/home/odd/git/claude_reset/run_claude_reset.sh
+WorkingDirectory=%h/git/claude_reset
+ExecStart=%h/git/claude_reset/run_claude_reset.sh
 Restart=on-failure
 RestartSec=5min
 TimeoutStartSec=4h

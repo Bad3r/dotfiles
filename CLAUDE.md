@@ -6,6 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive Linux dotfiles repository containing configuration files for various applications and development tools. The repository uses dotbot for installation management and follows the XDG Base Directory specification.
 
+## Submodules
+
+The repository includes the following git submodules:
+- **`.dotbot`** - Dotbot installation framework for managing symlinks
+- **`.antidote`** - Fast Zsh plugin manager for performance optimization
+- **`.i3sass`** - i3 window manager utilities and enhancements
+- **`Mullvad-iOS-MacOS-DNS-Profiles`** - DNS configuration profiles
+
+Update all submodules with: `git submodule update --init --recursive`
+
 ## Common Commands
 
 ### Installation & Deployment
@@ -13,7 +23,8 @@ This is a comprehensive Linux dotfiles repository containing configuration files
 # Install/update dotfiles using dotbot
 ./z-install-dots
 
-# Link specific configurations (Electron app configs)
+# Link Electron app configs (Logseq, Obsidian)
+# Note: Uses $DOTFILES and $XDG_CONFIG_HOME env variables
 ./link_conf.sh
 
 # Update all system packages and tools
@@ -31,11 +42,19 @@ git submodule update --init --recursive
 i3-msg reload
 
 # Test i3 configuration for errors
-i3 -C -c config/i3/config
+i3 -C -c ~/.config/i3/config
 
 # Test toggle scripts
 ~/.config/i3/scripts/toggle_logseq.sh
 ~/.config/i3/scripts/toggle_obsidian.sh
+
+# Debug script environment variables
+i3-msg 'exec --no-startup-id env > /tmp/i3-env.log'
+cat /tmp/i3-env.log
+
+# Get window information for i3 rules
+~/.local/bin/sss-get-window-info
+~/.local/bin/i3-get-window-criteria
 ```
 
 #### Zsh Configuration
@@ -92,6 +111,13 @@ git commit -S -m "type(scope): description"
 ```
 
 ### Kernel Parameter Management
+
+The repository includes a modular kernel command line configuration system:
+- **`etc/kernel/cmdline.d/*.conf`** - Individual parameter files (e.g., 10-intel-graphics.conf, 20-performance.conf)
+- **`etc/kernel/install.d/85-cmdline-d.install`** - Hook that combines modular configs into `/etc/kernel/cmdline`
+- Parameters are organized by category (graphics, performance, storage, etc.)
+- The system automatically combines and deduplicates parameters during kernel installation
+
 ```bash
 # Edit kernel command line parameters
 ~/.local/bin/edit-kernel-params
@@ -101,6 +127,43 @@ git commit -S -m "type(scope): description"
 
 # After changes, regenerate boot entries
 sudo kernel-install add-all
+```
+
+### Package Management
+```bash
+# Install packages interactively from packages.txt
+~/.local/bin/sss-pacinstall
+
+# Remove packages with cleanup
+~/.local/bin/sss-pacrm
+
+# Update package signing keys
+~/.local/bin/update-keys
+
+# Check for package updates
+~/.local/bin/pacman-update-check.abs
+```
+
+### Utility Scripts
+```bash
+# Screenshot with OCR capability
+~/.local/bin/sss-OCR-Screenshot
+
+# Record screen as GIF
+~/.local/bin/sss-gif
+
+# Record video
+~/.local/bin/sss-record-video
+
+# Update Logseq desktop app
+~/.local/bin/sss-update-logseq
+
+# Get window information for i3 configuration
+~/.local/bin/sss-get-window-info
+i3-get-window-criteria
+
+# Sort downloads folder by file type
+~/.local/bin/sss-sort-downloads
 ```
 
 ## Architecture
@@ -143,12 +206,6 @@ The `z-install.conf.yml` defines symlinks and installation rules. When adding ne
 1. Add entry to `z-install.conf.yml`
 2. Run `./z-install-dots` to create symlinks
 
-#### Kernel Parameter Management
-The repository includes a modular kernel command line configuration system:
-- **`etc/kernel/cmdline.d/*.conf`** - Individual parameter files (e.g., 10-intel-graphics.conf, 20-performance.conf)
-- **`etc/kernel/install.d/85-cmdline-d.install`** - Hook that combines modular configs into `/etc/kernel/cmdline`
-- Parameters are organized by category (graphics, performance, storage, etc.)
-- The system automatically combines and deduplicates parameters during kernel installation
 
 ### Performance Considerations
 - Zsh uses lazy loading for heavy tools (zoxide, atuin, dotnet)
@@ -173,6 +230,12 @@ i3 -c config/i3/config.test
 # Test Zsh changes in isolated session
 zsh -f  # Start without configs
 source path/to/test/config
+
+# Test Zsh configuration syntax
+zsh -n config/zsh/**/*.zsh
+
+# Test systemd service syntax
+systemd-analyze verify --user config/systemd/user/*.service
 ```
 
 ### Common File Locations
@@ -184,15 +247,6 @@ source path/to/test/config
 
 ## Important Notes
 
-### Git Submodules
-The repository includes several submodules:
-- **`.dotbot`** - Dotbot installation framework for managing symlinks
-- **`.antidote`** - Fast Zsh plugin manager for performance optimization
-- **`.i3sass`** - i3 window manager utilities and enhancements
-- **`Mullvad-iOS-MacOS-DNS-Profiles`** - DNS configuration profiles
-
-Update all submodules with: `git submodule update --init --recursive`
-
 ### Security Considerations
 Before making the repository public:
 - Review for hardcoded paths containing usernames (e.g., `/home/odd/`)
@@ -202,10 +256,34 @@ Before making the repository public:
 
 ### Tool Dependencies
 - Many configurations depend on specific tools being installed (see `config/zsh/3rd_party_tools.md`)
-- Recommended essential packages: `bat bat-extras starship zoxide git-delta fzf eza entr prettier shfmt atuin sxiv zathura nemo firefox antidot xsel`
+- Essential packages listed in `packages.txt` - use `~/.local/bin/sss-pacinstall` to install interactively
+
+#### Core Recommended Packages
+```bash
+# Essential shell utilities
+sudo pacman -S bat bat-extras starship zoxide git-delta fzf eza entr atuin ripgrep fd
+
+# Formatting and linting tools
+sudo pacman -S prettier shfmt hadolint ruff biome
+
+# Desktop environment
+sudo pacman -S i3 dunst rofi kitty sxiv zathura nemo firefox xsel
+
+# Package manager for AUR
+yay -S antidote-git autotiling-rs
+```
 - i3 configuration uses `$Mod` (Super/Windows key) for most keybindings
 - Electron app configs should not be symlinked entirely - use `link_conf.sh` pattern
 - System-wide configs in `etc/` may require sudo to install
+
+### Dotbot Configuration Status
+The `z-install.conf.yml` dotbot configuration is currently incomplete (per TODO.md). Current links include:
+- `~/.zshenv` → `config/zsh/.zshenv`
+- `~/.config/zsh` → Zsh configuration directory
+- `~/.config/i3` → i3 window manager config
+- `~/.Xresources` → X11 resources
+
+To add new symlinks, edit `z-install.conf.yml` and run `./z-install-dots`
 
 ### Topgrade Configuration
 The repository includes automated update configuration at `config/topgrade.d/topgrade.toml`:
@@ -225,6 +303,9 @@ From `TODO.md` - Areas that need attention:
 
 ### Zsh Slow Startup
 ```bash
+# Run comprehensive profiling script
+$ZDOTDIR/profile-startup.sh
+
 # Profile to identify bottlenecks
 ZSH_PROFILE=1 zsh -i -c exit
 
@@ -233,6 +314,7 @@ ls -la $ANTIDOTE_HOME/plugins.zsh
 
 # Test without plugins
 mv $ANTIDOTE_HOME/plugins.zsh{,.bak} && zsh
+mv $ANTIDOTE_HOME/plugins.zsh{.bak,}
 ```
 
 ### i3 Configuration Issues
@@ -242,6 +324,16 @@ i3 -C -c config/i3/config
 
 # View i3 logs
 journalctl --user -u i3 -n 50
+
+# Test environment variables in i3 context
+i3-msg 'exec --no-startup-id env > /tmp/i3-env.log'
+cat /tmp/i3-env.log
+
+# Debug toggle scripts
+bash -x ~/.config/i3/scripts/toggle_logseq.sh
+
+# Get workspace information
+i3-msg -t get_workspaces
 ```
 
 ### Missing Commands

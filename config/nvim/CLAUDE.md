@@ -3,7 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Overview
-This is a minimal Neovim configuration that uses lazy.nvim as the plugin manager. The entire configuration is contained in a single `init.lua` file. This is part of a larger dotfiles repository located at `/home/odd/dotfiles`.
+This is a minimal Neovim configuration that uses lazy.nvim as the plugin manager. The entire configuration is contained in a single `init.lua` file. This is part of a larger dotfiles repository.
 
 ## Common Commands
 

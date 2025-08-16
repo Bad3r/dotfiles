@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Source the library
-. ~/scripts/lib/window_utils.sh
+. "$USR_LIB_DIR/window_utils"
 
 # Calculate the window geometry
 calculate_window_geometry
