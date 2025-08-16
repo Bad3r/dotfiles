@@ -11,7 +11,7 @@ This is the i3 window manager configuration directory within a dotfiles reposito
 ### Testing & Reloading Configuration
 ```bash
 # Test configuration for syntax errors before applying
-i3 -C -c /home/odd/dotfiles/config/i3/config
+i3 -C -c ~/.config/i3/config
 
 # Reload i3 configuration (Mod+Shift+c)
 i3-msg reload
@@ -140,7 +140,7 @@ The configuration uses i3status-rs instead of i3blocks. To modify:
 ### Configuration Errors
 ```bash
 # Validate config syntax
-i3 -C -c /home/odd/dotfiles/config/i3/config
+i3 -C -c ~/.config/i3/config
 
 # Check i3 logs
 journalctl --user -u i3 -n 50
