@@ -8,6 +8,12 @@ function command_not_found_handler {
     
     local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
     printf 'zsh: command not found: %s\n' "$1"
+    
+    # Check if pacman exists before trying to use it
+    if ! command -v pacman >/dev/null 2>&1 || [[ ! -x /usr/bin/pacman ]]; then
+        return 127
+    fi
+    
     local entries=(
         ${(f)"$(/usr/bin/pacman -F --machinereadable -- "/usr/bin/$1")"}
     )
