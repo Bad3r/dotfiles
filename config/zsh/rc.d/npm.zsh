@@ -28,8 +28,8 @@ npm config set cache "$npm_cache_dir" >/dev/null 2>&1
 npm config set cache-max 1073741824 >/dev/null 2>&1 # 1GB limit
 
 # Registry & Network
-# https://registry.npmjs.cf is Cloudflare's npm mirror
-npm config set registry https://registry.npmjs.cf >/dev/null 2>&1
+# Using official npm registry (fastest from Saudi Arabia based on benchmarks)
+npm config set registry https://registry.npmjs.org >/dev/null 2>&1
 npm config set progress false >/dev/null 2>&1 # cleaner install output
 
 # Development workflow
