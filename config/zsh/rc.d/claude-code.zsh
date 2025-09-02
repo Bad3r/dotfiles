@@ -25,7 +25,7 @@ export CLAUDE_CODE_MAX_OUTPUT_TOKENS=1 # Max tokens: Opus 4 = 32k, Sonnet 4 = 64
 export MAX_MCP_OUTPUT_TOKENS=32000     # Defualt 25000
 export cleanupPeriodDays=30            # Defualt: 30
 
-export ANTHROPIC_MODEL=claude-opus-4-20250514          # TODO: Ensure that its up to date as well as ANTHROPIC_SMALL_FAST_MODEL in ~/.claude/settings.json
+#export ANTHROPIC_MODEL=claude-opus-4-20250514          # TODO: Ensure that its up to date as well as ANTHROPIC_SMALL_FAST_MODEL in ~/.claude/settings.json
 export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGIO=me-south-1 # https://www.economize.cloud/resources/aws/regions-zones-map
 export VERTEX_REGION_CLAUDE_4_0_OPUS=me-south-1
 export VERTEX_REGION_CLAUDE_4_0_SONNET=me-south-1
