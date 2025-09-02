@@ -1,5 +1,5 @@
 # catch non-zsh and non-interactive shells
-[[ $- == *i* && $ZSH_VERSION ]] && SHELL=/usr/bin/zsh || return 0
+[[ $- == *i* && $ZSH_VERSION ]] && SHELL=$(which zsh) || return 0
 
 # set debug mode
 DEBUG=0

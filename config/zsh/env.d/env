@@ -40,7 +40,12 @@ export IMAGE="feh"
 export OPENER="xdg-open"
 
 export WM="i3"
-export SHELL="/usr/bin/zsh"
+# Dynamically set SHELL to work on any system
+if command -v zsh >/dev/null 2>&1; then
+  export SHELL="$(command -v zsh)"
+else
+  export SHELL="/bin/sh"
+fi
 
 # Git repo for dotfiles
 export DOTFILES="$HOME/dotfiles"
