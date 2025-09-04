@@ -36,9 +36,9 @@ if [[ ! -f ~/.claude.json ]]; then
   claude config set -g preferredNotifChannel iterm2_with_bell
   claude config set -g editorMode vim
   claude config set -g supervisorMode true
+  claude config set -g autocheckpointingEnabled true
   claude config set -g autoUpdates false
   claude config set -g editorMode vim
   claude config set -g autoCompactEnabled true
   claude config set -g diffTool kdiff
-  claude config set -g checkpointingEnabled true
 fi

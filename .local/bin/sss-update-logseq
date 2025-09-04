@@ -2,7 +2,7 @@
 set -e
 
 # Configuration
-BRANCH="master"
+BRANCH="test/db"
 INSTALL_DIR="$USR_BIN_DIR/logseq-desktop-git"
 LOGSEQ_DIR="$(eval printf '%s' "~$(id -nu 1000)")/git/logseq"
 STATIC_DIR="$LOGSEQ_DIR/static"
@@ -92,10 +92,13 @@ yarn install --silent --parallel
 
 cd "$LOGSEQ_DIR" || exit 1
 show_progress "Preparing ClojureScript environment"
-clojure -P -M:cljs
+# clojure -P -M:cljs
 
 show_progress "Building Electron release"
-yarn cljs:dev-release-electron
+clojure -M:cljs release app db-worker inference-worker electron --debug --config-merge
+'{:compiler-options {:source-map-include-sources-content true :source-map-detail-level :symbols}}'
+
+clojure -M:cljs release publishing
 
 cd "$STATIC_DIR" || exit 1
 show_progress "Packaging with Electron Forge"
