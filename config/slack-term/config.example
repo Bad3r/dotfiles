@@ -1,12 +1,7 @@
 {
-    "slack_token": "0x00",
-
     "sidebar_width": 2,
-
     "notify": "all",
-
     "emoji": true,
-
     "key_map": {
         "command": {
             "i": "mode-insert",
@@ -15,8 +10,8 @@
             "J": "channel-down",
             "g": "channel-top",
             "G": "channel-bottom",
-      	    "c-k": "thread-up",
-	          "c-J": "thread-down",
+            "c-k": "thread-up",
+            "c-J": "thread-down",
             "<previous>": "chat-up",
             "j": "chat-up",
             "<next>": "chat-down",
@@ -48,7 +43,6 @@
             "<space>": "space"
         }
     },
-
     "theme": {
         "view": {
             "fg": "white",

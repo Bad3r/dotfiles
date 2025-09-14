@@ -48,3 +48,8 @@ config/spicetify/Backup/
 config/qBittorrent/lockfile
 config/qBittorrent/rss/storage.lock
 config/qBittorrent/qBittorrent-data.conf
+ 
+# Secrets / local overrides
+config/slack-term/config
+config/VSCodium/User/settings.local.json
+config/marktext/preferences.json
