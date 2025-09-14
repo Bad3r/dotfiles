@@ -1,30 +1,118 @@
 - clean: ['~']
 
+- defaults:
+    link:
+      create: true
+      relink: true
+
 - link:
-    ~/.profile:
-        path:   profile
-        create: false
-        relink: false
-        force:  false
-    ~/.zshenv:
-        path:   .zshenv
-        create: false
-        relink: false
-        force:  false
-    ~/.config/zsh:
-        path:   config/zsh
-        create: true
-        relink: false
-        force:  false
+    ~/.zshenv: { path: config/zsh/.zshenv }
     ~/.Xresources:
-        path:   .Xresources
-        create: false
-        relink: false
-        force:  false
-    ~/.config/i3:
-        path:   config/i3
-        create: true
-        relink: false
-        force:  false
-
-
+      path: home/Xresources
+      if: 'test ! -e ~/.Xresources'
+    ~/.gitconfig: { path: home/gitconfig }
+    ~/.gitignore: { path: home/gitignore }
+    ~/.config/zsh:           { path: config/zsh }
+    ~/.config/i3:            { path: config/i3 }
+    ~/.config/dunst:         { path: config/dunst }
+    ~/.config/i3status-rust: { path: config/i3status-rust }
+    ~/.config/JetBrains:     { path: config/JetBrains }
+    ~/.config/Logseq:        { path: config/Logseq }
+    ~/.config/marktext:      { path: config/marktext }
+    ~/.config/neofetch:      { path: config/neofetch }
+    ~/.config/nvim:          { path: config/nvim }
+    ~/.config/obsidian:      { path: config/obsidian }
+    ~/.config/pacman.d:      { path: config/pacman.d }
+    ~/.config/picom:         { path: config/picom }
+    ~/.config/ranger:        { path: config/ranger }
+    ~/.config/redo:          { path: config/redo }
+    ~/.config/rofi:          { path: config/rofi }
+    ~/.config/slack-term:
+      path: config/slack-term
+      if: 'test ! -f ~/.config/slack-term/config'
+    ~/.config/sxhkd:         { path: config/sxhkd }
+    ~/.config/tealdeer:      { path: config/tealdeer }
+    ~/.config/topgrade.d:    { path: config/topgrade.d }
+    ~/.config/vscode-oss:    { path: config/vscode-oss }
+    ~/.config/VSCodium:      { path: config/VSCodium }
+    ~/.config/mimeapps.list: { path: config/mimeapps.list }
+    ~/.config/alacritty:
+      path: config/alacritty
+      force: true
+      relink: true
+    ~/.config/atuin:
+      path: config/atuin
+      force: true
+      relink: true
+    ~/.config/autostart:
+      path: config/autostart
+      force: true
+      relink: true
+    ~/.config/bat:
+      path: config/bat
+      force: true
+      relink: true
+    ~/.config/environment.d:
+      path: config/environment.d
+      force: true
+      relink: true
+    ~/.config/gtk-3.0:
+      path: config/gtk-3.0
+      force: true
+      relink: true
+    ~/.config/gtk-4.0:
+      path: config/gtk-4.0
+      force: true
+      relink: true
+    ~/.config/gtkrc:
+      path: config/gtkrc
+      force: true
+      relink: true
+    ~/.config/gtkrc-2.0:
+      path: config/gtkrc-2.0
+      force: true
+      relink: true
+    ~/.config/kitty:
+      path: config/kitty
+      force: true
+      relink: true
+    ~/.config/lazygit:
+      path: config/lazygit
+      force: true
+      relink: true
+    ~/.config/MangoHud:
+      path: config/MangoHud
+      force: true
+      relink: true
+    ~/.config/mpv:
+      path: config/mpv
+      force: true
+      relink: true
+    ~/.config/qt5ct:
+      path: config/qt5ct
+      force: true
+      relink: true
+    ~/.config/qt6ct:
+      path: config/qt6ct
+      force: true
+      relink: true
+    ~/.config/systemd:
+      path: config/systemd
+      force: true
+      relink: true
+    ~/.config/wezterm:
+      path: config/wezterm
+      force: true
+      relink: true
+    ~/.config/xsettingsd:
+      path: config/xsettingsd
+      force: true
+      relink: true
+    ~/.config/user-dirs.dirs:
+      path: config/user-dirs.dirs
+      force: true
+      relink: true
+    ~/.config/user-dirs.locale:
+      path: config/user-dirs.locale
+      force: true
+      relink: true

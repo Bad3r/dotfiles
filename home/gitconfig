@@ -1,7 +1,8 @@
 [user]
-	signingkey = 4E9DD32186954320
+	name = Bad3r
+	email = 25513724+Bad3r@users.noreply.github.com
 [commit]
-	gpgsign = true
+	gpgsign = false
 [gpg]
     program = gpg
 [diff]
@@ -51,4 +52,7 @@
 	fsckObjects = false
 
 [receive]
-	keepAlive = 60 
+	keepAlive = 60
+
+[advice]
+	skippedCherryPicks = false
