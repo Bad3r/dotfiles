@@ -1,0 +1,50 @@
+# tmp dump
+*.zwc
+**/repomix-output.xml
+.zcompdump
+# Misc
+**/bin/biglybt/
+
+# Toml Bombadil
+.dots
+*.dccache
+
+# logs
+logs/
+**/logs
+*.log
+
+# Claude Code
+#**/.claude
+#.claude/
+#CLAUDE.md
+
+# Large binary files
+*.AppImage
+bin/*.AppImage
+
+# Zsh runtime files
+.zsh_history
+.zshcomp*
+
+# Code
+**/.vscode
+**/.kiro
+
+# Large Bins
+.local/bin/logseq-desktop-git
+*.asar
+
+# Prevent large binary files
+*.run
+bin/pia-*
+bin_bk/bin/pia-*
+scripts/pia-*
+config/spicetify/Extracted/
+config/spicetify/Backup/
+*.ses
+
+# qBittorrent runtime files
+config/qBittorrent/lockfile
+config/qBittorrent/rss/storage.lock
+config/qBittorrent/qBittorrent-data.conf
