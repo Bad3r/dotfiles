@@ -378,7 +378,7 @@ alias gmum="git merge upstream/master"
 alias gp="git push"
 alias gpf="git push --force"
 alias gr="git reset"
-alias gs="git status -s"
+alias gs="git status -sb"
 alias gu="git pull"
 
 # Advanced Git commands
