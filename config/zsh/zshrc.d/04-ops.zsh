@@ -7,6 +7,9 @@ setopt correct
 # Extended globbing. Allows using regular expressions with *
 setopt extendedglob
 
+# Keep '#' literal so flake targets like `nix run .#pkg` work
+unsetopt interactivecomments
+
 # Case insensitive globbing
 setopt nocaseglob
 
@@ -56,4 +59,3 @@ setopt correctall
 
 # Report command stats if time is >
 REPORTTIME=5
-
