@@ -33,6 +33,28 @@ killall i3status-rs && i3status-rs &
 journalctl --user -u i3status-rs -n 50
 ```
 
+### Screen Locking
+```bash
+# Trigger the Stylix-managed lock screen
+i3lock-stylix
+
+# Restart the locker service if needed
+systemctl --user restart xss-lock.service
+```
+
+### Deprecated Autostart Entries
+
+These commands used to be launched directly from the legacy i3 config. As part of the NixOS/Home
+Manager migration they are now **deprecated** and should not be reintroduced:
+
+- `nm-tray` (replaced by managed `nm-applet` startup)
+- `/opt/piavpn/bin/pia-client`
+- `arandr-indicator`
+- Manual `hsetroot` wallpaper calls (Stylix now derives the solid background colour)
+
+Any future need for these helpers should be handled via dedicated Nix or Home Manager modules
+rather than ad-hoc `exec` lines.
+
 ### Window Management
 ```bash
 # Show/hide scratchpad window (Mod+z)
