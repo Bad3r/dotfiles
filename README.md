@@ -3,7 +3,7 @@
 ## Current Setup Notes:
 - Terminal:             `kitty`
 - Icon Theme:           `Qogir-dark`
-- Prefered Theme:       `GitHub Dark Dimmed`
+- Preferred Theme:       `GitHub Dark Dimmed`
 - Font:                 `MonoLisa Variable`, `ttf-font-awesome`, `woff2-font-awesome`, `atkinson-hyperlegible-next`, `ttf-devicons`, `ttf-octicons`
 - Power Management:     `xfce4-power-manager`, `power-profiles-daemon`
 - Notification Daemon:  `dunst`
@@ -37,4 +37,3 @@ Where `$ZDOTDIR` is set to `"${XDG_CONFIG_HOME:-$HOME/.config}/zsh"` in `$HOME/.
 
 ### References
 - <a name="ref1">1</a> [ZSH Documentation: 5.1 Startup/Shutdown Files](https://zsh.sourceforge.io/Doc/Release/Files.html#Files) 
-

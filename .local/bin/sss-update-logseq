@@ -117,7 +117,7 @@ yarn electron-forge package
 #show_progress "Cleaning up build artifacts"
 #rm -rf "$OUTPUT_DIR"
 
-#show_progress "Setting permissons (root:users)"
+#show_progress "Setting permissions (root:users)"
 #sudo chown -R root:users /opt/logseq-desktop-git/
 #sudo chmod -R 755 /opt/logseq-desktop-git
 

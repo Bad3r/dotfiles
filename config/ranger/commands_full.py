@@ -1436,7 +1436,7 @@ class scout(Command):
         if self._regex is not None:
             return self._regex
 
-        frmat = "%s"
+        fmt = "%s"
         flags = self.flags
         pattern = self.pattern
 
@@ -1446,10 +1446,10 @@ class scout(Command):
         # Handle carets at start and dollar signs at end separately
         if pattern.startswith('^'):
             pattern = pattern[1:]
-            frmat = "^" + frmat
+            fmt = "^" + fmt
         if pattern.endswith('$'):
             pattern = pattern[:-1]
-            frmat += "$"
+            fmt += "$"
 
         # Apply one of the search methods
         if self.SM_REGEX in flags:
@@ -1461,7 +1461,7 @@ class scout(Command):
         else:
             regex = re.escape(pattern)
 
-        regex = frmat % regex
+        regex = fmt % regex
 
         # Invert regular expression if necessary
         if self.INVERT in flags:

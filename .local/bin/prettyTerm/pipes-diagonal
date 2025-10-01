@@ -102,7 +102,7 @@ trap do_exit INT TERM
 stty -echo
 echo -ne "\e[?25l"
 
-# maze geneartion
+# maze generation
 while [[ $MAZE ]] && clear; do
   [[ $NOCOLOR ]] || echo -ne "\e[1;${COLORS[${#COLORS[@]} * RANDOM / M]}m"
   for ((i = 0; i < W * H; i++ )); do
@@ -111,7 +111,7 @@ while [[ $MAZE ]] && clear; do
   read -t $I -n 1 && [[ $REPLY =~ q|Q ]] && do_exit
 done
 
-# initialze values
+# initialize values
 for ((n = 0; n < N; n++)); do
   ((X[n] = RNDSTART ? (W + 2) * RANDOM / M : W / 2))
   ((Y[n] = RNDSTART ? (H + 2) * RANDOM / M : H / 2))
@@ -184,4 +184,3 @@ while :; do
 done
 
 do_exit
-

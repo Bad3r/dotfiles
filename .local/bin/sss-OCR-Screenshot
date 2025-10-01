@@ -15,7 +15,7 @@ for dependency in "${dependencies[@]}"; do
     type -p "$dependency" &>/dev/null || {
         # The reason why we are sending the error as a notification is because
         # user is most likely going to run this script by binding it to their
-        # keyboard, therefor they cant see any text that is outputed using echo
+        # keyboard, therefore they cant see any text that is output using echo
         notify-send "ocr" "Could not find '${dependency}', is it installed?"
         echo "Could not find '${dependency}', is it installed?"
         exit 1
@@ -31,7 +31,7 @@ maim -s "$IMAGE_FILE"
 # screenshot by doing something like pressing the escape key
 STATUS=$?
 
-# If the user pressed the escape key or did something to terminate the proccess
+# If the user pressed the escape key or did something to terminate the process
 # taking a screenshot, then just exit
 [ $STATUS -ne 0 ] && exit 1
 

@@ -63,7 +63,7 @@ pacnew() {
     if (( $+commands[meld] )); then
         sudo meld "$file" "$pacnew"
     else
-        echo "[!] Meld not isntalled. Using $DIFFPROG isntead"
+        echo "[!] Meld not installed. Using $DIFFPROG instead"
         echo "  -> Install meld: yay -S meld"
         sudo $DIFFPROG "$file" "$pacnew"
     fi

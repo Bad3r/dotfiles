@@ -1,0 +1,27 @@
+minimum_pre_commit_version: '3.7.0'
+default_install_hook_types:
+  - pre-commit
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: detect-private-key
+        name: Detect private keys
+  - repo: https://github.com/sirwart/ripsecrets
+    rev: v0.1.11
+    hooks:
+      - id: ripsecrets
+        name: Ripsecrets
+        args:
+          - --strict-ignore
+        types: [text]
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.37.0
+    hooks:
+      - id: typos
+        name: Typos
+        args:
+          - --config
+          - .typos.toml
+          - --force-exclude
+        types: [text]

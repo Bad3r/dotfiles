@@ -1,0 +1,43 @@
+[default.extend-words]
+dotfiles = "dotfiles"
+Tabliss = "Tabliss"
+Mullvad = "Mullvad"
+tilda = "tilda"
+edn = "edn"
+styl = "styl"
+iterm = "iterm"
+iterm2 = "iterm2"
+logseq = "logseq"
+Siduction = "Siduction"
+fo = "fo"
+Pn = "Pn"
+ND = "ND"
+BRE = "BRE"
+USBGuard = "USBGuard"
+UsbGaurd = "UsbGaurd"
+USBGaurd = "USBGaurd"
+localed = "localed"
+greprin = "greprin"
+rin = "rin"
+ot = "ot"
+HAX = "HAX"
+
+[files]
+extend-exclude = [
+  ".git/",
+  ".mozilla/",
+  "usr/",
+  "opt/",
+  "Mullvad-iOS-MacOS-DNS-Profiles/",
+  "dark-Reader-Settings/",
+  "tabliss/",
+  "themes/",
+  "ASCII/",
+  ".local/share/fonts/",
+  ".local/share/fonts/**",
+  "config/JetBrains/",
+  "config/JetBrains/**",
+  "config/marktext/dictionaries/",
+  "config/marktext/dictionaries/**",
+  "**/*.pdf"
+]

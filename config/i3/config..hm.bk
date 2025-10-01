@@ -461,8 +461,8 @@ client.background       #242424
 # --------------------------------------------------------------------------- #
 # --------------------------------------------------------------------------- #
 
-set $Mode_gaps Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, \
-                                                (r)ight, (b)ottom, (l)eft
+set $Mode_gaps Gaps: outer (o), inner (i), horizontal (h), vertical (v), top (t), \
+                                                right (r), bottom (b), left (l)
 set $Mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $Mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $Mode_gaps_horiz Horizontal Gaps: +|-|0 (local), Shift + +|-|0 (global)

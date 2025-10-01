@@ -16,7 +16,7 @@ unsetopt interactivecomments
 # Case insensitive globbing
 setopt nocaseglob
 
-# Array expension with parameters
+# Array expansion with parameters
 setopt rcexpandparam
 
 # Don't warn about running processes when exiting
@@ -35,7 +35,7 @@ setopt pushdminus
 # If command is a path, cd into it
 setopt auto_cd
 
-# automatically pushes (unique) directories visted into $dirstack
+# automatically pushes (unique) directories visited into $dirstack
 # to trace back use `$ popd`
 # or `$ cd -5` to get back to the 5th most recent directory you've visited
 setopt autopushd pushdminus pushdsilent pushdtohome pushdignoredups
@@ -53,7 +53,7 @@ setopt auto_remove_slash
 # Resolve symbolic links
 setopt chase_links
 
-# Prevents accidantally overwriting a file
+# Prevents accidentally overwriting a file
 # use !< to force writing to the file
 setopt noclobber
 

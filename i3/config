@@ -386,7 +386,7 @@ bar {
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 # startup files location: $XDG_CONFIG_HOME/autostart, /etc/xdg/autostart
-# completely disaple it by preventing the system from reading the dir
+# completely disable it by preventing the system from reading the dir
 # sudo chmod -r /etc/xdg/autostart  $XDG_CONFIG_HOME/autostart
 # exec --no-startup-id dex --autostart --environment i3
 
@@ -490,7 +490,7 @@ for_window [class="Bitwarden"] floating enable, move position center, border non
 for_window [class="Gnome-pomodoro"] floating enable, move position center, border none
 for_window [class="GParted"] floating enable
 for_window [class="ark"] floating enable
-# Notfications
+# Notifications
 for_window [class="xfce4-notifyd"] floating enable, border none, sticky enable, focus mode_toggle
 
 #                                                                             #
@@ -513,8 +513,8 @@ client.background       #2e3440
 # --------------------------------------------------------------------------- #
 # --------------------------------------------------------------------------- #
 
-set $Mode_gaps Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, \
-                                                (r)ight, (b)ottom, (l)eft
+set $Mode_gaps Gaps: outer (o), inner (i), horizontal (h), vertical (v), top (t), \
+                                                right (r), bottom (b), left (l)
 set $Mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $Mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $Mode_gaps_horiz Horizontal Gaps: +|-|0 (local), Shift + +|-|0 (global)
@@ -674,4 +674,3 @@ assign [class="(?i)(?:virtualbox)"]     → 1
 
 
 popup_during_fullscreen smart
-

@@ -12,7 +12,7 @@ Aborting."; exit 1; }
 # Set OPENWEATHER_API_KEY in your environment (no defaults)
 : "${OPENWEATHER_API_KEY:?Set OPENWEATHER_API_KEY in environment}"
 APIKEY="${OPENWEATHER_API_KEY}"
-# And get your Latitute and Longitudes to put in here:
+# And get your latitude and longitude values to put in here:
 LAT="XX.XXXX"
 LON="XX.XXXX"
 URL="http://api.openweathermap.org/data/2.5/onecall?lat=${LAT}&lon=${LON}&units=metric&exclude=minutely,hourly,daily&APPID=${APIKEY}"

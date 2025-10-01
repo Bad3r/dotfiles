@@ -2,7 +2,7 @@
 # *                            .Net Framework
 #---------------------------------------------------------------------------
 
-# Refrences
+# References
 # https://wiki.archlinux.org/title/.NET
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete#zsh
 
@@ -28,9 +28,8 @@ _dotnet_zsh_complete()
     return
   fi
 
-  # This is not a variable assigment, don't remove spaces!
+  # This is not a variable assignment, don't remove spaces!
   _values = "${(ps:\n:)completions}"
 }
 
 compdef _dotnet_zsh_complete dotnet
-

@@ -30,7 +30,7 @@ setopt extended_history
 setopt hist_ignore_all_dups
 
 # delete duplicates first when HISTFILE size exceeds HISTSIZE
-# redundent due to hist_ignore_all_dups being set
+# redundant due to hist_ignore_all_dups being set
 # setopt hist_expire_dups_first
 
 # Ignore space prefixed commands

@@ -14,7 +14,7 @@ def get_image_url(soup: BeautifulSoup) -> str:
 
 
 def get_image_name(url: str) -> str:
-    """Split image url into list of strings by path seperator and return last element"""
+    """Split image url into list of strings by path separator and return last element"""
 
     return url.split("/")[-1]
 
@@ -49,7 +49,7 @@ if newest_local_ngpotd.name != remote_ngpotd:
     response = get(image_url)
 
     open(BASE_PATH.joinpath(remote_ngpotd), "wb").write(response.content)
-    print(f"{remote_ngpotd} downloaded succesfully")
+    print(f"{remote_ngpotd} downloaded successfully")
 
     f = open(BASE_PATH.joinpath(INDEX_FILE), "a")
     f.write(f"{today}: {description_text}\n")
