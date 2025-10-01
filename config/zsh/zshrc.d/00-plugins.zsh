@@ -31,6 +31,7 @@ if [[ ! "$PLUGINS_DST_FILE" -nt "$PLUGINS_CONF_FILE" ]]; then
     wfxr/forgit kind:defer
     mollifier/cd-gitroot kind:defer
     # sindresorhus/pure kind:fpath
+	nix-community/nix-zsh-completions kind:defer
 plugins
 fi
 

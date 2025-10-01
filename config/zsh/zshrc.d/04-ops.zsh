@@ -7,6 +7,9 @@ setopt correct
 # Extended globbing. Allows using regular expressions with *
 setopt extendedglob
 
+# This disables glob repetition (# / ##) so nix flake refs like `nix run nixpkgs#dua` keep working.
+# Docs: https://zsh.sourceforge.io/Doc/Release/Expansion.html#index-_0023
+disable -p '#'
 # Keep '#' literal so flake targets like `nix run .#pkg` work
 unsetopt interactivecomments
 

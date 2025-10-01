@@ -1,5 +1,5 @@
 # https://wiki.archlinux.org/title/zsh#pacman_-F_%22command_not_found%22_handler
-function command_not_found_handler {
+function DISABLED_command_not_found_handler_pacman {
     # Prevent this handler from running during startup/eval contexts
     [[ "$ZSH_EVAL_CONTEXT" == *"eval"* ]] && return 127
     
