@@ -2,11 +2,11 @@
 set -e
 
 # Configuration
-BRANCH="test/db"
+BRANCH="master"
 INSTALL_DIR="$USR_BIN_DIR/logseq-desktop-git"
 LOGSEQ_DIR="$(eval printf '%s' "~$(id -nu 1000)")/git/logseq"
 STATIC_DIR="$LOGSEQ_DIR/static"
-OUTPUT_DIR="$STATIC_DIR/out/Logseq-linux-x64"
+OUTPUT_DIR="$STATIC_DIR/out/make"
 
 # Define color codes using printf
 GREEN="$(printf '\033[0;32m')"
@@ -58,27 +58,27 @@ else
     handle_conflicts
 fi
 
-show_progress "Fetching updates for branch $BRANCH"
-git fetch origin "$BRANCH" --quiet
+#show_progress "Fetching updates for branch $BRANCH"
+#git fetch origin "$BRANCH" --quiet
 
-LOCAL=$(git rev-parse "$BRANCH")
-REMOTE=$(git rev-parse "origin/$BRANCH")
+#LOCAL=$(git rev-parse "$BRANCH")
+#REMOTE=$(git rev-parse "origin/$BRANCH")
 
-if [ "$LOCAL" = "$REMOTE" ] && [ "$FORCE" = false ]; then
-    show_progress "Logseq is up to date. No updates to the branch"
-    printf "%s[ ! ] Use -f flag to force reinstall.%s\n" "$YELLOW" "$RESET"
-    exit 0
-fi
+#if [ "$LOCAL" = "$REMOTE" ] && [ "$FORCE" = false ]; then
+#    show_progress "Logseq is up to date. No updates to the branch"
+#    printf "%s[ ! ] Use -f flag to force reinstall.%s\n" "$YELLOW" "$RESET"
+#    exit 0
+#fi
 
 if [ "$FORCE" = true ]; then
     show_progress "Force reinstall requested"
 fi
 
-show_progress "Pulling latest changes"
-if ! git pull origin "$BRANCH" --quiet; then
-    handle_conflicts
-    git pull origin "$BRANCH" --quiet
-fi
+#show_progress "Pulling latest changes"
+#if ! git pull origin "$BRANCH" --quiet; then
+#    handle_conflicts
+#    git pull origin "$BRANCH" --quiet
+#fi
 
 show_progress "Installing main dependencies"
 yarn install --silent --parallel
@@ -95,29 +95,32 @@ show_progress "Preparing ClojureScript environment"
 # clojure -P -M:cljs
 
 show_progress "Building Electron release"
-clojure -M:cljs release app db-worker inference-worker electron --debug --config-merge
+clojure -M:cljs release app db-worker inference-worker electron --debug --config-merge \
 '{:compiler-options {:source-map-include-sources-content true :source-map-detail-level :symbols}}'
 
 clojure -M:cljs release publishing
 
+show_progress "Building webpack assets"
+yarn webpack-app-build
+
 cd "$STATIC_DIR" || exit 1
-show_progress "Packaging with Electron Forge"
+show_progress "Forging Electron package.."
 yarn electron-forge package
 
-show_progress "Installing to $INSTALL_DIR"
+#show_progress "Installing to $INSTALL_DIR"
 #sudo rm -rf "$INSTALL_DIR"
-rm -rf "$INSTALL_DIR"
+#rm -rf "$INSTALL_DIR"
 
-#sudo rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
-rsync -a --info=progress2 "$OUTPUT_DIR/" "$INSTALL_DIR/"
+#sudo rsync -a --info=progress2 "$OUTPUT_DIR/zip/linux/x64/" "$INSTALL_DIR/"
+#rsync -a --info=progress2 "$OUTPUT_DIR/zip/linux/x64/" "$INSTALL_DIR/"
 
-show_progress "Cleaning up build artifacts"
-rm -rf "$OUTPUT_DIR"
+#show_progress "Cleaning up build artifacts"
+#rm -rf "$OUTPUT_DIR"
 
-show_progress "Setting permissons (root:users)"
+#show_progress "Setting permissons (root:users)"
 #sudo chown -R root:users /opt/logseq-desktop-git/
 #sudo chmod -R 755 /opt/logseq-desktop-git
 
-chmod 755 "$INSTALL_DIR/Logseq"
+#chmod 755 "$INSTALL_DIR/Logseq"
 
 show_progress "Installation complete"
