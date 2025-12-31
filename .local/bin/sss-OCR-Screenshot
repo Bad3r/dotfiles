@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+echo "use normCap instead" && exit 0
+
 #
 # Siddharth Dushantha 2020
 # 
