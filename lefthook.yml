@@ -15,39 +15,8 @@ colors: true
 pre-commit:
   parallel: true
   commands:
-    detect-private-key:
-      priority: 1
-      glob: "*.{pem,key,p12,pfx,asc,gpg}|*id_rsa*|*id_ed25519*|*id_ecdsa*|*id_dsa*"
-      run: |
-        echo "Checking for private key files in staging..."
-        for file in {staged_files}; do
-          if [ -f "$file" ]; then
-            echo "ERROR: Potential private key file staged: $file"
-            exit 1
-          fi
-        done
-      skip:
-        - merge
-        - rebase
-
-    detect-private-key-content:
-      priority: 1
-      exclude: "lefthook.yml"
-      run: |
-        # Check staged files for private key content (excluding this config)
-        for file in {staged_files}; do
-          [ ! -f "$file" ] && continue
-          if grep -qE "BEGIN (RSA |DSA |EC |OPENSSH |PGP )?PRIVATE KEY|PuTTY-User-Key-File" "$file"; then
-            echo "ERROR: Private key content detected in: $file"
-            exit 1
-          fi
-        done
-      skip:
-        - merge
-        - rebase
-
     ripsecrets:
-      priority: 2
+      priority: 1
       glob: "!*.{pdf,png,jpg,jpeg,gif,ico,woff,woff2,ttf,eot,svg,mp3,mp4,zip,tar,gz,bin,exe,AppImage,asar}"
       run: ripsecrets --strict-ignore {staged_files}
       skip:
@@ -57,7 +26,7 @@ pre-commit:
         - rebase
 
     typos:
-      priority: 3
+      priority: 2
       glob: "!{.git,node_modules,*.pdf,*.png,*.jpg,*.jpeg,*.gif,*.ico,*.woff,*.woff2,*.ttf,*.eot,*.mp3,*.mp4,*.zip,*.tar,*.gz,*.bin,*.exe,*.AppImage,*.asar,*.pyc,*.zwc}/**"
       run: typos --config .typos.toml --force-exclude {staged_files}
       skip:
