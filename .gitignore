@@ -102,6 +102,7 @@ config/environment.d/10-home-manager.conf
 # These are just symlinks - the real config is in your Nix files
 config/systemd/user/*.service
 config/systemd/user/*.target
+config/systemd/user/*.timer
 config/systemd/user/*.wants/
 config/systemd/user/timers.target.wants/
 
