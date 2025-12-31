@@ -1,0 +1,181 @@
+#!/usr/bin/env sh
+
+set -eu
+
+usage() {
+	cat <<'EOM'
+Usage: sss-git-sync-branches [--all-branches]
+
+Fetch a source remote and push matching branches to a target remote. By default
+only the currently checked-out branch is mirrored. Pass --all-branches to
+mirror every branch that exists on the source remote.
+
+Environment variables:
+  SOURCE_REMOTE  Remote name to fetch from. Defaults to the current branch's
+                 tracking remote, otherwise 'upstream' if present, otherwise
+                 the first remote in the repository.
+  TARGET_REMOTE  Remote name or URL to push to. Defaults to the current
+                 branch's tracking remote, otherwise 'origin' if present,
+                 otherwise the first remote in the repository.
+EOM
+}
+
+# Ensure we are inside a git repository before doing anything else.
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	printf '%s\n' 'Error: not inside a git repository.' >&2
+	exit 1
+fi
+
+current_branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+
+branch_remote=''
+if [ -n "$current_branch" ]; then
+	branch_remote=$(git config "branch.$current_branch.remote" 2>/dev/null || true)
+fi
+
+remote_list=$(git remote)
+
+first_remote=''
+if [ -n "$remote_list" ]; then
+	first_remote=$(printf '%s\n' "$remote_list" | head -n1)
+fi
+
+resolve_remote() {
+	name=$1
+	default=$2
+
+	if [ -n "$name" ]; then
+		printf '%s' "$name"
+		return
+	fi
+
+	case "$default" in
+	branch)
+		if [ -n "$branch_remote" ]; then
+			printf '%s' "$branch_remote"
+			return
+		fi
+		;;
+	upstream)
+		if printf '%s\n' "$remote_list" | grep -qx 'upstream'; then
+			printf '%s' 'upstream'
+			return
+		fi
+		;;
+	origin)
+		if printf '%s\n' "$remote_list" | grep -qx 'origin'; then
+			printf '%s' 'origin'
+			return
+		fi
+		;;
+	esac
+
+	if [ -n "$first_remote" ]; then
+		printf '%s' "$first_remote"
+		return
+	fi
+
+	printf '%s\n' 'Error: no remotes configured in this repository.' >&2
+	exit 1
+}
+
+SOURCE_REMOTE=$(resolve_remote "${SOURCE_REMOTE-}" branch)
+
+if [ "$SOURCE_REMOTE" = "$branch_remote" ] && printf '%s\n' "$remote_list" | grep -qx 'upstream'; then
+	SOURCE_REMOTE='upstream'
+fi
+
+if ! printf '%s\n' "$remote_list" | grep -qx "$SOURCE_REMOTE"; then
+	printf 'Error: source remote %s not found.\n' "$SOURCE_REMOTE" >&2
+	exit 1
+fi
+
+TARGET_REMOTE=$(resolve_remote "${TARGET_REMOTE-}" branch)
+
+if ! printf '%s\n' "$remote_list" | grep -qx "$TARGET_REMOTE"; then
+	printf 'Error: target remote %s not found.\n' "$TARGET_REMOTE" >&2
+	exit 1
+fi
+
+all_branches=0
+
+while [ "$#" -gt 0 ]; do
+	case "$1" in
+	--all-branches)
+		all_branches=1
+		;;
+	-h | --help)
+		usage
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	-*)
+		printf 'Error: unknown flag %s\n' "$1" >&2
+		usage >&2
+		exit 1
+		;;
+	*)
+		printf 'Error: unexpected argument %s\n' "$1" >&2
+		usage >&2
+		exit 1
+		;;
+	esac
+	shift
+done
+
+if [ "$#" -gt 0 ]; then
+	printf '%s\n' 'Error: positional arguments are not supported.' >&2
+	usage >&2
+	exit 1
+fi
+
+printf '%s\n' "Fetching branches from '$SOURCE_REMOTE'..."
+if ! git fetch "$SOURCE_REMOTE"; then
+	printf 'Error: failed to fetch remote %s.\n' "$SOURCE_REMOTE" >&2
+	exit 1
+fi
+
+branch_list=''
+
+if [ "$all_branches" -eq 1 ]; then
+	branch_list=$(git for-each-ref --format='%(refname:lstrip=3)' "refs/remotes/$SOURCE_REMOTE/")
+	if [ -z "$branch_list" ]; then
+		printf 'No branches found on remote %s.\n' "$SOURCE_REMOTE" >&2
+		exit 0
+	fi
+else
+	if [ -z "$current_branch" ]; then
+		printf '%s\n' 'Error: detached HEAD state. Use --all-branches instead.' >&2
+		exit 1
+	fi
+
+	if ! git show-ref --quiet --verify "refs/remotes/$SOURCE_REMOTE/$current_branch"; then
+		printf 'Error: branch %s not found on remote %s.\n' "$current_branch" "$SOURCE_REMOTE" >&2
+		exit 1
+	fi
+
+	branch_list=$current_branch
+fi
+
+printf '%s\n' "Pushing updates to '$TARGET_REMOTE'..."
+
+while IFS= read -r branch; do
+	[ -n "$branch" ] || continue
+
+	src_ref="refs/remotes/$SOURCE_REMOTE/$branch"
+
+	if ! git show-ref --quiet --verify "$src_ref"; then
+		printf 'Skipping missing reference %s.\n' "$src_ref" >&2
+		continue
+	fi
+
+	printf '  • %s\n' "$branch"
+	git push --force "$TARGET_REMOTE" "$src_ref:refs/heads/$branch"
+done <<EOF_BRANCHES
+$branch_list
+EOF_BRANCHES
+
+printf '%s\n' 'Done.'
