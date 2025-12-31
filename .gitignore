@@ -2,6 +2,7 @@
 *.zwc
 **/repomix-output.xml
 .zcompdump
+
 # Misc
 **/bin/biglybt/
 
@@ -48,7 +49,7 @@ config/spicetify/Backup/
 config/qBittorrent/lockfile
 config/qBittorrent/rss/storage.lock
 config/qBittorrent/qBittorrent-data.conf
- 
+
 # Secrets / local overrides
 config/slack-term/config
 config/VSCodium/User/settings.local.json
@@ -59,3 +60,89 @@ config/Logseq/*
 !config/Logseq/configs.edn
 !config/Logseq/Custom Dictionary.txt
 !config/Logseq/Custom Dictionary.txt.backup
+
+# ============================================
+# Python bytecode and cache
+# ============================================
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# ============================================
+# Backup and temporary files
+# ============================================
+*.bak
+*.backup
+*.old
+*.orig
+*~
+*.swp
+*.swo
+*.tmp
+
+# ============================================
+# Neovim generated files
+# ============================================
+config/nvim/*.hm.bk
+config/nvim/queries/
+
+# ============================================
+# Home Manager / Nix generated files (no value)
+# These are just symlinks to /nix/store paths
+# ============================================
+
+# Autostart entries (HM-managed)
+config/autostart/stylix-*.desktop
+
+# Environment.d (HM-managed)
+config/environment.d/10-home-manager.conf
+
+# Systemd services and targets (HM-managed)
+# These are just symlinks - the real config is in your Nix files
+config/systemd/user/*.service
+config/systemd/user/*.target
+config/systemd/user/*.wants/
+config/systemd/user/timers.target.wants/
+
+# Exception: keep manually created services
+!config/systemd/user/claude_reset.service
+
+# ============================================
+# Electron app runtime data (Marktext)
+# ============================================
+config/marktext/Cache/
+config/marktext/Code Cache/
+config/marktext/Cookies
+config/marktext/Cookies-journal
+config/marktext/Crashpad/
+config/marktext/DIPS
+config/marktext/DIPS-wal
+config/marktext/DawnGraphiteCache/
+config/marktext/DawnWebGPUCache/
+config/marktext/GPUCache/
+config/marktext/Local Storage/
+config/marktext/Network Persistent State
+config/marktext/Session Storage/
+config/marktext/Shared Dictionary/
+config/marktext/SharedStorage
+config/marktext/SharedStorage-wal
+config/marktext/Singleton*
+config/marktext/TransportSecurity
+config/marktext/Trust Tokens
+config/marktext/Trust Tokens-journal
+config/marktext/Dictionaries/
+config/marktext/dataCenter.json
+config/marktext/recently-used-documents.json
+config/marktext/window-state.json
+
+# ============================================
+# Other generated/runtime files
+# ============================================
+
+# Lock files
+*.lock
+!config/qBittorrent/**  # Already handled above
+
+# DBus generated symlinks
+config/systemd/user/dbus-*.service
