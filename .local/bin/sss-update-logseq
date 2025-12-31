@@ -4,9 +4,11 @@ set -e
 # Configuration
 BRANCH="master"
 INSTALL_DIR="$USR_BIN_DIR/logseq-desktop-git"
-LOGSEQ_DIR="$(eval printf '%s' "~$(id -nu 1000)")/git/logseq"
+LOGSEQ_DIR="/git/github.com/logseq/logseq"
 STATIC_DIR="$LOGSEQ_DIR/static"
 OUTPUT_DIR="$STATIC_DIR/out/make"
+STATE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/logseq-build"
+STATE_FILE="$STATE_DIR/last-built-rev"
 
 # Define color codes using printf
 GREEN="$(printf '\033[0;32m')"
@@ -74,6 +76,14 @@ if [ "$FORCE" = true ]; then
     show_progress "Force reinstall requested"
 fi
 
+mkdir -p "$STATE_DIR"
+CURRENT_REV=$(git rev-parse HEAD)
+
+if [ "$FORCE" = false ] && [ -f "$STATE_FILE" ] && [ "$(cat "$STATE_FILE")" = "$CURRENT_REV" ]; then
+    show_progress "Logseq already built at $CURRENT_REV; nothing to do"
+    exit 0
+fi
+
 #show_progress "Pulling latest changes"
 #if ! git pull origin "$BRANCH" --quiet; then
 #    handle_conflicts
@@ -124,3 +134,4 @@ yarn electron-forge package
 #chmod 755 "$INSTALL_DIR/Logseq"
 
 show_progress "Installation complete"
+printf '%s\n' "$CURRENT_REV" > "$STATE_FILE"
