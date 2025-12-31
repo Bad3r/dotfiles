@@ -23,8 +23,8 @@ git submodule update --init --recursive
 
 mkdir -p $HOME/Pictures/screenshots
 
-# Install git hooks if lefthook is available
-if command -v lefthook >/dev/null 2>&1; then
-    echo "Installing git hooks via lefthook..."
-    lefthook install
+# Install git hooks if pre-commit is available
+if command -v pre-commit >/dev/null 2>&1; then
+    echo "Installing git hooks via pre-commit..."
+    pre-commit install
 fi
