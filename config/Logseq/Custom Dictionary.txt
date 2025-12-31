@@ -1,16 +1,27 @@
+20x
+Abdulaziz
 CLAUDE.md
+ChatGPT
 Context7
 Disruptor
 Domiciliation
+Espanso
 Fantagraphics
+Gamification
+Jailbroken
+KSA
+MCP
 NTFS
 Octogen
+PKCS
 Panoptic
 PressPop
 Pupshaw
 Pushpaw
+SAR
 Spec.md
 Streamlit
+Verkada
 WOODRING
 Woodring
 backend
@@ -18,9 +29,12 @@ bristol
 changelog
 claude
 context7
+iCloud
 iMessage
+keychain
+libs
 plan.md
 pyright
 subagents
 ultrathink
-checksum_v1 = dc08c21949d0e3acf47aaafabe8c439e
+checksum_v1 = 6261fb32c8b61e7d9db4e6759ed56670
