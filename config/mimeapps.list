@@ -12,6 +12,7 @@ application/x-extension-xht=firefox.desktop
 text/markdown=userapp-kiro-FD1K92.desktop
 x-scheme-handler/tg=userapp-AyuGram Desktop-N2UK92.desktop
 x-scheme-handler/tonsite=userapp-AyuGram Desktop-XEI192.desktop
+x-scheme-handler/logseq=Logseq.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;zen.desktop;zen-beta.desktop;
