@@ -22,3 +22,9 @@ git submodule update --init --recursive
 # Other files/folders setup
 
 mkdir -p $HOME/Pictures/screenshots
+
+# Install git hooks if lefthook is available
+if command -v lefthook >/dev/null 2>&1; then
+    echo "Installing git hooks via lefthook..."
+    lefthook install
+fi
