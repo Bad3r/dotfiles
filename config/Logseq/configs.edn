@@ -1,1 +1,1 @@
-{:window/native-titlebar? true, :spell-check true}
+{:window/native-titlebar? true, :spell-check true, :server/mcp-enabled? true, :server/tokens [{:name "test", :value "test-token"}]}

@@ -2,7 +2,10 @@
 # Desc: Settings for Firefox, Zen Browser, and Firefox Developer Edition
 
 # Check if any Firefox variant is installed
-if ! (( $+commands[firefox] )) && ! (( $+commands[zen-browser] )) && ! (( $+commands[firefox-developer-edition] )); then
+if ! (( $+commands[firefox] )) && \
+   ! (( $+commands[zen-browser] )) && \
+   ! (( $+commands[floorp] )) && \
+   ! (( $+commands[firefox-developer-edition] )); then
     return
 fi
 

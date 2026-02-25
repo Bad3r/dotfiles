@@ -3,13 +3,16 @@ Abdulaziz
 CLAUDE.md
 ChatGPT
 Context7
+DBR
 Disruptor
 Domiciliation
 Espanso
 Fantagraphics
+GOSI
 Gamification
 Jailbroken
 KSA
+Linter
 MCP
 NTFS
 Octogen
@@ -18,6 +21,7 @@ Panoptic
 PressPop
 Pupshaw
 Pushpaw
+SAMA's
 SAR
 Spec.md
 Streamlit
@@ -29,6 +33,7 @@ bristol
 changelog
 claude
 context7
+formatter
 iCloud
 iMessage
 keychain
@@ -37,4 +42,4 @@ plan.md
 pyright
 subagents
 ultrathink
-checksum_v1 = 6261fb32c8b61e7d9db4e6759ed56670
+checksum_v1 = 7461c8b4d648e1439ff00ae3fee1ae0e

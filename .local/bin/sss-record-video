@@ -1,64 +1,246 @@
 #!/bin/sh
+set -eu
 
-# This script uses ffmpeg to record the screen and save it as an MP4 video file.
-# It requires an Nvidia graphics card with NVENC support, X11.
-#
+usage() {
+  cat <<'EOF'
+Usage: sss-record-video [MODE] [OUTPUT] [options]
 
-# URL where the video will be uploaded
-URL="https://cdn.unsigned.sh"
+Modes:
+  full      Record the full X11 desktop (all monitors)
+  window    Record a selected window
+  region    Record a selected rectangle (default)
 
-# Get the absolute path of the script and the path of the "dict" directory
-dir=$(readlink -f "$0")
-dict="$(dirname "$dir")/dict"
+Options:
+  -m, --mode MODE       full | window | region
+  -o, --output PATH     Output file path (.mp4 added if missing)
+  -h, --help            Show this help text
 
-# Shuffle the adjective, noun, and verb lists and extract the first element
-adj=$(shuf "$dict"/eng-adjectives.txt | head -n 1)
-noun1=$(shuf "$dict"/eng-nouns.txt | head -n 1)
-verb=$(shuf "$dict"/eng-verbs.txt | head -n 1)
-noun2=$(shuf "$dict"/eng-nouns.txt | head -n 1)
-
-# Construct filename for recorded video
-file="${adj}-${verb}-${noun1}-${noun2}.mp4"
-echo "$file"
-
-# Define function to handle SIGINT signal
-handle_sigint() {
-    printf "\n:: Recording stopped by user.\n"
-    
-    printf ":: Would you like to upload the video to R2? (y/n) "
-    read upload
-    
-    if [ "$upload" = "y" ]; then
-        printf ":: Uploading to R2..\n"
-        rclone copy --quiet --stats-one-line "$file" r2:r2b
-
-        printf "%s/%s" "$URL" "$file" | xsel --clipboard
-
-        printf ":: Link Copied to clipboard\n"
-        printf "%s/%s\n" "$URL" "$file"
-    fi
-    
-    exit 0
+Examples:
+  sss-record-video
+  sss-record-video window
+  sss-record-video full ~/Videos/recording/demo.mp4
+  sss-record-video -m region -o ./clip.mp4
+EOF
 }
 
-# Catch SIGINT signal and run handle_sigint function
-trap handle_sigint INT
+log() {
+  printf ':: %s\n' "$*"
+}
 
-printf ":: Started Recording..\n"
-screenkey --bg-color='#002b36' --font-color='#9ab2bb' --font='MonoLisa' --opacity=1 -g $(slop -n -f '%g') &
-geometry=$(slop -f '-video_size %wx%h -i +%x,%y')
-# This command uses ffmpeg to record the screen and encode the video using NVIDIA NVENC.
-# It sets the logging level to "quiet" and the output statistics to "stats".
-# The input buffer size is set to 2140 MB, and the frame rate is set to 25.
-# The video is captured using the x11grab format, with the window size specified by the "$geometry" variable.
-# The video is encoded using the h264_nvenc codec with a bitrate of 80 Mbps.
-# The probesize is set to 128 MB, and the keyframe interval is set to 50 frames.
-# The output file name is specified by the "$file" variable.
-# If the command fails, an error message is printed and the script exits with a status of 1.
-if ! ffmpeg -loglevel quiet -stats -rtbufsize 2140M -f x11grab -framerate 25 $geometry \
-  -c:v h264_nvenc -b:v 80M -probesize 128M -g 50 -vf "pad=iw+6:ih+6:3:3:color=#586e75" "$file"; then
-    printf "Error: ffmpeg command failed.\n"
-    exit 1
-fi
+fail() {
+  printf 'Error: %s\n' "$*" >&2
+  exit 1
+}
 
-exit 0
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || fail "Missing dependency: $1"
+}
+
+pick_word() {
+  shuf -n 1 "$1" 2>/dev/null | tr -d '\r\n'
+}
+
+build_filename() {
+  script_dir=$(dirname "$(readlink -f "$0")")
+  dict_dir="$script_dir/dict"
+  if [ -r "$dict_dir/eng-adjectives.txt" ] &&
+     [ -r "$dict_dir/eng-nouns.txt" ] &&
+     [ -r "$dict_dir/eng-verbs.txt" ]; then
+    adj=$(pick_word "$dict_dir/eng-adjectives.txt")
+    noun1=$(pick_word "$dict_dir/eng-nouns.txt")
+    verb=$(pick_word "$dict_dir/eng-verbs.txt")
+    noun2=$(pick_word "$dict_dir/eng-nouns.txt")
+    printf '%s-%s-%s-%s.mp4\n' "$adj" "$verb" "$noun1" "$noun2"
+  else
+    printf 'recording-%s.mp4\n' "$(date +%Y%m%d-%H%M%S)"
+  fi
+}
+
+select_region_geometry() {
+  require_cmd slop
+  selection=$(slop -t 0 -f '%x %y %w %h' 2>/dev/null) || return 1
+  IFS=' ' read -r x y w h <<EOF
+$selection
+EOF
+  [ -n "${x:-}" ] && [ -n "${y:-}" ] && [ -n "${w:-}" ] && [ -n "${h:-}" ] || return 1
+  [ "$w" -gt 0 ] && [ "$h" -gt 0 ] || return 1
+  printf '%s %s %s %s\n' "$x" "$y" "$w" "$h"
+}
+
+select_window_id() {
+  if command -v slop >/dev/null 2>&1; then
+    win_id=$(slop -t 9999999 -f '%i' 2>/dev/null) || return 1
+  elif command -v xwininfo >/dev/null 2>&1; then
+    win_id=$(xwininfo -int 2>/dev/null | awk '/Window id:/{print $4; exit}') || return 1
+  elif command -v xdotool >/dev/null 2>&1; then
+    win_id=$(xdotool selectwindow 2>/dev/null) || return 1
+  elif command -v xprop >/dev/null 2>&1; then
+    # Fallback: use currently focused window.
+    win_id=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk '{print $5}') || return 1
+  else
+    return 1
+  fi
+
+  [ -n "${win_id:-}" ] || return 1
+  [ "$win_id" != "0x0" ] && [ "$win_id" != "0" ] || return 1
+  printf '%s\n' "$win_id"
+}
+
+full_screen_size() {
+  require_cmd xrandr
+  size=$(xrandr | sed -n 's/.*current \([0-9][0-9]*\) x \([0-9][0-9]*\).*/\1x\2/p' | head -n 1)
+  [ -n "${size:-}" ] || return 1
+  printf '%s\n' "$size"
+}
+
+record_with_ffmpeg() {
+  mode="$1"
+  output_file="$2"
+  fps="${SSS_RECORD_FPS:-30}"
+
+  if ffmpeg -hide_banner -encoders 2>/dev/null | grep -q ' h264_nvenc '; then
+    codec='h264_nvenc'
+    codec_args='-c:v h264_nvenc -preset p5 -cq:v 22 -b:v 0'
+  else
+    codec='libx264'
+    codec_args='-c:v libx264 -preset veryfast -crf 23 -pix_fmt yuv420p'
+  fi
+
+  log "Recording mode: $mode"
+  log "Encoder: $codec"
+  log "Press Ctrl+C to stop recording."
+
+  case "$mode" in
+    full)
+      size=$(full_screen_size) || fail 'Could not detect full screen size via xrandr.'
+      # shellcheck disable=SC2086
+      ffmpeg -hide_banner -loglevel warning -stats -rtbufsize 1024M \
+        -f x11grab -framerate "$fps" -video_size "$size" -i "${DISPLAY}+0,0" \
+        $codec_args -movflags +faststart "$output_file"
+      ;;
+    window)
+      win_id=$(select_window_id) || fail 'Window selection failed.'
+      # shellcheck disable=SC2086
+      ffmpeg -hide_banner -loglevel warning -stats -rtbufsize 1024M \
+        -f x11grab -framerate "$fps" -window_id "$win_id" -i "$DISPLAY" \
+        $codec_args -movflags +faststart "$output_file"
+      ;;
+    region)
+      geometry=$(select_region_geometry) || fail 'Region selection failed.'
+      IFS=' ' read -r x y width height <<EOF
+$geometry
+EOF
+      # shellcheck disable=SC2086
+      ffmpeg -hide_banner -loglevel warning -stats -rtbufsize 1024M \
+        -f x11grab -framerate "$fps" -video_size "${width}x${height}" \
+        -i "${DISPLAY}+${x},${y}" \
+        $codec_args -movflags +faststart "$output_file"
+      ;;
+    *)
+      fail "Unsupported mode: $mode"
+      ;;
+  esac
+}
+
+maybe_upload() {
+  output_file="$1"
+  [ -t 0 ] || return 0
+  command -v rclone >/dev/null 2>&1 || return 0
+
+  remote="${SSS_UPLOAD_REMOTE:-r2:r2b}"
+  base_url="${SSS_UPLOAD_BASE_URL:-https://cdn.unsigned.sh}"
+
+  printf ':: Upload the recording to %s? [y/N] ' "$remote"
+  read -r reply || reply='n'
+  case "$reply" in
+    y|Y|yes|YES)
+      log "Uploading..."
+      rclone copy --quiet --stats-one-line "$output_file" "$remote"
+      link="${base_url%/}/$(basename "$output_file")"
+      if command -v xsel >/dev/null 2>&1; then
+        printf '%s' "$link" | xsel --clipboard
+        log 'Copied link to clipboard (xsel).'
+      elif command -v xclip >/dev/null 2>&1; then
+        printf '%s' "$link" | xclip -selection clipboard
+        log 'Copied link to clipboard (xclip).'
+      fi
+      printf '%s\n' "$link"
+      ;;
+    *)
+      ;;
+  esac
+}
+
+main() {
+  require_cmd ffmpeg
+  [ -n "${DISPLAY:-}" ] || fail 'DISPLAY is not set. This script requires X11.'
+
+  mode='region'
+  output_path=''
+
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -m|--mode)
+        [ "$#" -ge 2 ] || fail "Missing value for $1"
+        mode="$2"
+        shift 2
+        ;;
+      -o|--output)
+        [ "$#" -ge 2 ] || fail "Missing value for $1"
+        output_path="$2"
+        shift 2
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      full|window|region)
+        mode="$1"
+        shift
+        ;;
+      *)
+        if [ -z "$output_path" ]; then
+          output_path="$1"
+          shift
+        else
+          fail "Unknown argument: $1"
+        fi
+        ;;
+    esac
+  done
+
+  case "$mode" in
+    full|window|region) ;;
+    *) fail 'Mode must be one of: full, window, region' ;;
+  esac
+
+  if [ -z "$output_path" ]; then
+    output_file="$(pwd)/$(build_filename)"
+  else
+    output_file="$output_path"
+    case "$output_file" in
+      *.mp4) ;;
+      *) output_file="${output_file}.mp4" ;;
+    esac
+  fi
+
+  mkdir -p "$(dirname "$output_file")"
+  log "Output: $output_file"
+
+  if record_with_ffmpeg "$mode" "$output_file"; then
+    ff_status=0
+  else
+    ff_status=$?
+  fi
+
+  # ffmpeg usually exits 255 when interrupted by Ctrl+C, which is expected.
+  if [ "$ff_status" -ne 0 ] && [ "$ff_status" -ne 255 ]; then
+    fail "ffmpeg exited with status $ff_status"
+  fi
+
+  [ -s "$output_file" ] || fail 'Recording ended but no output file was created.'
+  log 'Recording complete.'
+  maybe_upload "$output_file"
+}
+
+main "$@"

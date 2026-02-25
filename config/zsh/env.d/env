@@ -10,9 +10,9 @@ if [ -n "$_ENV_SOURCED_PID" ] && [ "$_ENV_SOURCED_PID" = "$_CURRENT_SHELL_PID" ]
 fi
 _ENV_SOURCED_PID=$_CURRENT_SHELL_PID
 
-# Locale
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
+# Locale - Managed via NixOS
+# export LANG="en_US.UTF-8"
+# export LC_ALL="en_US.UTF-8"
 
 # User Common Dirs
 export USR_LOCAL_DIR="$HOME/.local"
@@ -20,32 +20,32 @@ export USR_BIN_DIR="$HOME/.local/bin"
 export USR_LIB_DIR="$HOME/.local/lib"
 
 # Defaults
-export TERM="xterm-256color"
-export TERMINAL="xterm"
-export COLORTERM="truecolor"
+# export TERM="xterm-256color"  # Set by terminal emulator
+# export TERMINAL="xterm"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export COLORTERM="truecolor"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 
-export EDITOR="vi"
-export DIFFPROG="vimdiff"
-export VISUAL=$EDITOR
+# export EDITOR="vi"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export DIFFPROG="vimdiff"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export VISUAL=$EDITOR  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 
-# Set default pager (will be overridden if bat is available)
-export PAGER="less"
-export MANPAGER="less"
-export MANWIDTH=120
+# Set default pager - Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export PAGER="less"
+# export MANPAGER="less"
+# export MANWIDTH=120
 
-export BROWSER="firefox"
-export READER="xdg-open"
-export IMAGE="feh"
+# export BROWSER="firefox"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export READER="xdg-open"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix) - uses documentViewer
+# export IMAGE="feh"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 
-export OPENER="xdg-open"
+# export OPENER="xdg-open"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 
 export WM="i3"
-# Dynamically set SHELL to work on any system
-if command -v zsh >/dev/null 2>&1; then
-  export SHELL="$(command -v zsh)"
-else
-  export SHELL="/bin/sh"
-fi
+# Dynamically set SHELL to work on any system - Managed via NixOS (users.users.*.shell)
+# if command -v zsh >/dev/null 2>&1; then
+#   export SHELL="$(command -v zsh)"
+# else
+#   export SHELL="/bin/sh"
+# fi
 
 # Git repo for dotfiles
 export DOTFILES="$HOME/dotfiles"
@@ -62,11 +62,11 @@ export NODE_OPTIONS="--max-old-space-size=16384"
 export THEME_FONT_FACE="MonoLisa Variable"
 export THEME_FONT_SIZE=11
 
-# set default file manager
-export FILE_MANAGER="thunar"
+# set default file manager - Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export FILE_MANAGER="thunar"
 
-# set default video player
-export VIDEO_PLAYER="mpv"
+# set default video player - Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
+# export VIDEO_PLAYER="mpv"
 
 
 # disable telemetry

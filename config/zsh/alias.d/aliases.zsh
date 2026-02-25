@@ -268,11 +268,8 @@ alias sul="systemctl --user list-units --type=service"
 alias sull="systemctl --user list-units --type=service --all"
 alias sulll="systemctl --user list-units --type=service --all --full"
 
-# View system journal with sudo
-alias journalctl="sudo journalctl"
-
-# View kernel messages with color
-alias dmesg="sudo dmesg -H --color=always"
+# View kernel messages with color (dmesg_restrict=0 in NixOS config)
+alias dmesg="dmesg -H --color=always"
 
 ##########################################
 # Clipboard Management

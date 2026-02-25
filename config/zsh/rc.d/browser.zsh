@@ -1,9 +1,11 @@
 # Tool: Browser Selection
 # Desc: Set BROWSER based on available options (stops at first found)
 
-# Priority order: nbrowser > zen-browser > firefox > firefox-developer-edition > vivaldi > ungoogled-chromium > chromium
+# Priority order: nbrowser > floorp > zen-browser > firefox > firefox-developer-edition > vivaldi > ungoogled-chromium > chromium
 if (( $+commands[nbrowser] )); then
     export BROWSER="nbrowser"
+elif (( $+commands[floorp] )); then
+    export BROWSER="floorp"
 elif (( $+commands[zen-browser] )); then
     export BROWSER="zen-browser"
 elif (( $+commands[firefox] )); then
