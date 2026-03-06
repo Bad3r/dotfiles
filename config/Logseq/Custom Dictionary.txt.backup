@@ -2,19 +2,24 @@
 Abdulaziz
 CLAUDE.md
 ChatGPT
+Cloudflare
 Context7
 DBR
 Disruptor
 Domiciliation
 Espanso
 Fantagraphics
+GOSI
 Gamification
 Jailbroken
 KSA
 Linter
 MCP
 NTFS
+OAuth2
+OIDC
 Octogen
+PKCE
 PKCS
 Panoptic
 PressPop
@@ -27,6 +32,7 @@ Streamlit
 Verkada
 WOODRING
 Woodring
+allowlists
 backend
 bristol
 changelog
@@ -37,8 +43,10 @@ iCloud
 iMessage
 keychain
 libs
+lifecycle
+observability
 plan.md
 pyright
 subagents
 ultrathink
-checksum_v1 = 71d7fc7eda09d02b91900dfd2027afb3
+checksum_v1 = 431a556034bf71139f4ceb051aad2c89
