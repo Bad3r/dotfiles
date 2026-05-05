@@ -183,7 +183,7 @@ alias ...="cd ../.."
 alias undoller="\$=''"
 
 # Clear screen and display directory tree
-alias cls="clear; tree"
+alias cls="clear; pwd; tree"
 
 # Clear screen shortcuts
 alias cl="clear"
@@ -369,7 +369,7 @@ alias gc="git commit"
 alias gd="git diff --output-indicator-new=\" \" --output-indicator-old=\" \""
 alias gfu="git fetch upstream"
 alias gi="git init"
-alias gl="git log --graph"
+alias gl="git log --stat"
 alias gm="git merge"
 alias gmum="git merge upstream/master"
 alias gp="git push"

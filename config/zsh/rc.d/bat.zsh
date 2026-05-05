@@ -7,8 +7,9 @@ if ! (($+commands[bat])); then
 fi
 
 # Configure bat for syntax highlighting and pager
-export BAT_THEME="Nord"
+export BAT_THEME="TwoDark"
 export PAGER="bat"
-export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+export MANROFFOPT="-c"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 alias cat="bat -pp"
 alias less="bat -p"

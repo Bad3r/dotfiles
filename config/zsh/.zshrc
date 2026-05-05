@@ -7,6 +7,9 @@ DEBUG=0
 # Profiling
 [[ -n "$ZSH_PROFILE" ]] && zmodload zsh/zprof
 
+# Interactive/session-scoped environment belongs here, not in ~/.zshenv.
+[[ -f "${ZSH_CONF_DIR}/env.d/interactive.zsh" ]] && source "${ZSH_CONF_DIR}/env.d/interactive.zsh"
+
 # Define an array of directories to load .zsh files from
 #    "${ZSH_CONF_DIR}/env.d"
 local config_dirs=(

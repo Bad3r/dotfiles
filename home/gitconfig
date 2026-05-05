@@ -60,7 +60,7 @@
 	defaultBranch = main
 [credential "https://github.com"]
 	helper = 
-	helper = !gh auth git-credential
+	helper = !/etc/profiles/per-user/vx/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !gh auth git-credential
+	helper = !/etc/profiles/per-user/vx/bin/gh auth git-credential

@@ -1,6 +1,6 @@
 #!/bin/sh
 # ~/.config/zsh/env.d/env - Shared POSIX-compliant environment variables
-# Sourced by ~/.profile (for GUI) and ~/.zshenv (for shells)
+# Sourced by ~/.profile (for GUI) and ~/.zshenv (for all zsh processes)
 
 # Idempotency Guard: Track sourcing context
 # Don't export this variable - it should be local to each shell session
@@ -39,7 +39,6 @@ export USR_LIB_DIR="$HOME/.local/lib"
 
 # export OPENER="xdg-open"  # Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 
-export WM="i3"
 # Dynamically set SHELL to work on any system - Managed via NixOS (users.users.*.shell)
 # if command -v zsh >/dev/null 2>&1; then
 #   export SHELL="$(command -v zsh)"
@@ -57,11 +56,6 @@ export DOTFILES="$HOME/dotfiles"
 export NODE_OPTIONS="--max-old-space-size=16384"
 
 
-# set font for Nordic theme
-# PKG: nordic-darker-theme-git
-export THEME_FONT_FACE="MonoLisa Variable"
-export THEME_FONT_SIZE=11
-
 # set default file manager - Managed via NixOS (modules/$HOSTNAME/default-apps.nix)
 # export FILE_MANAGER="thunar"
 
@@ -71,17 +65,6 @@ export THEME_FONT_SIZE=11
 
 # disable telemetry
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-# fzf defaults - use PATH-resolved fd and keep absolute paths for robust selection
-export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git --absolute-path"
-export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git --absolute-path"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-# GPG
-if [ -t 0 ]; then
-  GPG_TTY=$(tty)
-  export GPG_TTY
-fi
 
 # PATH configuration
 # Base paths

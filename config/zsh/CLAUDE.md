@@ -11,8 +11,9 @@ This is a modular Zsh configuration within a larger dotfiles repository, organiz
 ### Load Order
 
 1. `$HOME/.zshenv` → Sets XDG directories and sources `config/zsh/env.d/env`
-2. `config/zsh/env.d/env` → Shared POSIX-compliant environment variable defaults (with idempotency guard, no conditional logic)
-3. `config/zsh/.zshrc` → Main configuration that loads directories in this order:
+2. `config/zsh/env.d/env` → Shared POSIX-compliant environment for all Zsh processes (with idempotency guard, no interactive logic)
+3. `config/zsh/.zshrc` → Returns immediately for non-interactive shells, then sources `config/zsh/env.d/interactive.zsh`
+4. `config/zsh/.zshrc` → Main interactive configuration that loads directories in this order:
    - `zshrc.d/*.zsh` - Core Zsh configuration (plugins, completion, functions, history, prompt)
    - `func.d/*.zsh` - Custom shell functions
    - `rc.d/*.zsh` - Tool-specific configurations
@@ -20,6 +21,7 @@ This is a modular Zsh configuration within a larger dotfiles repository, organiz
 
 ### Performance Optimizations
 
+- **Minimal `.zshenv`**: Non-interactive shells only load `env.d/env`; interactive/session-only exports live in `env.d/interactive.zsh`
 - **Idempotency Guards**: Environment files use PID-based guards to prevent duplicate sourcing
 - **Plugin Caching**: Antidote plugins are cached in `$ANTIDOTE_HOME/plugins.zsh`
 - **Command Existence Checks**: All tool configs check for command availability before loading
@@ -177,16 +179,26 @@ alias another='command2'
 
 ### Environment Variable Default+Override Pattern
 
-Environment variables use a two-stage configuration pattern:
+Environment variables use a three-stage configuration pattern:
 
-1. **Universal defaults in `env.d/env`** (POSIX-compliant):
+1. **Universal defaults in `env.d/env`** (POSIX-compliant and safe for non-interactive shells):
    ```sh
    export EDITOR="vi"
    export BROWSER="firefox"
    export PAGER="less"
    ```
 
-2. **Tool-specific overrides in `rc.d/`** files:
+2. **Interactive/session-scoped exports in `env.d/interactive.zsh`**:
+   ```zsh
+   export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git --absolute-path"
+   if [[ -n "${TTY-}" ]]; then
+     export GPG_TTY="$TTY"
+   else
+     unset GPG_TTY
+   fi
+   ```
+
+3. **Tool-specific overrides in `rc.d/`** files:
    - **Category-based files** for selecting between alternatives:
      ```zsh
      # rc.d/browser.zsh - Selects from multiple browsers
@@ -210,6 +222,7 @@ Environment variables use a two-stage configuration pattern:
 
 This pattern provides:
 - Universal fallbacks that work in all shells
+- Interactive-only session state that does not leak into `zsh -c`
 - Progressive enhancement when better tools are available
 - Clear separation between defaults and overrides
 - Easy maintenance and tool discovery
