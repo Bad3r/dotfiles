@@ -372,11 +372,11 @@ alias gi="git init"
 alias gl="git log --stat"
 alias gm="git merge"
 alias gmum="git merge upstream/master"
-alias gp="git push"
+alias gp="git pull"
 alias gpf="git push --force"
 alias gr="git reset"
 alias gs="git status -sb"
-alias gu="git pull"
+alias gpp="git pull"
 
 # Advanced Git commands
 alias gap="git add -p"
