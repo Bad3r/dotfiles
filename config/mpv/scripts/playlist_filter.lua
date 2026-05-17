@@ -1,1 +1,0 @@
-/nix/store/kdkhiys7gpr41r39xpki2wyabb4z4h9q-home-manager-files/.config/mpv/scripts/playlist_filter.lua

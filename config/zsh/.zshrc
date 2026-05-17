@@ -19,8 +19,8 @@ local config_dirs=(
   "${ZSH_CONF_DIR}/alias.d"
 )
 
-# Source all .zsh files from config directories
-for file in ${^config_dirs}/*.zsh(N); do
+# Source non-private .zsh files from config directories
+for file in ${^config_dirs}/[^_]*.zsh(N); do
   source "$file"
 done
 

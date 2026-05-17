@@ -1,3 +1,5 @@
+config/marktext/Local\ State
+
 # tmp dump
 *.zwc
 **/repomix-output.xml
