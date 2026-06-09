@@ -14,6 +14,7 @@ Gamification
 Jailbroken
 KSA
 Linter
+LogRhythm
 MCP
 NTFS
 OAuth2
@@ -27,6 +28,7 @@ Pupshaw
 Pushpaw
 SAMA's
 SAR
+SIEM
 Spec.md
 Streamlit
 Verkada
@@ -47,6 +49,7 @@ lifecycle
 observability
 plan.md
 pyright
+runbooks
 subagents
 ultrathink
-checksum_v1 = 431a556034bf71139f4ceb051aad2c89
+checksum_v1 = efcb2fca9bc54c85dbb23312604791be

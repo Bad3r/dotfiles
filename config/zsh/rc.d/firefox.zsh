@@ -21,7 +21,4 @@ if [[ -d /proc/driver/nvidia ]]; then
     export NVD_BACKEND=direct
     export LIBVA_DRIVER_NAME=nvidia
     export MOZ_DISABLE_RDD_SANDBOX=1
-    
-    # Disable DMABUF due to Nvidia issue
-    export WEBKIT_DISABLE_DMABUF_RENDERER=1
 fi

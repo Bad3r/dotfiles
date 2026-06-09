@@ -1,4 +1,4 @@
-- clean: ['~']
+- clean: ["~"]
 
 - defaults:
     link:
@@ -9,32 +9,32 @@
     ~/.zshenv: { path: config/zsh/.zshenv }
     ~/.Xresources:
       path: home/Xresources
-      if: 'test ! -e ~/.Xresources'
+      if: "test ! -e ~/.Xresources"
     ~/.gitconfig: { path: home/gitconfig }
     ~/.gitignore: { path: home/gitignore }
-    ~/.config/zsh:           { path: config/zsh }
-    ~/.config/i3:            { path: config/i3 }
-    ~/.config/dunst:         { path: config/dunst }
+    ~/.config/zsh: { path: config/zsh }
+    ~/.config/i3: { path: config/i3 }
+    ~/.config/dunst: { path: config/dunst }
     ~/.config/i3status-rust: { path: config/i3status-rust }
-    ~/.config/JetBrains:     { path: config/JetBrains }
-    ~/.config/Logseq:        { path: config/Logseq }
-    ~/.config/marktext:      { path: config/marktext }
-    ~/.config/neofetch:      { path: config/neofetch }
-    ~/.config/nvim:          { path: config/nvim }
-    ~/.config/obsidian:      { path: config/obsidian }
-    ~/.config/pacman.d:      { path: config/pacman.d }
-    ~/.config/picom:         { path: config/picom }
-    ~/.config/ranger:        { path: config/ranger }
-    ~/.config/redo:          { path: config/redo }
-    ~/.config/rofi:          { path: config/rofi }
+    ~/.config/JetBrains: { path: config/JetBrains }
+    ~/.config/Logseq: { path: config/Logseq }
+    ~/.config/marktext: { path: config/marktext }
+    ~/.config/neofetch: { path: config/neofetch }
+    ~/.config/nvim: { path: config/nvim }
+    ~/.config/obsidian: { path: config/obsidian }
+    ~/.config/pacman.d: { path: config/pacman.d }
+    ~/.config/picom: { path: config/picom }
+    ~/.config/ranger: { path: config/ranger }
+    ~/.config/redo: { path: config/redo }
+    ~/.config/rofi: { path: config/rofi }
     ~/.config/slack-term:
       path: config/slack-term
-      if: 'test ! -f ~/.config/slack-term/config'
-    ~/.config/sxhkd:         { path: config/sxhkd }
-    ~/.config/tealdeer:      { path: config/tealdeer }
-    ~/.config/topgrade.d:    { path: config/topgrade.d }
-    ~/.config/vscode-oss:    { path: config/vscode-oss }
-    ~/.config/VSCodium:      { path: config/VSCodium }
+      if: "test ! -f ~/.config/slack-term/config"
+    ~/.config/sxhkd: { path: config/sxhkd }
+    ~/.config/tealdeer: { path: config/tealdeer }
+    ~/.config/topgrade.d: { path: config/topgrade.d }
+    ~/.config/vscode-oss: { path: config/vscode-oss }
+    ~/.config/VSCodium: { path: config/VSCodium }
     ~/.config/mimeapps.list: { path: config/mimeapps.list }
     ~/.config/alacritty:
       path: config/alacritty
@@ -50,8 +50,8 @@
       relink: true
     ~/.config/bat:
       path: config/bat
-      force: true
-      relink: true
+      force: false
+      relink: false
     ~/.config/environment.d:
       path: config/environment.d
       force: true
@@ -74,8 +74,8 @@
       relink: true
     ~/.config/kitty:
       path: config/kitty
-      force: true
-      relink: true
+      force: false
+      relink: false
     ~/.config/lazygit:
       path: config/lazygit
       force: true
