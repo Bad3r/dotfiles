@@ -126,16 +126,10 @@ alias mac-apple-rand='sudo macchanger -m "3C:22:FB:$(openssl rand -hex 3 | sed "
 # Text Editors
 ##########################################
 
-# Aliases for default editor
-alias vi="$EDITOR"
-alias vim="$EDITOR"
-
 # Emacs in terminal mode
 alias emacs="emacs -nw"
 alias e="emacs -nw"
 
-# Helix editor (https://helix-editor.com)
-alias hx="helix"
 
 # Visual Studio Code
 alias vs="code"
