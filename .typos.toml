@@ -25,12 +25,9 @@ HAX = "HAX"
 [files]
 extend-exclude = [
   ".git/",
-  ".mozilla/",
   "usr/",
   "opt/",
   "Mullvad-iOS-MacOS-DNS-Profiles/",
-  "dark-Reader-Settings/",
-  "tabliss/",
   "themes/",
   "ASCII/",
   ".local/share/fonts/",

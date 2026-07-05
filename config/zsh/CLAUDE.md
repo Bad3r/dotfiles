@@ -34,8 +34,8 @@ This is a modular Zsh configuration within a larger dotfiles repository, organiz
 - `env.d/` - Environment variables (loaded early)
 - `func.d/` - Custom shell functions
 - `rc.d/` - Tool-specific configurations and category-based selectors
-  - Category files: `browser.zsh`, `document_viewer.zsh`, `file_manager.zsh`, `image_viewer.zsh`, `diff_tool.zsh`
-  - Tool files: `nvim.zsh`, `kitty.zsh`, `firefox.zsh`, etc.
+  - Category files: `document_viewer.zsh`, `file_manager.zsh`, `image_viewer.zsh`, `diff_tool.zsh`
+  - Tool files: `nvim.zsh`, `kitty.zsh`, `chromium.zsh`, etc.
 - `zshrc.d/` - Core Zsh setup files
 
 ## Installation & Setup

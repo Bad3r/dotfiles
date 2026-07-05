@@ -46,8 +46,6 @@ entr
 eza
 feh
 ffmpegthumbnailer
-firefox
-firefox-developer-edition
 firejail
 fish
 flameshot
@@ -209,7 +207,6 @@ yapf
 yt-dlp-git
 zathura-cb
 zathura-pdf-poppler
-zen-browser-bin
 zip
 zoxide
 zsh-antidote
