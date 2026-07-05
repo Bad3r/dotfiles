@@ -15,7 +15,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # Set defaults
 export VISUAL="nvim"
 export EDITOR="nvim"
-export BROWSER="firefox"
 
 export MANPATH="/usr/share/man"
 export MANROFFOPT="-c"

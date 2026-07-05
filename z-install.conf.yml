@@ -35,7 +35,6 @@
     ~/.config/topgrade.d:    { path: config/topgrade.d }
     ~/.config/vscode-oss:    { path: config/vscode-oss }
     ~/.config/VSCodium:      { path: config/VSCodium }
-    ~/.config/mimeapps.list: { path: config/mimeapps.list }
     ~/.config/alacritty:
       path: config/alacritty
       force: true
