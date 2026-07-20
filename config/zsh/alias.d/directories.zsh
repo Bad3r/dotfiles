@@ -13,9 +13,9 @@ alias mktempdir="mktemp --directory"
 # Replace ls with exa if available https://github.com/ogham/exa
 if (($+commands[exa])); then
     alias la="exa -hagl --git --icons"
-    alias ll="exa -haglF --git --icons"
-    alias ls="exa --icons"
-    alias tree="exa --tree --icons --level=1"
+    alias ls="exa --group-directories-first -a"
+    alias ll="exa --group-directories-first -haglF --git"
+    alias tree="exa --tree --level=2"
 else
     alias l='ls -hagl'
     alias ll='ls -hagl'

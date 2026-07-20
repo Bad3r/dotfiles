@@ -215,14 +215,6 @@ if (( $+commands[eva] )); then
     alias bc="eva"
 fi
 
-# Replace 'ls' & 'tree' with 'exa'
-if (( $+commands[exa] )); then
-    alias ls="exa --group-directories-first -a --icons"
-    alias ll="exa --group-directories-first -haglF --git --icons"
-    alias tree="exa --tree --level=2"
-fi
-
-
 ##########################################
 # GUI Applications
 ##########################################
@@ -367,10 +359,10 @@ alias gl="git log --stat"
 alias gm="git merge"
 alias gmum="git merge upstream/master"
 alias gp="git pull"
+alias gpp="git push"
 alias gpf="git push --force"
 alias gr="git reset"
 alias gs="git status -sb"
-alias gpp="git pull"
 
 # Advanced Git commands
 alias gap="git add -p"
