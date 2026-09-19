@@ -84,6 +84,6 @@ n/N         - Next/previous search (centered)
 This configuration is managed via dotbot in the parent repository:
 - Symlinked from `~/dotfiles/config/nvim/` to `~/.config/nvim/`
 - Deploy with: `cd ~/dotfiles && ./z-install-dots`
-- Environment variables set in `~/dotfiles/config/zsh/rc.d/nvim.zsh`:
+- Environment variables set by the `Bad3r/nixos` flake (`modules/xdg/mime.nix`):
   - `EDITOR=nvim`
   - `VISUAL=nvim`

@@ -6,13 +6,11 @@
       relink: true
 
 - link:
-    ~/.zshenv: { path: config/zsh/.zshenv }
     ~/.Xresources:
       path: home/Xresources
       if: 'test ! -e ~/.Xresources'
     ~/.gitconfig: { path: home/gitconfig }
     ~/.gitignore: { path: home/gitignore }
-    ~/.config/zsh:           { path: config/zsh }
     ~/.config/i3:            { path: config/i3 }
     ~/.config/dunst:         { path: config/dunst }
     ~/.config/i3status-rust: { path: config/i3status-rust }
