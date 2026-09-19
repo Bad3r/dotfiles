@@ -209,4 +209,3 @@ zathura-cb
 zathura-pdf-poppler
 zip
 zoxide
-zsh-antidote
