@@ -17,7 +17,6 @@
     ~/.config/marktext:      { path: config/marktext }
     ~/.config/neofetch:      { path: config/neofetch }
     ~/.config/nvim:          { path: config/nvim }
-    ~/.config/obsidian:      { path: config/obsidian }
     ~/.config/pacman.d:      { path: config/pacman.d }
     ~/.config/ranger:        { path: config/ranger }
     ~/.config/redo:          { path: config/redo }
@@ -30,20 +29,8 @@
     ~/.config/topgrade.d:    { path: config/topgrade.d }
     ~/.config/vscode-oss:    { path: config/vscode-oss }
     ~/.config/VSCodium:      { path: config/VSCodium }
-    ~/.config/alacritty:
-      path: config/alacritty
-      force: true
-      relink: true
     ~/.config/atuin:
       path: config/atuin
-      force: true
-      relink: true
-    ~/.config/autostart:
-      path: config/autostart
-      force: true
-      relink: true
-    ~/.config/environment.d:
-      path: config/environment.d
       force: true
       relink: true
     ~/.config/gtk-3.0:
@@ -66,10 +53,6 @@
       path: config/kitty
       force: true
       relink: true
-    ~/.config/MangoHud:
-      path: config/MangoHud
-      force: true
-      relink: true
     ~/.config/qt5ct:
       path: config/qt5ct
       force: true
@@ -80,10 +63,6 @@
       relink: true
     ~/.config/xsettingsd:
       path: config/xsettingsd
-      force: true
-      relink: true
-    ~/.config/user-dirs.dirs:
-      path: config/user-dirs.dirs
       force: true
       relink: true
     ~/.config/user-dirs.locale:

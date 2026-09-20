@@ -94,12 +94,6 @@ config/nvim/queries/
 # These are just symlinks to /nix/store paths
 # ============================================
 
-# Autostart entries (HM-managed)
-config/autostart/stylix-*.desktop
-
-# Environment.d (HM-managed)
-config/environment.d/10-home-manager.conf
-
 # Systemd services and targets (HM-managed)
 # These are just symlinks - the real config is in your Nix files
 config/systemd/user/*.service
