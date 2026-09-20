@@ -70,7 +70,7 @@ systemctl --user list-timers claude_reset.timer
 - **kitty/** - Legacy Kitty theme files (`kitty.conf` is Home Manager-owned)
 - **nvim/** - Neovim configuration with lazy.nvim plugin manager
 - **qBittorrent/** - Torrent client configuration and theme
-- **rofi/** - Rofi themes and pre-migration backups (top-level `*.rasi` are Home Manager-owned)
+- **rofi/** - Rofi themes (top-level `*.rasi` are Home Manager-owned)
 - **systemd/user/** - User systemd services and timers
 - **JetBrains/** - IDE configurations and activation tools
 - **VSCodium/** - Code editor settings

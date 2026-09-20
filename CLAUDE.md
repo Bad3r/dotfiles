@@ -157,7 +157,7 @@ i3-get-window-criteria
   - **i3/** - i3 helper scripts and legacy files (the i3 config itself is Home Manager-owned)
   - **nvim/** - Neovim configuration with lazy.nvim
   - **kitty/** - Legacy Kitty theme files
-  - **rofi/** - Rofi themes and pre-migration backups
+  - **rofi/** - Rofi themes
   - **systemd/user/** - User systemd services and timers
 - **etc/** - System-wide configuration files
   - **kernel/cmdline.d/** - Modular kernel parameter configuration
