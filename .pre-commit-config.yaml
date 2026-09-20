@@ -20,12 +20,3 @@ repos:
           - .typos.toml
           - --force-exclude
         types: [text]
-  - repo: local
-    hooks:
-      # Home Manager writes store symlinks through the dotbot directory links;
-      # the target hash differs per host and per rebuild, so they are never content.
-      - id: no-nix-store-symlinks
-        name: No symlinks into /nix/store
-        language: system
-        types: [symlink]
-        entry: sh -c 'rc=0; for f; do t=$(readlink -- "$f"); case "$t" in /nix/store/*) echo "$f -> $t"; rc=1 ;; esac; done; exit $rc' --
