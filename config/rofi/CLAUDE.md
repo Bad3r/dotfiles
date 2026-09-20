@@ -8,6 +8,8 @@ This directory contains rofi application launcher configurations for an Endeavou
 
 ## Configuration Structure
 
+The five top-level `.rasi` files below are not tracked here. Home Manager in the `Bad3r/nixos` flake generates them into `~/.config/rofi/` from `modules/hm-apps/rofi.nix`, with colors from Stylix (`stylix.targets.rofi`). Edit that module and rebuild to change them. The `*.rasi.hm.bk` files in this directory are the pre-migration originals, and the details below describe those originals.
+
 ### Main Configuration Files
 - **config.rasi** - Primary rofi configuration with global settings
   - Font: MonoLisa Variable 11

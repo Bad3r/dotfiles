@@ -12,8 +12,6 @@
     ~/.gitconfig: { path: home/gitconfig }
     ~/.gitignore: { path: home/gitignore }
     ~/.config/i3:            { path: config/i3 }
-    ~/.config/dunst:         { path: config/dunst }
-    ~/.config/i3status-rust: { path: config/i3status-rust }
     ~/.config/JetBrains:     { path: config/JetBrains }
     ~/.config/Logseq:        { path: config/Logseq }
     ~/.config/marktext:      { path: config/marktext }
@@ -21,7 +19,6 @@
     ~/.config/nvim:          { path: config/nvim }
     ~/.config/obsidian:      { path: config/obsidian }
     ~/.config/pacman.d:      { path: config/pacman.d }
-    ~/.config/picom:         { path: config/picom }
     ~/.config/ranger:        { path: config/ranger }
     ~/.config/redo:          { path: config/redo }
     ~/.config/rofi:          { path: config/rofi }
@@ -43,10 +40,6 @@
       relink: true
     ~/.config/autostart:
       path: config/autostart
-      force: true
-      relink: true
-    ~/.config/bat:
-      path: config/bat
       force: true
       relink: true
     ~/.config/environment.d:
@@ -73,32 +66,16 @@
       path: config/kitty
       force: true
       relink: true
-    ~/.config/lazygit:
-      path: config/lazygit
-      force: true
-      relink: true
     ~/.config/MangoHud:
       path: config/MangoHud
-      force: true
-      relink: true
-    ~/.config/mpv:
-      path: config/mpv
       force: true
       relink: true
     ~/.config/qt5ct:
       path: config/qt5ct
       force: true
       relink: true
-    ~/.config/qt6ct:
-      path: config/qt6ct
-      force: true
-      relink: true
     ~/.config/systemd:
       path: config/systemd
-      force: true
-      relink: true
-    ~/.config/wezterm:
-      path: config/wezterm
       force: true
       relink: true
     ~/.config/xsettingsd:

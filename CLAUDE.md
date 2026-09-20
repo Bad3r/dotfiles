@@ -154,11 +154,10 @@ i3-get-window-criteria
 
 ### Directory Structure
 - **config/** - Application configurations following XDG specification
-  - **i3/** - i3 window manager config and scripts
+  - **i3/** - i3 helper scripts and legacy files (the i3 config itself is Home Manager-owned)
   - **nvim/** - Neovim configuration with lazy.nvim
-  - **dunst/** - Notification daemon configuration
-  - **kitty/** - Terminal emulator configuration
-  - **rofi/** - Application launcher configuration
+  - **kitty/** - Legacy Kitty theme files
+  - **rofi/** - Rofi themes and pre-migration backups
   - **systemd/user/** - User systemd services and timers
 - **etc/** - System-wide configuration files
   - **kernel/cmdline.d/** - Modular kernel parameter configuration
@@ -172,6 +171,15 @@ i3-get-window-criteria
 
 #### Zsh
 Zsh is not managed here. Home Manager in the `Bad3r/nixos` flake owns it (`modules/shell/zsh/`), including `~/.zshenv` and `~/.config/zsh`. Do not add zsh files or dotbot links for those paths to this repo.
+
+#### Home Manager-Owned App Configs
+Home Manager in the `Bad3r/nixos` flake generates these files, so they are not tracked here. Edit them in the flake and rebuild:
+- atuin, bat, kitty (`kitty.conf`), lazygit, mpv, rofi (top-level `*.rasi`), wezterm: `modules/hm-apps/`
+- i3 (`config`, `scripts/blur-lock`, `scripts/i3lock-stylix`, `scripts/toggle_logseq.sh`) and i3status-rust: `modules/apps/i3wm/`, `modules/apps/i3status-rust.nix`
+- picom: `modules/apps/picom.nix`
+- dunst, gtk-3.0 and gtk-4.0 (`gtk.css`, `settings.ini`), qt5ct, qt6ct: Stylix, `modules/stylix/stylix.nix`
+
+bat, dunst, i3status-rust, lazygit, mpv, picom, qt6ct and wezterm have no directory or dotbot link here at all: `~/.config/<app>` must be a real directory, never a link into this repo. Where dotbot still links the parent directory (atuin, gtk-3.0, gtk-4.0, i3, kitty, qt5ct, rofi), Home Manager's store symlinks land inside this working tree. `.gitignore` lists them and the `no-nix-store-symlinks` pre-commit hook rejects them. Never commit a symlink into `/nix/store`: its target differs per host and per rebuild.
 
 #### i3 Window Manager Scripts
 Toggle scripts in `config/i3/scripts/` follow this pattern:
@@ -191,24 +199,24 @@ The `z-install.conf.yml` defines symlinks and installation rules. When adding ne
 ## Development Workflow
 
 ### Adding New Tool Configurations
-1. **i3 keybinding**: Edit `config/i3/config` and reload
+1. **i3 keybinding**: Edit `modules/apps/i3wm/keybindings.nix` in the `Bad3r/nixos` flake and rebuild
 2. **System service**: Add to `config/systemd/user/` or `etc/systemd/`
 
 ### Testing Patterns
 ```bash
-# Test without modifying actual configs
-cp config/i3/config config/i3/config.test
-# Make changes to config.test
-i3 -c config/i3/config.test
+# Try i3 changes on a writable copy of the generated config
+install -m 644 ~/.config/i3/config /tmp/i3-config.test
+# Make changes to the copy, then validate it
+i3 -C -c /tmp/i3-config.test
 
 # Test systemd service syntax
 systemd-analyze verify --user config/systemd/user/*.service
 ```
 
 ### Common File Locations
-- i3 keybindings: `config/i3/config` (search for `bindsym`)
-- Application launchers: `config/rofi/`
-- Terminal config: `config/kitty/kitty.conf`
+- i3 keybindings: `modules/apps/i3wm/keybindings.nix` in the `Bad3r/nixos` flake
+- Application launcher: `modules/hm-apps/rofi.nix` in the flake (themes: `config/rofi/themes/`)
+- Terminal config: `modules/hm-apps/kitty.nix` in the flake
 - Editor config: `config/nvim/init.lua`
 
 ## Important Notes
@@ -260,14 +268,13 @@ From `TODO.md` - Areas that need attention:
 - Complete the `z-install.conf.yml` dotbot configuration (currently incomplete)
 - Consider moving zsh/nix configs to separate repositories as submodules
 - Track additional system configurations like `/etc/udisks2/mount_options.conf`
-- Replace deprecated tools (scot → maim for screenshots)
 
 ## Troubleshooting
 
 ### i3 Configuration Issues
 ```bash
 # Check configuration syntax
-i3 -C -c config/i3/config
+i3 -C -c ~/.config/i3/config
 
 # View i3 logs
 journalctl --user -u i3 -n 50
