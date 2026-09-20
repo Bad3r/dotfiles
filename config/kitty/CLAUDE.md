@@ -17,7 +17,6 @@ This is a Kitty terminal configuration directory within a larger dotfiles reposi
 ### Integration Points
 - Part of dotfiles repository at `/home/vx/dotfiles`
 - Managed by Dotbot installation script (`z-install-dots`)
-- Integrates with ZSH configuration via `config/zsh/rc.d/kitty.zsh`
 
 ## Common Commands
 

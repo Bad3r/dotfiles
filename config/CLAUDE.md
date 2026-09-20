@@ -35,18 +35,6 @@ i3 -C -c ~/.config/i3/config
 ~/.config/i3/scripts/toggle_obsidian.sh
 ```
 
-#### Zsh
-```bash
-# Reload configuration
-source ~/.zshenv && source $ZDOTDIR/.zshrc
-
-# Profile startup performance
-$ZDOTDIR/profile-startup.sh
-
-# Test specific configuration
-source $ZDOTDIR/rc.d/toolname.zsh
-```
-
 #### Neovim
 ```bash
 # Update plugins
@@ -85,7 +73,6 @@ systemctl --user list-timers claude_reset.timer
 - **qBittorrent/** - Torrent client configuration and theme
 - **rofi/** - Application launcher and menu system
 - **systemd/user/** - User systemd services and timers
-- **zsh/** - Modular Zsh configuration (see zsh/CLAUDE.md for details)
 - **JetBrains/** - IDE configurations and activation tools
 - **VSCodium/** - Code editor settings
 - **topgrade.d/** - System update automation configuration
@@ -130,7 +117,7 @@ Applications use GitHub Dark Dimmed theme where available:
 - Launcher script: `~/dotfiles/bin/rofi_run`
 
 ### Zsh
-See `zsh/CLAUDE.md` for detailed Zsh configuration documentation.
+Not managed here. Home Manager in the `Bad3r/nixos` flake owns it (`modules/shell/zsh/`).
 
 ### Neovim
 See `nvim/CLAUDE.md` for Neovim-specific documentation.
@@ -141,9 +128,6 @@ See `nvim/CLAUDE.md` for Neovim-specific documentation.
 ```bash
 # Test i3 config without applying
 i3 -C -c config/i3/config
-
-# Test Zsh syntax
-zsh -n config/zsh/**/*.zsh
 
 # Test systemd service syntax
 systemd-analyze verify --user config/systemd/user/*.service
@@ -165,14 +149,12 @@ app --config config/app/config.test
 - `~/dotfiles/link_conf.sh` - Electron app config linker
 
 ### This Directory
-- `zsh/3rd_party_tools.md` - External tool dependencies
-- `zsh/optimal_packages.md` - Recommended packages
 - `topgrade.d/topgrade.toml` - Update automation settings
 
 ## Troubleshooting
 
 ### Missing Commands
-Check `zsh/3rd_party_tools.md` for required tools. Install with:
+Install with:
 ```bash
 # Arch Linux
 sudo pacman -S package-name
