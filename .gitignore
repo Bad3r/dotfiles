@@ -111,6 +111,26 @@ config/systemd/user/timers.target.wants/
 # Exception: keep manually created services
 !config/systemd/user/claude_reset.service
 
+# App configs (HM-managed), written through the dotbot directory links
+config/atuin/config.toml
+config/gtk-3.0/gtk.css
+config/gtk-3.0/settings.ini
+config/gtk-4.0/gtk.css
+config/gtk-4.0/settings.ini
+config/i3/config
+config/i3/scripts/blur-lock
+config/i3/scripts/i3lock-stylix
+config/i3/scripts/toggle_logseq.sh
+config/i3/scripts/toggle_raindrop.sh
+config/kitty/kitty.conf
+config/qt5ct/qt5ct.conf
+config/qt5ct/colors/stylix.conf
+config/rofi/config.rasi
+config/rofi/power-profiles.rasi
+config/rofi/powermenu.rasi
+config/rofi/rofidmenu.rasi
+config/rofi/rofikeyhint.rasi
+
 # ============================================
 # Electron app runtime data (Marktext)
 # ============================================
