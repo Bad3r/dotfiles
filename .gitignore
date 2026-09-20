@@ -1,5 +1,3 @@
-config/marktext/Local\ State
-
 # tmp dump
 *.zwc
 **/repomix-output.xml
@@ -43,25 +41,7 @@ bin/*.AppImage
 bin/pia-*
 bin_bk/bin/pia-*
 scripts/pia-*
-config/spicetify/Extracted/
-config/spicetify/Backup/
 *.ses
-
-# qBittorrent runtime files
-config/qBittorrent/lockfile
-config/qBittorrent/rss/storage.lock
-config/qBittorrent/qBittorrent-data.conf
-
-# Secrets / local overrides
-config/slack-term/config
-config/VSCodium/User/settings.local.json
-config/marktext/preferences.json
-
-# Logseq runtime data
-config/Logseq/*
-!config/Logseq/configs.edn
-!config/Logseq/Custom Dictionary.txt
-!config/Logseq/Custom Dictionary.txt.backup
 
 # ============================================
 # Python bytecode and cache
@@ -84,82 +64,8 @@ config/Logseq/*
 *.tmp
 
 # ============================================
-# Neovim generated files
-# ============================================
-config/nvim/*.hm.bk
-config/nvim/queries/
-
-# ============================================
-# Home Manager / Nix generated files (no value)
-# These are just symlinks to /nix/store paths
-# ============================================
-
-# Systemd services and targets (HM-managed)
-# These are just symlinks - the real config is in your Nix files
-config/systemd/user/*.service
-config/systemd/user/*.target
-config/systemd/user/*.timer
-config/systemd/user/*.wants/
-config/systemd/user/timers.target.wants/
-
-# Exception: keep manually created services
-!config/systemd/user/claude_reset.service
-
-# App configs (HM-managed), written through the dotbot directory links
-config/atuin/config.toml
-config/gtk-3.0/gtk.css
-config/gtk-3.0/settings.ini
-config/gtk-4.0/gtk.css
-config/gtk-4.0/settings.ini
-config/i3/config
-config/i3/scripts/blur-lock
-config/i3/scripts/i3lock-stylix
-config/i3/scripts/toggle_logseq.sh
-config/i3/scripts/toggle_raindrop.sh
-config/kitty/kitty.conf
-config/qt5ct/qt5ct.conf
-config/qt5ct/colors/stylix.conf
-config/rofi/config.rasi
-config/rofi/power-profiles.rasi
-config/rofi/powermenu.rasi
-config/rofi/rofidmenu.rasi
-config/rofi/rofikeyhint.rasi
-
-# ============================================
-# Electron app runtime data (Marktext)
-# ============================================
-config/marktext/Cache/
-config/marktext/Code Cache/
-config/marktext/Cookies
-config/marktext/Cookies-journal
-config/marktext/Crashpad/
-config/marktext/DIPS
-config/marktext/DIPS-wal
-config/marktext/DawnGraphiteCache/
-config/marktext/DawnWebGPUCache/
-config/marktext/GPUCache/
-config/marktext/Local Storage/
-config/marktext/Network Persistent State
-config/marktext/Session Storage/
-config/marktext/Shared Dictionary/
-config/marktext/SharedStorage
-config/marktext/SharedStorage-wal
-config/marktext/Singleton*
-config/marktext/TransportSecurity
-config/marktext/Trust Tokens
-config/marktext/Trust Tokens-journal
-config/marktext/Dictionaries/
-config/marktext/dataCenter.json
-config/marktext/recently-used-documents.json
-config/marktext/window-state.json
-
-# ============================================
 # Other generated/runtime files
 # ============================================
 
 # Lock files
 *.lock
-!config/qBittorrent/**  # Already handled above
-
-# DBus generated symlinks
-config/systemd/user/dbus-*.service
